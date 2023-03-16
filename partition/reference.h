@@ -21,7 +21,7 @@ limitations under the License.
 #ifndef GRIN_INCLUDE_PARTITION_REFERENCE_H_
 #define GRIN_INCLUDE_PARTITION_REFERENCE_H_
 
-#include "../predefine.h"
+#include "../../predefine.h"
 
 // Vertex ref refers to the same vertex referred in other partitions,
 // while edge ref is likewise. Both can be serialized to const char* for

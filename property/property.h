@@ -18,7 +18,7 @@ limitations under the License.
 #ifndef GRIN_INCLUDE_PROPERTY_PROPERTY_H_
 #define GRIN_INCLUDE_PROPERTY_PROPERTY_H_
 
-#include "../predefine.h"
+#include "../../predefine.h"
 
 #ifdef GRIN_WITH_VERTEX_PROPERTY_NAME
 /**

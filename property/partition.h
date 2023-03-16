@@ -18,7 +18,7 @@ limitations under the License.
 #ifndef GRIN_INCLUDE_PROPERTY_PARTITION_H_
 #define GRIN_INCLUDE_PROPERTY_PARTITION_H_
 
-#include "../predefine.h"
+#include "../../predefine.h"
 
 
 #if defined(GRIN_WITH_VERTEX_PROPERTY) && \

@@ -21,7 +21,7 @@ limitations under the License.
 #ifndef GRIN_INCLUDE_PARTITION_PARTITION_H_
 #define GRIN_INCLUDE_PARTITION_PARTITION_H_
 
-#include "../predefine.h"
+#include "../../predefine.h"
 
 #ifdef GRIN_ENABLE_GRAPH_PARTITION
 size_t grin_get_total_partitions_number(GRIN_PARTITIONED_GRAPH);

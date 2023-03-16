@@ -18,7 +18,7 @@ limitations under the License.
 #ifndef GRIN_INCLUDE_PROPERTY_PROPERTY_LIST_H_
 #define GRIN_INCLUDE_PROPERTY_PROPERTY_LIST_H_
 
-#include "../predefine.h"
+#include "../../predefine.h"
 
 #ifdef GRIN_WITH_VERTEX_PROPERTY
 GRIN_VERTEX_PROPERTY_LIST grin_get_vertex_property_list_by_type(GRIN_GRAPH, GRIN_VERTEX_TYPE);

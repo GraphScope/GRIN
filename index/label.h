@@ -18,7 +18,7 @@ limitations under the License.
 #ifndef GRIN_INCLUDE_INDEX_LABEL_H_
 #define GRIN_INCLUDE_INDEX_LABEL_H_
 
-#include "../predefine.h"
+#include "../../predefine.h"
 
 #if defined(GRIN_WITH_VERTEX_LABEL) || defined(GRIN_WITH_EDGE_LABEL)
 GRIN_LABEL grin_get_label_by_name(GRIN_GRAPH, const char*);

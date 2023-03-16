@@ -16,7 +16,7 @@ limitations under the License.
 #ifndef GRIN_INCLUDE_TOPOLOGY_ADJACENTLIST_H_
 #define GRIN_INCLUDE_TOPOLOGY_ADJACENTLIST_H_
 
-#include "../predefine.h"
+#include "../../predefine.h"
 
 #ifdef GRIN_ENABLE_ADJACENT_LIST
 GRIN_ADJACENT_LIST grin_get_adjacent_list(GRIN_GRAPH, GRIN_DIRECTION, GRIN_VERTEX);

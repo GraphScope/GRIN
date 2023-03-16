@@ -18,7 +18,7 @@ limitations under the License.
 #ifndef GRIN_INCLUDE_INDEX_ORDER_H_
 #define GRIN_INCLUDE_INDEX_ORDER_H_
 
-#include "../predefine.h"
+#include "../../predefine.h"
 
 #ifndef GRIN_ASSUME_ALL_VERTEX_LIST_SORTED
 /** 

@@ -16,7 +16,7 @@ limitations under the License.
 #ifndef GRIN_INCLUDE_TOPOLOGY_STRUCTURE_H_
 #define GRIN_INCLUDE_TOPOLOGY_STRUCTURE_H_
 
-#include "../predefine.h"
+#include "../../predefine.h"
 
 // Graph
 #if !defined(GRIN_ASSUME_GRAPH_DIRECTED) && !defined(GRIN_ASSUME_GRAPH_UNDIRECTED)
