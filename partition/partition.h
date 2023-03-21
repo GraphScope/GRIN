@@ -24,6 +24,8 @@ limitations under the License.
 #include "../../predefine.h"
 
 #ifdef GRIN_ENABLE_GRAPH_PARTITION
+void destroy_partitioned_graph(GRIN_PARTITIONED_GRAPH);
+
 size_t grin_get_total_partitions_number(GRIN_PARTITIONED_GRAPH);
 
 GRIN_PARTITION_LIST grin_get_local_partition_list(GRIN_PARTITIONED_GRAPH);

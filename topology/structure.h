@@ -18,6 +18,8 @@ limitations under the License.
 
 #include "../../predefine.h"
 
+void grin_destroy_graph(GRIN_GRAPH);
+
 // Graph
 #if !defined(GRIN_ASSUME_GRAPH_DIRECTED) && !defined(GRIN_ASSUME_GRAPH_UNDIRECTED)
 bool grin_is_directed(GRIN_GRAPH);
