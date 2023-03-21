@@ -41,9 +41,9 @@ void grin_get_next_adjacent_list_iter(GRIN_GRAPH, GRIN_ADJACENT_LIST_ITERATOR);
 
 bool grin_is_adjacent_list_end(GRIN_GRAPH, GRIN_ADJACENT_LIST_ITERATOR);
 
-GRIN_VERTEX grin_get_neighbor_from_iter(GRIN_GRAPH, GRIN_ADJACENT_LIST_ITERATOR);
+GRIN_VERTEX grin_get_neighbor_from_adjacent_list_iter(GRIN_GRAPH, GRIN_ADJACENT_LIST_ITERATOR);
 
-GRIN_EDGE grin_get_edge_from_iter(GRIN_GRAPH, GRIN_ADJACENT_LIST_ITERATOR);
+GRIN_EDGE grin_get_edge_from_adjacent_list_iter(GRIN_GRAPH, GRIN_ADJACENT_LIST_ITERATOR);
 #endif
 
 #endif  // GRIN_INCLUDE_TOPOLOGY_ADJACENTLIST_H_
