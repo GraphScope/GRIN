@@ -26,7 +26,7 @@ limitations under the License.
 #ifdef GRIN_ENABLE_GRAPH_PARTITION
 size_t grin_get_total_vertex_num(GRIN_PARTITIONED_GRAPH);
 
-size_t grin_get_total_edge_num(GRIN_PARTITIONED_GRAPH);
+size_t grin_get_total_edge_num(GRIN_PARTITIONED_GRAPH, GRIN_DIRECTION);
 #endif
 
 #if defined(GRIN_WITH_VERTEX_DATA) && \
