@@ -53,8 +53,6 @@ GRIN_VERTEX_TYPE grin_get_vertex_type_by_name(GRIN_GRAPH, const char*);
 #ifdef GRIN_TRAIT_NATURAL_ID_FOR_VERTEX_TYPE
 GRIN_VERTEX_TYPE_ID grin_get_vertex_type_id(GRIN_GRAPH, GRIN_VERTEX_TYPE);
 
-void grin_destroy_vertex_type_id(GRIN_GRAPH, GRIN_VERTEX_TYPE_ID);
-
 GRIN_VERTEX_TYPE grin_get_vertex_type_from_id(GRIN_GRAPH, GRIN_VERTEX_TYPE_ID);
 #endif
 
@@ -91,8 +89,6 @@ GRIN_EDGE_TYPE grin_get_edge_type_by_name(GRIN_GRAPH, const char*);
 
 #ifdef GRIN_TRAIT_NATURAL_ID_FOR_EDGE_TYPE
 GRIN_EDGE_TYPE_ID grin_get_edge_type_id(GRIN_GRAPH, GRIN_EDGE_TYPE);
-
-void grin_destroy_edge_type_id(GRIN_GRAPH, GRIN_EDGE_TYPE_ID);
 
 GRIN_EDGE_TYPE grin_get_edge_type_from_id(GRIN_GRAPH, GRIN_EDGE_TYPE_ID);
 #endif
