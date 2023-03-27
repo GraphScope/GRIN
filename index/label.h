@@ -23,9 +23,11 @@ limitations under the License.
 #if defined(GRIN_WITH_VERTEX_LABEL) || defined(GRIN_WITH_EDGE_LABEL)
 GRIN_LABEL grin_get_label_by_name(GRIN_GRAPH, const char*);
 
+void grin_destroy_label(GRIN_GRAPH, GRIN_LABEL);
+
 const char* grin_get_label_name(GRIN_GRAPH, GRIN_LABEL);
 
-void grin_destroy_label(GRIN_GRAPH, GRIN_LABEL);
+void grin_destroy_label_name(GRIN_GRAPH, const char*);
 
 void grin_destroy_label_list(GRIN_GRAPH, GRIN_LABEL_LIST);
 

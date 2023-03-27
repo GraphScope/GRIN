@@ -29,6 +29,8 @@ limitations under the License.
 #ifdef GRIN_ENABLE_VERTEX_REF
 GRIN_VERTEX_REF grin_get_vertex_ref_for_vertex(GRIN_GRAPH, GRIN_VERTEX);
 
+void grin_destroy_vertex_ref(GRIN_GRAPH, GRIN_VERTEX_REF);
+
 /**
  * @brief get the local vertex from the vertex ref
  * if the vertex ref is not regconized, a null vertex is returned
@@ -48,6 +50,8 @@ GRIN_PARTITION grin_get_master_partition_from_vertex_ref(GRIN_GRAPH, GRIN_VERTEX
 
 const char* grin_serialize_vertex_ref(GRIN_GRAPH, GRIN_VERTEX_REF);
 
+void grin_destroy_serialized_vertex_ref(GRIN_GRAPH, const char*);
+
 GRIN_VERTEX_REF grin_deserialize_to_vertex_ref(GRIN_GRAPH, const char*);
 
 bool grin_is_master_vertex(GRIN_GRAPH, GRIN_VERTEX);
@@ -66,11 +70,15 @@ GRIN_PARTITION_LIST grin_get_mirror_vertex_mirror_partition_list(GRIN_GRAPH, GRI
 #ifdef GRIN_ENABLE_EDGE_REF
 GRIN_EDGE_REF grin_get_edge_ref_for_edge(GRIN_GRAPH, GRIN_EDGE);
 
+void grin_destroy_edge_ref(GRIN_GRAPH, GRIN_EDGE_REF);
+
 GRIN_EDGE grin_get_edge_from_edge_ref(GRIN_GRAPH, GRIN_EDGE_REF);
 
 GRIN_PARTITION grin_get_master_partition_from_edge_ref(GRIN_GRAPH, GRIN_EDGE_REF);
 
 const char* grin_serialize_edge_ref(GRIN_GRAPH, GRIN_EDGE_REF);
+
+void grin_destroy_serialized_edge_ref(GRIN_GRAPH, GRIN_EDGE_REF);
 
 GRIN_EDGE_REF grin_deserialize_to_edge_ref(GRIN_GRAPH, const char*);
 

@@ -38,6 +38,8 @@ bool grin_insert_vertex_property_to_list(GRIN_GRAPH, GRIN_VERTEX_PROPERTY_LIST, 
 GRIN_VERTEX_PROPERTY grin_get_vertex_property_from_id(GRIN_GRAPH, GRIN_VERTEX_TYPE, GRIN_VERTEX_PROPERTY_ID);
 
 GRIN_VERTEX_PROPERTY_ID grin_get_vertex_property_id(GRIN_GRAPH, GRIN_VERTEX_TYPE, GRIN_VERTEX_PROPERTY);
+
+void grin_destroy_vertex_property_id(GRIN_GRAPH, GRIN_VERTEX_PROPERTY_ID);
 #endif
 
 
@@ -59,6 +61,8 @@ bool grin_insert_edge_property_to_list(GRIN_GRAPH, GRIN_EDGE_PROPERTY_LIST, GRIN
 GRIN_EDGE_PROPERTY grin_get_edge_property_from_id(GRIN_GRAPH, GRIN_EDGE_TYPE, GRIN_EDGE_PROPERTY_ID);
 
 GRIN_EDGE_PROPERTY_ID grin_get_edge_property_id(GRIN_GRAPH, GRIN_EDGE_TYPE, GRIN_EDGE_PROPERTY);
+
+void grin_destroy_edge_property_id(GRIN_GRAPH, GRIN_EDGE_PROPERTY_ID);
 #endif
 
 

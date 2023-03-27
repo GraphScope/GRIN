@@ -37,10 +37,10 @@ GRIN_VERTEX_PROPERTY_LIST grin_get_primary_keys_by_vertex_type(GRIN_GRAPH, GRIN_
 /** 
  * @brief get the vertex with the given primary keys
  * @param GRIN_GRAPH the graph
- * @param GRIN_VERTEX_PROPERTY_LIST the primary keys
+ * @param GRIN_VERTEX_TYPE the vertex type which determines the property list for primary keys
  * @param GRIN_ROW the values of primary keys
 */
-GRIN_VERTEX grin_get_vertex_by_primay_keys(GRIN_GRAPH, GRIN_VERTEX_PROPERTY_LIST, GRIN_ROW);
+GRIN_VERTEX grin_get_vertex_by_primay_keys(GRIN_GRAPH, GRIN_VERTEX_TYPE, GRIN_ROW);
 #endif
 
 #ifdef GRIN_WITH_EDGE_PRIMARY_KEYS
@@ -63,7 +63,7 @@ GRIN_EDGE_PROPERTY_LIST grin_get_primary_keys_by_edge_type(GRIN_GRAPH, GRIN_EDGE
  * @param GRIN_EDGE_PROPERTY_LIST the primary keys
  * @param GRIN_ROW the values of primary keys
 */
-GRIN_EDGE grin_get_edge_by_primay_keys(GRIN_GRAPH, GRIN_EDGE_PROPERTY_LIST, GRIN_ROW);
+GRIN_EDGE grin_get_edge_by_primay_keys(GRIN_GRAPH, GRIN_EDGE_TYPE, GRIN_ROW);
 #endif
 
 #endif  // GRIN_INCLUDE_PROPERTY_PRIMARY_KEY_H_

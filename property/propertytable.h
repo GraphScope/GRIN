@@ -69,6 +69,8 @@ GRIN_VERTEX_PROPERTY_TABLE grin_get_vertex_property_table_by_type(GRIN_GRAPH, GR
  * @return can be casted to the property data type by the caller
  */
 const void* grin_get_value_from_vertex_property_table(GRIN_GRAPH, GRIN_VERTEX_PROPERTY_TABLE, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
+
+void grin_destroy_value_from_vertex_property_table(GRIN_GRAPH, const void*);
 #endif
 
 #if defined(GRIN_ENABLE_VERTEX_PROPERTY_TABLE) && defined(GRIN_ENABLE_ROW)
@@ -118,6 +120,8 @@ GRIN_EDGE_PROPERTY_TABLE grin_get_edge_property_table_by_type(GRIN_GRAPH, GRIN_E
  * @return can be casted to the property data type by the caller
  */
 const void* grin_get_value_from_edge_property_table(GRIN_GRAPH, GRIN_EDGE_PROPERTY_TABLE, GRIN_EDGE, GRIN_EDGE_PROPERTY);
+
+void grin_destroy_value_from_vertex_property_table(GRIN_GRAPH, const void*);
 #endif
 
 #if defined(GRIN_ENABLE_EDGE_PROPERTY_TABLE) && defined(GRIN_ENABLE_ROW)
