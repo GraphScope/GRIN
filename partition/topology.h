@@ -51,27 +51,27 @@ GRIN_PARTITION_LIST grin_edge_data_complete_partitions(GRIN_GRAPH, GRIN_EDGE);
 
 
 #ifdef GRIN_TRAIT_SELECT_MASTER_FOR_VERTEX_LIST
-GRIN_VERTEX_LIST grin_filter_master_for_vertex_list(GRIN_GRAPH, GRIN_VERTEX_LIST);
+GRIN_VERTEX_LIST grin_select_master_for_vertex_list(GRIN_GRAPH, GRIN_VERTEX_LIST);
 
-GRIN_VERTEX_LIST grin_filter_mirror_for_vertex_list(GRIN_GRAPH, GRIN_VERTEX_LIST);
+GRIN_VERTEX_LIST grin_select_mirror_for_vertex_list(GRIN_GRAPH, GRIN_VERTEX_LIST);
 #endif
 
 
 #ifdef GRIN_TRAIT_SELECT_PARTITION_FOR_VERTEX_LIST
-GRIN_VERTEX_LIST grin_filter_partition_for_vertex_list(GRIN_GRAPH, GRIN_PARTITION, GRIN_VERTEX_LIST);
+GRIN_VERTEX_LIST grin_select_partition_for_vertex_list(GRIN_GRAPH, GRIN_PARTITION, GRIN_VERTEX_LIST);
 #endif
 
 
 
 #ifdef GRIN_TRAIT_SELECT_MASTER_FOR_EDGE_LIST
-GRIN_EDGE_LIST grin_filter_master_for_edge_list(GRIN_GRAPH, GRIN_EDGE_LIST);
+GRIN_EDGE_LIST grin_select_master_for_edge_list(GRIN_GRAPH, GRIN_EDGE_LIST);
 
-GRIN_EDGE_LIST grin_filter_mirror_for_edge_list(GRIN_GRAPH, GRIN_EDGE_LIST);
+GRIN_EDGE_LIST grin_select_mirror_for_edge_list(GRIN_GRAPH, GRIN_EDGE_LIST);
 #endif
 
 
 #ifdef GRIN_TRAIT_SELECT_PARTITION_FOR_EDGE_LIST
-GRIN_EDGE_LIST grin_filter_partition_for_edge_list(GRIN_GRAPH, GRIN_PARTITION, GRIN_EDGE_LIST);
+GRIN_EDGE_LIST grin_select_partition_for_edge_list(GRIN_GRAPH, GRIN_PARTITION, GRIN_EDGE_LIST);
 #endif
 
 
@@ -97,13 +97,13 @@ GRIN_PARTITION_LIST grin_vertex_neighbor_complete_partitions(GRIN_GRAPH, GRIN_VE
 
 
 #ifdef GRIN_TRAIT_SELECT_MASTER_NEIGHBOR_FOR_ADJACENT_LIST
-GRIN_ADJACENT_LIST grin_filter_master_neighbor_for_adjacent_list(GRIN_GRAPH, GRIN_ADJACENT_LIST);
+GRIN_ADJACENT_LIST grin_select_master_neighbor_for_adjacent_list(GRIN_GRAPH, GRIN_ADJACENT_LIST);
 
-GRIN_ADJACENT_LIST grin_filter_mirror_neighbor_for_adjacent_list(GRIN_GRAPH, GRIN_ADJACENT_LIST);
+GRIN_ADJACENT_LIST grin_select_mirror_neighbor_for_adjacent_list(GRIN_GRAPH, GRIN_ADJACENT_LIST);
 #endif
 
 #ifdef GRIN_TRAIT_SELECT_NEIGHBOR_PARTITION_FOR_ADJACENT_LIST
-GRIN_ADJACENT_LIST grin_filter_neighbor_partition_for_adjacent_list(GRIN_GRAPH, GRIN_ADJACENT_LIST);
+GRIN_ADJACENT_LIST grin_select_neighbor_partition_for_adjacent_list(GRIN_GRAPH, GRIN_ADJACENT_LIST);
 #endif
 
 
