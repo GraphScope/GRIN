@@ -19,7 +19,7 @@ limitations under the License.
 #include "../../predefine.h"
 
 #ifdef GRIN_ENABLE_EDGE_LIST
-GRIN_EDGE_LIST grin_get_edge_list(GRIN_GRAPH, GRIN_DIRECTION);
+GRIN_EDGE_LIST grin_get_edge_list(GRIN_GRAPH);
 
 void grin_destroy_edge_list(GRIN_GRAPH, GRIN_EDGE_LIST);
 #endif
