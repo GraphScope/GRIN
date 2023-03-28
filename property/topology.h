@@ -25,7 +25,7 @@ size_t grin_get_vertex_num_by_type(GRIN_GRAPH, GRIN_VERTEX_TYPE);
 #endif
 
 #ifdef GRIN_WITH_EDGE_PROPERTY
-size_t grin_get_edge_num_by_type(GRIN_GRAPH, GRIN_DIRECTION, GRIN_EDGE_TYPE);
+size_t grin_get_edge_num_by_type(GRIN_GRAPH, GRIN_EDGE_TYPE);
 #endif
 
 #if defined(GRIN_ENABLE_GRAPH_PARTITION) && defined(GRIN_WITH_VERTEX_PROPERTY)
@@ -33,7 +33,7 @@ size_t grin_get_total_vertex_num_by_type(GRIN_PARTITIONED_GRAPH, GRIN_VERTEX_TYP
 #endif
 
 #if defined(GRIN_ENABLE_GRAPH_PARTITION) && defined(GRIN_WITH_EDGE_PROPERTY)
-size_t grin_get_total_edge_num_by_type(GRIN_PARTITIONED_GRAPH, GRIN_DIRECTION, GRIN_EDGE_TYPE);
+size_t grin_get_total_edge_num_by_type(GRIN_PARTITIONED_GRAPH, GRIN_EDGE_TYPE);
 #endif
 
 #ifdef GRIN_ASSUME_BY_TYPE_VERTEX_ORIGINAL_ID

@@ -31,7 +31,7 @@ bool grin_is_multigraph(GRIN_GRAPH);
 
 size_t grin_get_vertex_num(GRIN_GRAPH);
 
-size_t grin_get_edge_num(GRIN_GRAPH, GRIN_DIRECTION);
+size_t grin_get_edge_num(GRIN_GRAPH);
 
 
 // Vertex
