@@ -46,7 +46,7 @@ bool grin_equal_partition(GRIN_PARTITIONED_GRAPH, GRIN_PARTITION, GRIN_PARTITION
 
 void grin_destroy_partition(GRIN_PARTITIONED_GRAPH, GRIN_PARTITION);
 
-void* grin_get_partition_info(GRIN_PARTITIONED_GRAPH, GRIN_PARTITION);
+const void* grin_get_partition_info(GRIN_PARTITIONED_GRAPH, GRIN_PARTITION);
 
 GRIN_GRAPH grin_get_local_graph_from_partition(GRIN_PARTITIONED_GRAPH, GRIN_PARTITION);
 #endif

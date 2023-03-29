@@ -38,7 +38,7 @@ const void* grin_get_value_from_row(GRIN_GRAPH, GRIN_ROW, GRIN_DATATYPE, size_t)
 GRIN_ROW grin_create_row(GRIN_GRAPH);
 
 /** @brief insert a value to the end of the row */
-bool grin_insert_value_to_row(GRIN_GRAPH, GRIN_ROW, GRIN_DATATYPE, void*);
+bool grin_insert_value_to_row(GRIN_GRAPH, GRIN_ROW, GRIN_DATATYPE, const void*);
 #endif
 ///@}
 

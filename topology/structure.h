@@ -54,7 +54,7 @@ GRIN_VERTEX grin_get_vertex_from_original_id(GRIN_GRAPH, GRIN_VERTEX_ORIGINAL_ID
 #endif
 
 // Data
-void grin_destroy_value(GRIN_GRAPH, GRIN_DATATYPE, void*);
+void grin_destroy_value(GRIN_GRAPH, GRIN_DATATYPE, const void*);
 
 void grin_destroy_name(GRIN_GRAPH, const char*);
 
