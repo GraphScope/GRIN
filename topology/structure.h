@@ -18,6 +18,8 @@ limitations under the License.
 
 #include "../../predefine.h"
 
+GRIN_GRAPH grin_get_graph_from_storage(int, char**);
+
 void grin_destroy_graph(GRIN_GRAPH);
 
 // Graph
