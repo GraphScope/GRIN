@@ -27,8 +27,6 @@ void grin_destroy_label(GRIN_GRAPH, GRIN_LABEL);
 
 const char* grin_get_label_name(GRIN_GRAPH, GRIN_LABEL);
 
-void grin_destroy_label_name(GRIN_GRAPH, const char*);
-
 void grin_destroy_label_list(GRIN_GRAPH, GRIN_LABEL_LIST);
 
 size_t grin_get_label_list_size(GRIN_GRAPH, GRIN_LABEL_LIST);

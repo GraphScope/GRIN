@@ -28,8 +28,6 @@ limitations under the License.
  */
 const char* grin_get_vertex_property_name(GRIN_GRAPH, GRIN_VERTEX_PROPERTY);
 
-void destroy_vertex_property_name(GRIN_GRAPH, const char*);
-
 /**
  * @brief get the vertex property with a given name under a specific vertex type
  * @param GRIN_GRAPH the graph
@@ -53,8 +51,6 @@ GRIN_VERTEX_PROPERTY_LIST grin_get_vertex_properties_by_name(GRIN_GRAPH, const c
  * @param GRIN_EDGE_PROPERTY the edge property
  */
 const char* grin_get_edge_property_name(GRIN_GRAPH, GRIN_EDGE_PROPERTY);
-
-void destroy_edge_property_name(GRIN_GRAPH, const char*);
 
 /**
  * @brief get the edge property with a given name under a specific edge type

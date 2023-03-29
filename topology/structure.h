@@ -51,12 +51,15 @@ GRIN_VERTEX_ORIGINAL_ID grin_get_vertex_original_id(GRIN_GRAPH, GRIN_VERTEX);
 GRIN_VERTEX grin_get_vertex_from_original_id(GRIN_GRAPH, GRIN_VERTEX_ORIGINAL_ID);
 #endif
 
+// Data
+void grin_destroy_value(GRIN_GRAPH, GRIN_DATATYPE, void*);
+
+void grin_destroy_name(GRIN_GRAPH, const char*);
+
 #ifdef GRIN_WITH_VERTEX_DATA
 GRIN_DATATYPE grin_get_vertex_data_type(GRIN_GRAPH, GRIN_VERTEX);
 
-GRIN_VERTEX_DATA grin_get_vertex_data_value(GRIN_GRAPH, GRIN_VERTEX);
-
-void grin_destroy_vertex_data(GRIN_GRAPH, GRIN_VERTEX_DATA);
+const void* grin_get_vertex_data_value(GRIN_GRAPH, GRIN_VERTEX);
 #endif
 
 // Edge
@@ -69,9 +72,7 @@ GRIN_VERTEX grin_get_edge_dst(GRIN_GRAPH, GRIN_EDGE);
 #ifdef GRIN_WITH_EDGE_DATA
 GRIN_DATATYPE grin_get_edge_data_type(GRIN_GRAPH, GRIN_EDGE);
 
-GRIN_EDGE_DATA grin_get_edge_data_value(GRIN_GRAPH, GRIN_EDGE);
-
-void grin_destroy_edge_data(GRIN_GRAPH, GRIN_EDGE_DATA);
+const void* grin_get_edge_data_value(GRIN_GRAPH, GRIN_EDGE);
 #endif
 
 #endif  // GRIN_INCLUDE_TOPOLOGY_STRUCTURE_H_
