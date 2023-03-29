@@ -32,7 +32,7 @@ limitations under the License.
 void grin_destroy_row(GRIN_GRAPH, GRIN_ROW);
 
 /** @brief the value of a property from row by its position in row */
-const void* grin_get_value_from_row(GRIN_GRAPH, GRIN_ROW, size_t);
+const void* grin_get_value_from_row(GRIN_GRAPH, GRIN_ROW, GRIN_DATATYPE, size_t);
 
 /** @brief create a row, usually to get vertex/edge by primary keys */
 GRIN_ROW grin_create_row(GRIN_GRAPH);
