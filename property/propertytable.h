@@ -54,7 +54,7 @@ void grin_destroy_vertex_property_table(GRIN_GRAPH, GRIN_VERTEX_PROPERTY_TABLE);
  * No matter column or row store strategy is used in the storage,
  * GRIN recommends to first get the property table of the vertex type,
  * and then fetch values(rows) by vertex and property(list). However,
- * GRIN does provide direct row fetching API when GRIN_ASSUME_COLUMN_STORE
+ * GRIN does provide direct row fetching API when GRIN_ASSUME_COLUMN_STORE_FOR_VERTEX_PROPERTY
  * is NOT set.
  * @param GRIN_GRAPH the graph
  * @param GRIN_VERTEX_TYPE the vertex type
@@ -81,7 +81,7 @@ const void* grin_get_value_from_vertex_property_table(GRIN_GRAPH, GRIN_VERTEX_PR
 GRIN_ROW grin_get_row_from_vertex_property_table(GRIN_GRAPH, GRIN_VERTEX_PROPERTY_TABLE, GRIN_VERTEX, GRIN_VERTEX_PROPERTY_LIST);
 #endif
 
-#if !defined(GRIN_ASSUME_COLUMN_STORE) && defined(GRIN_ENABLE_ROW)
+#if !defined(GRIN_ASSUME_COLUMN_STORE_FOR_VERTEX_PROPERTY) && defined(GRIN_ENABLE_ROW)
 /**
  * @brief get vertex row directly from the graph, this API only works for row store system
  * @param GRIN_GRAPH the graph
@@ -103,7 +103,7 @@ void grin_destroy_edge_property_table(GRIN_GRAPH, GRIN_EDGE_PROPERTY_TABLE);
  * No matter column or row store strategy is used in the storage,
  * GRIN recommends to first get the property table of the edge type,
  * and then fetch values(rows) by edge and property(list). However,
- * GRIN does provide direct row fetching API when GRIN_ASSUME_COLUMN_STORE
+ * GRIN does provide direct row fetching API when GRIN_ASSUME_COLUMN_STORE_FOR_EDGE_PROPERTY
  * is NOT set.
  * @param GRIN_GRAPH the graph
  * @param GRIN_EDGE_TYPE the edge type
@@ -130,7 +130,7 @@ const void* grin_get_value_from_edge_property_table(GRIN_GRAPH, GRIN_EDGE_PROPER
 GRIN_ROW grin_get_row_from_edge_property_table(GRIN_GRAPH, GRIN_EDGE_PROPERTY_TABLE, GRIN_EDGE, GRIN_EDGE_PROPERTY_LIST);
 #endif
 
-#if !defined(GRIN_ASSUME_COLUMN_STORE) && defined(GRIN_ENABLE_ROW)
+#if !defined(GRIN_ASSUME_COLUMN_STORE_FOR_EDGE_PROPERTY) && defined(GRIN_ENABLE_ROW)
 /**
  * @brief get edge row directly from the graph, this API only works for row store system
  * @param GRIN_GRAPH the graph
