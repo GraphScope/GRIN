@@ -44,7 +44,7 @@ bool grin_smaller_vertex(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTEX);
  * @param pos the returned position of the vertex
  * @return false if the vertex is not found
 */
-bool grin_get_position_of_vertex_from_sorted_list(GRIN_GRAPH, GRIN_VERTEX_LIST, GRIN_VERTEX, size_t& pos);
+size_t grin_get_position_of_vertex_from_sorted_list(GRIN_GRAPH, GRIN_VERTEX_LIST, GRIN_VERTEX);
 #endif
 
 #endif // GRIN_INCLUDE_INDEX_ORDER_H_
