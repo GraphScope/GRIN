@@ -23,11 +23,11 @@ GRIN_GRAPH grin_get_graph_from_storage(int, char**);
 void grin_destroy_graph(GRIN_GRAPH);
 
 // Graph
-#if !defined(GRIN_ASSUME_GRAPH_DIRECTED) && !defined(GRIN_ASSUME_GRAPH_UNDIRECTED)
+#if defined(GRIN_ASSUME_HAS_DIRECTED_GRAPH) && defined(GRIN_ASSUME_HAS_UNDIRECTED_GRAPH)
 bool grin_is_directed(GRIN_GRAPH);
 #endif
 
-#ifndef GRIN_ASSUME_GRAPH_SINGLE_EDGE
+#ifdef GRIN_ASSUME_HAS_MULTI_EDGE_GRAPH
 bool grin_is_multigraph(GRIN_GRAPH);
 #endif
 
