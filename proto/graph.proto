@@ -1,0 +1,113 @@
+enum VertexPartitionStrategy {
+    VPS_ALL = 0;
+    VPS_ONE = 1;
+    VPS_FOLLOW_EDGE = 2;
+}
+
+enum EdgePartitionStrategy {
+    EPS_ALL = 0;
+    EPS_ONE = 1;
+    EPS_FOLLOW_SRC = 2;
+    EPS_FOLLOW_DST = 3;
+    EPS_FOLLOW_BOTH = 4;
+}
+
+enum PropertyPartitionStrategy {
+    PPS_ALL = 0;
+    PPS_ONE = 1;
+    PPS_SPLIT= 2;
+}
+
+enum Relation {
+    MANY_TO_MANY = 0;
+    MANY_TO_ONE = 1;
+    ONE_TO_MANY = 2;
+    ONE_TO_ONE = 3;
+}
+
+message TriplePartitionStrategy {
+    optional string src_type = 1;
+    optional string dst_type = 2;
+    optional EdgePartitionStrategy partition_strategy = 3;
+    optional PropertyPartitionStrategy property_partition_strategy = 4;
+    optional Relation src_dst_relation = 5;
+}
+
+enum GraphPartitionStrategy {
+    GPS_ALL_REPLICATE = 0;
+    GPS_EDGE_CUT = 1;
+    GPS_VERTEX_CUT = 2;
+    GPS_HYBRID = 3;
+}
+
+enum DataType {
+    DT_INT = 0;
+    DT_LONG = 1;
+    DT_FLOAT = 2;
+    DT_DOUBLE = 3;
+    DT_STRING = 4;
+    // fill other data types here
+}
+
+message Property {
+    optional uint32 id = 1;
+    optional string name = 2;
+    optional DataType type = 3;
+}
+
+message VertexType {
+    optional uint32 id = 1;
+    optional string name = 2;
+    repeated Property properties = 3;
+    repeated string primary_keys = 4;
+    optional VertexPartitionStrategy partition_strategy = 5;
+    optional PropertyPartitionStrategy property_partition_strategy = 6;
+    optional int64 total_num = 7;
+}
+
+message EdgeType {
+    optional uint32 id = 1;
+    optional string name = 2;
+    repeated Property properties = 3;
+    repeated string primary_keys = 4;
+    repeated TriplePartitionStrategy partition_strategies = 5;
+    optional int64 total_num = 6;
+}
+
+message Schema {
+    optional bool is_directed = 1;
+    optional bool is_multi_edge_graph = 2;
+    optional bool with_vertex_data = 3;
+    optional bool with_edge_data = 4;
+    optional bool with_vertex_original_id = 5;
+    optional bool with_vertex_property = 6;
+    optional bool with_edge_property = 7;
+    optional uint32 num_partitions = 8;
+    optional uint64 num_vertices = 9;
+    optional uint64 num_edges = 10;
+    optional GraphPartitionStrategy partition_strategy = 11;
+    repeated VertexType vertex_types = 12;
+    repeated EdgeType edge_types = 13;
+}
+
+enum GrinStorageFeature {
+    GRIN_HAS_DIRECTED_GRAPH = 0;
+    GRIN_HAS_UNDIRECTED_GRAPH = 1;
+    GRIN_HAS_MULTI_EDGE_GRAPH = 2;
+    // fill other features here
+}
+
+message Storage {
+    optional string name = 1;
+    optional int32 version = 2;
+    optional int32 grin_version = 3;
+    repeated GrinStorageFeature features = 4;
+}
+
+message Graph {
+    optional string name = 1;
+    optional int32 version = 2;
+    optional bool is_latest = 3;
+    optional Schema schema = 4;
+    optional Storage storage = 5;
+}
