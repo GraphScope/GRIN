@@ -25,12 +25,11 @@ enum Relation {
     ONE_TO_ONE = 3;
 }
 
-message TriplePartitionStrategy {
+message SrcDstPair {
     optional string src_type = 1;
     optional string dst_type = 2;
     optional EdgePartitionStrategy partition_strategy = 3;
-    optional PropertyPartitionStrategy property_partition_strategy = 4;
-    optional Relation src_dst_relation = 5;
+    optional Relation relation = 4;
 }
 
 enum GraphPartitionStrategy {
@@ -70,8 +69,9 @@ message EdgeType {
     optional string name = 2;
     repeated Property properties = 3;
     repeated string primary_keys = 4;
-    repeated TriplePartitionStrategy partition_strategies = 5;
-    optional int64 total_num = 6;
+    repeated SrcDstPair src_dst_pairs = 5;
+    optional PropertyPartitionStrategy property_partition_strategy = 6;
+    optional int64 total_num = 7;
 }
 
 message Schema {
