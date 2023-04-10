@@ -95,18 +95,58 @@ message Schema {
     repeated EdgeType edge_types = 13;
 }
 
-enum GrinStorageFeature {
-    GRIN_HAS_DIRECTED_GRAPH = 0;
-    GRIN_HAS_UNDIRECTED_GRAPH = 1;
-    GRIN_HAS_MULTI_EDGE_GRAPH = 2;
-    // fill other features here
+enum ItemFetch {
+    IF_NONE = 0;
+    IF_ARRAY_LIKE = 1;
+    IF_ITERATOR = 2;
+}
+
+enum ItemSelection {
+    IS_BY_MASTER_MIRROR = 0;
+    IS_BY_PARTITION = 1;
+    IS_BY_TYPE = 2;
+
+    // adjacent list
+    IS_BY_NEIGHBOR_MASTER_MIRROR = 3;
+    IS_BY_NEIGHBOR_PARTITION = 4;
+    IS_BY_NEIGHBOR_TYPE = 5;
+}
+
+message ListRetrieval {
+    optional ItemFetch item_fetch = 1;
+    repeated ItemSelection selections = 2;
+}
+
+enum StorageTrait {
+    // Natural ID
+    ST_NATURAL_ID_FOR_PARTITION = 0;
+    ST_NATURAL_ID_FOR_VERTEX_TYPE = 1;
+    ST_NATURAL_ID_FOR_EDGE_TYPE = 2;
+    ST_NATURAL_ID_FOR_PROPERTY = 3;
+
+    // Mirror partition list
+    ST_MASTER_VERTEX_MIRROR_PARTITION_LIST = 4;
+    ST_MIRROR_VERTEX_MIRROR_PARTITION_LIST = 5;
+    ST_MASTER_EDGE_MIRROR_PARTITION_LIST = 6;
+    ST_MIRROR_EDGE_MIRROR_PARTITION_LIST = 7;
+
+    // Sorted vertex list
+    ST_ALL_VERTEX_LIST_SORTED = 10;
 }
 
 message Storage {
     optional string name = 1;
     optional int32 version = 2;
     optional int32 grin_version = 3;
-    repeated GrinStorageFeature features = 4;
+
+    optional ListRetrieval vertex_list_retrieval = 6;
+    optional ListRetrieval edge_list_retrieval = 7;
+    optional ListRetrieval adjacent_list_retrieval = 8;
+
+    optional bool with_vertex_label = 9;
+    optional bool with_edge_label = 10;
+    
+    repeated StorageTrait traits = 11;
 }
 
 message Graph {
