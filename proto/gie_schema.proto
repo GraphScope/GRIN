@@ -1,0 +1,117 @@
+syntax = "proto3";
+
+enum VertexPartitionStrategy {
+    VPS_ALL = 0;
+    VPS_ONE = 1;
+    VPS_FOLLOW_EDGE = 2;
+}
+
+enum EdgePartitionStrategy {
+    EPS_ALL = 0;
+    EPS_ONE = 1;
+    EPS_FOLLOW_SRC = 2;
+    EPS_FOLLOW_DST = 3;
+    EPS_FOLLOW_BOTH = 4;
+}
+
+enum PropertyPartitionStrategy {
+    PPS_ALL = 0;
+    PPS_ONE = 1;
+}
+
+message PropertyPartitionByEntityStrategy {
+    PropertyPartitionStrategy vertex_partition_strategy = 1;
+    PropertyPartitionStrategy edge_partition_strategy = 2;
+}
+
+message PropertyPartitionByLabelStrategy {
+}
+
+message GraphPropertyPartitionStrategy {
+    oneof item {
+        PropertyPartitionStrategy by_all = 1;
+        PropertyPartitionByEntityStrategy by_entity = 2;
+        PropertyPartitionByLabelStrategy by_label = 3;
+    }
+}
+
+enum GraphTopologyPartitionStrategy {
+    GPS_ALL_REPLICATE = 0;
+    GPS_EDGE_CUT = 1;
+    GPS_VERTEX_CUT = 2;
+    GPS_HYBRID = 3;
+}
+
+message GraphPartitionStrategy {
+    GraphTopologyPartitionStrategy topology = 1;
+    GraphPropertyPartitionStrategy property = 2;
+}
+
+enum Relation {
+    MANY_TO_MANY = 0;
+    MANY_TO_ONE = 1;
+    ONE_TO_MANY = 2;
+    ONE_TO_ONE = 3;
+}
+
+message SrcDstPair {
+    string src_type = 1;
+    string dst_type = 2;
+    EdgePartitionStrategy partition_strategy = 3;
+    PropertyPartitionStrategy property_partition_strategy = 4;
+    Relation relation = 5;
+}
+
+enum DataType {
+    DT_UNKNOWN = 0;
+    DT_SIGNED_INT32 = 1;
+    DT_UNSIGNED_INT32 = 2;
+    DT_SIGNED_INT64 = 3;
+    DT_UNSIGNED_INT64 = 4;
+    DT_FLOAT = 5;
+    DT_DOUBLE = 6;
+    DT_STRING = 7;
+    DT_DATE = 8;
+    DT_TIME = 9;
+    DT_TIMESTAMP = 10;
+}
+
+message Property {
+    uint32 id = 1;
+    string name = 2;
+    DataType type = 3;
+}
+
+message VertexType {
+    uint32 id = 1;
+    string name = 2;
+    repeated Property properties = 3;
+    repeated string primary_keys = 4;
+    VertexPartitionStrategy partition_strategy = 5;
+    PropertyPartitionStrategy property_partition_strategy = 6;
+    int64 total_num = 7;
+}
+
+message EdgeType {
+    uint32 id = 1;
+    string name = 2;
+    repeated Property properties = 3;
+    repeated string primary_keys = 4;
+    repeated SrcDstPair src_dst_pairs = 5;
+    int64 total_num = 7;
+}
+
+message Statistics {
+    uint32 num_partitions = 1;
+    uint64 num_vertices = 2;
+    uint64 num_edges = 3;
+}
+
+message Schema {
+    GraphPartitionStrategy partition_strategy = 1;
+
+    repeated VertexType vertex_types = 2;
+    repeated EdgeType edge_types = 3;
+    
+    Statistics statistics = 4;
+}
