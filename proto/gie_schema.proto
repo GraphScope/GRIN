@@ -20,17 +20,17 @@ enum PropertyPartitionStrategy {
 }
 
 message PropertyPartitionByEntityStrategy {
-    PropertyPartitionStrategy vertex_partition_strategy = 1;
-    PropertyPartitionStrategy edge_partition_strategy = 2;
+    PropertyPartitionStrategy vertex_property_partition_strategy = 1;
+    PropertyPartitionStrategy edge_property_partition_strategy = 2;
 }
 
-message PropertyPartitionByLabelStrategy {
+message PropertyPartitionByTypeStrategy {
 }
 
 message GraphPropertyPartitionStrategy {
     oneof item {
         PropertyPartitionByEntityStrategy by_entity = 1;
-        PropertyPartitionByLabelStrategy by_label = 2;
+        PropertyPartitionByTypeStrategy by_type = 2;
     }
 }
 
