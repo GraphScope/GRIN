@@ -1,3 +1,5 @@
+syntax = "proto3";
+
 enum VertexPartitionStrategy {
     VPS_ALL = 0;
     VPS_ONE = 1;
@@ -79,6 +81,12 @@ message EdgeType {
     optional int64 total_num = 7;
 }
 
+message Statistics {
+    optional uint32 num_partitions = 1;
+    optional uint64 num_vertices = 2;
+    optional uint64 num_edges = 3;
+}
+
 message Schema {
     optional bool is_directed = 1;
     optional bool is_multi_edge_graph = 2;
@@ -87,12 +95,10 @@ message Schema {
     optional bool with_vertex_original_id = 5;
     optional bool with_vertex_property = 6;
     optional bool with_edge_property = 7;
-    optional uint32 num_partitions = 8;
-    optional uint64 num_vertices = 9;
-    optional uint64 num_edges = 10;
-    optional GraphPartitionStrategy partition_strategy = 11;
-    repeated VertexType vertex_types = 12;
-    repeated EdgeType edge_types = 13;
+    optional GraphPartitionStrategy partition_strategy = 8;
+    repeated VertexType vertex_types = 9;
+    repeated EdgeType edge_types = 10;
+    optional Statistics statistics = 11;
 }
 
 enum ItemFetch {
@@ -102,14 +108,15 @@ enum ItemFetch {
 }
 
 enum ItemSelection {
-    IS_BY_MASTER_MIRROR = 0;
-    IS_BY_PARTITION = 1;
-    IS_BY_TYPE = 2;
+    IS_NONE = 0;
+    IS_BY_MASTER_MIRROR = 1;
+    IS_BY_PARTITION = 2;
+    IS_BY_TYPE = 3;
 
     // adjacent list
-    IS_BY_NEIGHBOR_MASTER_MIRROR = 3;
-    IS_BY_NEIGHBOR_PARTITION = 4;
-    IS_BY_NEIGHBOR_TYPE = 5;
+    IS_BY_NEIGHBOR_MASTER_MIRROR = 4;
+    IS_BY_NEIGHBOR_PARTITION = 5;
+    IS_BY_NEIGHBOR_TYPE = 6;
 }
 
 message ListRetrieval {
@@ -118,20 +125,21 @@ message ListRetrieval {
 }
 
 enum StorageTrait {
+    ST_NONE = 0;
     // Natural ID
-    ST_NATURAL_ID_FOR_PARTITION = 0;
-    ST_NATURAL_ID_FOR_VERTEX_TYPE = 1;
-    ST_NATURAL_ID_FOR_EDGE_TYPE = 2;
-    ST_NATURAL_ID_FOR_PROPERTY = 3;
+    ST_NATURAL_ID_FOR_PARTITION = 1;
+    ST_NATURAL_ID_FOR_VERTEX_TYPE = 2;
+    ST_NATURAL_ID_FOR_EDGE_TYPE = 3;
+    ST_NATURAL_ID_FOR_PROPERTY = 4;
 
     // Mirror partition list
-    ST_MASTER_VERTEX_MIRROR_PARTITION_LIST = 4;
-    ST_MIRROR_VERTEX_MIRROR_PARTITION_LIST = 5;
-    ST_MASTER_EDGE_MIRROR_PARTITION_LIST = 6;
-    ST_MIRROR_EDGE_MIRROR_PARTITION_LIST = 7;
+    ST_MASTER_VERTEX_MIRROR_PARTITION_LIST = 5;
+    ST_MIRROR_VERTEX_MIRROR_PARTITION_LIST = 6;
+    ST_MASTER_EDGE_MIRROR_PARTITION_LIST = 7;
+    ST_MIRROR_EDGE_MIRROR_PARTITION_LIST = 8;
 
     // Sorted vertex list
-    ST_ALL_VERTEX_LIST_SORTED = 10;
+    ST_ALL_VERTEX_LIST_SORTED = 9;
 }
 
 message Storage {
@@ -139,14 +147,14 @@ message Storage {
     optional int32 version = 2;
     optional int32 grin_version = 3;
 
-    optional ListRetrieval vertex_list_retrieval = 6;
-    optional ListRetrieval edge_list_retrieval = 7;
-    optional ListRetrieval adjacent_list_retrieval = 8;
+    optional ListRetrieval vertex_list_retrieval = 4;
+    optional ListRetrieval edge_list_retrieval = 5;
+    optional ListRetrieval adjacent_list_retrieval = 6;
 
-    optional bool with_vertex_label = 9;
-    optional bool with_edge_label = 10;
+    optional bool with_vertex_label = 7;
+    optional bool with_edge_label = 8;
     
-    repeated StorageTrait traits = 11;
+    repeated StorageTrait traits = 9;
 }
 
 message Graph {
