@@ -87,17 +87,28 @@ message Statistics {
     optional uint64 num_edges = 3;
 }
 
+enum Scope {
+    SCOPE_NONE = 0;
+    SCOPE_GLOBAL = 1;
+    SCOPE_PARTITION = 2;
+    SCOPE_TYPE = 3;
+}
+
 message Schema {
     optional bool is_directed = 1;
     optional bool is_multi_edge_graph = 2;
     optional bool with_vertex_data = 3;
     optional bool with_edge_data = 4;
-    optional bool with_vertex_original_id = 5;
-    optional bool with_vertex_property = 6;
-    optional bool with_edge_property = 7;
+    optional bool with_vertex_property = 5;
+    optional bool with_edge_property = 6;
+
+    optional Scope with_vertex_original_id = 7;
+
     optional GraphPartitionStrategy partition_strategy = 8;
+
     repeated VertexType vertex_types = 9;
     repeated EdgeType edge_types = 10;
+    
     optional Statistics statistics = 11;
 }
 
