@@ -15,8 +15,8 @@ enum EdgePartitionStrategy {
 }
 
 enum PropertyPartitionStrategy {
-    PPS_ALL = 0;
-    PPS_ONE = 1;
+    PPS_MASTER = 0;
+    PPS_MASTER_MIRROR = 1;
 }
 
 message PropertyPartitionByEntityStrategy {
@@ -29,9 +29,8 @@ message PropertyPartitionByLabelStrategy {
 
 message GraphPropertyPartitionStrategy {
     oneof item {
-        PropertyPartitionStrategy by_all = 1;
-        PropertyPartitionByEntityStrategy by_entity = 2;
-        PropertyPartitionByLabelStrategy by_label = 3;
+        PropertyPartitionByEntityStrategy by_entity = 1;
+        PropertyPartitionByLabelStrategy by_label = 2;
     }
 }
 
