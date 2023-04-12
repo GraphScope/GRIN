@@ -21,73 +21,52 @@ limitations under the License.
 #include "../../predefine.h"
 
 
-#if defined(GRIN_WITH_VERTEX_PROPERTY) && \
-    !defined(GRIN_ASSUME_ALL_VERTEX_PROPERTY_LOCAL_COMPLETE) && \
-    !defined(GRIN_ASSUME_MASTER_VERTEX_PROPERTY_LOCAL_COMPLETE) && \
-    !defined(GRIN_ASSUME_BY_TYPE_ALL_VERTEX_PROPERTY_LOCAL_COMPLETE) && \
-    !defined(GRIN_ASSUME_BY_TYPE_MASTER_VERTEX_PROPERTY_LOCAL_COMPLETE)
-bool grin_is_vertex_property_local_complete(GRIN_GRAPH, GRIN_VERTEX);
+#if defined(GRIN_ENABLE_GRAPH_PARTITION) && \
+    !defined(GRIN_ASSUME_ALL_REPLICATE_PARTITION) && \
+    !defined(GRIN_ASSUME_EDGE_CUT_PARTITION) && \
+    !defined(GRIN_ASSUME_VERTEX_CUT_PARTITION)
+// vertex partition
+GRIN_VERTEX_TYPE_LIST grin_get_all_replicated_partition_vertex_types(GRIN_GRAPH);
+GRIN_VERTEX_TYPE_LIST grin_get_disjoint_partition_vertex_types(GRIN_GRAPH);
+GRIN_VERTEX_TYPE_LIST grin_get_follow_edge_partition_vertex_types(GRIN_GRAPH);
 
-GRIN_PARTITION_LIST grin_vertex_property_complete_partitions(GRIN_GRAPH, GRIN_VERTEX);
+// edge partition
+GRIN_VEV_TYPE_LIST grin_get_all_replicated_partition_vev_types(GRIN_GRAPH);
+GRIN_VEV_TYPE_LIST grin_get_disjoint_partition_vev_types(GRIN_GRAPH);
+GRIN_VEV_TYPE_LIST grin_get_follow_src_partition_vev_types(GRIN_GRAPH);
+GRIN_VEV_TYPE_LIST grin_get_follow_dst_partition_vev_types(GRIN_GRAPH);
+GRIN_VEV_TYPE_LIST grin_get_follow_both_partition_vev_types(GRIN_GRAPH);
 #endif
 
-#ifdef GRIN_ASSUME_BY_TYPE_MASTER_VERTEX_PROPERTY_LOCAL_COMPLETE
-GRIN_VERTEX_TYPE_LIST grin_get_master_vertex_property_local_complete_types(GRIN_GRAPH);
+
+// vertex property partition
+#if defined(GRIN_ENABLE_GRAPH_PARTITION) && \
+    defined(GRIN_WITH_VERTEX_PROPERTY) && \
+    !defined(GRIN_ASSUME_MASTER_ONLY_PARTITION_FOR_VERTEX_PROPERTY) && \
+    !defined(GRIN_ASSUME_REPLICATE_MASTER_MIRROR_PARTITION_FOR_VERTEX_PROPERTY) && \
+    !defined(GRIN_ASSUME_SPLIT_MASTER_MIRROR_PARTITION_FOR_VERTEX_PROPERTY)
+GRIN_VERTEX_TYPE_LIST grin_get_master_only_partition_vertex_types(GRIN_GRAPH);
+GRIN_VERTEX_TYPE_LIST grin_get_replicate_master_mirror_partition_vertex_types(GRIN_GRAPH);
+GRIN_VERTEX_TYPE_LIST grin_get_split_master_mirror_partition_vertex_types(GRIN_GRAPH);
 #endif
 
-#ifdef GRIN_ASSUME_BY_TYPE_ALL_VERTEX_PROPERTY_LOCAL_COMPLETE
-GRIN_VERTEX_TYPE_LIST grin_get_all_vertex_property_local_complete_types(GRIN_GRAPH);
+// edge property partition
+#if defined(GRIN_ENABLE_GRAPH_PARTITION) && \
+    defined(GRIN_WITH_EDGE_PROPERTY) && \
+    !defined(GRIN_ASSUME_MASTER_ONLY_PARTITION_FOR_EDGE_PROPERTY) && \
+    !defined(GRIN_ASSUME_REPLICATE_MASTER_MIRROR_PARTITION_FOR_EDGE_PROPERTY) && \
+    !defined(GRIN_ASSUME_SPLIT_MASTER_MIRROR_PARTITION_FOR_EDGE_PROPERTY)
+GRIN_VEV_TYPE_LIST grin_get_master_only_partition_vev_types(GRIN_GRAPH);
+GRIN_VEV_TYPE_LIST grin_get_replicate_master_mirror_partition_vev_types(GRIN_GRAPH);
+GRIN_VEV_TYPE_LIST grin_get_split_master_mirror_partition_vev_types(GRIN_GRAPH);
 #endif
 
-#ifdef GRIN_ASSUME_BY_TYPE_MASTER_VERTEX_DATA_LOCAL_COMPLETE
-GRIN_VERTEX_TYPE_LIST grin_get_master_vertex_data_local_complete_types(GRIN_GRAPH);
+// vev relation
+#ifdef GRIN_TRAIT_SPECIFIC_VEV_RELATION
+GRIN_VEV_TYPE_LIST grin_get_one_to_one_vev_types(GRIN_GRAPH);
+GRIN_VEV_TYPE_LIST grin_get_one_to_many_vev_types(GRIN_GRAPH);
+GRIN_VEV_TYPE_LIST grin_get_many_to_one_vev_types(GRIN_GRAPH);
+GRIN_VEV_TYPE_LIST grin_get_many_to_many_vev_types(GRIN_GRAPH);
 #endif
-
-#ifdef GRIN_ASSUME_BY_TYPE_ALL_VERTEX_DATA_LOCAL_COMPLETE
-GRIN_VERTEX_TYPE_LIST grin_get_all_vertex_data_local_complete_types(GRIN_GRAPH);
-#endif
-
-#ifdef GRIN_ASSUME_BY_TYPE_MASTER_VERTEX_NEIGHBOR_LOCAL_COMPLETE
-GRIN_VERTEX_TYPE_LIST grin_get_master_vertex_neighbor_local_complete_types(GRIN_GRAPH);
-#endif
-
-#ifdef GRIN_ASSUME_BY_TYPE_ALL_VERTEX_NEIGHBOR_LOCAL_COMPLETE
-GRIN_VERTEX_TYPE_LIST grin_get_all_vertex_neighbor_local_complete_types(GRIN_GRAPH);
-#endif
-
-#if defined(GRIN_WITH_EDGE_PROPERTY) && \
-    !defined(GRIN_ASSUME_ALL_EDGE_PROPERTY_LOCAL_COMPLETE) && \
-    !defined(GRIN_ASSUME_MASTER_EDGE_PROPERTY_LOCAL_COMPLETE) && \
-    !defined(GRIN_ASSUME_BY_TYPE_ALL_EDGE_PROPERTY_LOCAL_COMPLETE) && \
-    !defined(GRIN_ASSUME_BY_TYPE_MASTER_EDGE_PROPERTY_LOCAL_COMPLETE)
-bool grin_is_edge_property_local_complete(GRIN_GRAPH, GRIN_EDGE);
-
-GRIN_PARTITION_LIST grin_edge_property_complete_partitions(GRIN_GRAPH, GRIN_EDGE);
-#endif
-
-#ifdef GRIN_ASSUME_BY_TYPE_MASTER_EDGE_PROPERTY_LOCAL_COMPLETE
-GRIN_EDGE_TYPE_LIST grin_get_master_edge_property_local_complete_types(GRIN_GRAPH);
-#endif
-
-#ifdef GRIN_ASSUME_BY_TYPE_ALL_EDGE_PROPERTY_LOCAL_COMPLETE
-GRIN_EDGE_TYPE_LIST grin_get_all_edge_property_local_complete_types(GRIN_GRAPH);
-#endif
-
-#ifdef GRIN_ASSUME_BY_TYPE_MASTER_EDGE_DATA_LOCAL_COMPLETE
-GRIN_EDGE_TYPE_LIST grin_get_master_edge_data_local_complete_types(GRIN_GRAPH);
-#endif
-
-#ifdef GRIN_ASSUME_BY_TYPE_ALL_EDGE_DATA_LOCAL_COMPLETE
-GRIN_EDGE_TYPE_LIST grin_get_all_edge_data_local_complete_types(GRIN_GRAPH);
-#endif
-
-#ifdef GRIN_ASSUME_BY_TYPE_MASTER_EDGE_NEIGHBOR_LOCAL_COMPLETE
-GRIN_EDGE_TYPE_LIST grin_get_master_edge_neighbor_local_complete_types(GRIN_GRAPH);
-#endif
-
-#ifdef GRIN_ASSUME_BY_TYPE_ALL_EDGE_NEIGHBOR_LOCAL_COMPLETE
-GRIN_EDGE_TYPE_LIST grin_get_all_edge_neighbor_local_complete_types(GRIN_GRAPH);
-#endif
-
 
 #endif // GRIN_INCLUDE_PROPERTY_PARTITION_H_

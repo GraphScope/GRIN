@@ -1,157 +1,60 @@
 syntax = "proto3";
 
-enum VertexPartitionStrategy {
-    VPS_ALL = 0;
-    VPS_ONE = 1;
-    VPS_FOLLOW_EDGE = 2;
+enum ListRetrieval {
+    LR_NA = 0;
+    LR_ARRAY_LIKE = 1;
+    LR_ITERATOR = 2;
 }
 
-enum EdgePartitionStrategy {
-    EPS_ALL = 0;
-    EPS_ONE = 1;
-    EPS_FOLLOW_SRC = 2;
-    EPS_FOLLOW_DST = 3;
-    EPS_FOLLOW_BOTH = 4;
-}
-
-enum PropertyPartitionStrategy {
-    PPS_ALL = 0;
-    PPS_ONE = 1;
-    PPS_SPLIT= 2;
-}
-
-enum Relation {
-    MANY_TO_MANY = 0;
-    MANY_TO_ONE = 1;
-    ONE_TO_MANY = 2;
-    ONE_TO_ONE = 3;
-}
-
-message SrcDstPair {
-    optional string src_type = 1;
-    optional string dst_type = 2;
-    optional EdgePartitionStrategy partition_strategy = 3;
-    optional Relation relation = 4;
+message TopologyTrait {
+    bool grin_assume_has_directed_graph = 1;
+    bool grin_assume_has_undirected_graph = 2;
+    bool grin_assume_has_multi_edge_graph = 3;
+    bool grin_with_vertex_original_id = 4;
+    bool grin_with_vertex_data = 5;
+    bool grin_with_edge_data = 6;
+    repeated ListRetrieval vertex_list_retrievals = 7;
+    repeated ListRetrieval edge_list_retrievals = 8;
+    repeated ListRetrieval adjacent_list_retrievals = 9;
 }
 
 enum GraphPartitionStrategy {
-    GPS_ALL_REPLICATE = 0;
-    GPS_EDGE_CUT = 1;
-    GPS_VERTEX_CUT = 2;
-    GPS_HYBRID = 3;
+    GPS_NA = 0;
+    GPS_ALL_DUPLICATE = 1;
+    GPS_EDGE_CUT = 2;
+    GPS_VERTEX_CUT = 3;
+    GPS_HYBRID_CUT = 4;
 }
 
-enum DataType {
-    DT_UNKNOWN = 0;
-    DT_SIGNED_INT32 = 1;
-    DT_UNSIGNED_INT32 = 2;
-    DT_SIGNED_INT64 = 3;
-    DT_UNSIGNED_INT64 = 4;
-    DT_FLOAT = 5;
-    DT_DOUBLE = 6;
-    DT_STRING = 7;
-    DT_DATE = 8;
-    DT_TIME = 9;
-    DT_TIMESTAMP = 10;
+message PartitionTrait {
+    GraphPartitionStrategy graph_partition_strategy = 1;
+    bool grin_triat_natural_id_for_partition = 2;
+    bool grin_enable_vertex_ref = 3;
+    bool grin_enable_edge_ref = 4;
 }
 
-message Property {
-    optional uint32 id = 1;
-    optional string name = 2;
-    optional DataType type = 3;
+enum LocalCompleteAssumption {
+    LCA_NA = 0;
+    LCA_ALL_VERTEX_DATA = 1;
+    LCA_MASTER_VERTEX_DATA = 2;
+    LCA_ALL_EDGE_DATA = 3;
+    LCA_MASTER_EDGE_DATA = 4;
+    LCA_ALL_VERTEX_NEIGHBOR = 5;
+    LCA_MASTER_VERTEX_NEIGHBOR = 6;
 }
 
-message VertexType {
-    optional uint32 id = 1;
-    optional string name = 2;
-    repeated Property properties = 3;
-    repeated string primary_keys = 4;
-    optional VertexPartitionStrategy partition_strategy = 5;
-    optional PropertyPartitionStrategy property_partition_strategy = 6;
-    optional int64 total_num = 7;
-}
-
-message EdgeType {
-    optional uint32 id = 1;
-    optional string name = 2;
-    repeated Property properties = 3;
-    repeated string primary_keys = 4;
-    repeated SrcDstPair src_dst_pairs = 5;
-    optional PropertyPartitionStrategy property_partition_strategy = 6;
-    optional int64 total_num = 7;
-}
-
-message Statistics {
-    optional uint32 num_partitions = 1;
-    optional uint64 num_vertices = 2;
-    optional uint64 num_edges = 3;
-}
-
-enum Scope {
-    SCOPE_NONE = 0;
-    SCOPE_GLOBAL = 1;
-    SCOPE_PARTITION = 2;
-    SCOPE_TYPE = 3;
-}
-
-message Schema {
-    optional bool is_directed = 1;
-    optional bool is_multi_edge_graph = 2;
-    optional bool with_vertex_data = 3;
-    optional bool with_edge_data = 4;
-    optional bool with_vertex_property = 5;
-    optional bool with_edge_property = 6;
-
-    optional Scope with_vertex_original_id = 7;
-
-    optional GraphPartitionStrategy partition_strategy = 8;
-
-    repeated VertexType vertex_types = 9;
-    repeated EdgeType edge_types = 10;
+message PropertyTrait {
     
-    optional Statistics statistics = 11;
 }
 
-enum ItemFetch {
-    IF_NONE = 0;
-    IF_ARRAY_LIKE = 1;
-    IF_ITERATOR = 2;
+message StorageTrait {
+    oneof specific_trait {
+        TopologyTrait topology_trait = 1;
+        PartitionTrait partition_trait = 2;
+        PropertyTrait property_trait = 3;
+    }
 }
 
-enum ItemSelection {
-    IS_NONE = 0;
-    IS_BY_MASTER_MIRROR = 1;
-    IS_BY_PARTITION = 2;
-    IS_BY_TYPE = 3;
-
-    // adjacent list
-    IS_BY_NEIGHBOR_MASTER_MIRROR = 4;
-    IS_BY_NEIGHBOR_PARTITION = 5;
-    IS_BY_NEIGHBOR_TYPE = 6;
-}
-
-message ListRetrieval {
-    optional ItemFetch item_fetch = 1;
-    repeated ItemSelection selections = 2;
-}
-
-enum StorageTrait {
-    ST_NONE = 0;
-    // Natural ID
-    ST_NATURAL_ID_FOR_PARTITION = 1;
-    ST_NATURAL_ID_FOR_VERTEX_TYPE = 2;
-    ST_NATURAL_ID_FOR_EDGE_TYPE = 3;
-    ST_NATURAL_ID_FOR_PROPERTY = 4;
-
-    // Mirror partition list
-    ST_MASTER_VERTEX_MIRROR_PARTITION_LIST = 5;
-    ST_MIRROR_VERTEX_MIRROR_PARTITION_LIST = 6;
-    ST_MASTER_EDGE_MIRROR_PARTITION_LIST = 7;
-    ST_MIRROR_EDGE_MIRROR_PARTITION_LIST = 8;
-
-    // Sorted vertex list
-    ST_ALL_VERTEX_LIST_SORTED = 9;
-}
 
 message Storage {
     optional string name = 1;
@@ -161,17 +64,13 @@ message Storage {
     optional ListRetrieval vertex_list_retrieval = 4;
     optional ListRetrieval edge_list_retrieval = 5;
     optional ListRetrieval adjacent_list_retrieval = 6;
-
-    optional bool with_vertex_label = 7;
-    optional bool with_edge_label = 8;
     
-    repeated StorageTrait traits = 9;
+    repeated StorageTrait traits = 7;
 }
 
 message Graph {
-    optional string name = 1;
-    optional int32 version = 2;
-    optional bool is_latest = 3;
-    optional Schema schema = 4;
-    optional Storage storage = 5;
+    string uri = 1;
+    string grin_version = 2;
+    repeated StorageTrait traits = 3;
+    Statistics statistics = 4;
 }
