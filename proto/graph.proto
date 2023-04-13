@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+package grin;
+
 enum ListRetrieval {
     LR_NA = 0;
     LR_ARRAY_LIKE = 1;
@@ -27,10 +29,10 @@ enum GraphPartitionStrategy {
 }
 
 enum PropertyDataPartitionStrategy {
-    PPS_NA = 0;
-    PPS_MASTER_ONLY = 1;
-    PPS_REPLICATE_MASTER_MIRROR = 2;
-    PPS_SPLIT_MASTER_MIRROR = 3;
+    PDPS_NA = 0;
+    PDPS_MASTER_ONLY = 1;
+    PDPS_REPLICATE_MASTER_MIRROR = 2;
+    PDPS_SPLIT_MASTER_MIRROR = 3;
 }
 
 message MirrorPartitionListTrait {
@@ -44,7 +46,7 @@ message MirrorPartitionListTrait {
 message PartitionTrait {
     GraphPartitionStrategy graph_partition_strategy = 1;
     
-    bool grin_triat_natural_id_for_partition = 2;
+    bool grin_trait_natural_id_for_partition = 2;
     bool grin_enable_vertex_ref = 3;
     bool grin_enable_edge_ref = 4;
     
