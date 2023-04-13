@@ -126,19 +126,6 @@ message StorageTrait {
     }
 }
 
-
-message Storage {
-    optional string name = 1;
-    optional int32 version = 2;
-    optional int32 grin_version = 3;
-
-    optional ListRetrieval vertex_list_retrieval = 4;
-    optional ListRetrieval edge_list_retrieval = 5;
-    optional ListRetrieval adjacent_list_retrieval = 6;
-    
-    repeated StorageTrait traits = 7;
-}
-
 message Statistics {
     int32 vertex_count = 1;
     int32 edge_count = 2;
