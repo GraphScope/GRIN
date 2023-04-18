@@ -1,22 +1,28 @@
 syntax = "proto3";
 
+package gie;
+option java_package = "com.alibaba.graphscope.proto.schema";
+
 enum VertexPartitionStrategy {
-    VPS_ALL = 0;
-    VPS_ONE = 1;
-    VPS_FOLLOW_EDGE = 2;
+    VPS_UNDEFINED = 0;
+    VPS_ALL = 1;
+    VPS_ONE = 2;
+    VPS_FOLLOW_EDGE = 3;
 }
 
 enum EdgePartitionStrategy {
-    EPS_ALL = 0;
-    EPS_ONE = 1;
-    EPS_FOLLOW_SRC = 2;
-    EPS_FOLLOW_DST = 3;
-    EPS_FOLLOW_BOTH = 4;
+    EPS_UNDEFINED = 0;
+    EPS_ALL = 1;
+    EPS_ONE = 2;
+    EPS_FOLLOW_SRC = 3;
+    EPS_FOLLOW_DST = 4;
+    EPS_FOLLOW_BOTH = 5;
 }
 
 enum PropertyPartitionStrategy {
-    PPS_MASTER = 0;
-    PPS_MASTER_MIRROR = 1;
+    PPS_UNDEFINED = 0;
+    PPS_MASTER = 1;
+    PPS_MASTER_MIRROR = 2;
 }
 
 message PropertyPartitionByEntityStrategy {
@@ -35,10 +41,13 @@ message GraphPropertyPartitionStrategy {
 }
 
 enum GraphTopologyPartitionStrategy {
-    GPS_ALL_REPLICATE = 0;
-    GPS_EDGE_CUT = 1;
-    GPS_VERTEX_CUT = 2;
-    GPS_HYBRID = 3;
+    GPS_UNDEFINED = 0;
+    GPS_ALL_REPLICATE = 1;
+    GPS_EDGE_CUT_FOLLOW_BOTH = 2;
+    GPS_EDGE_CUT_FOLLOW_SRC = 3;
+    GPS_EDGE_CUT_FOLLOW_DST = 4;
+    GPS_VERTEX_CUT = 5;
+    GPS_HYBRID = 6;
 }
 
 message GraphPartitionStrategy {
@@ -47,10 +56,11 @@ message GraphPartitionStrategy {
 }
 
 enum Relation {
-    MANY_TO_MANY = 0;
-    MANY_TO_ONE = 1;
-    ONE_TO_MANY = 2;
-    ONE_TO_ONE = 3;
+    REL_UNDEFINED = 0;
+    MANY_TO_MANY = 1;
+    MANY_TO_ONE = 2;
+    ONE_TO_MANY = 3;
+    ONE_TO_ONE = 4;
 }
 
 message SrcDstPair {
@@ -97,7 +107,7 @@ message EdgeType {
     repeated Property properties = 3;
     repeated string primary_keys = 4;
     repeated SrcDstPair src_dst_pairs = 5;
-    int64 total_num = 7;
+    int64 total_num = 6;
 }
 
 message Statistics {
