@@ -53,7 +53,7 @@ message PartitionFeature {
     PropertyDataPartitionStrategy vertex_data = 5;
     PropertyDataPartitionStrategy edge_data = 6;
 
-    MirrorPartitionListFeature mirror_partition_list_trait = 7;
+    MirrorPartitionListFeature mirror_partition_list_feature = 7;
 
     bool grin_trait_select_master_for_vertex_list = 8;
     bool grin_trait_select_partition_for_vertex_list = 9;
@@ -91,8 +91,8 @@ message EdgePropertyFeature {
 
 message PropertyFeature {
     bool grin_enable_row = 1;
-    VertexPropertyFeature vertex_property_trait = 2;
-    EdgePropertyFeature edge_property_trait = 3;
+    VertexPropertyFeature vertex_property_feature = 2;
+    EdgePropertyFeature edge_property_feature = 3;
 
     PropertyDataPartitionStrategy vertex_property = 4;
     PropertyDataPartitionStrategy edge_property = 5;
@@ -119,12 +119,12 @@ message PredicateFeature {
 }
 
 message StorageFeature {
-    oneof specific_trait {
-        TopologyFeature topology_trait = 1;
-        PartitionFeature partition_trait = 2;
-        PropertyFeature property_trait = 3;
-        IndexFeature index_trait = 4;
-        PredicateFeature predicate_trait = 5;
+    oneof specific_feature {
+        TopologyFeature topology_feature = 1;
+        PartitionFeature partition_feature = 2;
+        PropertyFeature property_feature = 3;
+        IndexFeature index_feature = 4;
+        PredicateFeature predicate_feature = 5;
     }
 }
 
@@ -139,6 +139,6 @@ message Statistics {
 message Graph {
     string uri = 1;
     string grin_version = 2;
-    repeated StorageFeature traits = 3;
+    repeated StorageFeature features = 3;
     Statistics statistics = 4;
 }
