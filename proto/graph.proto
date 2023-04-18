@@ -8,7 +8,7 @@ enum ListRetrieval {
     LR_ITERATOR = 2;
 }
 
-message TopologyTrait {
+message TopologyFeature {
     bool grin_assume_has_directed_graph = 1;
     bool grin_assume_has_undirected_graph = 2;
     bool grin_assume_has_multi_edge_graph = 3;
@@ -35,7 +35,7 @@ enum PropertyDataPartitionStrategy {
     PDPS_SPLIT_MASTER_MIRROR = 3;
 }
 
-message MirrorPartitionListTrait {
+message MirrorPartitionListFeature {
     bool grin_trait_master_vertex_mirror_partition_list = 1;
     bool grin_trait_mirror_vertex_mirror_partition_list = 2;
     bool grin_trait_master_edge_mirror_partition_list = 3;
@@ -43,7 +43,7 @@ message MirrorPartitionListTrait {
 }
 
 
-message PartitionTrait {
+message PartitionFeature {
     GraphPartitionStrategy graph_partition_strategy = 1;
     
     bool grin_trait_natural_id_for_partition = 2;
@@ -53,7 +53,7 @@ message PartitionTrait {
     PropertyDataPartitionStrategy vertex_data = 5;
     PropertyDataPartitionStrategy edge_data = 6;
 
-    MirrorPartitionListTrait mirror_partition_list_trait = 7;
+    MirrorPartitionListFeature mirror_partition_list_trait = 7;
 
     bool grin_trait_select_master_for_vertex_list = 8;
     bool grin_trait_select_partition_for_vertex_list = 9;
@@ -63,7 +63,7 @@ message PartitionTrait {
     bool grin_trait_select_neighbor_partition_for_adjacent_list = 13;
 }
 
-message VertexPropertyTrait {
+message VertexPropertyFeature {
     bool grin_with_vertex_property = 1;
     bool grin_with_vertex_property_name = 2;
     bool grin_with_vertex_type_name = 3;
@@ -77,7 +77,7 @@ message VertexPropertyTrait {
     bool grin_assume_by_type_vertex_original_id = 8;
 }
 
-message EdgePropertyTrait {
+message EdgePropertyFeature {
     bool grin_with_edge_property = 1;
     bool grin_with_edge_property_name = 2;
     bool grin_with_edge_type_name = 3;
@@ -89,10 +89,10 @@ message EdgePropertyTrait {
     bool grin_trait_natural_id_for_edge_property = 7;
 }
 
-message PropertyTrait {
+message PropertyFeature {
     bool grin_enable_row = 1;
-    VertexPropertyTrait vertex_property_trait = 2;
-    EdgePropertyTrait edge_property_trait = 3;
+    VertexPropertyFeature vertex_property_trait = 2;
+    EdgePropertyFeature edge_property_trait = 3;
 
     PropertyDataPartitionStrategy vertex_property = 4;
     PropertyDataPartitionStrategy edge_property = 5;
@@ -107,24 +107,24 @@ message PropertyTrait {
     bool grin_trait_specific_vev_relation = 12;
 }
 
-message IndexTrait {
+message IndexFeature {
     bool grin_with_vertex_label = 1;
     bool grin_with_edge_label = 2;
 
     bool grin_assume_all_vertex_list_sorted = 3;
 }
 
-message PredicateTrait {
+message PredicateFeature {
     
 }
 
-message StorageTrait {
+message StorageFeature {
     oneof specific_trait {
-        TopologyTrait topology_trait = 1;
-        PartitionTrait partition_trait = 2;
-        PropertyTrait property_trait = 3;
-        IndexTrait index_trait = 4;
-        PredicateTrait predicate_trait = 5;
+        TopologyFeature topology_trait = 1;
+        PartitionFeature partition_trait = 2;
+        PropertyFeature property_trait = 3;
+        IndexFeature index_trait = 4;
+        PredicateFeature predicate_trait = 5;
     }
 }
 
@@ -139,6 +139,6 @@ message Statistics {
 message Graph {
     string uri = 1;
     string grin_version = 2;
-    repeated StorageTrait traits = 3;
+    repeated StorageFeature traits = 3;
     Statistics statistics = 4;
 }
