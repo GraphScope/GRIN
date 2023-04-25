@@ -50,6 +50,20 @@ GRIN_EDGE_TYPE get_one_edge_type(GRIN_GRAPH g) {
     return et;
 }
 
+GRIN_VERTEX get_one_vertex(GRIN_GRAPH g) {
+    GRIN_VERTEX_LIST vl = grin_get_vertex_list(g);
+    GRIN_VERTEX v = grin_get_vertex_from_list(g, vl, 0);
+    grin_destroy_vertex_list(g, vl);
+    return v;
+}
+
+GRIN_VERTEX get_vertex_marco(GRIN_GRAPH g) {
+    GRIN_VERTEX_LIST vl = grin_get_vertex_list(g);
+    GRIN_VERTEX v = grin_get_vertex_from_list(g, vl, 3);
+    grin_destroy_vertex_list(g, vl);
+    return v;
+}
+
 void test_property_type(int argc, char** argv) {
     printf("+++++++++++++++++++++ Test property/type +++++++++++++++++++++\n");
 
@@ -290,54 +304,353 @@ void test_property_topology(int argc, char** argv) {
     grin_destroy_graph(g);
 }
 
-void test_property_table(int argc, char** argv) {
+void test_property_vertex_table(int argc, char** argv) {
     printf("+++++++++++++++++++++ Test property/table +++++++++++++++++++++\n");
     GRIN_GRAPH g = get_graph(argc, argv);
-    GRIN_VERTEX_TYPE vt = get_one_vertex_type(g);
-    GRIN_EDGE_TYPE et = get_one_edge_type(g);
     
     printf("------------ Vertex property table ------------\n");
-    GRIN_VERTEX_PROPERTY_LIST vpl = grin_get_vertex_property_list_by_type(g, vt);
-    GRIN_VERTEX_PROPERTY_TABLE vpt = grin_get_vertex_property_table_by_type(g, vt);
+    GRIN_VERTEX_TYPE_LIST vtl = grin_get_vertex_type_list(g);
+    size_t vtl_size = grin_get_vertex_type_list_size(g, vtl);
+    for (size_t i = 0; i < vtl_size; ++i) {
+        GRIN_VERTEX_TYPE vt = grin_get_vertex_type_from_list(g, vtl, i);
 
-    GRIN_VERTEX_LIST vl = grin_get_vertex_list(g);
-    GRIN_VERTEX_LIST typed_vl = grin_select_type_for_vertex_list(g, vt, vl);
-    size_t typed_vl_size = grin_get_vertex_list_size(g, typed_vl);
-    size_t vpl_size = grin_get_vertex_property_list_size(g, vpl);
-    printf("vertex list size: %zu vertex property list size: %zu\n", typed_vl_size, vpl_size);
+        GRIN_VERTEX_PROPERTY_LIST vpl = grin_get_vertex_property_list_by_type(g, vt);
+        GRIN_VERTEX_PROPERTY_TABLE vpt = grin_get_vertex_property_table_by_type(g, vt);
 
-    for (size_t i = 0; i < typed_vl_size; ++i) {
-        GRIN_VERTEX v = grin_get_vertex_from_list(g, typed_vl, i);
-        GRIN_ROW row = grin_get_row_from_vertex_property_table(g, vpt, v, vpl);
-        for (size_t j = 0; j < vpl_size; ++j) {
-            GRIN_VERTEX_PROPERTY vp = grin_get_vertex_property_from_list(g, vpl, j);
-            GRIN_DATATYPE dt = grin_get_vertex_property_data_type(g, vp);
-            const void* pv = grin_get_value_from_vertex_property_table(g, vpt, v, vp);
-            const void* rv = grin_get_value_from_row(g, row, dt, j);
-            if (dt == Int64) {
-                printf("v%zu p%zu value: %ld %ld\n", i, j, *((long int*)pv), *((long int*)rv));
-            } else if (dt == String) {
-                printf("v%zu p%zu value: %s %s\n", i, j, (char*)pv, (char*)rv);
+        GRIN_VERTEX_LIST vl = grin_get_vertex_list(g);
+        GRIN_VERTEX_LIST typed_vl = grin_select_type_for_vertex_list(g, vt, vl);
+        size_t typed_vl_size = grin_get_vertex_list_size(g, typed_vl);
+        size_t vpl_size = grin_get_vertex_property_list_size(g, vpl);
+        printf("vertex list size: %zu vertex property list size: %zu\n", typed_vl_size, vpl_size);
+
+        for (size_t i = 0; i < typed_vl_size; ++i) {
+            GRIN_VERTEX v = grin_get_vertex_from_list(g, typed_vl, i);
+            GRIN_ROW row = grin_get_row_from_vertex_property_table(g, vpt, v, vpl);
+            for (size_t j = 0; j < vpl_size; ++j) {
+                GRIN_VERTEX_PROPERTY vp = grin_get_vertex_property_from_list(g, vpl, j);
+                GRIN_VERTEX_PROPERTY vt1 = grin_get_vertex_property_vertex_type(g, vp);
+                if (!grin_equal_vertex_type(g, vt, vt1)) {
+                    printf("vertex type not match by property\n");
+                }
+                grin_destroy_vertex_type(g, vt1);
+#ifdef GRIN_TRAIT_NATURAL_ID_FOR_VERTEX_PROPERTY
+                unsigned int id = grin_get_vertex_property_id(g, vt, vp);
+                GRIN_VERTEX_PROPERTY vp1 = grin_get_vertex_property_from_id(g, vt, id);
+                if (!grin_equal_vertex_property(g, vp, vp1)) {
+                    printf("vertex property not match by id\n");
+                }
+                grin_destroy_vertex_property(g, vp1);
+#else
+                unsigned int id = ~0;
+#endif
+
+#ifdef GRIN_WITH_VERTEX_PROPERTY_NAME
+                const char* vp_name = grin_get_vertex_property_name(g, vp);
+                GRIN_VERTEX_PROPERTY vp2 = grin_get_vertex_property_by_name(g, vt, vp_name);
+                if (!grin_equal_vertex_property(g, vp, vp2)) {
+                    printf("vertex property not match by name\n");
+                }
+#else
+                const char* vp_name = "unknown";
+#endif
+                GRIN_DATATYPE dt = grin_get_vertex_property_data_type(g, vp);
+                const void* pv = grin_get_value_from_vertex_property_table(g, vpt, v, vp);
+                const void* rv = grin_get_value_from_row(g, row, dt, j);
+                if (dt == Int64) {
+                    printf("vp_id %u v%zu %s value: %ld %ld\n", id, i, vp_name, *((long int*)pv), *((long int*)rv));
+                } else if (dt == String) {
+                    printf("vp_id %u v%zu %s value: %s %s\n", id, i, vp_name, (char*)pv, (char*)rv);
+                }
+                grin_destroy_value(g, dt, pv);
+                grin_destroy_value(g, dt, rv);
+                grin_destroy_vertex_property(g, vp);
             }
-            grin_destroy_value(g, dt, pv);
-            grin_destroy_value(g, dt, rv);
-            grin_destroy_vertex_property(g, vp);
+            grin_destroy_row(g, row);
+            grin_destroy_vertex(g, v);
         }
-        grin_destroy_row(g, row);
-        grin_destroy_vertex(g, v);
+
+#ifdef GRIN_TRAIT_NATURAL_ID_FOR_VERTEX_PROPERTY
+        GRIN_VERTEX_PROPERTY vp3 = grin_get_vertex_property_from_id(g, vt, vpl_size);
+        if (vp3 == GRIN_NULL_VERTEX_PROPERTY) {
+            printf("(Correct) vertex property of id %zu does not exist\n", vpl_size);
+        } else {
+            printf("(Wrong) vertex property of id %zu exists\n", vpl_size);
+            grin_destroy_vertex_property(g, vp3);
+        }
+#endif
+
+#ifdef GRIN_WITH_VERTEX_PROPERTY_NAME
+        GRIN_VERTEX_PROPERTY vp4 = grin_get_vertex_property_by_name(g, vt, "unknown");
+        if (vp4 == GRIN_NULL_VERTEX_PROPERTY) {
+            printf("(Correct) vertex property of name \"unknown\" does not exist\n");
+        } else {
+            printf("(Wrong) vertex property of name \"unknown\" exists\n");
+            grin_destroy_vertex_property(g, vp4);
+        }
+
+        GRIN_VERTEX_PROPERTY_LIST vpl1 = grin_get_vertex_properties_by_name(g, "unknown");
+        if (vpl1 == GRIN_NULL_LIST) {
+            printf("(Correct) vertex properties of name \"unknown\" does not exist\n");
+        } else {
+            printf("(Wrong) vertex properties of name \"unknown\" exists\n");
+            grin_destroy_vertex_property_list(g, vpl1);
+        }
+
+        GRIN_VERTEX_PROPERTY_LIST vpl2 = grin_get_vertex_properties_by_name(g, "name");
+        if (vpl2 == GRIN_NULL_LIST) {
+            printf("(Wrong) vertex properties of name \"name\" does not exist\n");
+        } else {
+            printf("(Correct) vertex properties of name \"name\" exists\n");
+            size_t vpl2_size = grin_get_vertex_property_list_size(g, vpl2);
+            for (size_t i = 0; i < vpl2_size; ++i) {
+                GRIN_VERTEX_PROPERTY vp5 = grin_get_vertex_property_from_list(g, vpl2, i);
+                GRIN_VERTEX_TYPE vt5 = grin_get_vertex_property_vertex_type(g, vp5);
+                const char* vp5_name = grin_get_vertex_property_name(g, vp5);
+                const char* vt5_name = grin_get_vertex_type_name(g, vt5);
+                printf("vertex type name: %s, vertex property name: %s\n", vt5_name, vp5_name);
+                grin_destroy_vertex_property(g, vp5);
+                grin_destroy_vertex_type(g, vt5);
+                grin_destroy_name(g, vt5_name);
+                grin_destroy_name(g, vp5_name);
+            }
+            grin_destroy_vertex_property_list(g, vpl2);
+        }
+#endif
+
+        grin_destroy_vertex_list(g, typed_vl);
+        grin_destroy_vertex_list(g, vl);
+        grin_destroy_vertex_property_list(g, vpl);
+        grin_destroy_vertex_property_table(g, vpt);
+    }
+    grin_destroy_vertex_type_list(g, vtl);
+    grin_destroy_graph(g);
+}
+
+void test_property_edge_table(int argc, char** argv) {
+    GRIN_GRAPH g = get_graph(argc, argv);
+    // edge
+    GRIN_VERTEX v = get_vertex_marco(g);
+    GRIN_VERTEX_TYPE vt = grin_get_vertex_type(g, v);
+    GRIN_ADJACENT_LIST al = grin_get_adjacent_list(g, OUT, v);
+    printf("adjacent list size: %zu\n", grin_get_adjacent_list_size(g, al));
+
+    GRIN_EDGE_TYPE_LIST etl = grin_get_edge_type_list(g);
+    size_t etl_size = grin_get_edge_type_list_size(g, etl);
+    printf("edge type list size: %zu\n", etl_size);
+
+    for (size_t i = 0; i < etl_size; ++i) {
+        GRIN_EDGE_TYPE et = grin_get_edge_type_from_list(g, etl, i);
+        GRIN_ADJACENT_LIST al1 = grin_select_edge_type_for_adjacent_list(g, et, al);
+        size_t al1_size = grin_get_adjacent_list_size(g, al1);
+        printf("selected adjacent list size: %zu\n", al1_size);
+
+        GRIN_EDGE_PROPERTY_TABLE ept = grin_get_edge_property_table_by_type(g, et);
+        GRIN_EDGE_PROPERTY_LIST epl = grin_get_edge_property_list_by_type(g, et);
+        size_t epl_size = grin_get_edge_property_list_size(g, epl);
+        printf("edge property list size: %zu\n", epl_size);
+
+        for (size_t j = 0; j < al1_size; ++j) {
+            GRIN_EDGE e = grin_get_edge_from_adjacent_list(g, al1, j);
+            GRIN_EDGE_TYPE et1 = grin_get_edge_type(g, e);
+            if (!grin_equal_edge_type(g, et, et1)) {
+                printf("edge type does not match\n");
+            }
+
+            GRIN_ROW row = grin_get_row_from_edge_property_table(g, ept, e, epl);
+            for (size_t k = 0; k < epl_size; ++k) {
+                GRIN_EDGE_PROPERTY ep = grin_get_edge_property_from_list(g, epl, k);
+                GRIN_EDGE_TYPE et2 = grin_get_edge_property_edge_type(g, ep);
+                if (!grin_equal_edge_type(g, et, et2)) {
+                    printf("edge type does not match\n");
+                }
+                grin_destroy_edge_type(g, et2);
+
+                const char* ep_name = grin_get_edge_property_name(g, ep);
+                printf("edge property name: %s\n", ep_name);
+
+#ifdef GRIN_TRAIT_NATURAL_ID_FOR_EDGE_PROPERTY
+                unsigned int id = grin_get_edge_property_id(g, et, ep);
+                GRIN_EDGE_PROPERTY ep1 = grin_get_edge_property_from_id(g, et, id);
+                if (!grin_equal_edge_property(g, ep, ep1)) {
+                    printf("edge property not match by id\n");
+                }
+                grin_destroy_edge_property(g, ep1);
+#else
+                unsigned int id = ~0;
+#endif
+                GRIN_DATATYPE dt = grin_get_edge_property_data_type(g, ep);
+                const void* pv = grin_get_value_from_edge_property_table(g, ept, e, ep);
+                const void* rv = grin_get_value_from_row(g, row, dt, k);
+                if (dt == Int64) {
+                    printf("ep_id %u e%zu %s value: %ld %ld\n", id, j, ep_name, *((long int*)pv), *((long int*)rv));
+                } else if (dt == String) {
+                    printf("ep_id %u e%zu %s value: %s %s\n", id, j, ep_name, (char*)pv, (char*)rv);
+                } else if (dt == Double) {
+                    printf("ep_id %u e%zu %s value: %f %f\n", id, j, ep_name, *((double*)pv), *((double*)rv));
+                }
+                grin_destroy_edge_property(g, ep);
+                grin_destroy_name(g, ep_name);
+                grin_destroy_value(g, dt, pv);
+                grin_destroy_value(g, dt, rv);
+            }
+
+            grin_destroy_row(g, row);
+            grin_destroy_edge_type(g, et1);
+            grin_destroy_edge(g, e);
+        }
+        grin_destroy_adjacent_list(g, al1);
+
+        for (size_t j = 0; j < epl_size; ++j) {
+            GRIN_EDGE_PROPERTY ep = grin_get_edge_property_from_list(g, epl, j);
+            GRIN_EDGE_TYPE et1 = grin_get_edge_property_edge_type(g, ep);
+            if (!grin_equal_edge_type(g, et, et1)) {
+                printf("edge type does not match\n");
+            }
+            const char* ep_name1 = grin_get_edge_property_name(g, ep);
+            const char* et_name = grin_get_edge_type_name(g, et);
+            printf("edge property name: %s, edge property type name: %s\n", ep_name1, et_name);
+
+            grin_destroy_edge_type(g, et1);
+            grin_destroy_name(g, ep_name1);
+            grin_destroy_name(g, et_name);
+
+#ifdef GRIN_WITH_EDGE_PROPERTY_NAME
+            const char* ep_name = grin_get_edge_property_name(g, ep);
+            GRIN_EDGE_PROPERTY ep2 = grin_get_edge_property_by_name(g, et, ep_name);
+            if (!grin_equal_edge_property(g, ep, ep2)) {
+                printf("edge property not match by name\n");
+            }
+#else
+            const char* ep_name = "unknown";
+#endif
+            grin_destroy_edge_property(g, ep);
+        }
+#ifdef GRIN_TRAIT_NATURAL_ID_FOR_EDGE_PROPERTY
+        GRIN_EDGE_PROPERTY ep3 = grin_get_edge_property_from_id(g, et, epl_size);
+        if (ep3 == GRIN_NULL_EDGE_PROPERTY) {
+            printf("(Correct) edge property of id %zu does not exist\n", epl_size);
+        } else {
+            printf("(Wrong) edge property of id %zu exists\n", epl_size);
+            grin_destroy_edge_property(g, ep3);
+        }
+#endif
+
+#ifdef GRIN_WITH_EDGE_PROPERTY_NAME
+        GRIN_EDGE_PROPERTY ep4 = grin_get_edge_property_by_name(g, et, "unknown");
+        if (ep4 == GRIN_NULL_EDGE_PROPERTY) {
+            printf("(Correct) edge property of name \"unknown\" does not exist\n");
+        } else {
+            printf("(Wrong) edge property of name \"unknown\" exists\n");
+            grin_destroy_edge_property(g, ep4);
+        }
+
+        GRIN_EDGE_PROPERTY_LIST epl1 = grin_get_edge_properties_by_name(g, "unknown");
+        if (epl1 == GRIN_NULL_LIST) {
+            printf("(Correct) edge properties of name \"unknown\" does not exist\n");
+        } else {
+            printf("(Wrong) edge properties of name \"unknown\" exists\n");
+            grin_destroy_edge_property_list(g, epl1);
+        }
+
+        GRIN_EDGE_PROPERTY_LIST epl2 = grin_get_edge_properties_by_name(g, "weight");
+        if (epl2 == GRIN_NULL_LIST) {
+            printf("(Wrong) edge properties of name \"weight\" does not exist\n");
+        } else {
+            printf("(Correct) edge properties of name \"weight\" exists\n");
+            size_t epl2_size = grin_get_edge_property_list_size(g, epl2);
+            for (size_t i = 0; i < epl2_size; ++i) {
+                GRIN_EDGE_PROPERTY ep5 = grin_get_edge_property_from_list(g, epl2, i);
+                GRIN_EDGE_TYPE et5 = grin_get_edge_property_edge_type(g, ep5);
+                const char* ep5_name = grin_get_edge_property_name(g, ep5);
+                const char* et5_name = grin_get_edge_type_name(g, et5);
+                printf("edge type name: %s, edge property name: %s\n", et5_name, ep5_name);
+                grin_destroy_edge_property(g, ep5);
+                grin_destroy_edge_type(g, et5);
+                grin_destroy_name(g, et5_name);
+                grin_destroy_name(g, ep5_name);
+            }
+            grin_destroy_edge_property_list(g, epl2);
+        }
+#endif
+        grin_destroy_edge_type(g, et);
     }
 
-    grin_destroy_vertex_list(g, typed_vl);
-    grin_destroy_vertex_list(g, vl);
-    grin_destroy_vertex_property_list(g, vpl);
-    grin_destroy_vertex_property_table(g, vpt);
-}  
+    grin_destroy_vertex(g, v);
+    grin_destroy_vertex_type(g, vt);
+    grin_destroy_adjacent_list(g, al);
+    grin_destroy_edge_type_list(g, etl);
+    grin_destroy_graph(g);
+}
 
 
+void test_property_primary_key(int argc, char** argv) {
+    GRIN_GRAPH g = get_graph(argc, argv);
+    GRIN_VERTEX_TYPE_LIST vtl = grin_get_vertex_types_with_primary_keys(g);
+    size_t vtl_size = grin_get_vertex_type_list_size(g, vtl);
+    printf("vertex type list size: %zu\n", vtl_size);
 
-int main(int argc, char** argv) {
+    unsigned id_type[7] = {~0, 0, 0, 1, 0, 1, 0};
+
+    for (size_t i = 0; i < vtl_size; ++i) {
+        GRIN_VERTEX_TYPE vt = grin_get_vertex_type_from_list(g, vtl, i);
+        const char* vt_name = grin_get_vertex_type_name(g, vt);
+        printf("vertex type name: %s\n", vt_name);
+        grin_destroy_name(g, vt_name);
+
+        GRIN_VERTEX_PROPERTY_LIST vpl = grin_get_primary_keys_by_vertex_type(g, vt);
+        size_t vpl_size = grin_get_vertex_property_list_size(g, vpl);
+        printf("primary key list size: %zu\n", vpl_size);
+
+        for (size_t j = 0; j < vpl_size; ++j) {
+            GRIN_VERTEX_PROPERTY vp = grin_get_vertex_property_from_list(g, vpl, j);
+            const char* vp_name = grin_get_vertex_property_name(g, vp);
+            printf("primary key name: %s\n", vp_name);
+            grin_destroy_name(g, vp_name);
+            grin_destroy_vertex_property(g, vp);
+        }
+
+        GRIN_VERTEX_PROPERTY vp = grin_get_vertex_property_from_list(g, vpl, 0);
+        GRIN_DATATYPE dt = grin_get_vertex_property_data_type(g, vp);
+
+        for (size_t j = 1; j <= 6; ++j) {
+            GRIN_ROW r = grin_create_row(g);
+            grin_insert_value_to_row(g, r, dt, (void *)(&j));
+            GRIN_VERTEX v = grin_get_vertex_by_primary_keys(g, vt, r);
+            if (id_type[j] == i) {
+                if (v == GRIN_NULL_VERTEX) {
+                    printf("(Wrong) vertex of primary keys %zu does not exist\n", j);
+                } else {
+                    GRIN_VERTEX_ORIGINAL_ID oid0 = grin_get_vertex_original_id(g, v);
+                    printf("(Correct) vertex of primary keys %zu exists %ld\n", j, *((long int*)oid0));
+                    grin_destroy_vertex_original_id(g, oid0);
+                    grin_destroy_vertex(g, v);
+                }
+            } else {
+                if (v == GRIN_NULL_VERTEX) {
+                    printf("(Correct) vertex of primary keys %zu does not exist\n", j);
+                } else {
+                    printf("(Wrong) vertex of primary keys %zu exists\n", j);
+                    grin_destroy_vertex(g, v);
+                }
+            }
+            grin_destroy_row(g, r);
+        }
+
+        grin_destroy_vertex_property(g, vp);
+        grin_destroy_vertex_property_list(g, vpl);
+        grin_destroy_vertex_type(g, vt);
+    }
+}
+
+void test_property(int argc, char** argv) {
     test_property_type(argc, argv);
     test_property_topology(argc, argv);
-    test_property_table(argc, argv);
+    test_property_vertex_table(argc, argv);
+    test_property_edge_table(argc, argv);
+    test_property_primary_key(argc, argv);
+}
+
+int main(int argc, char** argv) {
+    test_property(argc, argv);
     return 0;
 }
