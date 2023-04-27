@@ -1,0 +1,98 @@
+syntax = "proto3";
+
+package gie;
+option java_package = "com.alibaba.graphscope.proto.schema";
+
+import "common.proto";
+
+message GraphTopologyPartitionStrategy {
+    message AllReplicate {}
+
+    message EdgeCut {
+        enum EdgePartitionStrategy {
+            EPS_UNDEFINED = 0;
+            EPS_FOLLOW_SRC = 1;
+            EPS_FOLLOW_DST = 2;
+            EPS_FOLLOW_BOTH = 3;
+        }
+        EdgePartitionStrategy edge_partition = 1;
+    }
+
+    message VertexCut {}
+
+    message Hybrid {
+        enum VertexPartitionStrategy {
+            VPS_UNDEFINED = 0;
+            VPS_ALL = 1;
+            VPS_ONE = 2;
+            VPS_FOLLOW_EDGE = 3;
+        }
+
+        enum EdgePartitionStrategy {
+            EPS_UNDEFINED = 0;
+            EPS_ALL = 1;
+            EPS_ONE = 2;
+            EPS_FOLLOW_SRC = 3;
+            EPS_FOLLOW_DST = 4;
+            EPS_FOLLOW_BOTH = 5;
+        }
+
+        message VertexTypePartition {
+            VertexTypeIdentifier vertex_type_identifier = 1;
+            VertexPartitionStrategy vertex_partition = 2;
+        }
+
+        message EdgeTypePartition {
+            EdgeTypeIdentifier edge_type_identifier = 1;
+            EdgePartitionStrategy edge_partition = 2;
+        }
+
+        repeated VertexTypePartition vertex_type_partition = 1;
+        repeated EdgeTypePartition edge_type_partition = 2;
+    }
+
+    oneof item {
+        AllReplicate replicate = 1;
+        EdgeCut edge_cut = 2;
+        VertexCut vertex_cut = 3;
+        Hybrid hybrid = 4;
+    }
+}
+
+message GraphPropertyPartitionStrategy {
+    enum PropertyPartitionStrategy {
+        PPS_UNDEFINED = 0;
+        PPS_MASTER = 1;
+        PPS_MASTER_MIRROR = 2;
+    }
+
+    message VertexOrEdgePropertyPartition {
+        PropertyPartitionStrategy vertex_property_partition = 1;
+        PropertyPartitionStrategy edge_property_partition = 2;
+    }
+
+    message TypePropertyPartition {
+        message VertexTypePropertyPartition {
+            VertexTypeIdentifier vertex_type_identifier = 1;
+            PropertyPartitionStrategy property_partition = 2;
+        }
+
+        message EdgeTypePropertyPartition {
+            EdgeTypeIdentifier edge_type_identifier = 1;
+            PropertyPartitionStrategy property_partition = 2;
+        }
+
+        repeated VertexTypePropertyPartition vertex_type_property_partition = 1;
+        repeated EdgeTypePropertyPartition edge_type_property_partition = 2;
+    }
+
+    oneof item {
+        VertexOrEdgePropertyPartition vertex_or_edge_property_partition = 1;
+        TypePropertyPartition type_property_partition = 2;
+    }
+}
+
+message GraphPartitionStrategy {
+    GraphTopologyPartitionStrategy topology_partition = 1;
+    GraphPropertyPartitionStrategy property_partition = 2;
+}

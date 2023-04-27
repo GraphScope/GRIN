@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package gie;
+option java_package = "com.alibaba.graphscope.proto.schema";
+
+import "common.proto";
+
+message VertexTypeStatistics {
+    VertexTypeIdentifier vertex_type_identifier = 1;
+    uint64 num_vertices = 2;
+}
+
+message EdgeTypeStatistics {
+    EdgeTypeIdentifier edge_type_identifier = 1;
+    uint64 num_edges = 2;
+}
+
+message Statistics {
+    uint32 num_partitions = 1;
+    uint64 num_vertices = 2;
+    uint64 num_edges = 3;
+
+    repeated VertexTypeStatistics vertex_type_statistics = 4;
+    repeated EdgeTypeStatistics edge_type_statistics = 5;
+}

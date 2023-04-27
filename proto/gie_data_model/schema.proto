@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package gie;
+option java_package = "com.alibaba.graphscope.proto.schema";
+
+import "data_type.proto";
+
+enum Relation {
+    MANY_TO_MANY = 0;
+    MANY_TO_ONE = 1;
+    ONE_TO_MANY = 2;
+    ONE_TO_ONE = 3;
+}
+
+message SrcDstPair {
+    string src_type = 1;
+    string dst_type = 2;
+    Relation relation = 5;
+}
+
+message Property {
+    uint32 id = 1;
+    string name = 2;
+    PropertyType type = 3;
+}
+
+message VertexType {
+    uint32 id = 1;
+    string name = 2;
+    repeated Property properties = 3;
+    repeated string primary_keys = 4;
+}
+
+message EdgeType {
+    uint32 id = 1;
+    string name = 2;
+    repeated Property properties = 3;
+    repeated string primary_keys = 4;
+    repeated SrcDstPair src_dst_pairs = 5;
+}
+
+message Schema {
+    repeated VertexType vertex_types = 1;
+    repeated EdgeType edge_types = 2;
+}

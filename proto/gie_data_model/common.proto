@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package gie;
+option java_package = "com.alibaba.graphscope.proto.schema";
+
+message VertexTypeIdentifier {
+    uint32 id = 1;
+}
+
+message EdgeTypeIdentifier {
+    uint32 id = 1;
+    uint32 src_id = 2;
+    uint32 dst_id = 3;
+}
