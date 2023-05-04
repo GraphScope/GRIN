@@ -30,6 +30,6 @@ float grin_get_float(const void*);
 
 double grin_get_double(const void*);
 
-char* grin_get_string(const void*);
+const char* grin_get_string(const void*);
 
 #endif  // GRIN_INCLUDE_TOPOLOGY_DATATYPE_H_
