@@ -18,18 +18,18 @@ limitations under the License.
 
 #include "../../predefine.h"
 
-int grin_get_int32(void*);
+int grin_get_int32(const void*);
 
-unsigned int grin_get_uint32(void*);
+unsigned int grin_get_uint32(const void*);
 
-long int grin_get_int64(void*);
+long int grin_get_int64(const void*);
 
-unsigned long int grin_get_uint64(void*);
+unsigned long int grin_get_uint64(const void*);
 
-float grin_get_float(void*);
+float grin_get_float(const void*);
 
-double grin_get_double(void*);
+double grin_get_double(const void*);
 
-char* grin_get_string(void*);
+char* grin_get_string(const void*);
 
 #endif  // GRIN_INCLUDE_TOPOLOGY_DATATYPE_H_
