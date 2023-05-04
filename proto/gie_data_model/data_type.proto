@@ -94,4 +94,6 @@ message PropertyType {
         DateTime date_time = 7;
         TimeZone time_zone = 8;
     }
+
+    bool nullable = 9;
 }

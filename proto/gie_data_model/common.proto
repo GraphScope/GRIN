@@ -4,11 +4,21 @@ package gie;
 option java_package = "com.alibaba.graphscope.proto.schema";
 
 message VertexTypeIdentifier {
-    uint32 id = 1;
+    uint32 type_id = 1;
+}
+
+message SrcIdentifier {
+    uint32 type_id = 1;
+    optional uint32 label_id = 2;
+}
+
+message DstIdentifier {
+    uint32 type_id = 1;
+    optional uint32 label_id = 2;
 }
 
 message EdgeTypeIdentifier {
-    uint32 id = 1;
-    uint32 src_id = 2;
-    uint32 dst_id = 3;
+    uint32 type_id = 1;
+    SrcIdentifier src_identifier = 2;
+    DstIdentifier dst_identifier = 3;
 }

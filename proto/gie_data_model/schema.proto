@@ -4,6 +4,7 @@ package gie;
 option java_package = "com.alibaba.graphscope.proto.schema";
 
 import "data_type.proto";
+import "common.proto";
 
 enum Relation {
     MANY_TO_MANY = 0;
@@ -12,34 +13,43 @@ enum Relation {
     ONE_TO_ONE = 3;
 }
 
-message SrcDstPair {
-    string src_type = 1;
-    string dst_type = 2;
-    Relation relation = 5;
+message EntityPair {
+    SrcIdentifier src_identifier = 1;
+    DstIdentifier dst_identifier = 2;
+    Relation relation = 3;
 }
 
 message Property {
-    uint32 id = 1;
-    string name = 2;
-    PropertyType type = 3;
+    uint32 property_id = 1;
+    string property_name = 2;
+    PropertyType property_type = 3;
 }
 
 message VertexType {
-    uint32 id = 1;
-    string name = 2;
+    uint32 type_id = 1;
+    string type_name = 2;
     repeated Property properties = 3;
     repeated string primary_keys = 4;
+    // label candidates
+    repeated uint32 label_ids = 5;
 }
 
 message EdgeType {
-    uint32 id = 1;
-    string name = 2;
+    uint32 type_id = 1;
+    string type_name = 2;
     repeated Property properties = 3;
     repeated string primary_keys = 4;
-    repeated SrcDstPair src_dst_pairs = 5;
+    repeated EntityPair entity_pairs = 5;
+}
+
+message Label {
+    uint32 label_id = 1;
+    string label_name = 2;
 }
 
 message Schema {
     repeated VertexType vertex_types = 1;
     repeated EdgeType edge_types = 2;
+
+    repeated Label labels = 3;
 }
