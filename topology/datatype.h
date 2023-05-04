@@ -22,9 +22,9 @@ int grin_get_int32(const void*);
 
 unsigned int grin_get_uint32(const void*);
 
-long int grin_get_int64(const void*);
+long long int grin_get_int64(const void*);
 
-unsigned long int grin_get_uint64(const void*);
+unsigned long long int grin_get_uint64(const void*);
 
 float grin_get_float(const void*);
 
