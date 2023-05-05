@@ -6,21 +6,10 @@ option java_package = "com.alibaba.graphscope.proto.schema";
 import "common.proto";
 
 message GraphTopologyPartitionStrategy {
-    enum VertexPartitionStrategy {
-        VPS_UNDEFINED = 0;
-        VPS_ALL_REPLICATE = 1;
-        VPS_MAP_TO_ONE = 2;
-    }
-
-    enum EdgePlacementStrategy {
-        EPS_UNDEFINED = 0;
-        EPS_FOLLOW_SRC = 1;
-        EPS_FOLLOW_DST = 2;
-        EPS_FOLLOW_BOTH = 3;
-    }
-
     message AllReplicate {
         // replicate all vertices and edges
+        message AllReplicateVertex {};
+        message AllReplicateEdge {};
     }
 
     message VertexCut {
@@ -30,20 +19,41 @@ message GraphTopologyPartitionStrategy {
     message EdgeCut {
         // partition vertices first using MAP_TO_ONE strategy,
         // then place edges with certain placement strategy
-        EdgePlacementStrategy edge_partition = 1;
+        enum VertexPartitionStrategy {
+            VPS_UNDEFINED = 0;
+            VPS_RANGE_SPLIT = 1;
+            VPS_ROUND_ROBIN = 2;
+            VPS_HASH = 3;
+        }
+    
+        enum EdgePlacementStrategy {
+            EPS_UNDEFINED = 0;
+            EPS_FOLLOW_SRC = 1;
+            EPS_FOLLOW_DST = 2;
+            EPS_FOLLOW_BOTH = 3;
+        }
+
+        VertexPartitionStrategy vertex_partition = 1;
+        EdgePlacementStrategy edge_placement = 2;
     }
 
     message Hybrid {
         // partition vertices first using different strategies per type,
         // then place edges with different placement strategies per type
         message VertexTypePartition {
+            message HybridVertexPartitionStrategy {
+                oneof item {
+                    AllReplicate.AllReplicateVertex all_replicate = 1;
+                    EdgeCut.VertexPartitionStrategy vertex_partition = 2;
+                }
+            }
             VertexTypeIdentifier vertex_type_identifier = 1;
-            VertexPartitionStrategy vertex_partition = 2;
+            HybridVertexPartitionStrategy vertex_partition = 2;
         }
 
         message EdgeTypePlacment {
             EdgeTypeIdentifier edge_type_identifier = 1;
-            EdgePlacementStrategy edge_placement = 2;
+            EdgeCut.EdgePlacementStrategy edge_placement = 2;
         }
 
         repeated VertexTypePartition vertex_type_partition = 1;
