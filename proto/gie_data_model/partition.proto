@@ -6,49 +6,48 @@ option java_package = "com.alibaba.graphscope.proto.schema";
 import "common.proto";
 
 message GraphTopologyPartitionStrategy {
-    message AllReplicate {}
-
-    message EdgeCut {
-        enum EdgePartitionStrategy {
-            EPS_UNDEFINED = 0;
-            EPS_FOLLOW_SRC = 1;
-            EPS_FOLLOW_DST = 2;
-            EPS_FOLLOW_BOTH = 3;
-        }
-        EdgePartitionStrategy edge_partition = 1;
+    enum VertexPartitionStrategy {
+        VPS_UNDEFINED = 0;
+        VPS_ALL_REPLICATE = 1;
+        VPS_MAP_TO_ONE = 2;
     }
 
-    message VertexCut {}
+    enum EdgePlacementStrategy {
+        EPS_UNDEFINED = 0;
+        EPS_FOLLOW_SRC = 1;
+        EPS_FOLLOW_DST = 2;
+        EPS_FOLLOW_BOTH = 3;
+    }
+
+    message AllReplicate {
+        // replicate all vertices and edges
+    }
+
+    message VertexCut {
+        // partition edges first, then place vertices automatically
+    }
+
+    message EdgeCut {
+        // partition vertices first using MAP_TO_ONE strategy,
+        // then place edges with certain placement strategy
+        EdgePlacementStrategy edge_partition = 1;
+    }
 
     message Hybrid {
-        enum VertexPartitionStrategy {
-            VPS_UNDEFINED = 0;
-            VPS_ALL = 1;
-            VPS_ONE = 2;
-            VPS_FOLLOW_EDGE = 3;
-        }
-
-        enum EdgePartitionStrategy {
-            EPS_UNDEFINED = 0;
-            EPS_ALL = 1;
-            EPS_ONE = 2;
-            EPS_FOLLOW_SRC = 3;
-            EPS_FOLLOW_DST = 4;
-            EPS_FOLLOW_BOTH = 5;
-        }
-
+        // partition vertices first using different strategies per type,
+        // then place edges with different placement strategies per type
         message VertexTypePartition {
             VertexTypeIdentifier vertex_type_identifier = 1;
             VertexPartitionStrategy vertex_partition = 2;
         }
 
-        message EdgeTypePartition {
+        message EdgeTypePlacment {
             EdgeTypeIdentifier edge_type_identifier = 1;
-            EdgePartitionStrategy edge_partition = 2;
+            EdgePlacementStrategy edge_placement = 2;
         }
 
         repeated VertexTypePartition vertex_type_partition = 1;
-        repeated EdgeTypePartition edge_type_partition = 2;
+        repeated EdgeTypePlacment edge_type_placement = 2;
     }
 
     oneof item {
@@ -59,40 +58,40 @@ message GraphTopologyPartitionStrategy {
     }
 }
 
-message GraphPropertyPartitionStrategy {
-    enum PropertyPartitionStrategy {
+message GraphPropertyPlacementStrategy {
+    enum PropertyPlacementStrategy {
         PPS_UNDEFINED = 0;
-        PPS_MASTER = 1;
-        PPS_MASTER_MIRROR = 2;
+        PPS_ON_MASTER = 1;
+        PPS_ON_MASTER_N_MIRROR = 2;
     }
 
-    message VertexOrEdgePropertyPartition {
-        PropertyPartitionStrategy vertex_property_partition = 1;
-        PropertyPartitionStrategy edge_property_partition = 2;
+    message VertexOrEdgePropertyPlacement {
+        PropertyPlacementStrategy vertex_property_partition = 1;
+        PropertyPlacementStrategy edge_property_partition = 2;
     }
 
-    message TypePropertyPartition {
-        message VertexTypePropertyPartition {
+    message TypePropertyPlacement {
+        message VertexTypePropertyPlacement {
             VertexTypeIdentifier vertex_type_identifier = 1;
-            PropertyPartitionStrategy property_partition = 2;
+            PropertyPlacementStrategy property_partition = 2;
         }
 
-        message EdgeTypePropertyPartition {
+        message EdgeTypePropertyPlacement {
             EdgeTypeIdentifier edge_type_identifier = 1;
-            PropertyPartitionStrategy property_partition = 2;
+            PropertyPlacementStrategy property_partition = 2;
         }
 
-        repeated VertexTypePropertyPartition vertex_type_property_partition = 1;
-        repeated EdgeTypePropertyPartition edge_type_property_partition = 2;
+        repeated VertexTypePropertyPlacement vertex_type_property_partition = 1;
+        repeated EdgeTypePropertyPlacement edge_type_property_partition = 2;
     }
 
     oneof item {
-        VertexOrEdgePropertyPartition vertex_or_edge_property_partition = 1;
-        TypePropertyPartition type_property_partition = 2;
+        VertexOrEdgePropertyPlacement vertex_or_edge_property_partition = 1;
+        TypePropertyPlacement type_property_partition = 2;
     }
 }
 
 message GraphPartitionStrategy {
     GraphTopologyPartitionStrategy topology_partition = 1;
-    GraphPropertyPartitionStrategy property_partition = 2;
+    GraphPropertyPlacementStrategy property_partition = 2;
 }
