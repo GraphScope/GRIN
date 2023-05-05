@@ -800,7 +800,7 @@ typedef enum {
 
 /* Define the handlers using typedef */
 typedef void* GRIN_GRAPH;                      
-typedef void* GRIN_VERTEX;                     
+typedef void* GRIN_VERTEX;        // --> int64             
 typedef void* GRIN_EDGE;                       
 
 #ifdef GRIN_WITH_VERTEX_ORIGINAL_ID
@@ -841,8 +841,8 @@ typedef void* GRIN_EDGE_LIST_ITERATOR;
 
 #ifdef GRIN_ENABLE_GRAPH_PARTITION
 typedef void* GRIN_PARTITIONED_GRAPH;
-typedef void* GRIN_PARTITION;
-typedef void* GRIN_PARTITION_LIST;
+typedef void* GRIN_PARTITION;     // --> uint32
+typedef void* GRIN_PARTITION_LIST;   // --> uint32*
 #endif
 
 #ifdef GRIN_TRAIT_NATURAL_ID_FOR_PARTITION
@@ -850,7 +850,7 @@ typedef unsigned GRIN_PARTITION_ID;
 #endif
 
 #ifdef GRIN_ENABLE_VERTEX_REF
-typedef void* GRIN_VERTEX_REF;
+typedef void* GRIN_VERTEX_REF;   // --> int64
 #endif
 
 #ifdef GRIN_ENABLE_EDGE_REF
@@ -859,10 +859,10 @@ typedef void* GRIN_EDGE_REF;
 
 
 #ifdef GRIN_WITH_VERTEX_PROPERTY
-typedef void* GRIN_VERTEX_TYPE;
-typedef void* GRIN_VERTEX_TYPE_LIST;
-typedef void* GRIN_VERTEX_PROPERTY;
-typedef void* GRIN_VERTEX_PROPERTY_LIST;
+typedef void* GRIN_VERTEX_TYPE;   // --> uint32
+typedef void* GRIN_VERTEX_TYPE_LIST;  // --> uint32*
+typedef void* GRIN_VERTEX_PROPERTY;   // --> uint64
+typedef void* GRIN_VERTEX_PROPERTY_LIST;  // --> uint64*
 typedef void* GRIN_VERTEX_PROPERTY_TABLE;
 #endif
 
@@ -875,12 +875,12 @@ typedef unsigned GRIN_VERTEX_PROPERTY_ID;
 #endif
 
 #ifdef GRIN_WITH_EDGE_PROPERTY
-typedef void* GRIN_EDGE_TYPE;
-typedef void* GRIN_EDGE_TYPE_LIST;
+typedef void* GRIN_EDGE_TYPE;  // --> uint32
+typedef void* GRIN_EDGE_TYPE_LIST;  // --> uint32*
 typedef void* GRIN_VEV_TYPE;
 typedef void* GRIN_VEV_TYPE_LIST;
-typedef void* GRIN_EDGE_PROPERTY;
-typedef void* GRIN_EDGE_PROPERTY_LIST;
+typedef void* GRIN_EDGE_PROPERTY;  // --> uint64
+typedef void* GRIN_EDGE_PROPERTY_LIST; // --> uint64*
 typedef void* GRIN_EDGE_PROPERTY_TABLE;
 #endif
 
@@ -897,8 +897,8 @@ typedef void* GRIN_ROW;
 #endif
 
 #if defined(GRIN_WITH_VERTEX_LABEL) || defined(GRIN_WITH_EDGE_LABEL)
-typedef void* GRIN_LABEL;
-typedef void* GRIN_LABEL_LIST;
+typedef void* GRIN_LABEL;  // --> uint32
+typedef void* GRIN_LABEL_LIST; // --> uint32*
 #endif
 
 #endif  // GRIN_INCLUDE_PREDEFINE_H_
