@@ -8,8 +8,18 @@ import "statistics.proto";
 import "partition.proto";
 
 message DataModel {
-    map<int64, Schema> version_to_schema = 1;
-    map<int64, Statistics> version_to_statistics = 2;
+    VersionSchema version_schema = 1;
+    VersionStatistics version_statistics = 2;
 
     GraphPartitionStrategy partition_strategy = 3;
+}
+
+message VersionSchema {
+    int64 version = 1;
+    Schema schema = 2;
+}
+
+message VersionStatistics {
+    int64 version = 1;
+    Statistics statistics = 2;
 }
