@@ -34,11 +34,51 @@ void grin_destroy_row(GRIN_GRAPH, GRIN_ROW);
 /** @brief the value of a property from row by its position in row */
 const void* grin_get_value_from_row(GRIN_GRAPH, GRIN_ROW, GRIN_DATATYPE, size_t);
 
+int grin_get_int32_from_row(GRIN_GRAPH, GRIN_ROW, size_t);
+
+unsigned int grin_get_uint32_from_row(GRIN_GRAPH, GRIN_ROW, size_t);
+
+long long int grin_get_int64_from_row(GRIN_GRAPH, GRIN_ROW, size_t);
+
+unsigned long long int grin_get_uint64_from_row(GRIN_GRAPH, GRIN_ROW, size_t);
+
+float grin_get_float_from_row(GRIN_GRAPH, GRIN_ROW, size_t);
+
+double grin_get_double_from_row(GRIN_GRAPH, GRIN_ROW, size_t);
+
+const char* grin_get_string_from_row(GRIN_GRAPH, GRIN_ROW, size_t);
+
+int grin_get_date32_from_row(GRIN_GRAPH, GRIN_ROW, size_t);
+
+int grin_get_time32_from_row(GRIN_GRAPH, GRIN_ROW, size_t);
+
+long long int grin_get_timestamp64_from_row(GRIN_GRAPH, GRIN_ROW, size_t);
+
 /** @brief create a row, usually to get vertex/edge by primary keys */
 GRIN_ROW grin_create_row(GRIN_GRAPH);
 
 /** @brief insert a value to the end of the row */
 bool grin_insert_value_to_row(GRIN_GRAPH, GRIN_ROW, GRIN_DATATYPE, const void*);
+
+bool grin_insert_int32_to_row(GRIN_GRAPH, GRIN_ROW, int);
+
+bool grin_insert_uint32_to_row(GRIN_GRAPH, GRIN_ROW, unsigned int);
+
+bool grin_insert_int64_to_row(GRIN_GRAPH, GRIN_ROW, long long int);
+
+bool grin_insert_uint64_to_row(GRIN_GRAPH, GRIN_ROW, unsigned long long int);
+
+bool grin_insert_float_to_row(GRIN_GRAPH, GRIN_ROW, float);
+
+bool grin_insert_double_to_row(GRIN_GRAPH, GRIN_ROW, double);
+
+bool grin_insert_string_to_row(GRIN_GRAPH, GRIN_ROW, const char*);
+
+bool grin_insert_date32_to_row(GRIN_GRAPH, GRIN_ROW, int);
+
+bool grin_insert_time32_to_row(GRIN_GRAPH, GRIN_ROW, int);
+
+bool grin_insert_timestamp64_to_row(GRIN_GRAPH, GRIN_ROW, long long int);
 #endif
 ///@}
 
@@ -69,6 +109,26 @@ GRIN_VERTEX_PROPERTY_TABLE grin_get_vertex_property_table_by_type(GRIN_GRAPH, GR
  * @return can be casted to the property data type by the caller
  */
 const void* grin_get_value_from_vertex_property_table(GRIN_GRAPH, GRIN_VERTEX_PROPERTY_TABLE, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
+
+int grin_get_int32_from_vertex_property_table(GRIN_GRAPH, GRIN_VERTEX_PROPERTY_TABLE, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
+
+unsigned int grin_get_uint32_from_vertex_property_table(GRIN_GRAPH, GRIN_VERTEX_PROPERTY_TABLE, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
+
+long long int grin_get_int64_from_vertex_property_table(GRIN_GRAPH, GRIN_VERTEX_PROPERTY_TABLE, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
+
+unsigned long long int grin_get_uint64_from_vertex_property_table(GRIN_GRAPH, GRIN_VERTEX_PROPERTY_TABLE, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
+
+float grin_get_float_from_vertex_property_table(GRIN_GRAPH, GRIN_VERTEX_PROPERTY_TABLE, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
+
+double grin_get_double_from_vertex_property_table(GRIN_GRAPH, GRIN_VERTEX_PROPERTY_TABLE, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
+
+const char* grin_get_string_from_vertex_property_table(GRIN_GRAPH, GRIN_VERTEX_PROPERTY_TABLE, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
+
+int grin_get_date32_from_vertex_property_table(GRIN_GRAPH, GRIN_VERTEX_PROPERTY_TABLE, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
+
+int grin_get_time32_from_vertex_property_table(GRIN_GRAPH, GRIN_VERTEX_PROPERTY_TABLE, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
+
+long long int grin_get_timestamp64_from_vertex_property_table(GRIN_GRAPH, GRIN_VERTEX_PROPERTY_TABLE, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
 #endif
 
 #if defined(GRIN_ENABLE_VERTEX_PROPERTY_TABLE) && defined(GRIN_ENABLE_ROW)
@@ -118,6 +178,26 @@ GRIN_EDGE_PROPERTY_TABLE grin_get_edge_property_table_by_type(GRIN_GRAPH, GRIN_E
  * @return can be casted to the property data type by the caller
  */
 const void* grin_get_value_from_edge_property_table(GRIN_GRAPH, GRIN_EDGE_PROPERTY_TABLE, GRIN_EDGE, GRIN_EDGE_PROPERTY);
+
+int grin_get_int32_from_edge_property_table(GRIN_GRAPH, GRIN_EDGE_PROPERTY_TABLE, GRIN_EDGE, GRIN_EDGE_PROPERTY);
+
+unsigned int grin_get_uint32_from_edge_property_table(GRIN_GRAPH, GRIN_EDGE_PROPERTY_TABLE, GRIN_EDGE, GRIN_EDGE_PROPERTY);
+
+long long int grin_get_int64_from_edge_property_table(GRIN_GRAPH, GRIN_EDGE_PROPERTY_TABLE, GRIN_EDGE, GRIN_EDGE_PROPERTY);
+
+unsigned long long int grin_get_uint64_from_edge_property_table(GRIN_GRAPH, GRIN_EDGE_PROPERTY_TABLE, GRIN_EDGE, GRIN_EDGE_PROPERTY);
+
+float grin_get_float_from_edge_property_table(GRIN_GRAPH, GRIN_EDGE_PROPERTY_TABLE, GRIN_EDGE, GRIN_EDGE_PROPERTY);
+
+double grin_get_double_from_edge_property_table(GRIN_GRAPH, GRIN_EDGE_PROPERTY_TABLE, GRIN_EDGE, GRIN_EDGE_PROPERTY);
+
+const char* grin_get_string_from_edge_property_table(GRIN_GRAPH, GRIN_EDGE_PROPERTY_TABLE, GRIN_EDGE, GRIN_EDGE_PROPERTY);
+
+int grin_get_date32_from_edge_property_table(GRIN_GRAPH, GRIN_EDGE_PROPERTY_TABLE, GRIN_EDGE, GRIN_EDGE_PROPERTY);
+
+int grin_get_time32_from_edge_property_table(GRIN_GRAPH, GRIN_EDGE_PROPERTY_TABLE, GRIN_EDGE, GRIN_EDGE_PROPERTY);
+
+long long int grin_get_timestamp64_from_edge_property_table(GRIN_GRAPH, GRIN_EDGE_PROPERTY_TABLE, GRIN_EDGE, GRIN_EDGE_PROPERTY);
 #endif
 
 #if defined(GRIN_ENABLE_EDGE_PROPERTY_TABLE) && defined(GRIN_ENABLE_ROW)
