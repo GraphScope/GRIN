@@ -32,4 +32,18 @@ double grin_get_double(const void*);
 
 const char* grin_get_string(const void*);
 
+const void* grin_put_int32(int);
+
+const void* grin_put_uint32(unsigned int);
+
+const void* grin_put_int64(long long int);
+
+const void* grin_put_uint64(unsigned long long int);
+
+const void* grin_put_float(float);
+
+const void* grin_put_double(double);
+
+const void* grin_put_string(const char*);
+
 #endif  // GRIN_INCLUDE_TOPOLOGY_DATATYPE_H_
