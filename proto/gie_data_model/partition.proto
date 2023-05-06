@@ -19,11 +19,22 @@ message GraphTopologyPartitionStrategy {
     message EdgeCut {
         // partition vertices first using MAP_TO_ONE strategy,
         // then place edges with certain placement strategy
-        enum VertexPartitionStrategy {
-            VPS_UNDEFINED = 0;
-            VPS_RANGE_SPLIT = 1;
-            VPS_ROUND_ROBIN = 2;
-            VPS_HASH = 3;
+        message VertexPartitionStrategy {
+            enum Kind {
+                VPS_UNDEFINED = 0;
+                VPS_RANGE_SPLIT = 1;
+                VPS_ROUND_ROBIN = 2;
+                VPS_HASH = 3;
+            }
+            message Key {
+                message OID {}
+                oneof item {
+                    OID oid = 1;
+                    string property_name = 2;
+                }
+            }
+            Kind kind = 1;
+            repeated Key keys = 2;
         }
     
         enum EdgePlacementStrategy {
@@ -51,13 +62,13 @@ message GraphTopologyPartitionStrategy {
             HybridVertexPartitionStrategy vertex_partition = 2;
         }
 
-        message EdgeTypePlacment {
+        message EdgeTypePlacement {
             EdgeTypeIdentifier edge_type_identifier = 1;
             EdgeCut.EdgePlacementStrategy edge_placement = 2;
         }
 
         repeated VertexTypePartition vertex_type_partition = 1;
-        repeated EdgeTypePlacment edge_type_placement = 2;
+        repeated EdgeTypePlacement edge_type_placement = 2;
     }
 
     oneof item {
@@ -75,12 +86,14 @@ message GraphPropertyPlacementStrategy {
         PPS_ON_MASTER_N_MIRROR = 2;
     }
 
-    message VertexOrEdgePropertyPlacement {
+    // for AllReplicate/EdgeCut/VertexCut
+    message DefaultPropertyPlacement {
         PropertyPlacementStrategy vertex_property_partition = 1;
         PropertyPlacementStrategy edge_property_partition = 2;
     }
 
-    message TypePropertyPlacement {
+    // for Hybrid
+    message HybridPropertyPlacement {
         message VertexTypePropertyPlacement {
             VertexTypeIdentifier vertex_type_identifier = 1;
             PropertyPlacementStrategy property_partition = 2;
@@ -96,8 +109,8 @@ message GraphPropertyPlacementStrategy {
     }
 
     oneof item {
-        VertexOrEdgePropertyPlacement vertex_or_edge_property_partition = 1;
-        TypePropertyPlacement type_property_partition = 2;
+        DefaultPropertyPlacement default_property_partition = 1;
+        HybridPropertyPlacement hybrid_property_partition = 2;
     }
 }
 

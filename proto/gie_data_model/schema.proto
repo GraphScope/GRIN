@@ -14,42 +14,33 @@ enum Relation {
 }
 
 message EntityPair {
-    SrcIdentifier src_identifier = 1;
-    DstIdentifier dst_identifier = 2;
+    uint32 src_type_id = 1;
+    uint32 dst_type_id = 2;
     Relation relation = 3;
 }
 
 message Property {
     uint32 property_id = 1;
     string property_name = 2;
-    PropertyType property_type = 3;
+    StorageDataType property_type = 3;
 }
 
 message VertexType {
     uint32 type_id = 1;
     string type_name = 2;
     repeated Property properties = 3;
-    repeated string primary_keys = 4;
-    // label candidates
-    repeated uint32 label_ids = 5;
+    repeated uint32 primary_key_ids = 4;
 }
 
 message EdgeType {
     uint32 type_id = 1;
     string type_name = 2;
     repeated Property properties = 3;
-    repeated string primary_keys = 4;
+    repeated uint32 primary_key_ids = 4;
     repeated EntityPair entity_pairs = 5;
-}
-
-message Label {
-    uint32 label_id = 1;
-    string label_name = 2;
 }
 
 message Schema {
     repeated VertexType vertex_types = 1;
     repeated EdgeType edge_types = 2;
-
-    repeated Label labels = 3;
 }

@@ -11,6 +11,7 @@ enum EnumerableType { // type can be denoted by 'enum'
     DT_UNSIGNED_INT64 = 4;
     DT_FLOAT = 5;
     DT_DOUBLE = 6;
+    DT_STRING = 7; // string with unlimited length
 }
 
 message Numeric { // precision=4 scale=2 : 23.12 
@@ -31,38 +32,22 @@ message VarChar {
 enum DateFormat {
     DF_UNKNOWN = 0;
     DF_YYYY_MM_DD = 1; // ISO fomat: 2019-01-01
-    DF_YYYY_MM = 2; // 2019-01
-    DF_YYYY_Www_D = 3; // 2019-W01-1
-    DF_YYYY_Www = 4; // 2019-W01
-    DF_YYYY_Qq_DD = 6; // 2019-Q1-01
-    DF_YYYY_Qq = 7; // 2019-Q1
-    DF_YYYY_DDD = 8; // 2019-001
-    DF_YYYY = 9; // 2019
 }
 
 enum TimeFormat {
     TF_UNKNOWN = 0;
-    TF_HH_MM_SS = 1; // ISO format: 00:00:00
-    TF_HH_MM_SS_SSS = 2; // 00:00:00.000
-    TF_HH_MM = 3; // 00:00
-    TF_HH = 4; // 00
-    TF_T_HH_MM_SS = 5; // neo4j: T00:00:00
-    TF_T_HH_MM_SS_SSS = 6; // T00:00:00.000
-    TF_T_HH_MM = 7; // T00:00
-    TF_T_HH = 8; // T00
+    TF_HH_MM_SS_SSS = 1; // ISO format: 00:00:00.000
 }
 
 enum DateTimeFormat {
     DTF_UNKNOWN = 0;
-    DTF_DF_SPACE_TF = 1; // ISO format: 2019-01-01 00:00:00
-    DTF_DF_TF = 2; // neo4j: 2019-01-01T00:00:00
+    DTF_DF_TF = 1; // ISO format: 2019-01-01 00:00:00.000
 }
 
 enum TimeZoneFormat {
     TZF_UNKNOWN = 0;
     TZF_UTC = 1; // Z
     TZF_OFFSET = 2; // +08:00 or -08:00
-    TZF_IANA_ZONE_NAME = 4; // [Asia/Shanghai]
 }
 
 message Date {
@@ -83,7 +68,7 @@ message TimeZone {
     TimeZoneFormat format = 1;
 }
 
-message PropertyType {
+message StorageDataType {
     oneof item {
         EnumerableType enum_type = 1;
         Numeric numeric = 2;

@@ -7,18 +7,8 @@ message VertexTypeIdentifier {
     uint32 type_id = 1;
 }
 
-message SrcIdentifier {
-    uint32 type_id = 1;
-    optional uint32 label_id = 2;
-}
-
-message DstIdentifier {
-    uint32 type_id = 1;
-    optional uint32 label_id = 2;
-}
-
 message EdgeTypeIdentifier {
     uint32 type_id = 1;
-    SrcIdentifier src_identifier = 2;
-    DstIdentifier dst_identifier = 3;
+    uint32 src_type_id = 2;
+    uint32 dst_type_id = 3;
 }
