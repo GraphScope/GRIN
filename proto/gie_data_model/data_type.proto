@@ -9,9 +9,10 @@ enum EnumerableType { // type can be denoted by 'enum'
     DT_UNSIGNED_INT32 = 2;
     DT_SIGNED_INT64 = 3;
     DT_UNSIGNED_INT64 = 4;
-    DT_FLOAT = 5;
-    DT_DOUBLE = 6;
-    DT_STRING = 7; // string with unlimited length
+    DT_BOOL = 5;
+    DT_FLOAT = 6;
+    DT_DOUBLE = 7;
+    DT_STRING = 8; // string with unlimited length
 }
 
 message Numeric { // precision=4 scale=2 : 23.12 
@@ -56,16 +57,12 @@ message Date {
 
 message Time {
     TimeFormat format = 1;
-    TimeZone time_zone = 2;
+    TimeZoneFormat time_zone = 2;
 }
 
 message DateTime {
     DateTimeFormat format = 1;
-    TimeZone time_zone = 2;
-}
-
-message TimeZone {
-    TimeZoneFormat format = 1;
+    TimeZoneFormat time_zone = 2;
 }
 
 message StorageDataType {
@@ -77,7 +74,6 @@ message StorageDataType {
         Date date = 5;
         Time time = 6;
         DateTime date_time = 7;
-        TimeZone time_zone = 8;
     }
 
     bool nullable = 9;
