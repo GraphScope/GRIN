@@ -4,6 +4,7 @@ package gie;
 option java_package = "com.alibaba.graphscope.proto.schema";
 
 import "common.proto";
+import "schema.proto";
 
 message GraphTopologyPartitionStrategy {
     message AllReplicate {
@@ -20,21 +21,23 @@ message GraphTopologyPartitionStrategy {
         // partition vertices first using MAP_TO_ONE strategy,
         // then place edges with certain placement strategy
         message VertexPartitionStrategy {
-            enum Kind {
+            enum PartitionKind {
                 VPS_UNDEFINED = 0;
                 VPS_RANGE_SPLIT = 1;
                 VPS_ROUND_ROBIN = 2;
                 VPS_HASH = 3;
             }
-            message Key {
-                message OID {}
+            message PartitionKey {
+                message PropertyKeys {
+                    repeated string property_names = 1;
+                }
                 oneof item {
-                    OID oid = 1;
-                    string property_name = 2;
+                    NativeId native_id = 1;
+                    PropertyKeys property_keys = 2;
                 }
             }
-            Kind kind = 1;
-            repeated Key keys = 2;
+            PartitionKind partition_kind = 1;
+            PartitionKey partition_key = 2;
         }
     
         enum EdgePlacementStrategy {
