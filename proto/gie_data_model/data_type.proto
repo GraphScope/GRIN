@@ -76,5 +76,5 @@ message StorageDataType {
         DateTime date_time = 7;
     }
 
-    bool nullable = 9;
+    bool nullable = 8;
 }
