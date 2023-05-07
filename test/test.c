@@ -12,7 +12,6 @@
 #include "../include/property/topology.h"
 #include "../include/property/type.h"
 #include "../include/topology/adjacentlist.h"
-#include "../include/topology/datatype.h"
 #include "../include/topology/edgelist.h"
 #include "../include/topology/structure.h"
 #include "../include/topology/vertexlist.h"
