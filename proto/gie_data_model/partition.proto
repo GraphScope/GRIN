@@ -3,15 +3,10 @@ syntax = "proto3";
 package gie;
 option java_package = "com.alibaba.graphscope.proto.schema";
 
-import "common.proto";
 import "schema.proto";
 
 message GraphTopologyPartitionStrategy {
-    message AllReplicate {
-        // replicate all vertices and edges
-        message AllReplicateVertex {};
-        message AllReplicateEdge {};
-    }
+    message AllReplicate {}
 
     message VertexCut {
         // partition edges first, then place vertices automatically
@@ -28,11 +23,12 @@ message GraphTopologyPartitionStrategy {
                 VPS_HASH = 3;
             }
             message PartitionKey {
+                message NativeIdKey {}
                 message PropertyKeys {
                     repeated string property_names = 1;
                 }
                 oneof item {
-                    NativeId native_id = 1;
+                    NativeIdKey native_id_key = 1;
                     PropertyKeys property_keys = 2;
                 }
             }
@@ -51,73 +47,44 @@ message GraphTopologyPartitionStrategy {
         EdgePlacementStrategy edge_placement = 2;
     }
 
-    message Hybrid {
-        // partition vertices first using different strategies per type,
-        // then place edges with different placement strategies per type
-        message VertexTypePartition {
-            message HybridVertexPartitionStrategy {
-                oneof item {
-                    AllReplicate.AllReplicateVertex all_replicate = 1;
-                    EdgeCut.VertexPartitionStrategy vertex_partition = 2;
-                }
-            }
-            VertexTypeIdentifier vertex_type_identifier = 1;
-            HybridVertexPartitionStrategy vertex_partition = 2;
-        }
+    message AdvancedEdgeCut {
+        // Categorize the vertex types into two groups based on partition strategy: one is 'all_replicate', and the other is 'edge_cut'.
+        repeated uint32 all_replicate_vertex_type_ids = 1;
+        repeated uint32 edge_cut_vertex_type_ids = 2;
 
-        message EdgeTypePlacement {
-            EdgeTypeIdentifier edge_type_identifier = 1;
-            EdgeCut.EdgePlacementStrategy edge_placement = 2;
-        }
-
-        repeated VertexTypePartition vertex_type_partition = 1;
-        repeated EdgeTypePlacement edge_type_placement = 2;
+        // The placement strategy of the edge is related to the partition strategy of the two endpoints, which follows these rules:
+        // 1. If the src is 'all_replicate' and the dst is 'edge_cut', then the placement of the edge is 'EPS_FOLLOW_DST'.
+        // 2. If the src is 'edge_cut' and the dst is 'all_replicate', then the placement of the edge is 'EPS_FOLLOW_SRC'.
+        // 3. If both the src and dst are 'edge_cut', then the placement of the edge is 'EPS_FOLLOW_BOTH'.
+        // 4. If both the src and dst are 'all_replicate', then the placement of the edge can be any of 'EPS_FOLLOW_SRC/EPS_FOLLOW_DST/EPS_FOLLOW_BOTH', but we tentatively set it to 'EPS_FOLLOW_SRC'.
     }
 
     oneof item {
         AllReplicate replicate = 1;
         EdgeCut edge_cut = 2;
         VertexCut vertex_cut = 3;
-        Hybrid hybrid = 4;
+        AdvancedEdgeCut advanced_edge_cut = 4;
     }
 }
 
 message GraphPropertyPlacementStrategy {
-    enum PropertyPlacementStrategy {
+    // This strategy assumes that properties are always distributed along with the topology of the vertices/edges, and are divided into the following three cases:
+    enum PropertyFollowTopologyPlacementStrategy {
         PPS_UNDEFINED = 0;
-        PPS_ON_MASTER = 1;
-        PPS_ON_MASTER_N_MIRROR = 2;
+        // Properties exist in each partition where the vertex/edge topology resides, which is the only case we currently have.
+        // Specifically, in EdgeCut, even though the vertex properties exist only once in the partition where the topology resides, we still consider this case as 'PPS_ON_ALL'.
+        PPS_ON_ALL = 1;
+        // Properties exist only in one of partitions (i.e., the master node in GRIN) where the vertex/edge topology resides.
+        PPS_ON_ONE = 2;
+        // Properties are split into different partitions where the vertex/edge topology resides.
+        PPS_ON_SPLIT = 3;
     }
+    PropertyFollowTopologyPlacementStrategy property_placement_strategy = 1;
 
-    // for AllReplicate/EdgeCut/VertexCut
-    message DefaultPropertyPlacement {
-        PropertyPlacementStrategy vertex_property_partition = 1;
-        PropertyPlacementStrategy edge_property_partition = 2;
-    }
-
-    // for Hybrid
-    message HybridPropertyPlacement {
-        message VertexTypePropertyPlacement {
-            VertexTypeIdentifier vertex_type_identifier = 1;
-            PropertyPlacementStrategy property_partition = 2;
-        }
-
-        message EdgeTypePropertyPlacement {
-            EdgeTypeIdentifier edge_type_identifier = 1;
-            PropertyPlacementStrategy property_partition = 2;
-        }
-
-        repeated VertexTypePropertyPlacement vertex_type_property_partition = 1;
-        repeated EdgeTypePropertyPlacement edge_type_property_partition = 2;
-    }
-
-    oneof item {
-        DefaultPropertyPlacement default_property_partition = 1;
-        HybridPropertyPlacement hybrid_property_partition = 2;
-    }
+    // Other strategies, i.e., properties are not distributed along with the topology, are not currently being considered.
 }
 
 message GraphPartitionStrategy {
     GraphTopologyPartitionStrategy topology_partition = 1;
-    GraphPropertyPlacementStrategy property_partition = 2;
+    GraphPropertyPlacementStrategy property_placement = 2;
 }

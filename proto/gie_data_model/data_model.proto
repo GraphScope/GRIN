@@ -10,16 +10,15 @@ import "partition.proto";
 message DataModel {
     VersionSchema version_schema = 1;
     VersionStatistics version_statistics = 2;
-
-    GraphPartitionStrategy partition_strategy = 3;
 }
 
 message VersionSchema {
-    int64 version = 1;
+    string version = 1;
     Schema schema = 2;
+    GraphPartitionStrategy partition_strategy = 3;
 }
 
 message VersionStatistics {
-    int64 version = 1;
+    string version = 1;
     Statistics statistics = 2;
 }
