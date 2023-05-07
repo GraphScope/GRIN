@@ -52,17 +52,17 @@ enum TimeZoneFormat {
 }
 
 message Date {
-    DateFormat format = 1;
+    DateFormat date_format = 1;
 }
 
 message Time {
-    TimeFormat format = 1;
-    TimeZoneFormat time_zone = 2;
+    TimeFormat time_format = 1;
+    TimeZoneFormat time_zone_format = 2;
 }
 
 message DateTime {
-    DateTimeFormat format = 1;
-    TimeZoneFormat time_zone = 2;
+    DateTimeFormat date_time_format = 1;
+    TimeZoneFormat time_zone_format = 2;
 }
 
 message StorageDataType {
