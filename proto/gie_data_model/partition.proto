@@ -52,6 +52,8 @@ message GraphTopologyPartitionStrategy {
         repeated uint32 all_replicate_vertex_type_ids = 1;
         repeated uint32 edge_cut_vertex_type_ids = 2;
 
+        EdgeCut.VertexPartitionStrategy edge_cut_vertex_partition = 3;
+
         // The placement strategy of the edge is related to the partition strategy of the two endpoints, which follows these rules:
         // 1. If the src is 'all_replicate' and the dst is 'edge_cut', then the placement of the edge is 'EPS_FOLLOW_DST'.
         // 2. If the src is 'edge_cut' and the dst is 'all_replicate', then the placement of the edge is 'EPS_FOLLOW_SRC'.
@@ -79,7 +81,10 @@ message GraphPropertyPlacementStrategy {
         // Properties are split into different partitions where the vertex/edge topology resides.
         PPS_ON_SPLIT = 3;
     }
-    PropertyFollowTopologyPlacementStrategy property_placement_strategy = 1;
+    
+    PropertyFollowTopologyPlacementStrategy all_replicate_vertex_property_placement_strategy = 1;
+    PropertyFollowTopologyPlacementStrategy edge_cut_vertex_property_placement_strategy = 2;
+    PropertyFollowTopologyPlacementStrategy edge_property_placement_strategy = 3;
 
     // Other strategies, i.e., properties are not distributed along with the topology, are not currently being considered.
 }
