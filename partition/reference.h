@@ -61,6 +61,8 @@ bool grin_is_mirror_vertex(GRIN_GRAPH, GRIN_VERTEX);
 
 #ifdef GRIN_TRAIT_FAST_VERTEX_REF
 long long int grin_serialize_vertex_ref_as_int64(GRIN_GRAPH, GRIN_VERTEX_REF);
+
+GRIN_VERTEX_REF grin_deserialize_vertex_ref_from_int64(GRIN_GRAPH, long long int);
 #endif
 
 #ifdef GRIN_TRAIT_MASTER_VERTEX_MIRROR_PARTITION_LIST
