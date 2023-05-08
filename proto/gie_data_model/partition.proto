@@ -70,23 +70,39 @@ message GraphTopologyPartitionStrategy {
 }
 
 message GraphPropertyPlacementStrategy {
-    // This strategy assumes that properties are always distributed along with the topology of the vertices/edges, and are divided into the following three cases:
-    enum PropertyFollowTopologyPlacementStrategy {
+    // This strategy assumes that properties are always distributed along with the topology of the vertices/edges. 
+    // Other strategies, i.e., properties are not distributed along with the topology, are not currently being considered.
+    enum PropertyPlacementStrategy {
         PPS_UNDEFINED = 0;
-        // Properties exist in each partition where the vertex/edge topology resides, which is the only case we currently have.
-        // Specifically, in EdgeCut, even though the vertex properties exist only once in the partition where the topology resides, we still consider this case as 'PPS_ON_ALL'.
-        PPS_ON_ALL = 1;
         // Properties exist only in one of partitions (i.e., the master node in GRIN) where the vertex/edge topology resides.
-        PPS_ON_ONE = 2;
-        // Properties are split into different partitions where the vertex/edge topology resides.
-        PPS_ON_SPLIT = 3;
+        // i.e., In EdgeCut, the vertex properties exist only once in the partition where the vertex topology resides, we consider this case as 'PPS_ON_MASTER'.
+        PPS_ON_MASTER = 1;
+        // Properties exist in each partition where the vertex/edge topology resides.
+        // i.e., In EdgeCut, the edge properties exist in each partition where the edge topology resides, we consider this case as 'PPS_ON_MASTER_N_MIRROR'.
+        PPS_ON_MASTER_N_MIRROR = 2;
+    }
+
+    message AllReplicatePropertyPlacement {
+        PropertyPlacementStrategy all_replicate_vertex_property_placement_strategy = 1;
+        PropertyPlacementStrategy all_replicate_edge_property_placement_strategy = 2;
+    }
+
+    // Combine the EdgeCut and AdvancedEdgeCut partition strategies.
+    message EdgeCutPropertyPlacement {
+        PropertyPlacementStrategy all_replicate_vertex_property_placement_strategy = 1;
+        PropertyPlacementStrategy edge_cut_vertex_property_placement_strategy = 2;
+        PropertyPlacementStrategy edge_cut_edge_property_placement_strategy = 3;
     }
     
-    PropertyFollowTopologyPlacementStrategy all_replicate_vertex_property_placement_strategy = 1;
-    PropertyFollowTopologyPlacementStrategy edge_cut_vertex_property_placement_strategy = 2;
-    PropertyFollowTopologyPlacementStrategy edge_property_placement_strategy = 3;
+    message VertexCutPropertyPlacement {
+        // property placement in VertexCut is not considered currently.
+    }
 
-    // Other strategies, i.e., properties are not distributed along with the topology, are not currently being considered.
+    oneof item {
+        AllReplicatePropertyPlacement all_replicate_property_placement = 1;
+        EdgeCutPropertyPlacement edge_cut_property_placement = 2;
+        VertexCutPropertyPlacement vertex_cut_property_placement = 3;
+    }
 }
 
 message GraphPartitionStrategy {
