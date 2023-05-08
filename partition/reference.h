@@ -59,6 +59,10 @@ bool grin_is_master_vertex(GRIN_GRAPH, GRIN_VERTEX);
 bool grin_is_mirror_vertex(GRIN_GRAPH, GRIN_VERTEX);
 #endif
 
+#ifdef GRIN_TRAIT_FAST_VERTEX_REF
+long long int grin_serialize_vertex_ref_as_int64(GRIN_GRAPH, GRIN_VERTEX_REF);
+#endif
+
 #ifdef GRIN_TRAIT_MASTER_VERTEX_MIRROR_PARTITION_LIST
 GRIN_PARTITION_LIST grin_get_master_vertex_mirror_partition_list(GRIN_GRAPH, GRIN_VERTEX);
 #endif

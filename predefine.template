@@ -204,6 +204,12 @@ typedef enum {
 #define GRIN_ENABLE_VERTEX_REF
 
 /** @ingroup PartitionMacros
+ * @brief The storage provides fast reference of vertex, which means
+ * the vertex ref can be serialized into a int64 using grin_serialize_vertex_ref_as_int64
+*/
+#define GRIN_TRAIT_FAST_VERTEX_REF
+
+/** @ingroup PartitionMacros
  * @brief The storage provides reference of edge that can be
  * recognized in other partitions where the edge also appears.
 */
@@ -366,6 +372,7 @@ typedef enum {
 #undef GRIN_ENABLE_GRAPH_PARTITION
 #undef GRIN_TRAIT_NATURAL_ID_FOR_PARTITION
 #undef GRIN_ENABLE_VERTEX_REF
+#undef GRIN_TRAIT_FAST_VERTEX_REF
 #undef GRIN_ENABLE_EDGE_REF
 #undef GRIN_ASSUME_ALL_REPLICATE_PARTITION
 #undef GRIN_ASSUME_EDGE_CUT_PARTITION
