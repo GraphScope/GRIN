@@ -61,6 +61,8 @@ message PartitionFeature {
     bool grin_trait_select_partition_for_edge_list = 11;
     bool grin_trait_select_master_neighbor_for_adjacent_list = 12;
     bool grin_trait_select_neighbor_partition_for_adjacent_list = 13;
+
+    bool grin_trait_fast_vertex_ref = 14;
 }
 
 message VertexPropertyFeature {
