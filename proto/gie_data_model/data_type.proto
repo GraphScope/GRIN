@@ -4,15 +4,14 @@ package gie;
 option java_package = "com.alibaba.graphscope.proto.schema";
 
 enum EnumerableType { // type can be denoted by 'enum'
-    DT_UNKNOWN = 0;
-    DT_SIGNED_INT32 = 1;
-    DT_UNSIGNED_INT32 = 2;
-    DT_SIGNED_INT64 = 3;
-    DT_UNSIGNED_INT64 = 4;
-    DT_BOOL = 5;
-    DT_FLOAT = 6;
-    DT_DOUBLE = 7;
-    DT_STRING = 8; // string with unlimited length
+    DT_SIGNED_INT32 = 0;
+    DT_UNSIGNED_INT32 = 1;
+    DT_SIGNED_INT64 = 2;
+    DT_UNSIGNED_INT64 = 3;
+    DT_BOOL = 4;
+    DT_FLOAT = 5;
+    DT_DOUBLE = 6;
+    DT_STRING = 7; // string with unlimited length
 }
 
 message Numeric { // precision=4 scale=2 : 23.12 
@@ -31,24 +30,20 @@ message VarChar {
 // temporal types
 
 enum DateFormat {
-    DF_UNKNOWN = 0;
-    DF_YYYY_MM_DD = 1; // ISO fomat: 2019-01-01
+    DF_YYYY_MM_DD = 0; // ISO fomat: 2019-01-01
 }
 
 enum TimeFormat {
-    TF_UNKNOWN = 0;
-    TF_HH_MM_SS_SSS = 1; // ISO format: 00:00:00.000
+    TF_HH_MM_SS_SSS = 0; // ISO format: 00:00:00.000
 }
 
 enum DateTimeFormat {
-    DTF_UNKNOWN = 0;
-    DTF_DF_TF = 1; // ISO format: 2019-01-01 00:00:00.000
+    DTF_DF_TF = 0; // ISO format: 2019-01-01 00:00:00.000
 }
 
 enum TimeZoneFormat {
-    TZF_UNKNOWN = 0;
-    TZF_UTC = 1; // Z
-    TZF_OFFSET = 2; // +08:00 or -08:00
+    TZF_UTC = 0; // Z
+    TZF_OFFSET = 1; // +08:00 or -08:00
 }
 
 message Date {

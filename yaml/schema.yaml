@@ -1,0 +1,55 @@
+gs.gie.dbms.graph:
+  name: modern
+  graph:
+    snapshot_id: xx
+    schema:
+      vertex_types:
+        - type_id: 0
+          type_name: "person"
+          properties:
+            - property_id: 0
+              property_name: "id"
+              property_type: "DT_UNSIGNED_INT64"
+            - property_id: 1
+              property_name: "name"
+              property_type: "DT_STRING"
+            - property_id: 2
+              property_name: "age"
+              property_type: "DT_UNSIGNED_INT32"
+          primary_key_ids: [0]
+        - type_id: 1
+          type_name: "software"
+          properties:
+            - property_id: 0
+              property_name: "id"
+              property_type: "DT_UNSIGNED_INT64"
+            - property_id: 1
+              property_name: "name"
+              property_type: "DT_STRING"
+            - property_id: 2
+              property_name: "lang"
+              property_type: "DT_STRING"
+          primary_key_ids: [0]
+      edge_types:
+        - type_id: 0
+          type_name: "knows"
+          properties:
+            - property_id: 0
+              property_name: "weight"
+              property_type: "DT_DOUBLE"
+          primary_key_ids: []
+          entity_pair_relations:
+            - src_type_id: 0
+              dst_type_id: 0
+              relation: "MANY_TO_MANY"
+        - type_id: 1
+          type_name: "created"
+          properties:
+            - property_id: 0
+              property_name: "weight"
+              property_type: "DT_DOUBLE"
+          primary_key_ids: []
+          entity_pair_relations:
+            - src_type_id: 0
+              dst_type_id: 1
+              relation: "MANY_TO_MANY"
