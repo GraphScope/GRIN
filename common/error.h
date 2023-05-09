@@ -20,7 +20,7 @@ limitations under the License.
 
 #include "../../predefine.h"
 
-__thread GRIN_ERROR_CODE grin_error_code;
+extern __thread GRIN_ERROR_CODE grin_error_code;
 
 GRIN_ERROR_CODE grin_get_last_error_code();
 
