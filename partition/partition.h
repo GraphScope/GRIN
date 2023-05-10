@@ -48,11 +48,11 @@ void grin_destroy_partition(GRIN_PARTITIONED_GRAPH, GRIN_PARTITION);
 
 const void* grin_get_partition_info(GRIN_PARTITIONED_GRAPH, GRIN_PARTITION);
 
-GRIN_GRAPH grin_get_local_graph_from_partition(GRIN_PARTITIONED_GRAPH, GRIN_PARTITION);
+GRIN_GRAPH grin_get_local_graph_by_partition(GRIN_PARTITIONED_GRAPH, GRIN_PARTITION);
 #endif
 
 #ifdef GRIN_TRAIT_NATURAL_ID_FOR_PARTITION
-GRIN_PARTITION grin_get_partition_from_id(GRIN_PARTITIONED_GRAPH, GRIN_PARTITION_ID);
+GRIN_PARTITION grin_get_partition_by_id(GRIN_PARTITIONED_GRAPH, GRIN_PARTITION_ID);
 
 GRIN_PARTITION_ID grin_get_partition_id(GRIN_PARTITIONED_GRAPH, GRIN_PARTITION);
 #endif

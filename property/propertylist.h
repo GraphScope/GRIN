@@ -35,14 +35,15 @@ bool grin_insert_vertex_property_to_list(GRIN_GRAPH, GRIN_VERTEX_PROPERTY_LIST, 
 #endif
 
 #ifdef GRIN_TRAIT_NATURAL_ID_FOR_VERTEX_PROPERTY
-GRIN_VERTEX_PROPERTY grin_get_vertex_property_from_id(GRIN_GRAPH, GRIN_VERTEX_TYPE, GRIN_VERTEX_PROPERTY_ID);
+GRIN_VERTEX_PROPERTY grin_get_vertex_property_by_id(GRIN_GRAPH, GRIN_VERTEX_TYPE, GRIN_VERTEX_PROPERTY_ID);
 
-GRIN_VERTEX_PROPERTY_ID grin_get_vertex_property_id(GRIN_GRAPH, GRIN_VERTEX_TYPE, GRIN_VERTEX_PROPERTY);
+/// We must specify the vertex type here, because the vertex property id is unique only under a specific vertex type
+GRIN_VERTEX_PROPERTY_ID grin_get_vertex_property_id(GRIN_GRAPH, GRIN_VERTEX_TYPE, GRIN_VERTEX_PROPERTY); 
 #endif
 
 
 #ifdef GRIN_WITH_EDGE_PROPERTY
-GRIN_EDGE_PROPERTY_LIST grin_get_edge_property_list_by_type(GRIN_GRAPH, GRIN_EDGE_TYPE);
+GRIN_EDGE_PROPERTY_LIST grin_get_edge_property_list_by_type(GRIN_GRAPH, GRIN_EDGE_TYPE); 
 
 size_t grin_get_edge_property_list_size(GRIN_GRAPH, GRIN_EDGE_PROPERTY_LIST);
 
@@ -56,8 +57,9 @@ bool grin_insert_edge_property_to_list(GRIN_GRAPH, GRIN_EDGE_PROPERTY_LIST, GRIN
 #endif
 
 #ifdef GRIN_TRAIT_NATURAL_ID_FOR_EDGE_PROPERTY
-GRIN_EDGE_PROPERTY grin_get_edge_property_from_id(GRIN_GRAPH, GRIN_EDGE_TYPE, GRIN_EDGE_PROPERTY_ID);
+GRIN_EDGE_PROPERTY grin_get_edge_property_by_id(GRIN_GRAPH, GRIN_EDGE_TYPE, GRIN_EDGE_PROPERTY_ID);
 
+/// We must specify the edge type here, because the edge property id is unique only under a specific edge type
 GRIN_EDGE_PROPERTY_ID grin_get_edge_property_id(GRIN_GRAPH, GRIN_EDGE_TYPE, GRIN_EDGE_PROPERTY);
 #endif
 

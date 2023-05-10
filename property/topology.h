@@ -37,7 +37,7 @@ size_t grin_get_total_edge_num_by_type(GRIN_PARTITIONED_GRAPH, GRIN_EDGE_TYPE);
 #endif
 
 #ifdef GRIN_ASSUME_BY_TYPE_VERTEX_ORIGINAL_ID
-GRIN_VERTEX grin_get_vertex_from_original_id_by_type(GRIN_GRAPH, GRIN_VERTEX_TYPE, GRIN_VERTEX_ORIGINAL_ID);
+GRIN_VERTEX grin_get_vertex_by_original_id_by_type(GRIN_GRAPH, GRIN_VERTEX_TYPE, GRIN_VERTEX_ORIGINAL_ID);
 #endif
 
 #ifdef GRIN_TRAIT_SELECT_TYPE_FOR_VERTEX_LIST

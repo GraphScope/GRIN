@@ -88,7 +88,7 @@ GRIN_DATATYPE grin_get_vertex_property_data_type(GRIN_GRAPH, GRIN_VERTEX_PROPERT
  * @brief get the vertex type that the property is bound to
  * @param GRIN_VERTEX_PROPERTY vertex property
  */
-GRIN_VERTEX_TYPE grin_get_vertex_property_vertex_type(GRIN_GRAPH, GRIN_VERTEX_PROPERTY);
+GRIN_VERTEX_TYPE grin_get_vertex_type_from_property(GRIN_GRAPH, GRIN_VERTEX_PROPERTY);
 #endif
 
 
@@ -111,7 +111,7 @@ GRIN_DATATYPE grin_get_edge_property_data_type(GRIN_GRAPH, GRIN_EDGE_PROPERTY);
  * @brief get the edge type that the property is bound to
  * @param GRIN_EDGE_PROPERTY edge property
  */
-GRIN_EDGE_TYPE grin_get_edge_property_edge_type(GRIN_GRAPH, GRIN_EDGE_PROPERTY);
+GRIN_EDGE_TYPE grin_get_edge_type_from_property(GRIN_GRAPH, GRIN_EDGE_PROPERTY);
 #endif
 
 #endif  // GRIN_INCLUDE_PROPERTY_PROPERTY_H_
