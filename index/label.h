@@ -63,7 +63,7 @@ GRIN_VERTEX_LIST grin_get_vertex_list_by_label(GRIN_GRAPH, GRIN_LABEL);
  * @param GRIN_VERTEX_LIST the existing vertex list
  * @param GRIN_LABEL the label
 */
-GRIN_VERTEX_LIST grin_select_vertex_list_by_label(GRIN_GRAPH, GRIN_VERTEX_LIST, GRIN_LABEL);
+GRIN_VERTEX_LIST grin_select_label_for_vertex_list(GRIN_GRAPH, GRIN_LABEL, GRIN_VERTEX_LIST);
 #endif
 
 #ifdef GRIN_WITH_EDGE_LABEL
@@ -95,7 +95,7 @@ GRIN_EDGE_LIST grin_get_edge_list_by_label(GRIN_GRAPH, GRIN_LABEL);
  * @param GRIN_EDGE_LIST the existing edge list
  * @param GRIN_LABEL the label
 */
-GRIN_EDGE_LIST grin_select_edge_list_by_label(GRIN_GRAPH, GRIN_EDGE_LIST, GRIN_LABEL);
+GRIN_EDGE_LIST grin_select_label_for_edge_list(GRIN_GRAPH, GRIN_LABEL, GRIN_EDGE_LIST);
 #endif
 
 #endif // GRIN_INCLUDE_INDEX_LABEL_H_

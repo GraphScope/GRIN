@@ -10,7 +10,7 @@ These operations include:
 
 GRIN is designed to be read-only, meaning that it does not provide operations for modifying the graph data. This decision was made to simplify the implementation of GRIN and ensure that it can be used safely with any storage engine.
 
-## Naming Rules
+## API Naming Rules
 
 ### Common Get
 | Format | Description |
@@ -55,7 +55,12 @@ GRIN is designed to be read-only, meaning that it does not provide operations fo
 | grin_select_A_for_B_list | select elements in B list based on A, A can be type or partition |
 
 
+## API Parameter Order
 
+Rules to order parameters of APIs:
+- From larger-range handler to smaller-range handler
+- A is placed before B list for grin_select_A_for_B_list
+- Row-index(vertex or edge) is placed before column-index(property) when getting value from table
 
 
 
