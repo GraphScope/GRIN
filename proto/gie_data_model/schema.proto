@@ -12,14 +12,10 @@ message Property {
 }
 
 message VertexType {
-    message NativeIdType {
-        StorageDataType native_id_type = 1;
-    }
     uint32 type_id = 1;
     string type_name = 2;
-    NativeIdType native_id_type = 3;
-    repeated Property properties = 4;
-    repeated uint32 primary_key_ids = 5;
+    repeated Property properties = 3;
+    repeated uint32 primary_key_ids = 4;
 }
 
 message EdgeType {

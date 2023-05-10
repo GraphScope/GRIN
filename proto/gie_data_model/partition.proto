@@ -15,27 +15,6 @@ message GraphTopologyPartitionStrategy {
     message EdgeCut {
         // partition vertices first using MAP_TO_ONE strategy,
         // then place edges with certain placement strategy
-        message VertexPartitionStrategy {
-            enum PartitionKind {
-                VPS_UNDEFINED = 0;
-                VPS_RANGE_SPLIT = 1;
-                VPS_ROUND_ROBIN = 2;
-                VPS_HASH = 3;
-            }
-            message PartitionKey {
-                message NativeIdKey {}
-                message PropertyKeys {
-                    repeated string property_names = 1;
-                }
-                oneof item {
-                    NativeIdKey native_id_key = 1;
-                    PropertyKeys property_keys = 2;
-                }
-            }
-            PartitionKind partition_kind = 1;
-            PartitionKey partition_key = 2;
-        }
-    
         enum EdgePlacementStrategy {
             EPS_UNDEFINED = 0;
             EPS_FOLLOW_SRC = 1;
@@ -43,16 +22,13 @@ message GraphTopologyPartitionStrategy {
             EPS_FOLLOW_BOTH = 3;
         }
 
-        VertexPartitionStrategy vertex_partition = 1;
-        EdgePlacementStrategy edge_placement = 2;
+        EdgePlacementStrategy edge_placement = 1;
     }
 
     message AdvancedEdgeCut {
         // Categorize the vertex types into two groups based on partition strategy: one is 'all_replicate', and the other is 'edge_cut'.
         repeated uint32 all_replicate_vertex_type_ids = 1;
         repeated uint32 edge_cut_vertex_type_ids = 2;
-
-        EdgeCut.VertexPartitionStrategy edge_cut_vertex_partition = 3;
 
         // The placement strategy of the edge is related to the partition strategy of the two endpoints, which follows these rules:
         // 1. If the src is 'all_replicate' and the dst is 'edge_cut', then the placement of the edge is 'EPS_FOLLOW_DST'.
