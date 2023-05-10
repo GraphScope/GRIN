@@ -27,7 +27,7 @@ limitations under the License.
 // while edge ref is likewise. Both can be serialized to const char* for
 // message transporting and deserialized on the other end.
 #ifdef GRIN_ENABLE_VERTEX_REF
-GRIN_VERTEX_REF grin_get_vertex_ref_for_vertex(GRIN_GRAPH, GRIN_VERTEX);
+GRIN_VERTEX_REF grin_get_vertex_ref_by_vertex(GRIN_GRAPH, GRIN_VERTEX);
 
 void grin_destroy_vertex_ref(GRIN_GRAPH, GRIN_VERTEX_REF);
 
@@ -48,7 +48,7 @@ GRIN_VERTEX grin_get_vertex_from_vertex_ref(GRIN_GRAPH, GRIN_VERTEX_REF);
  */
 GRIN_PARTITION grin_get_master_partition_from_vertex_ref(GRIN_GRAPH, GRIN_VERTEX_REF);
 
-const char* grin_serialize_vertex_ref(GRIN_GRAPH, GRIN_VERTEX_REF);
+const char* grin_serialize_vertex_ref(GRIN_GRAPH, GRIN_VERTEX_REF); 
 
 void grin_destroy_serialized_vertex_ref(GRIN_GRAPH, const char*);
 
@@ -62,7 +62,7 @@ bool grin_is_mirror_vertex(GRIN_GRAPH, GRIN_VERTEX);
 #ifdef GRIN_TRAIT_FAST_VERTEX_REF
 long long int grin_serialize_vertex_ref_as_int64(GRIN_GRAPH, GRIN_VERTEX_REF);
 
-GRIN_VERTEX_REF grin_deserialize_vertex_ref_from_int64(GRIN_GRAPH, long long int);
+GRIN_VERTEX_REF grin_deserialize_int64_to_vertex_ref(GRIN_GRAPH, long long int);
 #endif
 
 #ifdef GRIN_TRAIT_MASTER_VERTEX_MIRROR_PARTITION_LIST
@@ -74,7 +74,7 @@ GRIN_PARTITION_LIST grin_get_mirror_vertex_mirror_partition_list(GRIN_GRAPH, GRI
 #endif
 
 #ifdef GRIN_ENABLE_EDGE_REF
-GRIN_EDGE_REF grin_get_edge_ref_for_edge(GRIN_GRAPH, GRIN_EDGE);
+GRIN_EDGE_REF grin_get_edge_ref_by_edge(GRIN_GRAPH, GRIN_EDGE);
 
 void grin_destroy_edge_ref(GRIN_GRAPH, GRIN_EDGE_REF);
 

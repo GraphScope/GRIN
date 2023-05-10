@@ -50,7 +50,7 @@ GRIN_VERTEX_ORIGINAL_ID grin_get_vertex_original_id(GRIN_GRAPH, GRIN_VERTEX);
 #endif
 
 #if defined(GRIN_WITH_VERTEX_ORIGINAL_ID) && !defined(GRIN_ASSUME_BY_TYPE_VERTEX_ORIGINAL_ID)
-GRIN_VERTEX grin_get_vertex_from_original_id(GRIN_GRAPH, GRIN_VERTEX_ORIGINAL_ID);
+GRIN_VERTEX grin_get_vertex_by_original_id(GRIN_GRAPH, GRIN_VERTEX_ORIGINAL_ID);
 #endif
 
 // Data
@@ -67,9 +67,9 @@ const void* grin_get_vertex_data_value(GRIN_GRAPH, GRIN_VERTEX);
 // Edge
 void grin_destroy_edge(GRIN_GRAPH, GRIN_EDGE);
 
-GRIN_VERTEX grin_get_edge_src(GRIN_GRAPH, GRIN_EDGE);
+GRIN_VERTEX grin_get_src_vertex_from_edge(GRIN_GRAPH, GRIN_EDGE);
 
-GRIN_VERTEX grin_get_edge_dst(GRIN_GRAPH, GRIN_EDGE);
+GRIN_VERTEX grin_get_dst_vertex_from_edge(GRIN_GRAPH, GRIN_EDGE);
 
 #ifdef GRIN_WITH_EDGE_DATA
 GRIN_DATATYPE grin_get_edge_data_type(GRIN_GRAPH, GRIN_EDGE);

@@ -51,7 +51,7 @@ GRIN_VERTEX_TYPE grin_get_vertex_type_by_name(GRIN_GRAPH, const char*);
 #ifdef GRIN_TRAIT_NATURAL_ID_FOR_VERTEX_TYPE
 GRIN_VERTEX_TYPE_ID grin_get_vertex_type_id(GRIN_GRAPH, GRIN_VERTEX_TYPE);
 
-GRIN_VERTEX_TYPE grin_get_vertex_type_from_id(GRIN_GRAPH, GRIN_VERTEX_TYPE_ID);
+GRIN_VERTEX_TYPE grin_get_vertex_type_by_id(GRIN_GRAPH, GRIN_VERTEX_TYPE_ID);
 #endif
 
 
@@ -86,7 +86,7 @@ GRIN_EDGE_TYPE grin_get_edge_type_by_name(GRIN_GRAPH, const char*);
 #ifdef GRIN_TRAIT_NATURAL_ID_FOR_EDGE_TYPE
 GRIN_EDGE_TYPE_ID grin_get_edge_type_id(GRIN_GRAPH, GRIN_EDGE_TYPE);
 
-GRIN_EDGE_TYPE grin_get_edge_type_from_id(GRIN_GRAPH, GRIN_EDGE_TYPE_ID);
+GRIN_EDGE_TYPE grin_get_edge_type_by_id(GRIN_GRAPH, GRIN_EDGE_TYPE_ID);
 #endif
 
 /** @name VertexEdgeTypeRelation
@@ -97,13 +97,13 @@ GRIN_EDGE_TYPE grin_get_edge_type_from_id(GRIN_GRAPH, GRIN_EDGE_TYPE_ID);
 ///@{
 #if defined(GRIN_WITH_VERTEX_PROPERTY) && defined(GRIN_WITH_EDGE_PROPERTY)
 /** @brief  the src vertex type list */
-GRIN_VERTEX_TYPE_LIST grin_get_src_types_from_edge_type(GRIN_GRAPH, GRIN_EDGE_TYPE);
+GRIN_VERTEX_TYPE_LIST grin_get_src_types_by_edge_type(GRIN_GRAPH, GRIN_EDGE_TYPE);
 
 /** @brief get the dst vertex type list */
-GRIN_VERTEX_TYPE_LIST grin_get_dst_types_from_edge_type(GRIN_GRAPH, GRIN_EDGE_TYPE);
+GRIN_VERTEX_TYPE_LIST grin_get_dst_types_by_edge_type(GRIN_GRAPH, GRIN_EDGE_TYPE);
 
 /** @brief get the edge type list related to a given pair of vertex types */
-GRIN_EDGE_TYPE_LIST grin_get_edge_types_from_vertex_type_pair(GRIN_GRAPH, GRIN_VERTEX_TYPE, GRIN_VERTEX_TYPE);
+GRIN_EDGE_TYPE_LIST grin_get_edge_types_by_vertex_type_pair(GRIN_GRAPH, GRIN_VERTEX_TYPE, GRIN_VERTEX_TYPE);
 #endif
 ///@}
 
