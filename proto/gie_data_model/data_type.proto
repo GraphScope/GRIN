@@ -4,14 +4,15 @@ package gie;
 option java_package = "com.alibaba.graphscope.proto.schema";
 
 enum EnumerableType { // type can be denoted by 'enum'
-    DT_SIGNED_INT32 = 0;
-    DT_UNSIGNED_INT32 = 1;
-    DT_SIGNED_INT64 = 2;
-    DT_UNSIGNED_INT64 = 3;
-    DT_BOOL = 4;
-    DT_FLOAT = 5;
-    DT_DOUBLE = 6;
-    DT_STRING = 7; // string with unlimited length
+    DT_ANY = 0;
+    DT_SIGNED_INT32 = 1;
+    DT_UNSIGNED_INT32 = 2;
+    DT_SIGNED_INT64 = 3;
+    DT_UNSIGNED_INT64 = 4;
+    DT_BOOL = 5;
+    DT_FLOAT = 6;
+    DT_DOUBLE = 7;
+    DT_STRING = 8; // string with unlimited length
 }
 
 message Numeric { // precision=4 scale=2 : 23.12 
@@ -38,7 +39,7 @@ enum TimeFormat {
 }
 
 enum DateTimeFormat {
-    DTF_DF_TF = 0; // ISO format: 2019-01-01 00:00:00.000
+    DTF_YYYY_MM_DD_HH_MM_SS_SSS = 0; // ISO format: 2019-01-01 00:00:00.000
 }
 
 enum TimeZoneFormat {
