@@ -6,7 +6,33 @@ option java_package = "com.alibaba.graphscope.proto.schema";
 import "schema.proto";
 
 message GraphTopologyPartitionStrategy {
-    message AllReplicate {}
+    enum VertexPartitionStrategy {
+        VPS_ALL = 0; // a vertex is replicated in all partitions
+        VPS_ONE = 1; // Edge-Cut, a vertex is distributed to one partition
+        VPS_FOLLOW_EDGE = 2; // Vertex-Cut, a vertex is distributed to the partitions where its edge resides, i.e. for query 'g.V(id)', we need broadcast to find all edges first and then filter out the vertex
+    }
+
+    enum EdgePartitionStrategy {
+        EPS_ALL = 0; // an edge is replicated in all partitions
+        EPS_ONE = 1; // Vertex-Cut, an edge is distributed to one partition
+        EPS_FOLLOW_SRC = 2; // Edge-Cut, an edge is distributed to the partition where its source vertex resides
+        EPS_FOLLOW_DST = 3; // Edge-Cut, an edge is distributed to the partition where its dst vertex resides
+        EPS_FOLLOW_BOTH = 4; // Edge-Cut, an edge is distributed to the partitions where its src or dst vertices reside
+    }
+
+    // Index Strategy to lookup edges by vertex
+    enum VertexToEdgeIndexStrategy {
+        VTE_NONE = 0; // no indexing, i.e. Vertex-Cut
+        VTE_INDEX_SRC = 1; // indexing based on the source vertex
+        VTE_INDEX_DST = 2; // indexing based on the dst vertex
+        VTE_INDEX_BOTH = 3; // indexing based on both the src and dst vertices
+    }
+
+    message AllReplicate {
+        // VertexPartitionStrategy = ALL
+        // EdgePartitionStrategy = ALL
+        VertexToEdgeIndexStrategy index_strategy = 1;
+    }
 
     message VertexCut {
         // partition edges first, then place vertices automatically
@@ -15,26 +41,36 @@ message GraphTopologyPartitionStrategy {
     message EdgeCut {
         // partition vertices first using MAP_TO_ONE strategy,
         // then place edges with certain placement strategy
-        enum EdgePlacementStrategy {
-            EPS_UNDEFINED = 0;
-            EPS_FOLLOW_SRC = 1;
-            EPS_FOLLOW_DST = 2;
-            EPS_FOLLOW_BOTH = 3;
-        }
 
-        EdgePlacementStrategy edge_placement = 1;
+        // VertexPartitionStrategy = ONE
+        EdgePartitionStrategy edge_partition_strategy = 1;
+        VertexToEdgeIndexStrategy edge_index_strategy = 2;
     }
 
     message AdvancedEdgeCut {
-        // Categorize the vertex types into two groups based on partition strategy: one is 'all_replicate', and the other is 'edge_cut'.
-        repeated uint32 all_replicate_vertex_type_ids = 1;
-        repeated uint32 edge_cut_vertex_type_ids = 2;
+        message VertexTypePairEdgePartitionStrategy {
+            uint32 src_type = 1;
+            uint32 dst_type = 2;
+            EdgePartitionStrategy edge_partition_strategy = 3;
+        }
 
-        // The placement strategy of the edge is related to the partition strategy of the two endpoints, which follows these rules:
-        // 1. If the src is 'all_replicate' and the dst is 'edge_cut', then the placement of the edge is 'EPS_FOLLOW_DST'.
-        // 2. If the src is 'edge_cut' and the dst is 'all_replicate', then the placement of the edge is 'EPS_FOLLOW_SRC'.
-        // 3. If both the src and dst are 'edge_cut', then the placement of the edge is 'EPS_FOLLOW_BOTH'.
-        // 4. If both the src and dst are 'all_replicate', then the placement of the edge can be any of 'EPS_FOLLOW_SRC/EPS_FOLLOW_DST/EPS_FOLLOW_BOTH', but we tentatively set it to 'EPS_FOLLOW_SRC'.
+        message VertexTypePairEdgeIndexStrategy {
+            uint32 src_type = 1;
+            uint32 dst_type = 2;
+            VertexToEdgeIndexStrategy edge_index_strategy = 3;
+        }
+
+        message VertexTypePairEdgePartitionStrategyArray {
+            repeated VertexTypePairEdgePartitionStrategy vertex_type_pair_edge_partition_strategy = 1;
+        }
+
+        message VertexTypePairEdgeIndexStrategyArray {
+            repeated VertexTypePairEdgeIndexStrategy vertex_type_pair_edge_index_strategy = 1;
+        }
+
+        map<uint32, VertexPartitionStrategy> vertex_type_to_partition_strategy = 1;
+        map<uint32, VertexTypePairEdgePartitionStrategyArray> edge_type_to_partition_strategy = 2;
+        map<uint32, VertexTypePairEdgeIndexStrategyArray> edge_type_to_index_strategy = 3;
     }
 
     oneof item {

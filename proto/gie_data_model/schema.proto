@@ -25,7 +25,7 @@ message EdgeType {
         ONE_TO_MANY = 2;
         ONE_TO_ONE = 3;
     }
-    message EntityPairRelation {
+    message VertexTypePairRelation {
         uint32 src_type_id = 1;
         uint32 dst_type_id = 2;
         Relation relation = 3;
@@ -34,7 +34,7 @@ message EdgeType {
     string type_name = 2;
     repeated Property properties = 3;
     repeated uint32 primary_key_ids = 4;
-    repeated EntityPairRelation entity_pair_relations = 5;
+    repeated VertexTypePairRelation vertex_type_pair_relations = 5;
 }
 
 message Schema {
