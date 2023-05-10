@@ -26,7 +26,7 @@ limitations under the License.
  * @param GRIN_GRAPH the graph
  * @param GRIN_VERTEX_PROPERTY the vertex property
  */
-const char* grin_get_vertex_property_name(GRIN_GRAPH, GRIN_VERTEX_PROPERTY);
+const char* grin_get_vertex_property_name(GRIN_GRAPH, GRIN_VERTEX_TYPE, GRIN_VERTEX_PROPERTY);
 
 /**
  * @brief get the vertex property with a given name under a specific vertex type
@@ -50,7 +50,7 @@ GRIN_VERTEX_PROPERTY_LIST grin_get_vertex_properties_by_name(GRIN_GRAPH, const c
  * @param GRIN_GRAPH the graph
  * @param GRIN_EDGE_PROPERTY the edge property
  */
-const char* grin_get_edge_property_name(GRIN_GRAPH, GRIN_EDGE_PROPERTY);
+const char* grin_get_edge_property_name(GRIN_GRAPH, GRIN_EDGE_TYPE, GRIN_EDGE_PROPERTY);
 
 /**
  * @brief get the edge property with a given name under a specific edge type

@@ -437,7 +437,7 @@ void test_property_vertex_table(int argc, char** argv) {
 #endif
 
 #ifdef GRIN_WITH_VERTEX_PROPERTY_NAME
-        const char* vp_name = grin_get_vertex_property_name(g, vp);
+        const char* vp_name = grin_get_vertex_property_name(g, vt, vp);
         GRIN_VERTEX_PROPERTY vp2 =
             grin_get_vertex_property_by_name(g, vt, vp_name);
         if (!grin_equal_vertex_property(g, vp, vp2)) {
@@ -519,7 +519,7 @@ void test_property_vertex_table(int argc, char** argv) {
         GRIN_VERTEX_PROPERTY vp5 =
             grin_get_vertex_property_from_list(g, vpl2, i);
         GRIN_VERTEX_TYPE vt5 = grin_get_vertex_type_from_property(g, vp5);
-        const char* vp5_name = grin_get_vertex_property_name(g, vp5);
+        const char* vp5_name = grin_get_vertex_property_name(g, vt5, vp5);
         const char* vt5_name = grin_get_vertex_type_name(g, vt5);
         printf("vertex type name: %s, vertex property name: %s\n", vt5_name,
                vp5_name);
@@ -594,7 +594,7 @@ void test_property_edge_table(int argc, char** argv) {
         }
         grin_destroy_edge_type(g, et2);
 
-        const char* ep_name = grin_get_edge_property_name(g, ep);
+        const char* ep_name = grin_get_edge_property_name(g, et, ep);
         printf("edge property name: %s\n", ep_name);
 
 #ifdef GRIN_TRAIT_NATURAL_ID_FOR_EDGE_PROPERTY
@@ -648,7 +648,7 @@ void test_property_edge_table(int argc, char** argv) {
       if (!grin_equal_edge_type(g, et, et1)) {
         printf("edge type does not match\n");
       }
-      const char* ep_name1 = grin_get_edge_property_name(g, ep);
+      const char* ep_name1 = grin_get_edge_property_name(g, et, ep);
       const char* et_name = grin_get_edge_type_name(g, et);
       printf("edge property name: %s, edge property type name: %s\n", ep_name1,
              et_name);
@@ -658,7 +658,7 @@ void test_property_edge_table(int argc, char** argv) {
       grin_destroy_name(g, et_name);
 
 #ifdef GRIN_WITH_EDGE_PROPERTY_NAME
-      const char* ep_name = grin_get_edge_property_name(g, ep);
+      const char* ep_name = grin_get_edge_property_name(g, et, ep);
       GRIN_EDGE_PROPERTY ep2 = grin_get_edge_property_by_name(g, et, ep_name);
       if (!grin_equal_edge_property(g, ep, ep2)) {
         printf("edge property not match by name\n");
@@ -706,7 +706,7 @@ void test_property_edge_table(int argc, char** argv) {
       for (size_t i = 0; i < epl2_size; ++i) {
         GRIN_EDGE_PROPERTY ep5 = grin_get_edge_property_from_list(g, epl2, i);
         GRIN_EDGE_TYPE et5 = grin_get_edge_type_from_property(g, ep5);
-        const char* ep5_name = grin_get_edge_property_name(g, ep5);
+        const char* ep5_name = grin_get_edge_property_name(g, et5, ep5);
         const char* et5_name = grin_get_edge_type_name(g, et5);
         printf("edge type name: %s, edge property name: %s\n", et5_name,
                ep5_name);
@@ -751,7 +751,7 @@ void test_property_primary_key(int argc, char** argv) {
 
     for (size_t j = 0; j < vpl_size; ++j) {
       GRIN_VERTEX_PROPERTY vp = grin_get_vertex_property_from_list(g, vpl, j);
-      const char* vp_name = grin_get_vertex_property_name(g, vp);
+      const char* vp_name = grin_get_vertex_property_name(g, vt, vp);
       printf("primary key name: %s\n", vp_name);
       grin_destroy_name(g, vp_name);
       grin_destroy_vertex_property(g, vp);
