@@ -52,7 +52,7 @@ gs.gie.dbms.graph:
           propertyName: weight
           propertyType:
             enumType: DT_DOUBLE
-        entityPairRelations:
+        vertexTypePairRelations:
         - srcTypeId: 0
           dstTypeId: 0
           relation: MANY_TO_MANY
@@ -63,7 +63,7 @@ gs.gie.dbms.graph:
           propertyName: weight
           propertyType:
             enumType: DT_DOUBLE
-        entityPairRelations:
+        vertexTypePairRelations:
         - srcTypeId: 0
           dstTypeId: 1
           relation: MANY_TO_MANY
