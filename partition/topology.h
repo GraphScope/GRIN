@@ -23,12 +23,6 @@ limitations under the License.
 
 #include "../../predefine.h"
 
-#ifdef GRIN_ENABLE_GRAPH_PARTITION
-size_t grin_get_total_vertex_num(GRIN_PARTITIONED_GRAPH);
-
-size_t grin_get_total_edge_num(GRIN_PARTITIONED_GRAPH);
-#endif
-
 #ifdef GRIN_TRAIT_SELECT_MASTER_FOR_VERTEX_LIST
 GRIN_VERTEX_LIST grin_select_master_for_vertex_list(GRIN_GRAPH, GRIN_VERTEX_LIST);
 
