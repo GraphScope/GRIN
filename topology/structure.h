@@ -42,15 +42,13 @@ void grin_destroy_vertex(GRIN_GRAPH, GRIN_VERTEX);
 bool grin_equal_vertex(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTEX);
 
 #ifdef GRIN_WITH_VERTEX_ORIGINAL_ID
-void grin_destroy_vertex_original_id(GRIN_GRAPH, GRIN_VERTEX_ORIGINAL_ID);
+GRIN_DATATYPE grin_get_vertex_original_id_data_type(GRIN_GRAPH);
 
-GRIN_DATATYPE grin_get_vertex_original_id_type(GRIN_GRAPH);
-
-GRIN_VERTEX_ORIGINAL_ID grin_get_vertex_original_id(GRIN_GRAPH, GRIN_VERTEX);
+const void* grin_get_vertex_original_id_value(GRIN_GRAPH, GRIN_VERTEX);
 #endif
 
 #if defined(GRIN_WITH_VERTEX_ORIGINAL_ID) && !defined(GRIN_ASSUME_BY_TYPE_VERTEX_ORIGINAL_ID)
-GRIN_VERTEX grin_get_vertex_by_original_id(GRIN_GRAPH, GRIN_VERTEX_ORIGINAL_ID);
+GRIN_VERTEX grin_get_vertex_by_original_id(GRIN_GRAPH, GRIN_DATATYPE, const void*);
 #endif
 
 // Data
