@@ -77,7 +77,7 @@ bool grin_insert_time32_to_row(GRIN_GRAPH, GRIN_ROW, int);
 bool grin_insert_timestamp64_to_row(GRIN_GRAPH, GRIN_ROW, long long int);
 #endif
 
-#ifdef GRIN_TRAIT_CONST_VALUE_PTR
+#if defined(GRIN_ENABLE_ROW) && defined(GRIN_TRAIT_CONST_VALUE_PTR)
 /** @brief the value of a property from row by its position in row */
 const void* grin_get_value_from_row(GRIN_GRAPH, GRIN_ROW, GRIN_DATATYPE, size_t);
 #endif
@@ -124,7 +124,7 @@ int grin_get_time32_from_vertex_property_table(GRIN_GRAPH, GRIN_VERTEX_PROPERTY_
 long long int grin_get_timestamp64_from_vertex_property_table(GRIN_GRAPH, GRIN_VERTEX_PROPERTY_TABLE, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
 #endif
 
-#ifdef GRIN_TRAIT_CONST_VALUE_PTR
+#if defined(GRIN_ENABLE_VERTEX_PROPERTY_TABLE) && defined(GRIN_TRAIT_CONST_VALUE_PTR)
 /**
  * @brief get vertex property value from table as a const void*, callers don't have to
  * destroy the returned value pointer since they are handled by the storage
@@ -196,7 +196,7 @@ int grin_get_time32_from_edge_property_table(GRIN_GRAPH, GRIN_EDGE_PROPERTY_TABL
 long long int grin_get_timestamp64_from_edge_property_table(GRIN_GRAPH, GRIN_EDGE_PROPERTY_TABLE, GRIN_EDGE, GRIN_EDGE_PROPERTY);
 #endif
 
-#ifdef GRIN_TRAIT_CONST_VALUE_PTR
+#if defined(GRIN_ENABLE_EDGE_PROPERTY_TABLE) && defined(GRIN_TRAIT_CONST_VALUE_PTR)
 /**
  * @brief get edge property value from table as a const void*, callers don't have to
  * destroy the returned value pointer since they are handled by the storage
