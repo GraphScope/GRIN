@@ -12,12 +12,11 @@ message TopologyFeature {
     bool grin_assume_has_directed_graph = 1;
     bool grin_assume_has_undirected_graph = 2;
     bool grin_assume_has_multi_edge_graph = 3;
-    bool grin_with_vertex_original_id = 4;
-    bool grin_with_vertex_data = 5;
-    bool grin_with_edge_data = 6;
-    repeated ListRetrieval vertex_list_retrievals = 7;
-    repeated ListRetrieval edge_list_retrievals = 8;
-    repeated ListRetrieval adjacent_list_retrievals = 9;
+    bool grin_with_vertex_data = 4;
+    bool grin_with_edge_data = 5;
+    repeated ListRetrieval vertex_list_retrievals = 6;
+    repeated ListRetrieval edge_list_retrievals = 7;
+    repeated ListRetrieval adjacent_list_retrievals = 8;
 }
 
 enum GraphPartitionStrategy {
@@ -75,8 +74,6 @@ message VertexPropertyFeature {
 
     bool grin_trait_natural_id_for_vertex_type = 6;
     bool grin_trait_natural_id_for_vertex_property = 7;
-
-    bool grin_assume_by_type_vertex_original_id = 8;
 }
 
 message EdgePropertyFeature {
@@ -107,6 +104,8 @@ message PropertyFeature {
     bool grin_trait_select_neighbor_type_for_adjacent_list = 10;
     bool grin_trait_select_edge_type_for_adjacent_list = 11;
     bool grin_trait_specific_vev_relation = 12;
+
+    bool grin_trait_const_value_ptr = 13;
 }
 
 message IndexFeature {
@@ -114,6 +113,9 @@ message IndexFeature {
     bool grin_with_edge_label = 2;
 
     bool grin_assume_all_vertex_list_sorted = 3;
+    
+    bool grin_enable_vertex_original_id_of_int64 = 4;
+    bool grin_enable_vertex_original_id_of_string = 5;
 }
 
 message PredicateFeature {
