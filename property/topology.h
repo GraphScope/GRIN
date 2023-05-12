@@ -28,10 +28,6 @@ size_t grin_get_vertex_num_by_type(GRIN_GRAPH, GRIN_VERTEX_TYPE);
 size_t grin_get_edge_num_by_type(GRIN_GRAPH, GRIN_EDGE_TYPE);
 #endif
 
-#ifdef GRIN_ASSUME_BY_TYPE_VERTEX_ORIGINAL_ID
-GRIN_VERTEX grin_get_vertex_by_original_id_by_type(GRIN_GRAPH, GRIN_VERTEX_TYPE, GRIN_DATATYPE, const void*);
-#endif
-
 #ifdef GRIN_TRAIT_SELECT_TYPE_FOR_VERTEX_LIST
 GRIN_VERTEX_LIST grin_select_type_for_vertex_list(GRIN_GRAPH, GRIN_VERTEX_TYPE, GRIN_VERTEX_LIST);
 #endif

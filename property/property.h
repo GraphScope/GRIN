@@ -82,7 +82,7 @@ void grin_destroy_vertex_property(GRIN_GRAPH, GRIN_VERTEX_PROPERTY);
  * @brief get property data type
  * @param GRIN_VERTEX_PROPERTY vertex property
  */
-GRIN_DATATYPE grin_get_vertex_property_data_type(GRIN_GRAPH, GRIN_VERTEX_PROPERTY);
+GRIN_DATATYPE grin_get_vertex_property_datatype(GRIN_GRAPH, GRIN_VERTEX_PROPERTY);
 
 /**
  * @brief get the vertex type that the property is bound to
@@ -105,7 +105,7 @@ void grin_destroy_edge_property(GRIN_GRAPH, GRIN_EDGE_PROPERTY);
  * @brief get property data type
  * @param GRIN_EDGE_PROPERTY edge property
  */
-GRIN_DATATYPE grin_get_edge_property_data_type(GRIN_GRAPH, GRIN_EDGE_PROPERTY);
+GRIN_DATATYPE grin_get_edge_property_datatype(GRIN_GRAPH, GRIN_EDGE_PROPERTY);
 
 /**
  * @brief get the edge type that the property is bound to

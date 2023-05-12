@@ -20,6 +20,8 @@ limitations under the License.
 
 #include "../../predefine.h"
 
+void grin_destroy_string_value(GRIN_GRAPH, const char*);
+
 /** @name GRIN_ROW
  * GRIN_ROW works as the pure value array for the properties of a vertex or an edge.
  * In general, you can think of GRIN_ROW as an array of void*, where each void* points to
@@ -30,9 +32,6 @@ limitations under the License.
 ///@{
 #ifdef GRIN_ENABLE_ROW
 void grin_destroy_row(GRIN_GRAPH, GRIN_ROW);
-
-/** @brief the value of a property from row by its position in row */
-const void* grin_get_value_from_row(GRIN_GRAPH, GRIN_ROW, GRIN_DATATYPE, size_t);
 
 int grin_get_int32_from_row(GRIN_GRAPH, GRIN_ROW, size_t);
 
@@ -57,9 +56,6 @@ long long int grin_get_timestamp64_from_row(GRIN_GRAPH, GRIN_ROW, size_t);
 /** @brief create a row, usually to get vertex/edge by primary keys */
 GRIN_ROW grin_create_row(GRIN_GRAPH);
 
-/** @brief insert a value to the end of the row */
-bool grin_insert_value_to_row(GRIN_GRAPH, GRIN_ROW, GRIN_DATATYPE, const void*);
-
 bool grin_insert_int32_to_row(GRIN_GRAPH, GRIN_ROW, int);
 
 bool grin_insert_uint32_to_row(GRIN_GRAPH, GRIN_ROW, unsigned int);
@@ -80,6 +76,12 @@ bool grin_insert_time32_to_row(GRIN_GRAPH, GRIN_ROW, int);
 
 bool grin_insert_timestamp64_to_row(GRIN_GRAPH, GRIN_ROW, long long int);
 #endif
+
+#ifdef GRIN_TRAIT_CONST_VALUE_PTR
+/** @brief the value of a property from row by its position in row */
+const void* grin_get_value_from_row(GRIN_GRAPH, GRIN_ROW, GRIN_DATATYPE, size_t);
+#endif
+
 ///@}
 
 #ifdef GRIN_ENABLE_VERTEX_PROPERTY_TABLE
@@ -101,15 +103,6 @@ void grin_destroy_vertex_property_table(GRIN_GRAPH, GRIN_VERTEX_PROPERTY_TABLE);
  */
 GRIN_VERTEX_PROPERTY_TABLE grin_get_vertex_property_table_by_type(GRIN_GRAPH, GRIN_VERTEX_TYPE);
 
-/**
- * @brief get vertex property value from table
- * @param GRIN_VERTEX_PROPERTY_TABLE vertex property table
- * @param GRIN_VERTEX the vertex which is the row index
- * @param GRIN_VERTEX_PROPERTY the vertex property which is the column index
- * @return can be casted to the property data type by the caller
- */
-const void* grin_get_value_from_vertex_property_table(GRIN_GRAPH, GRIN_VERTEX_PROPERTY_TABLE, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
-
 int grin_get_int32_from_vertex_property_table(GRIN_GRAPH, GRIN_VERTEX_PROPERTY_TABLE, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
 
 unsigned int grin_get_uint32_from_vertex_property_table(GRIN_GRAPH, GRIN_VERTEX_PROPERTY_TABLE, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
@@ -129,6 +122,18 @@ int grin_get_date32_from_vertex_property_table(GRIN_GRAPH, GRIN_VERTEX_PROPERTY_
 int grin_get_time32_from_vertex_property_table(GRIN_GRAPH, GRIN_VERTEX_PROPERTY_TABLE, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
 
 long long int grin_get_timestamp64_from_vertex_property_table(GRIN_GRAPH, GRIN_VERTEX_PROPERTY_TABLE, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
+#endif
+
+#ifdef GRIN_TRAIT_CONST_VALUE_PTR
+/**
+ * @brief get vertex property value from table as a const void*, callers don't have to
+ * destroy the returned value pointer since they are handled by the storage
+ * @param GRIN_VERTEX_PROPERTY_TABLE vertex property table
+ * @param GRIN_VERTEX the vertex which is the row index
+ * @param GRIN_VERTEX_PROPERTY the vertex property which is the column index
+ * @return can be casted to the property data type by the caller
+ */
+const void* grin_get_value_from_vertex_property_table(GRIN_GRAPH, GRIN_VERTEX_PROPERTY_TABLE, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
 #endif
 
 #if defined(GRIN_ENABLE_VERTEX_PROPERTY_TABLE) && defined(GRIN_ENABLE_ROW)
@@ -170,15 +175,6 @@ void grin_destroy_edge_property_table(GRIN_GRAPH, GRIN_EDGE_PROPERTY_TABLE);
  */
 GRIN_EDGE_PROPERTY_TABLE grin_get_edge_property_table_by_type(GRIN_GRAPH, GRIN_EDGE_TYPE);
 
-/**
- * @brief get edge property value from table
- * @param GRIN_EDGE_PROPERTY_TABLE edge property table
- * @param GRIN_EDGE the edge which is the row index
- * @param GRIN_EDGE_PROPERTY the edge property which is the column index
- * @return can be casted to the property data type by the caller
- */
-const void* grin_get_value_from_edge_property_table(GRIN_GRAPH, GRIN_EDGE_PROPERTY_TABLE, GRIN_EDGE, GRIN_EDGE_PROPERTY);
-
 int grin_get_int32_from_edge_property_table(GRIN_GRAPH, GRIN_EDGE_PROPERTY_TABLE, GRIN_EDGE, GRIN_EDGE_PROPERTY);
 
 unsigned int grin_get_uint32_from_edge_property_table(GRIN_GRAPH, GRIN_EDGE_PROPERTY_TABLE, GRIN_EDGE, GRIN_EDGE_PROPERTY);
@@ -198,6 +194,18 @@ int grin_get_date32_from_edge_property_table(GRIN_GRAPH, GRIN_EDGE_PROPERTY_TABL
 int grin_get_time32_from_edge_property_table(GRIN_GRAPH, GRIN_EDGE_PROPERTY_TABLE, GRIN_EDGE, GRIN_EDGE_PROPERTY);
 
 long long int grin_get_timestamp64_from_edge_property_table(GRIN_GRAPH, GRIN_EDGE_PROPERTY_TABLE, GRIN_EDGE, GRIN_EDGE_PROPERTY);
+#endif
+
+#ifdef GRIN_TRAIT_CONST_VALUE_PTR
+/**
+ * @brief get edge property value from table as a const void*, callers don't have to
+ * destroy the returned value pointer since they are handled by the storage
+ * @param GRIN_EDGE_PROPERTY_TABLE edge property table
+ * @param GRIN_EDGE the edge which is the row index
+ * @param GRIN_EDGE_PROPERTY the edge property which is the column index
+ * @return can be casted to the property data type by the caller
+ */
+const void* grin_get_value_from_edge_property_table(GRIN_GRAPH, GRIN_EDGE_PROPERTY_TABLE, GRIN_EDGE, GRIN_EDGE_PROPERTY);
 #endif
 
 #if defined(GRIN_ENABLE_EDGE_PROPERTY_TABLE) && defined(GRIN_ENABLE_ROW)

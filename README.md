@@ -18,7 +18,7 @@ GRIN is designed to be read-only, meaning that it does not provide operations fo
 | grin_get_A | return handler A or the value of some statitic A |
 | grin_get_A_from_B | A is an element of B and A must be a handler. In case B is A list, use grin_get_A_from_list for short |
 | grin_get_A_by_B | use B to find A, B can be id or name |
-| grin_get_A_B | B is an element of A, and B is NOT a handler or value. B can be name, data_type, id, or size |
+| grin_get_A_B | B is an element of A, and B is NOT a handler or value. B can be name, datatype, id, or size |
 | grin_get_As_with_B | get A list with B enabled, B can be primary_keys |
 
 ### List
@@ -40,7 +40,7 @@ GRIN is designed to be read-only, meaning that it does not provide operations fo
 ### Value
 | Format | Description |
 | ------ | ----------- |
-| grin_get_A_data_type | follow grin_get_A_B and return GRIN_DATA_TYPE, if A ends with data, use grin_get_A_type |
+| grin_get_A_datatype | follow grin_get_A_B and return GRIN_DATATYPE |
 | grin_get_value_from_A | follow grin_get_B_from_A and return const void*, if A ends with data, use grin_get_A_value, A can be row or table |
 | grin_get_T_from_A | follow grin_get_B_from_A and return T, otherwise A can be row or table |
 | grin_insert_value_to_row | insert const void* value to row |
