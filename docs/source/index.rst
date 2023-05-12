@@ -22,4 +22,14 @@ GRIN is designed to be read-only, meaning that it does not provide operations fo
    :maxdepth: 2
    :caption: Contents:
 
-   naming
+   get_started
+   handler
+   validation
+   api_naming
+   topology_api
+   partition_api
+   property_api
+   index_api
+
+
+
