@@ -20,16 +20,6 @@ limitations under the License.
 
 #include "../../predefine.h"
 
-#ifndef GRIN_ASSUME_ALL_VERTEX_LIST_SORTED
-/** 
- * @brief check whether a vertex list is sorted
- * @param GRIN_GRAPH the graph
- * @param GRIN_VERTEX_LIST the vertex list
- * @return whether sorted
-*/
-bool grin_is_vertex_list_sorted(GRIN_GRAPH, GRIN_VERTEX_LIST);
-#endif
-
 #ifdef GRIN_ASSUME_ALL_VERTEX_LIST_SORTED
 bool grin_smaller_vertex(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTEX);
 #endif

@@ -23,8 +23,7 @@ GRIN is designed to be read-only, meaning that it does not provide operations fo
    :caption: Contents:
 
    get_started
-   handler
-   validation
+   return_value
    api_naming
    topology_api
    partition_api
