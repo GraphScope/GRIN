@@ -305,7 +305,7 @@ void test_property_topology(int argc, char** argv) {
   GRIN_DATATYPE dt = grin_get_vertex_original_id_datatype(g);
   if (dt == Int64) {
     long long int v0id = 4;
-    GRIN_VERTEX v0 = grin_get_vertex_by_original_id_of_int64(g, &v0id);
+    GRIN_VERTEX v0 = grin_get_vertex_by_original_id_of_int64(g, v0id);
     if (v0 == GRIN_NULL_VERTEX) {
       printf("(Wrong) vertex of id %lld can not be found\n", v0id);
     } else {
@@ -758,7 +758,11 @@ void test_property_primary_key(int argc, char** argv) {
 
     for (size_t j = 1; j <= 6; ++j) {
       GRIN_ROW r = grin_create_row(g);
-      grin_insert_value_to_row(g, r, dt, (void*) (&j));
+      if (dt == Int64) {
+        grin_insert_int64_to_row(g, r, j);
+      } else {
+        printf("(Wrong) the primary key type is not int64");
+      }
       GRIN_VERTEX v = grin_get_vertex_by_primary_keys(g, vt, r);
       if (id_type[j] == i) {
         if (v == GRIN_NULL_VERTEX) {
