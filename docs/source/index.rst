@@ -25,7 +25,6 @@ GRIN is designed to be read-only, meaning that it does not provide operations fo
    get_started
    return_value
    api_naming
-   topology_api
    partition_api
    property_api
    index_api

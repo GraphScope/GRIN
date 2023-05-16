@@ -1,7 +1,7 @@
 Getting Started
 ----------------
 
-Get graph from storage
+Get Graph from Storage
 ^^^^^^^^^^^^^^^^^^^^^^
 To use GRIN, the first API we need is to get the graph handler for the graph in storage.
 Here we introduce the ``get_graph_from_storage`` API.
@@ -22,7 +22,7 @@ and the second argument is the ``object_id`` of the graph.
 
 The return value of this API is a GRIN graph handler.
 
-Partitioned graph
+Partitioned Graph
 ^^^^^^^^^^^^^^^^^
 However in GraphScope, the graphs we often meet are large graphs that are partitioned into multiple fragments.
 GRIN regards them as partitioned graphs and each fragment of a partitioned graph is considered as

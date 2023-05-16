@@ -27,7 +27,7 @@ how to get the vertex of type "person" with name "marko" and age 29.
 
 
 Get Value From Vertex Table
-^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 GRIN assumes all the property values of vertices are stored in table, where the rows are vertices and
 the columns are properties. The get the value of property "name" of vertex "v", we use:
 
