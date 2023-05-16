@@ -12,10 +12,10 @@ To get a vertex from its p.k. values, we will first put all the values into a ro
 properties of p.k.. Then we will use the row to get the vertex handler. The following example shows
 how to get the vertex of type "person" with name "marko" and age 29.
 
-TODO: ask moran whether the info is got from schema.
 
 ::
 
+    GRIN_VERTEX_TYPE vtype = grin_get_vertex_type_by_name(g, "person");
     GRIN_ROW row = grin_create_row(g);
     if (!grin_insert_string_to_row(g, row, "marko")) {
         printf("Failed to insert string to row\n");
@@ -23,7 +23,7 @@ TODO: ask moran whether the info is got from schema.
     if (!grin_insert_int32_to_row(g, row, 29)) {
         printf("Failed to insert int32 to row\n");
     }
-
+    GRIN_VERTEX v = grin_get_vertex_by_primary_keys(g, vtype, row);
 
 
 Get Value From Vertex Table
