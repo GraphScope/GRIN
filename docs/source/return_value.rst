@@ -51,10 +51,11 @@ Exceptionally, there are three types of values returned by GRIN API calls other 
 - GRIN enumerates: This includes enumerates defined in predefine.h, namely GRIN_DIRECTION, GRIN_DATATYPE and GRIN_ERROR_CODE.
 - common values: This includes common values such as ``size_t`` for list size, ``bool`` for condition check, ``unsigned int`` for id, and ``const char*`` for name.
 - property values: This includes property values such as ``int32``, ``int64``, ``float``, ``double`` and ``const char*``. The types of defined in the GRIN_DATATYPE enumerate.
+- serialized values: This includes serialized ``const char*`` from vertex ref or edge ref.
 
 Users do NOT have to destroy these return values since they are on ``"stack"`` only except for 
-the ``const char*`` in property values.
-In which case, users have to destroy the string value by ``grin_destroy_string_value``.
+the ``const char*`` in property values and serialized values.
+In which case, users have to destroy the string value by ``grin_destroy_string_value`` and ``grin_destroy_serialized_vertex(edge)_ref`` accordingly.
 
 Note that if the ``const char*`` is returned by a GRIN API call for name, such as vertex type name,
 or edge property name, users do NOT have to destroy it, since they are common values.
@@ -101,4 +102,5 @@ Handler             != GRIN_NULL_A              grin_destroy_A
 GRIN enumerates     N/A                         N/A
 Common values       != GRIN_NULL_X              N/A
 Property values     grin_get_last_error_code    grin_destroy_string_value only
+Serialized values   N/A                         grin_destroy_serialized_A_ref only
 =================== =========================== =================
