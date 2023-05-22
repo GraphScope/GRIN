@@ -69,11 +69,10 @@ message VertexPropertyFeature {
     bool grin_with_vertex_property_name = 2;
     bool grin_with_vertex_type_name = 3;
 
-    bool grin_enable_vertex_property_table = 4;
-    bool grin_enable_vertex_primary_keys = 5;
+    bool grin_enable_vertex_primary_keys = 4;
 
-    bool grin_trait_natural_id_for_vertex_type = 6;
-    bool grin_trait_natural_id_for_vertex_property = 7;
+    bool grin_trait_natural_id_for_vertex_type = 5;
+    bool grin_trait_natural_id_for_vertex_property = 6;
 }
 
 message EdgePropertyFeature {
@@ -81,11 +80,10 @@ message EdgePropertyFeature {
     bool grin_with_edge_property_name = 2;
     bool grin_with_edge_type_name = 3;
 
-    bool grin_enable_edge_property_table = 4;
-    bool grin_enable_edge_primary_keys = 5;
+    bool grin_enable_edge_primary_keys = 4;
 
-    bool grin_trait_natural_id_for_edge_type = 6;
-    bool grin_trait_natural_id_for_edge_property = 7;
+    bool grin_trait_natural_id_for_edge_type = 5;
+    bool grin_trait_natural_id_for_edge_property = 6;
 }
 
 message PropertyFeature {

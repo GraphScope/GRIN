@@ -84,11 +84,35 @@ void grin_destroy_vertex_property(GRIN_GRAPH, GRIN_VERTEX_PROPERTY);
  */
 GRIN_DATATYPE grin_get_vertex_property_datatype(GRIN_GRAPH, GRIN_VERTEX_PROPERTY);
 
+int grin_get_vertex_property_value_of_int32(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
+
+unsigned int grin_get_vertex_property_value_of_uint32(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
+
+long long int grin_get_vertex_property_value_of_int64(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
+
+unsigned long long int grin_get_vertex_property_value_of_uint64(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
+
+float grin_get_vertex_property_value_of_float(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
+
+double grin_get_vertex_property_value_of_double(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
+
+const char* grin_get_vertex_property_value_of_string(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
+
+int grin_get_vertex_property_value_of_date32(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
+
+int grin_get_vertex_property_value_of_time32(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
+
+long long int grin_get_vertex_property_value_of_timestamp64(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
+
 /**
  * @brief get the vertex type that the property is bound to
  * @param GRIN_VERTEX_PROPERTY vertex property
  */
 GRIN_VERTEX_TYPE grin_get_vertex_type_from_property(GRIN_GRAPH, GRIN_VERTEX_PROPERTY);
+#endif
+
+#if defined(GRIN_WITH_VERTEX_PROPERTY) && defined(GRIN_TRAIT_CONST_VALUE_PTR)
+const void* grin_get_vertex_property_value(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
 #endif
 
 
@@ -107,11 +131,35 @@ void grin_destroy_edge_property(GRIN_GRAPH, GRIN_EDGE_PROPERTY);
  */
 GRIN_DATATYPE grin_get_edge_property_datatype(GRIN_GRAPH, GRIN_EDGE_PROPERTY);
 
+int grin_get_edge_property_value_of_int32(GRIN_GRAPH, GRIN_EDGE, GRIN_EDGE_PROPERTY);
+
+unsigned int grin_get_edge_property_value_of_uint32(GRIN_GRAPH, GRIN_EDGE, GRIN_EDGE_PROPERTY);
+
+long long int grin_get_edge_property_value_of_int64(GRIN_GRAPH, GRIN_EDGE, GRIN_EDGE_PROPERTY);
+
+unsigned long long int grin_get_edge_property_value_of_uint64(GRIN_GRAPH, GRIN_EDGE, GRIN_EDGE_PROPERTY);
+
+float grin_get_edge_property_value_of_float(GRIN_GRAPH, GRIN_EDGE, GRIN_EDGE_PROPERTY);
+
+double grin_get_edge_property_value_of_double(GRIN_GRAPH, GRIN_EDGE, GRIN_EDGE_PROPERTY);
+
+const char* grin_get_edge_property_value_of_string(GRIN_GRAPH, GRIN_EDGE, GRIN_EDGE_PROPERTY);
+
+int grin_get_edge_property_value_of_date32(GRIN_GRAPH, GRIN_EDGE, GRIN_EDGE_PROPERTY);
+
+int grin_get_edge_property_value_of_time32(GRIN_GRAPH, GRIN_EDGE, GRIN_EDGE_PROPERTY);
+
+long long int grin_get_edge_property_value_of_timestamp64(GRIN_GRAPH, GRIN_EDGE, GRIN_EDGE_PROPERTY);
+
 /**
  * @brief get the edge type that the property is bound to
  * @param GRIN_EDGE_PROPERTY edge property
  */
 GRIN_EDGE_TYPE grin_get_edge_type_from_property(GRIN_GRAPH, GRIN_EDGE_PROPERTY);
+#endif
+
+#if defined(GRIN_WITH_EDGE_PROPERTY) && defined(GRIN_TRAIT_CONST_VALUE_PTR)
+const void* grin_get_edge_property_value(GRIN_GRAPH, GRIN_EDGE, GRIN_EDGE_PROPERTY);
 #endif
 
 #endif  // GRIN_INCLUDE_PROPERTY_PROPERTY_H_
