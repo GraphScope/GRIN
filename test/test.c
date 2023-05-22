@@ -684,19 +684,6 @@ void test_property_edge_property_value(int argc, char** argv) {
           printf("ep_id %u e%zu %s value: %f %f\n", id, j, ep_name, pv, rv);
         }
 #endif
-        const void* rv = grin_get_value_from_row(g, row, dt, k);
-
-        if (dt == Int64) {
-          printf("ep_id %u e%zu %s value: %ld\n", id, j, ep_name,
-                  *((long int*) rv));
-        } else if (dt == String) {
-          printf("ep_id %u e%zu %s value: %s\n", id, j, ep_name,
-                 (char*) rv);
-        } else if (dt == Double) {
-          printf("ep_id %u e%zu %s value: %f\n", id, j, ep_name,
-                 *((double*) rv));
-        }
-        grin_destroy_edge_property(g, ep);
         // grin_destroy_name(g, ep_name);
         // grin_destroy_value(g, dt, pv);
         // grin_destroy_value(g, dt, rv);
