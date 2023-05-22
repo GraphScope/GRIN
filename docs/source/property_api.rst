@@ -26,25 +26,35 @@ how to get the vertex of type "person" with name "marko" and age 29.
     GRIN_VERTEX v = grin_get_vertex_by_primary_keys(g, vtype, row);
 
 
-Get Value From Vertex Table
+Get Vertex Property Value
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-GRIN assumes all the property values of vertices are stored in table, where the rows are vertices and
-the columns are properties. The get the value of property "name" of vertex "v", we use:
+GRIN provides APIs to get a single property value of a vertex, as well as all the property values
+of a vertex as a row.
 
 ::
 
+    GRIN_ROW row = grin_get_vertex_row(g, v);
+    
     GRIN_VERTEX_TYPE vtype = grin_get_vertex_type(g, v);
-    GRIN_VERTEX_PROPERTY vprop = grin_get_vertex_property(g, vtype, "name");
-    GRIN_VERTEX_PROPERTY_TABLE vpt = grin_get_vertex_property_table_by_type(g, vtype);
-    GRIN_DATATYPE dt = grin_get_vertex_property_datatype(g, vprop);
+    GRIN_VERTEX_PROPERTY_LIST vpl = grin_get_vertex_property_list_by_type(g, vtype);
+    size_t vpl_sz = grin_get_vertex_property_list_size(g, vpl);
 
-    if (dt == Int64) {
-        long long int value = grin_get_int64_from_vertex_property_table(g, vpt, v, vprop);
-        // use the value
-    } else if (dt == String) {
-        const char* value = grin_get_string_from_vertex_property_table(g, vpt, v, vprop);
-        // use the value
-        grin_destroy_string_value(g, value);
-    } else ...
+    for (size_t i = 0; i < vpl_sz; ++i) {
+        GRIN_VERTEX_PROPERTY vprop = grin_get_vertex_property_from_list(g, vpl, i);
+        GRIN_DATATYPE dt = grin_get_vertex_property_datatype(g, vprop);
+
+        if (dt == Int64) {
+            long long int value = grin_get_vertex_property_of_int64(g, v, vprop);
+            long long int value1 = grin_get_int64_from_row(row, i);
+            // use the value
+        } else if (dt == String) {
+            const char* value = grin_get_vertex_property_of_string(g, v, vprop);
+            const char* value1 = grin_get_string_from_row(row, i);
+            // use the value
+            grin_destroy_string_value(g, value);
+            grin_destroy_string_value(g, value1);
+        } else ...
+    }
+
 
 

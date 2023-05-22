@@ -6,6 +6,7 @@ Common Get
 Format                      Description
 =========================== ==============
 grin_get_A                  return handler A or the value of some statitic A
+grin_get_A_of_T             return A of type T 
 grin_get_A_from_B           A is an element of B and A must be a handler. In case B is A list, use grin_get_A_from_list for short
 grin_get_A_by_B             use B to find A, B can be id or name
 grin_get_A_B                B is an element of A, and B is NOT a handler or value. B can be name, datatype, id, or size
@@ -41,10 +42,10 @@ Value
 Format                      Description
 =========================== ==============
 grin_get_A_datatype         follow grin_get_A_B and return GRIN_DATATYPE
-grin_get_value_from_A       follow grin_get_B_from_A and return const void*, if A ends with data, use grin_get_A_value, A can be row or table
-grin_get_T_from_A           follow grin_get_B_from_A and return T, otherwise A can be row or table
-grin_insert_value_to_row    insert const void* value to row
-girn_insert_T_to_row        insert value of type T to row
+grin_get_value_from_A       follow grin_get_B_from_A and return const void*, A can be row
+grin_get_T_from_A           follow grin_get_B_from_A and return T, A can be row
+grin_insert_value_to_A      insert const void* value to A, A can be row
+girn_insert_T_to_A          insert value of type T to A, A can be row
 =========================== ==============
 
 
@@ -67,6 +68,5 @@ Rules to order parameters of APIs:
 
 - From larger-range handler to smaller-range handler
 - A is placed before B list for grin_select_A_for_B_list
-- Row-index(vertex or edge) is placed before column-index(property) when getting value from table
 
 
