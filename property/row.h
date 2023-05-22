@@ -20,8 +20,6 @@ limitations under the License.
 
 #include "../../predefine.h"
 
-void grin_destroy_string_value(GRIN_GRAPH, const char*);
-
 /** @name GRIN_ROW
  * GRIN_ROW works as the pure value array for the properties of a vertex or an edge.
  * In general, you can think of GRIN_ROW as an array of void*, where each void* points to
@@ -88,7 +86,6 @@ const void* grin_get_value_from_row(GRIN_GRAPH, GRIN_ROW, GRIN_DATATYPE, size_t)
  * @brief get vertex row directly from the graph, this API only works for row store system
  * @param GRIN_GRAPH the graph
  * @param GRIN_VERTEX the vertex which is the row index
- * @param GRIN_VERTEX_PROPERTY_LIST the vertex property list as columns
  */
 GRIN_ROW grin_get_vertex_row(GRIN_GRAPH, GRIN_VERTEX);
 #endif
@@ -99,7 +96,6 @@ GRIN_ROW grin_get_vertex_row(GRIN_GRAPH, GRIN_VERTEX);
  * @brief get edge row directly from the graph, this API only works for row store system
  * @param GRIN_GRAPH the graph
  * @param GRIN_EDGE the edge which is the row index
- * @param GRIN_EDGE_PROPERTY_LIST the edge property list as columns
  */
 GRIN_ROW grin_get_edge_row(GRIN_GRAPH, GRIN_EDGE);
 #endif

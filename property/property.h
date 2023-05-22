@@ -20,6 +20,8 @@ limitations under the License.
 
 #include "../../predefine.h"
 
+void grin_destroy_string_value(GRIN_GRAPH, const char*);
+
 #ifdef GRIN_WITH_VERTEX_PROPERTY_NAME
 /**
  * @brief get the vertex property name

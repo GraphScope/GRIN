@@ -94,16 +94,13 @@ message PropertyFeature {
     PropertyDataPartitionStrategy vertex_property = 4;
     PropertyDataPartitionStrategy edge_property = 5;
 
-    bool grin_assume_column_store_for_vertex_property = 6;
-    bool grin_assume_column_store_for_edge_property = 7;
+    bool grin_trait_select_type_for_vertex_list = 6;
+    bool grin_trait_select_type_for_edge_list = 7;
+    bool grin_trait_select_neighbor_type_for_adjacent_list = 8;
+    bool grin_trait_select_edge_type_for_adjacent_list = 9;
+    bool grin_trait_specific_vev_relation = 10;
 
-    bool grin_trait_select_type_for_vertex_list = 8;
-    bool grin_trait_select_type_for_edge_list = 9;
-    bool grin_trait_select_neighbor_type_for_adjacent_list = 10;
-    bool grin_trait_select_edge_type_for_adjacent_list = 11;
-    bool grin_trait_specific_vev_relation = 12;
-
-    bool grin_trait_const_value_ptr = 13;
+    bool grin_trait_const_value_ptr = 11;
 }
 
 message IndexFeature {

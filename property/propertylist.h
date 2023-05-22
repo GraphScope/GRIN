@@ -63,24 +63,4 @@ GRIN_EDGE_PROPERTY grin_get_edge_property_by_id(GRIN_GRAPH, GRIN_EDGE_TYPE, GRIN
 GRIN_EDGE_PROPERTY_ID grin_get_edge_property_id(GRIN_GRAPH, GRIN_EDGE_TYPE, GRIN_EDGE_PROPERTY);
 #endif
 
-
-/** @name Graph Projection
- * GRIN_GRAPH projection mainly works to shrink the properties into a subset
- * in need to improve the retrieval efficiency. Note that only the vertex/edge
- * type with at least one property left in the vertex/edge property list will
- * be kept after the projection.
- * 
- * The projection only works on column store systems.
- */
-///@{
-// #if defined(GRIN_WITH_VERTEX_PROPERTY) && defined(GRIN_ASSUME_COLUMN_STORE_FOR_VERTEX_PROPERTY)
-// /** @brief project vertex properties */
-// GRIN_GRAPH grin_select_vertex_properties(GRIN_GRAPH, GRIN_VERTEX_PROPERTY_LIST);
-// #endif
-
-// #if defined(GRIN_WITH_EDGE_PROPERTY) && defined(GRIN_ASSUME_COLUMN_STORE_FOR_EDGE_PROPERTY)
-// /** @brief project edge properties */
-// GRIN_GRAPH grin_select_edge_properteis(GRIN_GRAPH, GRIN_EDGE_PROPERTY_LIST);
-// #endif
-
 #endif  // GRIN_INCLUDE_PROPERTY_PROPERTY_LIST_H_
