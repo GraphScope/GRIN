@@ -44,11 +44,11 @@ of a vertex as a row.
         GRIN_DATATYPE dt = grin_get_vertex_property_datatype(g, vprop);
 
         if (dt == Int64) {
-            long long int value = grin_get_vertex_property_of_int64(g, v, vprop);
+            long long int value = grin_get_vertex_property_value_of_int64(g, v, vprop);
             long long int value1 = grin_get_int64_from_row(g, row, i);
             // use the value
         } else if (dt == String) {
-            const char* value = grin_get_vertex_property_of_string(g, v, vprop);
+            const char* value = grin_get_vertex_property_value_of_string(g, v, vprop);
             const char* value1 = grin_get_string_from_row(g, row, i);
             // use the value
             grin_destroy_string_value(g, value);
