@@ -668,18 +668,18 @@ void test_property_edge_property_value(int argc, char** argv) {
 #else
         if (dt == Int64) {
           long long int pv =
-              grin_get_edge_property_value_of_int64(g, ept, e, ep);
+              grin_get_edge_property_value_of_int64(g, e, ep);
           long long int rv = grin_get_int64_from_row(g, row, k);
           printf("ep_id %u e%zu %s value: %lld %lld\n", id, j, ep_name, pv, rv);
         } else if (dt == String) {
           const char* pv =
-              grin_get_edge_property_value_of_string(g, ept, e, ep);
+              grin_get_edge_property_value_of_string(g, e, ep);
           const char* rv = grin_get_string_from_row(g, row, k);
           printf("ep_id %u e%zu %s value: %s %s\n", id, j, ep_name, pv, rv);
           grin_destroy_string_value(g, pv);
           grin_destroy_string_value(g, rv);
         } else if (dt == Double) {
-          double pv = grin_get_edge_property_value_of_double(g, ept, e, ep);
+          double pv = grin_get_edge_property_value_of_double(g, e, ep);
           double rv = grin_get_double_from_row(g, row, k);
           printf("ep_id %u e%zu %s value: %f %f\n", id, j, ep_name, pv, rv);
         }
