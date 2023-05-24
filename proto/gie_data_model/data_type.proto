@@ -3,7 +3,7 @@ syntax = "proto3";
 package gie;
 option java_package = "com.alibaba.graphscope.proto.schema";
 
-enum EnumerableType { // type can be denoted by 'enum'
+enum PrimitiveType {
     DT_ANY = 0;
     DT_SIGNED_INT32 = 1;
     DT_UNSIGNED_INT32 = 2;
@@ -63,7 +63,7 @@ message DateTime {
 
 message StorageDataType {
     oneof item {
-        EnumerableType enum_type = 1;
+        PrimitiveType primitive_type = 1;
         Numeric numeric = 2;
         Char char = 3;
         VarChar var_char = 4;
