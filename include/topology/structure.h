@@ -30,11 +30,11 @@ bool grin_is_directed(GRIN_GRAPH);
 bool grin_is_multigraph(GRIN_GRAPH);
 #endif
 
-#if !defined(GRIN_VERTEX_PROPERTY)
+#if !defined(GRIN_WITH_VERTEX_PROPERTY)
 size_t grin_get_vertex_num(GRIN_GRAPH);
 #endif
 
-#if !defined(GRIN_EDGE_PROPERTY)
+#if !defined(GRIN_WITH_EDGE_PROPERTY)
 size_t grin_get_edge_num(GRIN_GRAPH);
 #endif
 
