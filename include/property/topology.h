@@ -24,19 +24,19 @@ limitations under the License.
 size_t grin_get_vertex_num_by_type(GRIN_GRAPH, GRIN_VERTEX_TYPE);
 #endif
 
-#if defined(GRIN_WITH_VERTEX_PROPERTY) && defined(GRIN_ENABLE_VERTEX_LIST)
-GRIN_VERTEX_LIST grin_get_vertex_list_by_type(GRIN_GRAPH, GRIN_VERTEX_TYPE);
-#endif
-
 #ifdef GRIN_WITH_EDGE_PROPERTY
 size_t grin_get_edge_num_by_type(GRIN_GRAPH, GRIN_EDGE_TYPE);
 #endif
 
-#if defined(GRIN_WITH_EDGE_PROPERTY) && defined(GRIN_ENABLE_EDGE_LIST)
+#if defined(GRIN_ENABLE_VERTEX_LIST) && defined(GRIN_WITH_VERTEX_PROPERTY)
+GRIN_VERTEX_LIST grin_get_vertex_list_by_type(GRIN_GRAPH, GRIN_VERTEX_TYPE);
+#endif
+
+#if defined(GRIN_ENABLE_EDGE_LIST) && defined(GRIN_WITH_EDGE_PROPERTY)
 GRIN_EDGE_LIST grin_get_edge_list_by_type(GRIN_GRAPH, GRIN_EDGE_TYPE);
 #endif
 
-#if defined(GRIN_WITH_EDGE_PROPERTY) && defined(GRIN_ENABLE_ADJACENT_LIST)
+#if defined(GRIN_ENABLE_ADJACENT_LIST) && defined(GRIN_WITH_EDGE_PROPERTY)
 GRIN_ADJACENT_LIST grin_get_adjacent_list_by_edge_type(GRIN_GRAPH, GRIN_EDGE_TYPE);
 #endif
 
