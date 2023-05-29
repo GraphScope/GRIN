@@ -13,6 +13,8 @@ limitations under the License.
 /**
  @file property/partition.h
  @brief Define the partition related APIs under property graph
+ This file will be deprecated in the future.
+ Partition schema related APIs will be moved to partition/property.h
 */
 
 #ifndef GRIN_INCLUDE_PROPERTY_PARTITION_H_

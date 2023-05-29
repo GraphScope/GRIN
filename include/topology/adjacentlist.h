@@ -18,9 +18,11 @@ limitations under the License.
 
 #include "../../predefine.h"
 
-#ifdef GRIN_ENABLE_ADJACENT_LIST
+#if defined(GRIN_ENABLE_ADJACENT_LIST) && !defined(GRIN_ENABLE_EDGE_PROPERTY)
 GRIN_ADJACENT_LIST grin_get_adjacent_list(GRIN_GRAPH, GRIN_DIRECTION, GRIN_VERTEX);
+#endif
 
+#ifdef GRIN_ENABLE_ADJACENT_LIST
 void grin_destroy_adjacent_list(GRIN_GRAPH, GRIN_ADJACENT_LIST);
 #endif
 

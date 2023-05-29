@@ -18,9 +18,11 @@ limitations under the License.
 
 #include "../../predefine.h"
 
-#ifdef GRIN_ENABLE_EDGE_LIST
+#if defined(GRIN_ENABLE_EDGE_LIST) && !defined(GRIN_ENABLE_EDGE_PROPERTY)
 GRIN_EDGE_LIST grin_get_edge_list(GRIN_GRAPH);
+#endif
 
+#ifdef GRIN_ENABLE_EDGE_LIST
 void grin_destroy_edge_list(GRIN_GRAPH, GRIN_EDGE_LIST);
 #endif
 

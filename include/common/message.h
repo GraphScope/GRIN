@@ -15,8 +15,8 @@ limitations under the License.
  @brief Define storage feature protobuf message
 */
 
-#ifndef GRIN_INCLUDE_PROTO_MESSAGE_H_
-#define GRIN_INCLUDE_PROTO_MESSAGE_H_
+#ifndef GRIN_INCLUDE_COMMON_MESSAGE_H_
+#define GRIN_INCLUDE_COMMON_MESSAGE_H_
 
 const char* grin_get_static_storage_feature_msg();
 

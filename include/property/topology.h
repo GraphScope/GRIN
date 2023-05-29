@@ -24,25 +24,20 @@ limitations under the License.
 size_t grin_get_vertex_num_by_type(GRIN_GRAPH, GRIN_VERTEX_TYPE);
 #endif
 
+#if defined(GRIN_WITH_VERTEX_PROPERTY) && defined(GRIN_ENABLE_VERTEX_LIST)
+GRIN_VERTEX_LIST grin_get_vertex_list_by_type(GRIN_GRAPH, GRIN_VERTEX_TYPE);
+#endif
+
 #ifdef GRIN_WITH_EDGE_PROPERTY
 size_t grin_get_edge_num_by_type(GRIN_GRAPH, GRIN_EDGE_TYPE);
 #endif
 
-#ifdef GRIN_TRAIT_SELECT_TYPE_FOR_VERTEX_LIST
-GRIN_VERTEX_LIST grin_select_type_for_vertex_list(GRIN_GRAPH, GRIN_VERTEX_TYPE, GRIN_VERTEX_LIST);
+#if defined(GRIN_WITH_EDGE_PROPERTY) && defined(GRIN_ENABLE_EDGE_LIST)
+GRIN_EDGE_LIST grin_get_edge_list_by_type(GRIN_GRAPH, GRIN_EDGE_TYPE);
 #endif
 
-#ifdef GRIN_TRAIT_SELECT_TYPE_FOR_EDGE_LIST
-GRIN_EDGE_LIST grin_select_type_for_edge_list(GRIN_GRAPH, GRIN_EDGE_TYPE, GRIN_EDGE_LIST);
+#if defined(GRIN_WITH_EDGE_PROPERTY) && defined(GRIN_ENABLE_ADJACENT_LIST)
+GRIN_ADJACENT_LIST grin_get_adjacent_list_by_edge_type(GRIN_GRAPH, GRIN_EDGE_TYPE);
 #endif
-
-#ifdef GRIN_TRAIT_SELECT_NEIGHBOR_TYPE_FOR_ADJACENT_LIST
-GRIN_ADJACENT_LIST grin_select_neighbor_type_for_adjacent_list(GRIN_GRAPH, GRIN_VERTEX_TYPE, GRIN_ADJACENT_LIST);
-#endif
-
-#ifdef GRIN_TRAIT_SELECT_EDGE_TYPE_FOR_ADJACENT_LIST
-GRIN_ADJACENT_LIST grin_select_edge_type_for_adjacent_list(GRIN_GRAPH, GRIN_EDGE_TYPE, GRIN_ADJACENT_LIST);
-#endif
-
 
 #endif // GRIN_INCLUDE_PROPERTY_TOPOLOGY_H_

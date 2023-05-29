@@ -18,9 +18,11 @@ limitations under the License.
 
 #include "../../predefine.h"
 
-#ifdef GRIN_ENABLE_VERTEX_LIST
+#if defined(GRIN_ENABLE_VERTEX_LIST) && !defined(GRIN_ENABLE_VERTEX_PROPERTY)
 GRIN_VERTEX_LIST grin_get_vertex_list(GRIN_GRAPH);
+#endif
 
+#ifdef GRIN_ENABLE_VERTEX_LIST
 void grin_destroy_vertex_list(GRIN_GRAPH, GRIN_VERTEX_LIST);
 #endif
 
