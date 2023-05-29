@@ -21,7 +21,6 @@ limitations under the License.
 #ifndef GRIN_INCLUDE_PARTITION_TOPOLOGY_H_
 #define GRIN_INCLUDE_PARTITION_TOPOLOGY_H_
 
-#include "../../predefine.h"
 
 #if defined(GRIN_TRAIT_SELECT_MASTER_FOR_VERTEX_LIST) && !defined(GRIN_ENABLE_VERTEX_PROPERTY)
 GRIN_VERTEX_LIST grin_get_vertex_list_select_master(GRIN_GRAPH);

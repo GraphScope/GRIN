@@ -16,7 +16,6 @@ limitations under the License.
 #ifndef GRIN_INCLUDE_TOPOLOGY_STRUCTURE_H_
 #define GRIN_INCLUDE_TOPOLOGY_STRUCTURE_H_
 
-#include "../../predefine.h"
 
 GRIN_GRAPH grin_get_graph_from_storage(int, char**);
 

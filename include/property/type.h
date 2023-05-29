@@ -18,7 +18,6 @@ limitations under the License.
 #ifndef GRIN_INCLUDE_PROPERTY_TYPE_H_
 #define GRIN_INCLUDE_PROPERTY_TYPE_H_
 
-#include "../../predefine.h"
 
 #ifdef GRIN_WITH_VERTEX_PROPERTY
 // Vertex type

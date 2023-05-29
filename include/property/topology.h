@@ -18,7 +18,6 @@ limitations under the License.
 #ifndef GRIN_INCLUDE_PROPERTY_TOPOLOGY_H_
 #define GRIN_INCLUDE_PROPERTY_TOPOLOGY_H_
 
-#include "../../predefine.h"
 
 #ifdef GRIN_WITH_VERTEX_PROPERTY
 size_t grin_get_vertex_num_by_type(GRIN_GRAPH, GRIN_VERTEX_TYPE);

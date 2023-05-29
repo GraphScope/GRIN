@@ -18,7 +18,6 @@ limitations under the License.
 #ifndef GRIN_INCLUDE_PROPERTY_PROPERTY_H_
 #define GRIN_INCLUDE_PROPERTY_PROPERTY_H_
 
-#include "../../predefine.h"
 
 void grin_destroy_string_value(GRIN_GRAPH, const char*);
 

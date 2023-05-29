@@ -16,7 +16,6 @@ limitations under the License.
 #ifndef GRIN_INCLUDE_TOPOLOGY_EDGELIST_H_
 #define GRIN_INCLUDE_TOPOLOGY_EDGELIST_H_
 
-#include "../../predefine.h"
 
 #if defined(GRIN_ENABLE_EDGE_LIST) && !defined(GRIN_ENABLE_EDGE_PROPERTY)
 GRIN_EDGE_LIST grin_get_edge_list(GRIN_GRAPH);

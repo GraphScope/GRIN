@@ -18,7 +18,6 @@ limitations under the License.
 #ifndef GRIN_INCLUDE_PROPERTY_ROW_H_
 #define GRIN_INCLUDE_PROPERTY_ROW_H_
 
-#include "../../predefine.h"
 
 /** @name GRIN_ROW
  * GRIN_ROW works as the pure value array for the properties of a vertex or an edge.
