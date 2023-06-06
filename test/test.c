@@ -868,7 +868,7 @@ FOR_VERTEX_LIST_BEGIN(g, vl)
   #ifdef GRIN_ENABLE_VERTEX_ORIGINAL_ID_OF_INT64
     long long int vid = grin_get_vertex_original_id_of_int64(g, v);
   #else
-    long long int vid = vcnt;
+    long long int vid = __vcnt;
   #endif
   #ifdef GRIN_ENABLE_GRAPH_PARTITION
     if (!grin_is_master_vertex(g, v)) {
