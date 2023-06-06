@@ -11,8 +11,8 @@ limitations under the License.
 */
 
 /**
- @file order.h
- @brief Define the vertex ordering predicate APIs
+ @file pk.h
+ @brief Define the primary key indexing related APIs
 */
 
 #ifndef GRIN_INCLUDE_INDEX_PK_H_
