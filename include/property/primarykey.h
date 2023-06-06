@@ -18,7 +18,6 @@ limitations under the License.
 #ifndef GRIN_INCLUDE_PROPERTY_PRIMARY_KEY_H_
 #define GRIN_INCLUDE_PROPERTY_PRIMARY_KEY_H_
 
-#include "../../predefine.h"
 
 #ifdef GRIN_ENABLE_VERTEX_PRIMARY_KEYS
 /** 

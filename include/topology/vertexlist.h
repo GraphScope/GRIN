@@ -16,11 +16,12 @@ limitations under the License.
 #ifndef GRIN_INCLUDE_TOPOLOGY_VERTEXLIST_H_
 #define GRIN_INCLUDE_TOPOLOGY_VERTEXLIST_H_
 
-#include "../../predefine.h"
+
+#if defined(GRIN_ENABLE_VERTEX_LIST) && !defined(GRIN_WITH_VERTEX_PROPERTY)
+GRIN_VERTEX_LIST grin_get_vertex_list(GRIN_GRAPH);
+#endif
 
 #ifdef GRIN_ENABLE_VERTEX_LIST
-GRIN_VERTEX_LIST grin_get_vertex_list(GRIN_GRAPH);
-
 void grin_destroy_vertex_list(GRIN_GRAPH, GRIN_VERTEX_LIST);
 #endif
 

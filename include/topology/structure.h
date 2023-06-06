@@ -16,7 +16,6 @@ limitations under the License.
 #ifndef GRIN_INCLUDE_TOPOLOGY_STRUCTURE_H_
 #define GRIN_INCLUDE_TOPOLOGY_STRUCTURE_H_
 
-#include "../../predefine.h"
 
 GRIN_GRAPH grin_get_graph_from_storage(int, char**);
 
@@ -31,9 +30,13 @@ bool grin_is_directed(GRIN_GRAPH);
 bool grin_is_multigraph(GRIN_GRAPH);
 #endif
 
+#if !defined(GRIN_WITH_VERTEX_PROPERTY)
 size_t grin_get_vertex_num(GRIN_GRAPH);
+#endif
 
+#if !defined(GRIN_WITH_EDGE_PROPERTY)
 size_t grin_get_edge_num(GRIN_GRAPH);
+#endif
 
 
 // Vertex

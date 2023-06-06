@@ -18,7 +18,6 @@ limitations under the License.
 #ifndef GRIN_INCLUDE_INDEX_ORIGINAL_ID_H_
 #define GRIN_INCLUDE_INDEX_ORIGINAL_ID_H_
 
-#include "../../predefine.h"
 
 GRIN_DATATYPE grin_get_vertex_original_id_datatype(GRIN_GRAPH);
 
