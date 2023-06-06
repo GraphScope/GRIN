@@ -15,6 +15,10 @@ limitations under the License.
  @brief Define the primary key indexing related APIs
 */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #ifndef GRIN_INCLUDE_INDEX_PK_H_
 #define GRIN_INCLUDE_INDEX_PK_H_
 
@@ -36,3 +40,7 @@ GRIN_EDGE grin_get_edge_by_pk_of_int64(GRIN_GRAPH, GRIN_EDGE_TYPE, long long int
 
 
 #endif // GRIN_INCLUDE_INDEX_PK_H_
+
+#ifdef __cplusplus
+}
+#endif
