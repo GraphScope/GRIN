@@ -28,3 +28,12 @@ limitations under the License.
 typedef void* GRIN_VERTEX_LISTS
 
 typedef void* GRIN_VERTEX_LISTS_ITERATOR
+
+typedef void* GRIN_EDGE_LISTS
+
+typedef void* GRIN_EDGE_LISTS_ITERATOR
+
+typedef void* GRIN_ADJACENT_LISTS
+
+typedef void* GRIN_ADJACENT_LISTS_ITERATOR
+

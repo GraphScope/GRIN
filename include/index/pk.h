@@ -26,10 +26,6 @@ GRIN_VERTEX grin_get_vertex_by_primary_keys_row(GRIN_GRAPH, GRIN_VERTEX_TYPE, GR
 GRIN_VERTEX grin_get_vertex_by_pk_of_int64(GRIN_GRAPH, GRIN_VERTEX_TYPE, long long int);
 #endif
 
-#if defined(GRIN_ENABLE_VERTEX_PK_INDEX) && defined(GRIN_ENABLE_VERTEX_PK_OF_STRING)
-GRIN_VERTEX grin_get_vertex_by_pk_of_string(GRIN_GRAPH, GRIN_VERTEX_TYPE, const char*);
-#endif
-
 #ifdef GRIN_ENABLE_EDGE_PK_INDEX
 GRIN_EDGE grin_get_edge_by_primary_keys_row(GRIN_GRAPH, GRIN_EDGE_TYPE, GRIN_ROW);
 #endif
@@ -38,8 +34,5 @@ GRIN_EDGE grin_get_edge_by_primary_keys_row(GRIN_GRAPH, GRIN_EDGE_TYPE, GRIN_ROW
 GRIN_EDGE grin_get_edge_by_pk_of_int64(GRIN_GRAPH, GRIN_EDGE_TYPE, long long int);
 #endif
 
-#if defined(GRIN_ENABLE_EDGE_PK_INDEX) && defined(GRIN_ENABLE_EDGE_PK_OF_STRING)
-GRIN_EDGE grin_get_edge_by_pk_of_string(GRIN_GRAPH, GRIN_EDGE_TYPE, const char*);
-#endif
 
 #endif // GRIN_INCLUDE_INDEX_PK_H_
