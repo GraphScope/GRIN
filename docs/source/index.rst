@@ -29,6 +29,7 @@ GRIN is designed to be read-only, meaning that it does not provide operations fo
    partition_api
    property_api
    index_api
+   extension
 
 
 

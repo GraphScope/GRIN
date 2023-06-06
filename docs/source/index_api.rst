@@ -46,3 +46,18 @@ to describe edges in the raw data, thus makes edges have no original IDs.
 
 Also, GRIN does NOT provide original ID indexing for property graphs because it is redundant
 to indexing by primary keys.
+
+Primary Keys
+^^^^^^^^^^^^^
+In GRIN v0.1.1, we explicitly distinguish the concepts of primary keys and indexing based on primary keys.
+Primary keys are the properties that are used to identify a vertex or an edge.
+Just like in relational databases, primary keys are unique under a given vertex or edge type.
+While indexing based on primary keys is the ability to find a vertex or an edge by its primary key.
+These two sets of APIs are defined in ``property/primarykey.h`` and ``index/pk.h`` respectively.
+
+Furthermore, GRIN specifically provides APIs for primary keys of a single integer property.
+This will simplify the primary key usage to avoid using ``GRIN_ROW`` to store values of primary keys.
+These APIs are named under the ``GRIN_ENABLE_VERTEX(EDGE)_PK_OF_INT64`` macros.
+
+The difference between ``PK_OF_INT64`` and ``ORIGINAL_ID_OF_INT64`` is that the former primary key
+is unique under a given vertex or edge type, while the latter original ID is unique under the whole graph.
