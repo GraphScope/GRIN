@@ -15,6 +15,10 @@ limitations under the License.
  @brief Define the vertex ordering predicate APIs
 */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #ifndef GRIN_INCLUDE_INDEX_ORIGINAL_ID_H_
 #define GRIN_INCLUDE_INDEX_ORIGINAL_ID_H_
 
@@ -35,3 +39,7 @@ GRIN_VERTEX grin_get_vertex_by_original_id_of_string(GRIN_GRAPH, const char*);
 
 
 #endif // GRIN_INCLUDE_INDEX_ORIGINAL_ID_H_
+
+#ifdef __cplusplus
+}
+#endif

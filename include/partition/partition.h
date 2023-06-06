@@ -18,6 +18,10 @@ limitations under the License.
  @brief Define the partition related APIs
 */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #ifndef GRIN_INCLUDE_PARTITION_PARTITION_H_
 #define GRIN_INCLUDE_PARTITION_PARTITION_H_
 
@@ -57,3 +61,7 @@ GRIN_PARTITION_ID grin_get_partition_id(GRIN_PARTITIONED_GRAPH, GRIN_PARTITION);
 #endif
 
 #endif  // GRIN_INCLUDE_PARTITION_PARTITION_H_
+
+#ifdef __cplusplus
+}
+#endif

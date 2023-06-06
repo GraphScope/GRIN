@@ -15,6 +15,10 @@ limitations under the License.
  @brief Define the error code related APIs
 */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #ifndef GRIN_INCLUDE_COMMON_ERROR_H_
 #define GRIN_INCLUDE_COMMON_ERROR_H_
 
@@ -24,3 +28,7 @@ extern __thread GRIN_ERROR_CODE grin_error_code;
 GRIN_ERROR_CODE grin_get_last_error_code();
 
 #endif // GRIN_INCLUDE_COMMON_ERROR_H_
+
+#ifdef __cplusplus
+}
+#endif

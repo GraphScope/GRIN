@@ -15,6 +15,10 @@ limitations under the License.
  @brief Define the vertex ordering predicate APIs
 */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #ifndef GRIN_INCLUDE_INDEX_ORDER_H_
 #define GRIN_INCLUDE_INDEX_ORDER_H_
 
@@ -24,7 +28,7 @@ bool grin_smaller_vertex(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTEX);
 #endif
 
 #if defined(GRIN_ASSUME_ALL_VERTEX_LIST_SORTED) && defined(GRIN_ENABLE_VERTEX_LIST_ARRAY)
-/** 
+/**
  * @brief get the position of a vertex in a sorted list
  * caller must guarantee the input vertex list is sorted to get the correct result
  * @param GRIN_GRAPH the graph
@@ -37,3 +41,7 @@ size_t grin_get_position_of_vertex_from_sorted_list(GRIN_GRAPH, GRIN_VERTEX_LIST
 #endif
 
 #endif // GRIN_INCLUDE_INDEX_ORDER_H_
+
+#ifdef __cplusplus
+}
+#endif

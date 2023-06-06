@@ -13,6 +13,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #ifndef GRIN_INCLUDE_TOPOLOGY_ADJACENTLIST_H_
 #define GRIN_INCLUDE_TOPOLOGY_ADJACENTLIST_H_
 
@@ -48,3 +52,7 @@ GRIN_EDGE grin_get_edge_from_adjacent_list_iter(GRIN_GRAPH, GRIN_ADJACENT_LIST_I
 #endif
 
 #endif  // GRIN_INCLUDE_TOPOLOGY_ADJACENTLIST_H_
+
+#ifdef __cplusplus
+}
+#endif

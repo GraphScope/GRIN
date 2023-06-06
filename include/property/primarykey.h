@@ -15,25 +15,29 @@ limitations under the License.
  @brief Define the primary key related APIs
 */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #ifndef GRIN_INCLUDE_PROPERTY_PRIMARY_KEY_H_
 #define GRIN_INCLUDE_PROPERTY_PRIMARY_KEY_H_
 
 
 #ifdef GRIN_ENABLE_VERTEX_PRIMARY_KEYS
-/** 
+/**
  * @brief get the vertex types with primary keys
  * @param GRIN_GRAPH the graph
 */
 GRIN_VERTEX_TYPE_LIST grin_get_vertex_types_with_primary_keys(GRIN_GRAPH);
 
-/** 
+/**
  * @brief get the primary keys (property list) of a specific vertex type
  * @param GRIN_GRAPH the graph
  * @param GRIN_VERTEX_TYPE the vertex type
 */
 GRIN_VERTEX_PROPERTY_LIST grin_get_primary_keys_by_vertex_type(GRIN_GRAPH, GRIN_VERTEX_TYPE);
 
-/** 
+/**
  * @brief get the vertex with the given primary keys
  * @param GRIN_GRAPH the graph
  * @param GRIN_VERTEX_TYPE the vertex type which determines the property list for primary keys
@@ -43,20 +47,20 @@ GRIN_VERTEX grin_get_vertex_by_primary_keys(GRIN_GRAPH, GRIN_VERTEX_TYPE, GRIN_R
 #endif
 
 #ifdef GRIN_WITH_EDGE_PRIMARY_KEYS
-/** 
+/**
  * @brief get the edge types with primary keys
  * @param GRIN_GRAPH the graph
 */
 GRIN_EDGE_TYPE_LIST grin_get_edge_types_with_primary_keys(GRIN_GRAPH);
 
-/** 
+/**
  * @brief get the primary keys (property list) of a specific edge type
  * @param GRIN_GRAPH the graph
  * @param GRIN_EDGE_TYPE the edge type
 */
 GRIN_EDGE_PROPERTY_LIST grin_get_primary_keys_by_edge_type(GRIN_GRAPH, GRIN_EDGE_TYPE);
 
-/** 
+/**
  * @brief get the edge with the given primary keys
  * @param GRIN_GRAPH the graph
  * @param GRIN_EDGE_PROPERTY_LIST the primary keys
@@ -66,3 +70,7 @@ GRIN_EDGE grin_get_edge_by_primary_keys(GRIN_GRAPH, GRIN_EDGE_TYPE, GRIN_ROW);
 #endif
 
 #endif  // GRIN_INCLUDE_PROPERTY_PRIMARY_KEY_H_
+
+#ifdef __cplusplus
+}
+#endif

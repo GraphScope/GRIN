@@ -15,6 +15,10 @@ limitations under the License.
  @brief Define the property related APIs
 */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #ifndef GRIN_INCLUDE_PROPERTY_PROPERTY_H_
 #define GRIN_INCLUDE_PROPERTY_PROPERTY_H_
 
@@ -164,3 +168,7 @@ const void* grin_get_edge_property_value(GRIN_GRAPH, GRIN_EDGE, GRIN_EDGE_PROPER
 #endif
 
 #endif  // GRIN_INCLUDE_PROPERTY_PROPERTY_H_
+
+#ifdef __cplusplus
+}
+#endif

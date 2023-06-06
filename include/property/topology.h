@@ -15,6 +15,10 @@ limitations under the License.
  @brief Define the topology related APIs under property graph
 */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #ifndef GRIN_INCLUDE_PROPERTY_TOPOLOGY_H_
 #define GRIN_INCLUDE_PROPERTY_TOPOLOGY_H_
 
@@ -40,3 +44,7 @@ GRIN_ADJACENT_LIST grin_get_adjacent_list_by_edge_type(GRIN_GRAPH, GRIN_DIRECTIO
 #endif
 
 #endif // GRIN_INCLUDE_PROPERTY_TOPOLOGY_H_
+
+#ifdef __cplusplus
+}
+#endif

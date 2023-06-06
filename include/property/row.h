@@ -15,6 +15,10 @@ limitations under the License.
  @brief Define the row related APIs
 */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #ifndef GRIN_INCLUDE_PROPERTY_ROW_H_
 #define GRIN_INCLUDE_PROPERTY_ROW_H_
 
@@ -100,3 +104,7 @@ GRIN_ROW grin_get_edge_row(GRIN_GRAPH, GRIN_EDGE);
 #endif
 
 #endif  // GRIN_INCLUDE_PROPERTY_ROW_H_
+
+#ifdef __cplusplus
+}
+#endif

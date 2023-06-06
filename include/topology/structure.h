@@ -13,6 +13,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #ifndef GRIN_INCLUDE_TOPOLOGY_STRUCTURE_H_
 #define GRIN_INCLUDE_TOPOLOGY_STRUCTURE_H_
 
@@ -65,3 +69,7 @@ const void* grin_get_edge_data_value(GRIN_GRAPH, GRIN_EDGE);
 #endif
 
 #endif  // GRIN_INCLUDE_TOPOLOGY_STRUCTURE_H_
+
+#ifdef __cplusplus
+}
+#endif

@@ -13,6 +13,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #ifndef GRIN_INCLUDE_TOPOLOGY_VERTEXLIST_H_
 #define GRIN_INCLUDE_TOPOLOGY_VERTEXLIST_H_
 
@@ -44,3 +48,7 @@ GRIN_VERTEX grin_get_vertex_from_iter(GRIN_GRAPH, GRIN_VERTEX_LIST_ITERATOR);
 #endif
 
 #endif  // GRIN_INCLUDE_TOPOLOGY_VERTEXLIST_H_
+
+#ifdef __cplusplus
+}
+#endif
