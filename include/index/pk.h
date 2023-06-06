@@ -18,7 +18,7 @@ limitations under the License.
 #ifndef GRIN_INCLUDE_INDEX_PK_H_
 #define GRIN_INCLUDE_INDEX_PK_H_
 
-#ifdef GRIN_ENABLE_VERTEX_PK_INDEX
+#if defined(GRIN_ENABLE_VERTEX_PK_INDEX) && defined(GRIN_ENABLE_VERTEX_PRIMARY_KEYS)
 GRIN_VERTEX grin_get_vertex_by_primary_keys_row(GRIN_GRAPH, GRIN_VERTEX_TYPE, GRIN_ROW);
 #endif
 
@@ -26,7 +26,7 @@ GRIN_VERTEX grin_get_vertex_by_primary_keys_row(GRIN_GRAPH, GRIN_VERTEX_TYPE, GR
 GRIN_VERTEX grin_get_vertex_by_pk_of_int64(GRIN_GRAPH, GRIN_VERTEX_TYPE, long long int);
 #endif
 
-#ifdef GRIN_ENABLE_EDGE_PK_INDEX
+#if defined(GRIN_ENABLE_EDGE_PK_INDEX) && defined(GRIN_ENABLE_EDGE_PRIMARY_KEYS)
 GRIN_EDGE grin_get_edge_by_primary_keys_row(GRIN_GRAPH, GRIN_EDGE_TYPE, GRIN_ROW);
 #endif
 
