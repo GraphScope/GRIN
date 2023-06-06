@@ -17,9 +17,12 @@ limitations under the License.
  Partition schema related APIs will be moved to partition/property.h
 */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #ifndef GRIN_INCLUDE_PROPERTY_PARTITION_H_
 #define GRIN_INCLUDE_PROPERTY_PARTITION_H_
-
 
 
 #if defined(GRIN_ENABLE_GRAPH_PARTITION) && \
@@ -71,3 +74,7 @@ GRIN_VEV_TYPE_LIST grin_get_many_to_many_vev_types(GRIN_GRAPH);
 #endif
 
 #endif // GRIN_INCLUDE_PROPERTY_PARTITION_H_
+
+#ifdef __cplusplus
+}
+#endif

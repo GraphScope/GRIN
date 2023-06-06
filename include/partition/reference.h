@@ -18,6 +18,10 @@ limitations under the License.
  @brief Define the reference related APIs
 */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #ifndef GRIN_INCLUDE_PARTITION_REFERENCE_H_
 #define GRIN_INCLUDE_PARTITION_REFERENCE_H_
 
@@ -47,7 +51,7 @@ GRIN_VERTEX grin_get_vertex_from_vertex_ref(GRIN_GRAPH, GRIN_VERTEX_REF);
  */
 GRIN_PARTITION grin_get_master_partition_from_vertex_ref(GRIN_GRAPH, GRIN_VERTEX_REF);
 
-const char* grin_serialize_vertex_ref(GRIN_GRAPH, GRIN_VERTEX_REF); 
+const char* grin_serialize_vertex_ref(GRIN_GRAPH, GRIN_VERTEX_REF);
 
 void grin_destroy_serialized_vertex_ref(GRIN_GRAPH, const char*);
 
@@ -101,3 +105,7 @@ GRIN_PARTITION_LIST grin_get_mirror_edge_mirror_partition_list(GRIN_GRAPH, GRIN_
 #endif
 
 #endif  // GRIN_INCLUDE_PARTITION_REFERENCE_H_
+
+#ifdef __cplusplus
+}
+#endif

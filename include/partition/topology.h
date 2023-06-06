@@ -18,6 +18,10 @@ limitations under the License.
  @brief Define the topoloy related APIs under partitioned graph
 */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #ifndef GRIN_INCLUDE_PARTITION_TOPOLOGY_H_
 #define GRIN_INCLUDE_PARTITION_TOPOLOGY_H_
 
@@ -90,3 +94,7 @@ GRIN_ADJACENT_LIST grin_get_adjacent_list_by_edge_type_select_partition_neighbor
 
 
 #endif // GRIN_INCLUDE_PARTITION_TOPOLOGY_H_
+
+#ifdef __cplusplus
+}
+#endif

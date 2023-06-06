@@ -15,6 +15,10 @@ limitations under the License.
  @brief Define the vertex/edge type related APIs
 */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #ifndef GRIN_INCLUDE_PROPERTY_TYPE_H_
 #define GRIN_INCLUDE_PROPERTY_TYPE_H_
 
@@ -107,3 +111,7 @@ GRIN_EDGE_TYPE_LIST grin_get_edge_types_by_vertex_type_pair(GRIN_GRAPH, GRIN_VER
 ///@}
 
 #endif  // GRIN_INCLUDE_PROPERTY_TYPE_H_
+
+#ifdef __cplusplus
+}
+#endif

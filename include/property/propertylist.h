@@ -15,6 +15,10 @@ limitations under the License.
  @brief Define the property list related and graph projection APIs
 */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #ifndef GRIN_INCLUDE_PROPERTY_PROPERTY_LIST_H_
 #define GRIN_INCLUDE_PROPERTY_PROPERTY_LIST_H_
 
@@ -37,12 +41,12 @@ bool grin_insert_vertex_property_to_list(GRIN_GRAPH, GRIN_VERTEX_PROPERTY_LIST, 
 GRIN_VERTEX_PROPERTY grin_get_vertex_property_by_id(GRIN_GRAPH, GRIN_VERTEX_TYPE, GRIN_VERTEX_PROPERTY_ID);
 
 /// We must specify the vertex type here, because the vertex property id is unique only under a specific vertex type
-GRIN_VERTEX_PROPERTY_ID grin_get_vertex_property_id(GRIN_GRAPH, GRIN_VERTEX_TYPE, GRIN_VERTEX_PROPERTY); 
+GRIN_VERTEX_PROPERTY_ID grin_get_vertex_property_id(GRIN_GRAPH, GRIN_VERTEX_TYPE, GRIN_VERTEX_PROPERTY);
 #endif
 
 
 #ifdef GRIN_WITH_EDGE_PROPERTY
-GRIN_EDGE_PROPERTY_LIST grin_get_edge_property_list_by_type(GRIN_GRAPH, GRIN_EDGE_TYPE); 
+GRIN_EDGE_PROPERTY_LIST grin_get_edge_property_list_by_type(GRIN_GRAPH, GRIN_EDGE_TYPE);
 
 size_t grin_get_edge_property_list_size(GRIN_GRAPH, GRIN_EDGE_PROPERTY_LIST);
 
@@ -63,3 +67,7 @@ GRIN_EDGE_PROPERTY_ID grin_get_edge_property_id(GRIN_GRAPH, GRIN_EDGE_TYPE, GRIN
 #endif
 
 #endif  // GRIN_INCLUDE_PROPERTY_PROPERTY_LIST_H_
+
+#ifdef __cplusplus
+}
+#endif
