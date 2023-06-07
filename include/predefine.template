@@ -25,15 +25,15 @@ limitations under the License.
  * The final part is the rule part to handle dependencies between macros which should not be edited.
 */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #ifndef GRIN_INCLUDE_PREDEFINE_H_
 #define GRIN_INCLUDE_PREDEFINE_H_
 
 #include <stdbool.h>
 #include <stddef.h>
-
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 /// Enumerates the directions of edges with respect to a certain vertex
 typedef enum {
@@ -875,8 +875,8 @@ typedef void* GRIN_LABEL;
 typedef void* GRIN_LABEL_LIST;
 #endif
 
+#endif  // GRIN_INCLUDE_PREDEFINE_H_
+
 #ifdef __cplusplus
 }
 #endif
-
-#endif  // GRIN_INCLUDE_PREDEFINE_H_

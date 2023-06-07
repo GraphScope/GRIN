@@ -13,27 +13,22 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-/**
- * @file predefine.h
- * @brief Pre-defined macros for storage features.
- * The macros are divided into several sections such as topology, partition,
- * and so on. 
- * In each section, the first part lists all available macros, and undefines
- * all GRIN_ASSUME_ macros by default.
- * After that is the MOST IMPORTANT part for storage implementors, i.e., the StorageSpecific area.
- * Storage implementors should turn ON/OFF the macros in this area based the features of the storage.
- * The final part is the rule part to handle dependencies between macros which should not be edited.
-*/
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-typedef void* GRIN_VERTEX_LISTS
+typedef void* GRIN_VERTEX_LIST_CHAIN
 
-typedef void* GRIN_VERTEX_LISTS_ITERATOR
+typedef void* GRIN_VERTEX_LIST_CHAIN_ITERATOR
 
-typedef void* GRIN_EDGE_LISTS
+typedef void* GRIN_EDGE_LIST_CHAIN
 
-typedef void* GRIN_EDGE_LISTS_ITERATOR
+typedef void* GRIN_EDGE_LIST_CHAIN_ITERATOR
 
-typedef void* GRIN_ADJACENT_LISTS
+typedef void* GRIN_ADJACENT_LIST_CHAIN
 
-typedef void* GRIN_ADJACENT_LISTS_ITERATOR
+typedef void* GRIN_ADJACENT_LIST_CHAIN_ITERATOR
 
+#ifdef __cplusplus
+}
+#endif
