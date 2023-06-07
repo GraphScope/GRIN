@@ -25,6 +25,12 @@ extern "C" {
 
 extern __thread GRIN_ERROR_CODE grin_error_code;
 
+/**
+ * @brief Get the last error code.
+ * The error code is thread local. 
+ * Currently users only need to check the error code when using
+ * getting-value APIs whose return has no predefined invalid value.
+*/
 GRIN_ERROR_CODE grin_get_last_error_code();
 
 #endif // GRIN_INCLUDE_COMMON_ERROR_H_

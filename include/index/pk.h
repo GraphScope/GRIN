@@ -23,10 +23,27 @@ extern "C" {
 #define GRIN_INCLUDE_INDEX_PK_H_
 
 #if defined(GRIN_ENABLE_VERTEX_PK_INDEX) && defined(GRIN_ENABLE_VERTEX_PRIMARY_KEYS)
+/**
+ * @brief Get the vertex by primary keys row.
+ * The values in the row must be in the same order as the primary keys 
+ * properties, which can be obtained by ``grin_get_primary_keys_by_vertex_type``.
+ * @param GRIN_GRAPH The graph.
+ * @param GRIN_VERTEX_TYPE The vertex type.
+ * @param GRIN_ROW The values row of primary keys properties.
+ * @return The vertex.
+*/
 GRIN_VERTEX grin_get_vertex_by_primary_keys_row(GRIN_GRAPH, GRIN_VERTEX_TYPE, GRIN_ROW);
 #endif
 
 #if defined(GRIN_ENABLE_VERTEX_PK_INDEX) && defined(GRIN_ENABLE_VERTEX_PK_OF_INT64)
+/**
+ * @brief Get the vertex by primary key of int64.
+ * In this case, only one int64 value is needed to get the vertex under a type.
+ * @param GRIN_GRAPH The graph.
+ * @param GRIN_VERTEX_TYPE The vertex type.
+ * @param long_long_int The value of primary key of int64.
+ * @return The vertex.
+*/
 GRIN_VERTEX grin_get_vertex_by_pk_of_int64(GRIN_GRAPH, GRIN_VERTEX_TYPE, long long int);
 #endif
 

@@ -27,12 +27,24 @@ extern "C" {
 
 
 #ifdef GRIN_ENABLE_GRAPH_PARTITION
-GRIN_PARTITIONED_GRAPH grin_get_partitioned_graph_from_storage(int, char**);
+/**
+ * @brief Get a partitioned graph from a storage.
+ * @param id The identity of the graph in the storage.
+ * @param version The version of the graph, for storage with no version,
+ * this param will be ignored.
+ * @return A partitioned graph.
+*/
+GRIN_PARTITIONED_GRAPH grin_get_partitioned_graph_from_storage(const char*, const char*);
 
 void grin_destroy_partitioned_graph(GRIN_PARTITIONED_GRAPH);
 
 size_t grin_get_total_partitions_number(GRIN_PARTITIONED_GRAPH);
 
+/**
+ * @brief Get the local partition list of the partitioned graph.
+ * For example, a graph may be partitioned into 6 partitions and located in
+ * 2 machines, then each machine may contain a local partition list of size 3.
+*/
 GRIN_PARTITION_LIST grin_get_local_partition_list(GRIN_PARTITIONED_GRAPH);
 
 void grin_destroy_partition_list(GRIN_PARTITIONED_GRAPH, GRIN_PARTITION_LIST);
@@ -51,6 +63,11 @@ void grin_destroy_partition(GRIN_PARTITIONED_GRAPH, GRIN_PARTITION);
 
 const void* grin_get_partition_info(GRIN_PARTITIONED_GRAPH, GRIN_PARTITION);
 
+/**
+ * @brief Get a local graph of the partitioned graph.
+ * @param partition The partition of the graph.
+ * @return A local graph.
+*/
 GRIN_GRAPH grin_get_local_graph_by_partition(GRIN_PARTITIONED_GRAPH, GRIN_PARTITION);
 #endif
 

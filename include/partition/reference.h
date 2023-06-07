@@ -25,20 +25,33 @@ extern "C" {
 #ifndef GRIN_INCLUDE_PARTITION_REFERENCE_H_
 #define GRIN_INCLUDE_PARTITION_REFERENCE_H_
 
-
-// Vertex ref refers to the same vertex referred in other partitions,
-// while edge ref is likewise. Both can be serialized to const char* for
-// message transporting and deserialized on the other end.
 #ifdef GRIN_ENABLE_VERTEX_REF
+/**
+ * @brief Get the vertex ref of a vertex.
+ * A vertex ref is a reference for a "local" vertex, and the reference can
+ * be recognized by other partitions.
+ * To transfer the vertex ref handle between partitions, users should
+ * first call serialization methods to serialize the vertex ref handle
+ * into string or int64 based on the storage's features; 
+ * then send the messages to remote partitions and deserialize the string or 
+ * int64 remotely to get the vertex ref handle on the remote partition; 
+ * finally use ``grin_get_vertex_by_vertex_ref`` to get the vertex handle
+ * on the remote partition.
+ * These two vertices should represent the same vertex in the partitioned graph.
+ * @param GRIN_GRAPH The graph
+ * @param GRIN_VERTEX The vertex
+ * @return The vertex ref
+*/
 GRIN_VERTEX_REF grin_get_vertex_ref_by_vertex(GRIN_GRAPH, GRIN_VERTEX);
 
 void grin_destroy_vertex_ref(GRIN_GRAPH, GRIN_VERTEX_REF);
 
 /**
- * @brief get the local vertex from the vertex ref
- * if the vertex ref is not regconized, a null vertex is returned
- * @param GRIN_GRAPH the graph
- * @param GRIN_VERTEX_REF the vertex ref
+ * @brief get the local vertex handle from the vertex ref handle
+ * if the vertex ref handle is not recognized, a null vertex is returned
+ * @param GRIN_GRAPH The graph
+ * @param GRIN_VERTEX_REF The vertex ref
+ * @return The vertex handle
  */
 GRIN_VERTEX grin_get_vertex_from_vertex_ref(GRIN_GRAPH, GRIN_VERTEX_REF);
 
@@ -46,25 +59,60 @@ GRIN_VERTEX grin_get_vertex_from_vertex_ref(GRIN_GRAPH, GRIN_VERTEX_REF);
  * @brief get the master partition of a vertex ref.
  * Some storage can still provide the master partition of the vertex ref,
  * even if the vertex ref can NOT be recognized locally.
- * @param GRIN_GRAPH the graph
- * @param GRIN_VERTEX_REF the vertex ref
+ * @param GRIN_GRAPH The graph
+ * @param GRIN_VERTEX_REF The vertex ref
  */
 GRIN_PARTITION grin_get_master_partition_from_vertex_ref(GRIN_GRAPH, GRIN_VERTEX_REF);
 
+/**
+ * @brief serialize the vertex ref handle to string
+ * The returned string should be freed by ``grin_destroy_serialized_vertex_ref``
+ * @param GRIN_GRAPH The graph
+ * @param GRIN_VERTEX_REF The vertex ref
+*/
 const char* grin_serialize_vertex_ref(GRIN_GRAPH, GRIN_VERTEX_REF);
 
 void grin_destroy_serialized_vertex_ref(GRIN_GRAPH, const char*);
 
+/**
+ * @brief deserialize the string to vertex ref handle
+ * If the string is invalid, a null vertex ref is returned
+ * @param GRIN_GRAPH The graph
+ * @param const_char* The string
+*/
 GRIN_VERTEX_REF grin_deserialize_to_vertex_ref(GRIN_GRAPH, const char*);
 
+/**
+ * @brief check if the vertex is a master vertex
+ * @param GRIN_GRAPH The graph
+ * @param GRIN_VERTEX The vertex
+*/
 bool grin_is_master_vertex(GRIN_GRAPH, GRIN_VERTEX);
 
+/**
+ * @brief check if the vertex is a mirror vertex
+ * @param GRIN_GRAPH The graph
+ * @param GRIN_VERTEX The vertex
+*/
 bool grin_is_mirror_vertex(GRIN_GRAPH, GRIN_VERTEX);
 #endif
 
 #ifdef GRIN_TRAIT_FAST_VERTEX_REF
+/**
+ * @brief serialize the vertex ref handle to int64
+ * This API is enabled by ``GRIN_TRAIT_FAST_VERTEX_REF``, meaning the vertex ref
+ * can be serialized into int64 instead of string.
+ * Obviously transferring and serializing int64 is faster than string.
+ * @param GRIN_GRAPH The graph
+ * @param GRIN_VERTEX_REF The vertex ref
+*/
 long long int grin_serialize_vertex_ref_as_int64(GRIN_GRAPH, GRIN_VERTEX_REF);
 
+/**
+ * @brief deserialize the int64 to vertex ref handle
+ * @param GRIN_GRAPH The graph
+ * @param long_long_int The int64 to be deserialized
+*/
 GRIN_VERTEX_REF grin_deserialize_int64_to_vertex_ref(GRIN_GRAPH, long long int);
 #endif
 

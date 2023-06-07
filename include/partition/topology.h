@@ -27,14 +27,40 @@ extern "C" {
 
 
 #if defined(GRIN_TRAIT_SELECT_MASTER_FOR_VERTEX_LIST) && !defined(GRIN_WITH_VERTEX_PROPERTY)
+/**
+ * @brief Get the vertex list of the graph with master vertices only.
+ * This API is only available for simple graph.
+ * @param graph The graph object.
+ * @return The vertex list.
+*/
 GRIN_VERTEX_LIST grin_get_vertex_list_select_master(GRIN_GRAPH);
 
+/**
+ * @brief Get the vertex list of the graph with mirror vertices only.
+ * This API is only available for simple graph.
+ * @param graph The graph object.
+ * @return The vertex list.
+*/
 GRIN_VERTEX_LIST grin_get_vertex_list_select_mirror(GRIN_GRAPH);
 #endif
 
 #if defined(GRIN_TRAIT_SELECT_MASTER_FOR_VERTEX_LIST) && defined(GRIN_WITH_VERTEX_PROPERTY)
+/**
+ * @brief Get the vertex list of a given type with master vertices only.
+ * This API is only available for property graph.
+ * @param GRIN_GRAPH The graph.
+ * @param GRIN_VERTEX_TYPE The vertex type.
+ * @return The vertex list of master vertices only.
+*/
 GRIN_VERTEX_LIST grin_get_vertex_list_by_type_select_master(GRIN_GRAPH, GRIN_VERTEX_TYPE);
 
+/**
+ * @brief Get the vertex list of a given type with mirror vertices only.
+ * This API is only available for property graph.
+ * @param GRIN_GRAPH The graph.
+ * @param GRIN_VERTEX_TYPE The vertex type.
+ * @return The vertex list of mirror vertices only.
+*/
 GRIN_VERTEX_LIST grin_get_vertex_list_by_type_select_mirror(GRIN_GRAPH, GRIN_VERTEX_TYPE);
 #endif
 

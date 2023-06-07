@@ -22,6 +22,12 @@ extern "C" {
 #ifndef GRIN_INCLUDE_COMMON_MESSAGE_H_
 #define GRIN_INCLUDE_COMMON_MESSAGE_H_
 
+/**
+ * @brief Get the static feature prototype message of the storage.
+ * This proto describes the features of the storage, such as whether
+ * it supports property graph or partitioned graph.
+ * @return The serialized proto message.
+*/
 const char* grin_get_static_storage_feature_msg();
 
 #endif // GRIN_INCLUDE_PROTO_MESSAGE_H_
