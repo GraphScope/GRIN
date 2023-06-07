@@ -9,7 +9,7 @@ index vertices and edges. In the future, GRIN may distinguish p.k. from "indexin
 currently they are the same thing.
 
 To get a vertex from its p.k. values, we will first put all the values into a row according to the
-properties of p.k.. Then we will use the row to get the vertex handler. The following example shows
+properties of p.k.. Then we will use the row to get the vertex handle. The following example shows
 how to get the vertex of type "person" with name "marko" and age 29.
 
 

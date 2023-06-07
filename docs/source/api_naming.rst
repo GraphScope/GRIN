@@ -5,11 +5,11 @@ Common Get
 =========================== ==============
 Format                      Description
 =========================== ==============
-grin_get_A                  return handler A or the value of some statitic A
+grin_get_A                  return handle A or the value of some statitic A
 grin_get_A_of_T             return A of type T 
-grin_get_A_from_B           A is an element of B and A must be a handler. In case B is A list, use grin_get_A_from_list for short
+grin_get_A_from_B           A is an element of B and A must be a handle. In case B is A list, use grin_get_A_from_list for short
 grin_get_A_by_B             use B to find A, B can be id or name
-grin_get_A_B                B is an element of A, and B is NOT a handler or value. B can be name, datatype, id, or size
+grin_get_A_B                B is an element of A, and B is NOT a handle or value. B can be name, datatype, id, or size
 grin_get_As_with_B          get A list with B enabled, B can be primary_keys
 =========================== ==============
 
@@ -54,7 +54,7 @@ Others
 =========================== ==============
 Format                      Description
 =========================== ==============
-grin_destroy_A              destroy handler of A
+grin_destroy_A              destroy handle of A
 grin_is_X                   check whether condition X statisfied
 grin_equal_A                check whether two A handles are equal
 grin_select_A_for_B_list    select elements in B list based on A, A can be type or partition
@@ -66,7 +66,7 @@ Parameter Order
 ^^^^^^^^^^^^^^^
 Rules to order parameters of APIs:
 
-- From larger-range handler to smaller-range handler
+- From larger-range handle to smaller-range handle
 - A is placed before B list for grin_select_A_for_B_list
 
 

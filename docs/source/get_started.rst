@@ -3,7 +3,7 @@ Getting Started
 
 Get Graph from Storage
 ^^^^^^^^^^^^^^^^^^^^^^
-To use GRIN, the first API we need is to get the graph handler for the graph in storage.
+To use GRIN, the first API we need is to get the graph handle for the graph in storage.
 Here we introduce the ``get_graph_from_storage`` API.
 
 ::
@@ -20,7 +20,7 @@ For example, in Vineyard,
 the first argument is the ``IPC_socket`` of the Vineyard server,
 and the second argument is the ``object_id`` of the graph.
 
-The return value of this API is a GRIN graph handler.
+The return value of this API is a GRIN graph handle.
 
 Partitioned Graph
 ^^^^^^^^^^^^^^^^^
@@ -35,9 +35,9 @@ To get a partitioned graph, we need to use the ``get_partitioned_graph_from_stor
     GRIN_PARTITIONED_GRAPH grin_get_partitioned_graph_from_storage(int, char**);
 
 The parameters of this API are the same as the ``get_graph_from_storage`` API.
-The return value of this API is a GRIN partitioned graph handler.
+The return value of this API is a GRIN partitioned graph handle.
 
-To further get the graph handler of a specific fragment, we use:
+To further get the graph handle of a specific fragment, we use:
 
 ::
 
@@ -50,7 +50,7 @@ To further get the graph handler of a specific fragment, we use:
       GRIN_GRAPH g = grin_get_local_graph_by_partition(pg, partition);
     }
 
-All these types here with ``GRIN_`` prefix are GRIN handler types, which are typedefined by the storage.
-Actions should not be taken based on the specific type (e.g., ``void*`` or ``int``) of any handler,
-because different storage may use different types for the same handler.
+All these types here with ``GRIN_`` prefix are GRIN handle types, which are typedefined by the storage.
+Actions should not be taken based on the specific type (e.g., ``void*`` or ``int``) of any handle,
+because different storage may use different types for the same handle.
 

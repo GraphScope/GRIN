@@ -19,9 +19,10 @@ limitations under the License.
  * The macros are divided into several sections such as topology, partition,
  * and so on.
  * In each section, the first part lists all available macros, and undefines
- * all GRIN_ASSUME_ macros by default.
- * After that is the MOST IMPORTANT part for storage implementors, i.e., the StorageSpecific area.
- * Storage implementors should turn ON/OFF the macros in this area based the features of the storage.
+ * all macros by default.
+ * After that is the MOST IMPORTANT part for storage implementors, i.e., the storage enable area.
+ * Storage implementors should Turn-ON (i.e., define) the specific macros in this area based 
+ * the features of the storage.
  * The final part is the rule part to handle dependencies between macros which should not be edited.
 */
 
@@ -59,7 +60,7 @@ typedef enum {
 
 /// Enumerates the error codes of grin
 typedef enum {
-  NO_ERROR = 0,               ///< success
+  NO_ERROR = 0,              ///< success
   UNKNOWN_ERROR = 1,         ///< unknown error
   INVALID_VALUE = 2,         ///< invalid value
   UNKNOWN_DATATYPE = 3,      ///< unknown datatype
@@ -72,18 +73,17 @@ typedef enum {
  */
 ///@{
 /** @ingroup TopologyMacros
- * @brief The storage only support directed graphs.
+ * @brief The storage supports directed graphs.
  */
 #define GRIN_ASSUME_HAS_DIRECTED_GRAPH
 
 /** @ingroup TopologyMacros
- * @brief The storage only support undirected graphs.
+ * @brief The storage supports undirected graphs.
  */
 #define GRIN_ASSUME_HAS_UNDIRECTED_GRAPH
 
 /** @ingroup TopologyMacros
- * @brief The storage only support graphs with single
- * edge between a pair of vertices.
+ * @brief The storage supports multiple edges between a pair of vertices.
  */
 #define GRIN_ASSUME_HAS_MULTI_EDGE_GRAPH
 
@@ -98,8 +98,8 @@ typedef enum {
 #define GRIN_WITH_EDGE_DATA
 
 /** @ingroup TopologyMacros
- * @brief Enable the vertex list structure.
- * The vertex list related APIs follow the design of GRIN List.
+ * @brief Enable the vertex list structure. It follows the design of
+ * GRIN Topology List.
 */
 #define GRIN_ENABLE_VERTEX_LIST
 
@@ -702,14 +702,14 @@ typedef enum {
 /** @ingroup IndexOIDMacros
  * @brief There is original ID of type int64 for each vertex
  * This facilitates queries starting from a specific vertex,
- * since one can get the vertex handler directly using its original ID.
+ * since one can get the vertex handle directly using its original ID.
  */
 #define GRIN_ENABLE_VERTEX_ORIGINAL_ID_OF_INT64
 
 /** @ingroup IndexOIDMacros
  * @brief There is original ID of type string for each vertex
  * This facilitates queries starting from a specific vertex,
- * since one can get the vertex handler directly using its original ID.
+ * since one can get the vertex handle directly using its original ID.
  */
 #define GRIN_ENABLE_VERTEX_ORIGINAL_ID_OF_STRING
 ///@}
@@ -778,7 +778,7 @@ typedef enum {
 ///@}
 
 
-/* Define the handlers using typedef */
+/* Define the handles using typedef */
 typedef void* GRIN_GRAPH;
 typedef void* GRIN_VERTEX;
 typedef void* GRIN_EDGE;

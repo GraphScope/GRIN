@@ -14,7 +14,7 @@ To get the ``vertex_ref`` of a ``vertex`` and vice-versa, use:
 
     GRIN_VERTEX grin_get_vertex_by_vertex_ref(GRIN_GRAPH, GRIN_VERTEX_REF);
 
-Since ``GRIN_VERETX_REF`` is still a handler, we can further serialize it into ``const char*`` or
+Since ``GRIN_VERETX_REF`` is still a handle, we can further serialize it into ``const char*`` or
 ``int64`` if ``GRIN_TRAIT_FAST_VERTEX_REF`` is defined.
 
 ::

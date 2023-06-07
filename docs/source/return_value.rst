@@ -1,12 +1,12 @@
 Return Values
 --------------
-Handler
+handle
 ^^^^^^^^^^
-The return value of a GRIN API call is a GRIN handler in most cases.
-A GRIN handler represents a GRIN object such as vertex or edge, and
+The return value of a GRIN API call is a GRIN handle in most cases.
+A GRIN handle represents a GRIN object such as vertex or edge, and
 it can be used as a paramter of another GRIN API call.
 
-In the last section, we already got a ``GRIN_GRAPH`` handler ``g``.
+In the last section, we already got a ``GRIN_GRAPH`` handle ``g``.
 We can use it to get the vertex list of the graph:
 
 :: 
@@ -38,15 +38,15 @@ We can use it to get the vertex list of the graph:
 
     grin_destroy_vertex_list(g, vlist);
 
-In the first line, we get a ``vertex list`` handler in GRIN from a graph handler.
+In the first line, we get a ``vertex list`` handle in GRIN from a graph handle.
 Then the vertex list can be accessed in two ways: array and iterator.
 This is controlled by the macros enabled by the storage, meaning some storage may
 only support one type of accessment while some may support both.
-Finally, we have to destroy every handler we get from GRIN to avoid memory leak.
+Finally, we have to destroy every handle we get from GRIN to avoid memory leak.
 
 Others
 ^^^^^^
-Exceptionally, there are three types of values returned by GRIN API calls other than handlers:
+Exceptionally, there are three types of values returned by GRIN API calls other than handles:
 
 - GRIN enumerates: This includes enumerates defined in predefine.h, namely GRIN_DIRECTION, GRIN_DATATYPE and GRIN_ERROR_CODE.
 - common values: This includes common values such as ``size_t`` for list size, ``bool`` for condition check, ``unsigned int`` for id, and ``const char*`` for name.
@@ -62,8 +62,8 @@ or edge property name, users do NOT have to destroy it, since they are common va
 
 Validation
 ^^^^^^^^^^
-GRIN provides invalid values for handlers to let users check if a handler is valid or not.
-Normally, the invalid value is of a GRIN handler ``GRIN_A`` is defined as ``GRIN_NULL_A``.
+GRIN provides invalid values for handles to let users check if a handle is valid or not.
+Normally, the invalid value is of a GRIN handle ``GRIN_A`` is defined as ``GRIN_NULL_A``.
 If ``A`` is a list or iterator, use ``GRIN_NULL_LIST`` or ``GRIN_NULL_LIST_ITERATOR`` instead of
 specifying ``GRIN_NULL_A_LIST``.
 
@@ -98,7 +98,7 @@ To summerize, we list a table for return values of GRIN API calls and related op
 =================== =========================== =================
 Return Value Types  Check Invalid               Destroy Required
 =================== =========================== =================
-Handler             != GRIN_NULL_A              grin_destroy_A
+handle             != GRIN_NULL_A              grin_destroy_A
 GRIN enumerates     N/A                         N/A
 Common values       != GRIN_NULL_X              N/A
 Property values     grin_get_last_error_code    grin_destroy_string_value only
