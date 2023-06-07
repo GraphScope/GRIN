@@ -9,6 +9,7 @@ message Property {
     uint32 property_id = 1;
     string property_name = 2;
     StorageDataType property_type = 3;
+    string comment = 4; // description of the property
 }
 
 message VertexType {
@@ -16,6 +17,7 @@ message VertexType {
     string type_name = 2;
     repeated Property properties = 3;
     repeated uint32 primary_key_ids = 4;
+    string comment = 5; // description of the vertex type
 }
 
 message EdgeType {
@@ -35,6 +37,7 @@ message EdgeType {
     repeated Property properties = 3;
     repeated uint32 primary_key_ids = 4;
     repeated VertexTypePairRelation vertex_type_pair_relations = 5;
+    string comment = 6; // description of the edge type
 }
 
 message Schema {
