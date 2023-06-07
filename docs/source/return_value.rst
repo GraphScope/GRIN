@@ -98,7 +98,7 @@ To summerize, we list a table for return values of GRIN API calls and related op
 =================== =========================== =================
 Return Value Types  Check Invalid               Destroy Required
 =================== =========================== =================
-handle             != GRIN_NULL_A              grin_destroy_A
+handle              != GRIN_NULL_A              grin_destroy_A
 GRIN enumerates     N/A                         N/A
 Common values       != GRIN_NULL_X              N/A
 Property values     grin_get_last_error_code    grin_destroy_string_value only

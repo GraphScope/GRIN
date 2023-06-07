@@ -16,14 +16,16 @@ limitations under the License.
 /**
  * @file predefine.h
  * @brief Pre-defined macros for storage features.
- * The macros are divided into several sections such as topology, partition,
- * and so on.
- * In each section, the first part lists all available macros, and undefines
- * all macros by default.
- * After that is the MOST IMPORTANT part for storage implementors, i.e., the storage enable area.
- * Storage implementors should Turn-ON (i.e., define) the specific macros in this area based 
- * the features of the storage.
- * The final part is the rule part to handle dependencies between macros which should not be edited.
+ * The macros are divided into several sections such as topology,
+ * partition, and so on.
+ * In each section, the first part lists all available macros, and
+ * undefines all macros by default.
+ * After that is the MOST IMPORTANT part for storage implementors, 
+ * i.e., the storage enable area.
+ * Storage implementors should Turn-ON (i.e., define) the specific 
+ * macros in this area based the features of the storage.
+ * The final part is the rule part to handle dependencies between 
+ * macros which should not be edited.
 */
 
 #ifdef __cplusplus
@@ -98,56 +100,50 @@ typedef enum {
 #define GRIN_WITH_EDGE_DATA
 
 /** @ingroup TopologyMacros
- * @brief Enable the vertex list structure. It follows the design of
- * GRIN Topology List.
+ * @brief Enable the vertex list structure.
+ * It follows the design for Topology Lists.
 */
 #define GRIN_ENABLE_VERTEX_LIST
 
 /** @ingroup TopologyMacros
  * @brief Enable the vertex list array-style retrieval.
- * The vertex list related APIs follow the design of GRIN List.
 */
 #define GRIN_ENABLE_VERTEX_LIST_ARRAY
 
 /** @ingroup TopologyMacros
  * @brief Enable the vertex list iterator.
- * The vertex list iterator related APIs follow the design of GRIN Iterator.
 */
 #define GRIN_ENABLE_VERTEX_LIST_ITERATOR
 
 /** @ingroup TopologyMacros
- * @brief Enable the edge list structure.
- * The edge list related APIs follow the design of GRIN List.
+ * @brief Enable the edge list structure. 
+ * It follows the design for Topology Lists.
 */
 #define GRIN_ENABLE_EDGE_LIST
 
 /** @ingroup TopologyMacros
  * @brief Enable the edge list array-style retrieval.
- * The edge list related APIs follow the design of GRIN List.
 */
 #define GRIN_ENABLE_EDGE_LIST_ARRAY
 
 /** @ingroup TopologyMacros
  * @brief Enable the edge list iterator.
- * The edge list iterator related APIs follow the design of GRIN Iterator.
 */
 #define GRIN_ENABLE_EDGE_LIST_ITERATOR
 
 /** @ingroup TopologyMacros
  * @brief Enable the adjacent list structure.
- * The adjacent list related APIs follow the design of GRIN List.
+ * It follows the design for Topology Lists.
 */
 #define GRIN_ENABLE_ADJACENT_LIST
 
 /** @ingroup TopologyMacros
  * @brief Enable the adjacent list array-style retrieval.
- * The adjacent list related APIs follow the design of GRIN List.
 */
 #define GRIN_ENABLE_ADJACENT_LIST_ARRAY
 
 /** @ingroup TopologyMacros
  * @brief Enable the adjacent list iterator.
- * The adjacent list iterator related APIs follow the design of GRIN Iterator.
 */
 #define GRIN_ENABLE_ADJACENT_LIST_ITERATOR
 ///@}
@@ -209,7 +205,8 @@ typedef enum {
 
 /** @ingroup PartitionMacros
  * @brief The storage provides fast reference of vertex, which means
- * the vertex ref can be serialized into a int64 using grin_serialize_vertex_ref_as_int64
+ * the vertex ref can be serialized into a int64 using 
+ * grin_serialize_vertex_ref_as_int64
 */
 #define GRIN_TRAIT_FAST_VERTEX_REF
 
@@ -324,49 +321,47 @@ typedef enum {
 ///@}
 
 /** @name TraitFilterMacros
- * @brief Macros for storage that provides filtering ability of partitions for structures
- * like vertex list or adjacent list. This trait is usually enabled for efficient graph traversal.
+ * @brief Macros for storage that provides filtering ability of partitions for 
+ * topology lists. This trait is usually enabled for efficient graph traversal.
 */
 ///@{
 /** @ingroup TraitFilterMacros
- * @brief The storage provides a filtering predicate of master vertices
- * for vertex list iterator. That means, the caller can use the predicate
- * to make a master-only vertex list iterator from the original iterator.
+ * @brief The storage provides master vertex filtering for vertex list.
+ * This means suffix ``_select_master`` or ``_select_mirror`` can be added to a
+ * ``grin_get_vertex_list`` API to get a master-only or mirror-only vertex list.
+ * For example, ``grin_get_vertex_list_by_type_select_mirror`` returns
+ * a vertex list of a given type with mirror vertices only.
 */
 #define GRIN_TRAIT_SELECT_MASTER_FOR_VERTEX_LIST
 
 /** @ingroup TraitFilterMacros
- * @brief The storage provides a filtering predicate of single partition vertices
- * for vertex list iterator. That means, the caller can use the predicate
- * to make a single-partition vertex list iterator from the original iterator.
+ * @brief The storage provides per partition vertex filtering for vertex list.
+ * The suffix is ``_select_partition``.
 */
 #define GRIN_TRAIT_SELECT_PARTITION_FOR_VERTEX_LIST
 
 /** @ingroup TraitFilterMacros
- * @brief The storage provides a filtering predicate of master edges
- * for edge list iterator. That means, the caller can use the predicate
- * to make a master-only edge list iterator from the original iterator.
+ * @brief The storage provides master edge filtering for edge list.
+ * The suffixes ``_select_master`` and ``_select_mirror`` 
+ * are the same as vertex list.
 */
 #define GRIN_TRAIT_SELECT_MASTER_FOR_EDGE_LIST
 
 /** @ingroup TraitFilterMacros
- * @brief The storage provides a filtering predicate of single partition edges
- * for edge list iterator. That means, the caller can use the predicate
- * to make a single-partition edge list iterator from the original iterator.
+ * @brief The storage provides per partition edge filtering for edge list.
+ * The suffix is ``_select_partition``.
 */
 #define GRIN_TRAIT_SELECT_PARTITION_FOR_EDGE_LIST
 
 /** @ingroup TraitFilterMacros
- * @brief The storage provides a filtering predicate of master neighbors
- * for adjacent list iterator. That means, the caller can use the predicate
- * to make a master-only adjacent list iterator from the original iterator.
+ * @brief The storage provides master neighbor filtering for adjacent list.
+ * The suffixes are ``_select_master_neighbor`` and ``_select_mirror_neighbor``.
 */
 #define GRIN_TRAIT_SELECT_MASTER_NEIGHBOR_FOR_ADJACENT_LIST
 
 /** @ingroup TraitFilterMacros
- * @brief The storage provides a filtering predicate of single-partition vertices
- * for adjacent list iterator. That means, the caller can use the predicate
- * to make a single-partition adjacent list iterator from the original iterator.
+ * @brief The storage provides per partition neighbor filtering for adjacent list.
+ * The suffix is ``_select_neighbor_partition``.
 */
 #define GRIN_TRAIT_SELECT_NEIGHBOR_PARTITION_FOR_ADJACENT_LIST
 ///@}
@@ -441,27 +436,27 @@ typedef enum {
  */
 ///@{
 /** @ingroup PropertyMacros
- * @brief Enable the pure data structure Row
+ * @brief Enable the pure value structure Row
 */
 #define GRIN_ENABLE_ROW
 
 /** @ingroup PropertyMacros
  * @brief This trait is used to indicate the storage can return a pointer to the
- * value of a property.
+ * value of a property. However, this trait is going to be deprecated, because
+ * it is too complex to use related APIs in the computing side.
 */
 #define GRIN_TRAIT_CONST_VALUE_PTR
 
 /** @ingroup PropertyMacros
- * @brief There are properties bound to vertices. When vertices are typed, vertex
- * properties are bound to vertex types, according to the definition of vertex type.
+ * @brief The graph has vertex properties, meaning it is a property graph.
 */
 #define GRIN_WITH_VERTEX_PROPERTY
 
 /** @ingroup PropertyMacros
- * @brief There are property names for vertex properties. The relationship between property
- * name and properties is one-to-many, because properties bound to different vertex/edge
- * types are distinguished even they may share the same property name. Please refer to
- * the design of Property for details.
+ * @brief There are property names for vertex properties. 
+ * The relationship between property name and properties is one-to-many, 
+ * because properties bound to different vertex types are distinguished 
+ * even they may share the same property name.
 */
 #define GRIN_WITH_VERTEX_PROPERTY_NAME
 
@@ -477,18 +472,19 @@ typedef enum {
 #define GRIN_TRAIT_NATURAL_ID_FOR_VERTEX_TYPE
 
 /** @ingroup PropertyMacros
- * @brief There are primary keys for vertices. Vertex primary keys is
- * a set of vertex properties whose values can distinguish vertices. When vertices are
- * typed, each vertex type has its own primary keys which distinguishes the vertices of
- * that type.
- *
- * With primary keys, one can get the vertex from the graph or a certain type
- * by providing the values of the primary keys. The macro is unset if GRIN_WITH_VERTEX_PROPERTY
- * is NOT defined, in which case, one can use ORIGINAL_ID when vertices have
- * no properties.
+ * @brief There are primary keys for vertices. 
+ * Consider each vertex type as a table in relational database, where
+ * the properties are the columns of the table.
+ * The storage supports setting a subset of the properties as the primary keys,
+ * meaning that each vertex of a certain type has its unique property values 
+ * on the primary keys.
 */
 #define GRIN_ENABLE_VERTEX_PRIMARY_KEYS
 
+/** @ingroup PropertyMacros
+ * @brief There are primary keys for vertices, and the primary key is only
+ * a single integer.
+*/
 #define GRIN_ENABLE_VERTEX_PK_OF_INT64
 
 /** @ingroup PropertyMacros
@@ -500,16 +496,15 @@ typedef enum {
 
 
 /** @ingroup PropertyMacros
- * @brief There are properties bound to edges. When edges are typed, edge
- * properties are bound to edge types, according to the definition of edge type.
+ * @brief The graph has edge properties, meaning it is a property graph.
 */
 #define GRIN_WITH_EDGE_PROPERTY
 
 /** @ingroup PropertyMacros
- * @brief There are property names for edge properties. The relationship between property
- * name and properties is one-to-many, because properties bound to different vertex/edge
- * types are distinguished even they may share the same property name. Please refer to
- * the design of Property for details.
+ * @brief There are property names for edge properties. 
+ * The relationship between property name and properties is one-to-many, 
+ * because properties bound to different edge types are distinguished 
+ * even they may share the same property name.
 */
 #define GRIN_WITH_EDGE_PROPERTY_NAME
 
@@ -525,17 +520,19 @@ typedef enum {
 #define GRIN_TRAIT_NATURAL_ID_FOR_EDGE_TYPE
 
 /** @ingroup PropertyMacros
- * @brief There are primary keys for edges. Edge primary keys is
- * a set of edge properties whose values can distinguish edges. When edges are
- * typed, each edge type has its own primary keys which distinguishes the edges of
- * that type.
- *
- * With primary keys, one can get the edge from the graph or a certain type
- * by providing the values of the primary keys. The macro is unset if GRIN_WITH_EDGE_PROPERTY
- * is NOT defined.
+ * @brief There are primary keys for edges. 
+ * Consider each edge type as a table in relational database, where
+ * the properties are the columns of the table.
+ * The storage supports setting a subset of the properties as the primary keys,
+ * meaning that each edge of a certain type has its unique property values 
+ * on the primary keys.
 */
 #define GRIN_ENABLE_EDGE_PRIMARY_KEYS
 
+/** @ingroup PropertyMacros
+ * @brief There are primary keys for edges, and the primary key is only
+ * a single integer.
+*/
 #define GRIN_ENABLE_EDGE_PK_OF_INT64
 
 /** @ingroup PropertyMacros
@@ -684,7 +681,6 @@ typedef enum {
 
 /** @name IndexOrderMacros
  * @brief Macros for ordering features.
- * Please refer to the order section in the documents for details.
  */
 ///@{
 /** @ingroup IndexOrderMacros
@@ -696,27 +692,40 @@ typedef enum {
 ///@}
 
 /** @name IndexOIDMacros
- * @brief Macros for label features
+ * @brief Macros for original ID features
  */
 ///@{
 /** @ingroup IndexOIDMacros
- * @brief There is original ID of type int64 for each vertex
+ * @brief There is a unique original ID of type int64 for each vertex.
  * This facilitates queries starting from a specific vertex,
- * since one can get the vertex handle directly using its original ID.
+ * since users can get the vertex handle directly using its original ID.
  */
 #define GRIN_ENABLE_VERTEX_ORIGINAL_ID_OF_INT64
 
 /** @ingroup IndexOIDMacros
- * @brief There is original ID of type string for each vertex
+ * @brief There is a unique original ID of type string for each vertex.
  * This facilitates queries starting from a specific vertex,
- * since one can get the vertex handle directly using its original ID.
+ * since users can get the vertex handle directly using its original ID.
  */
 #define GRIN_ENABLE_VERTEX_ORIGINAL_ID_OF_STRING
 ///@}
 
+/** @name IndexPKMacros
+ * @brief Macros for pk indexing features
+ */
+///@{
+/** @ingroup IndexPKMacros
+ * @brief Enable vertex indexing on primary keys, meaning that
+ * users can get a vertex handle using its primary key(s) value(s).
+ */
 #define GRIN_ENABLE_VERTEX_PK_INDEX
 
+/** @ingroup IndexPKMacros
+ * @brief Enable edge indexing on primary keys, meaning that
+ * users can get an edge handle using its primary key(s) value(s).
+ */
 #define GRIN_ENABLE_EDGE_PK_INDEX
+///@}
 
 #ifndef GRIN_DOXYGEN_SKIP
 // GRIN_DEFAULT_DISABLE

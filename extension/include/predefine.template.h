@@ -13,21 +13,32 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+/**
+ * @file extension/predefine.h
+ * @brief Pre-defined macros, handles and null values for
+ * GRIN extensions.
+*/
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-typedef void* GRIN_VERTEX_LIST_CHAIN
+#ifndef GRIN_EXTENSION_INCLUDE_PREDEFINE_H_
+#define GRIN_EXTENSION_INCLUDE_PREDEFINE_H_
 
-typedef void* GRIN_VERTEX_LIST_CHAIN_ITERATOR
+typedef void* GRIN_VERTEX_LIST_CHAIN;
 
-typedef void* GRIN_EDGE_LIST_CHAIN
+typedef void* GRIN_VERTEX_LIST_CHAIN_ITERATOR;
 
-typedef void* GRIN_EDGE_LIST_CHAIN_ITERATOR
+typedef void* GRIN_EDGE_LIST_CHAIN;
 
-typedef void* GRIN_ADJACENT_LIST_CHAIN
+typedef void* GRIN_EDGE_LIST_CHAIN_ITERATOR;
 
-typedef void* GRIN_ADJACENT_LIST_CHAIN_ITERATOR
+typedef void* GRIN_ADJACENT_LIST_CHAIN;
+
+typedef void* GRIN_ADJACENT_LIST_CHAIN_ITERATOR;
+
+#endif // GRIN_EXTENSION_INCLUDE_PREDEFINE_H_
 
 #ifdef __cplusplus
 }
