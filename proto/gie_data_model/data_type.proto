@@ -61,7 +61,8 @@ message DateTime {
     TimeZoneFormat time_zone_format = 2;
 }
 
-message StorageDataType {
+// element type nested in array or multiset or map
+message ComponentType {
     oneof item {
         PrimitiveType primitive_type = 1;
         Numeric numeric = 2;
@@ -71,6 +72,56 @@ message StorageDataType {
         Time time = 6;
         DateTime date_time = 7;
     }
+}
 
-    bool nullable = 8;
+message Array {
+    ComponentType component_type = 1;
+    uint32 max_length = 2;
+}
+
+message MultiSet {
+    ComponentType component_type = 1;
+}
+
+message Map {
+    // type can be hashing
+    message KeyType {
+        enum PrimitiveKeyType {
+            DT_SIGNED_INT32 = 0;
+            DT_UNSIGNED_INT32 = 1;
+            DT_SIGNED_INT64 = 2;
+            DT_UNSIGNED_INT64 = 3;
+            DT_BOOL = 4;
+            DT_STRING = 5;
+        }
+
+        oneof item {
+            PrimitiveKeyType primitive_key_type = 1;
+            Char char = 2;
+            VarChar var_char = 3;
+            Date date = 4;
+            Time time = 5;
+            DateTime date_time = 6;
+        }
+    }
+
+    KeyType key_type = 1;
+    ComponentType value_type = 2;
+}
+
+message StorageDataType {
+    oneof item {
+        PrimitiveType primitive_type = 1;
+        Numeric numeric = 2;
+        Char char = 3;
+        VarChar var_char = 4;
+        Date date = 5;
+        Time time = 6;
+        DateTime date_time = 7;
+        Array array = 8;
+        MultiSet multi_set = 9;
+        Map map = 10;
+    }
+
+    bool nullable = 11;
 }
