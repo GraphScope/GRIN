@@ -32,7 +32,7 @@ extern "C" {
  * @param id The identity of the graph in the storage.
  * @param version The version of the graph, for storage with no version,
  * this param will be ignored.
- * @return A partitioned graph.
+ * @return A partitioned graph handle.
 */
 GRIN_PARTITIONED_GRAPH grin_get_partitioned_graph_from_storage(const char*, const char*);
 

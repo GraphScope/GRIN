@@ -20,8 +20,14 @@ extern "C" {
 #ifndef GRIN_INCLUDE_TOPOLOGY_STRUCTURE_H_
 #define GRIN_INCLUDE_TOPOLOGY_STRUCTURE_H_
 
-
-GRIN_GRAPH grin_get_graph_from_storage(int, char**);
+/**
+ * @brief Get a (non-partitioned) graph from storage
+ * @param id The identity of the graph in the storage.
+ * @param version The version of the graph, for storage with no version,
+ * this param will be ignored.
+ * @return A graph handle.
+*/
+GRIN_GRAPH grin_get_graph_from_storage(const char*, const char*);
 
 void grin_destroy_graph(GRIN_GRAPH);
 
