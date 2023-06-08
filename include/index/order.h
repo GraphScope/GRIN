@@ -29,12 +29,12 @@ bool grin_smaller_vertex(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTEX);
 
 #if defined(GRIN_ASSUME_ALL_VERTEX_LIST_SORTED) && defined(GRIN_ENABLE_VERTEX_LIST_ARRAY)
 /**
- * @brief get the position of a vertex in a sorted list
+ * @brief Get the position of a vertex in a sorted list
  * caller must guarantee the input vertex list is sorted to get the correct result
- * @param GRIN_GRAPH the graph
- * @param GRIN_VERTEX_LIST the sorted vertex list
- * @param GRIN_VERTEX the vertex to find
- * @return the position of the vertex
+ * @param GRIN_GRAPH The graph
+ * @param GRIN_VERTEX_LIST The sorted vertex list
+ * @param GRIN_VERTEX The vertex to find
+ * @return The position of the vertex
 */
 size_t grin_get_position_of_vertex_from_sorted_list(GRIN_GRAPH, GRIN_VERTEX_LIST, GRIN_VERTEX);
 #endif

@@ -24,6 +24,13 @@ extern "C" {
 
 
 #ifdef GRIN_WITH_VERTEX_PROPERTY
+/**
+ * @brief Get the vertex number of a given type in the graph.
+ * This API is only available for property graph.
+ * @param GRIN_GRAPH The graph.
+ * @param GRIN_VERTEX_TYPE The vertex type.
+ * @return The vertex number.
+*/
 size_t grin_get_vertex_num_by_type(GRIN_GRAPH, GRIN_VERTEX_TYPE);
 #endif
 
@@ -32,6 +39,14 @@ size_t grin_get_edge_num_by_type(GRIN_GRAPH, GRIN_EDGE_TYPE);
 #endif
 
 #if defined(GRIN_ENABLE_VERTEX_LIST) && defined(GRIN_WITH_VERTEX_PROPERTY)
+/**
+ * @brief Get the vertex list of a given type.
+ * This API is only available for property graph.
+ * To get a vertex list chain of all types, using APIs in GRIN extension.
+ * @param GRIN_GRAPH The graph.
+ * @param GRIN_VERTEX_TYPE The vertex type.
+ * @return The vertex list of the given type.
+*/
 GRIN_VERTEX_LIST grin_get_vertex_list_by_type(GRIN_GRAPH, GRIN_VERTEX_TYPE);
 #endif
 
@@ -40,6 +55,15 @@ GRIN_EDGE_LIST grin_get_edge_list_by_type(GRIN_GRAPH, GRIN_EDGE_TYPE);
 #endif
 
 #if defined(GRIN_ENABLE_ADJACENT_LIST) && defined(GRIN_WITH_EDGE_PROPERTY)
+/**
+ * @brief Get the adjacent list of given direction, vertex and edge type.
+ * This API is only available for property graph.
+ * To get a adjacent list chain of all types, using APIs in GRIN extension.
+ * @param GRIN_GRAPH The graph.
+ * @param GRIN_DIRECTION The direction of the adjacent list.
+ * @param GRIN_VERTEX The vertex.
+ * @return The adjacent list.
+*/
 GRIN_ADJACENT_LIST grin_get_adjacent_list_by_edge_type(GRIN_GRAPH, GRIN_DIRECTION, GRIN_VERTEX, GRIN_EDGE_TYPE);
 #endif
 

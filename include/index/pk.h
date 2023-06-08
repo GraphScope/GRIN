@@ -41,10 +41,10 @@ GRIN_VERTEX grin_get_vertex_by_primary_keys_row(GRIN_GRAPH, GRIN_VERTEX_TYPE, GR
  * In this case, only one int64 value is needed to get the vertex under a type.
  * @param GRIN_GRAPH The graph.
  * @param GRIN_VERTEX_TYPE The vertex type.
- * @param long_long_int The value of primary key of int64.
+ * @param pk The value of primary key of int64.
  * @return The vertex.
 */
-GRIN_VERTEX grin_get_vertex_by_pk_of_int64(GRIN_GRAPH, GRIN_VERTEX_TYPE, long long int);
+GRIN_VERTEX grin_get_vertex_by_pk_of_int64(GRIN_GRAPH, GRIN_VERTEX_TYPE, long long int pk);
 #endif
 
 #if defined(GRIN_ENABLE_EDGE_PK_INDEX) && defined(GRIN_ENABLE_EDGE_PRIMARY_KEYS)

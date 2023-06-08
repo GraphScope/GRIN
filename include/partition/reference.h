@@ -78,9 +78,9 @@ void grin_destroy_serialized_vertex_ref(GRIN_GRAPH, const char*);
  * @brief deserialize the string to vertex ref handle
  * If the string is invalid, a null vertex ref is returned
  * @param GRIN_GRAPH The graph
- * @param const_char* The string
+ * @param msg The string message to be deserialized
 */
-GRIN_VERTEX_REF grin_deserialize_to_vertex_ref(GRIN_GRAPH, const char*);
+GRIN_VERTEX_REF grin_deserialize_to_vertex_ref(GRIN_GRAPH, const char* msg);
 
 /**
  * @brief check if the vertex is a master vertex
@@ -111,9 +111,9 @@ long long int grin_serialize_vertex_ref_as_int64(GRIN_GRAPH, GRIN_VERTEX_REF);
 /**
  * @brief deserialize the int64 to vertex ref handle
  * @param GRIN_GRAPH The graph
- * @param long_long_int The int64 to be deserialized
+ * @param msg The int64 message to be deserialized
 */
-GRIN_VERTEX_REF grin_deserialize_int64_to_vertex_ref(GRIN_GRAPH, long long int);
+GRIN_VERTEX_REF grin_deserialize_int64_to_vertex_ref(GRIN_GRAPH, long long int msg);
 #endif
 
 #ifdef GRIN_TRAIT_MASTER_VERTEX_MIRROR_PARTITION_LIST

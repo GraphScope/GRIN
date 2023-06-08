@@ -34,7 +34,7 @@ extern "C" {
  * this param will be ignored.
  * @return A partitioned graph handle.
 */
-GRIN_PARTITIONED_GRAPH grin_get_partitioned_graph_from_storage(const char*, const char*);
+GRIN_PARTITIONED_GRAPH grin_get_partitioned_graph_from_storage(const char* id, const char* version);
 
 void grin_destroy_partitioned_graph(GRIN_PARTITIONED_GRAPH);
 
@@ -44,6 +44,8 @@ size_t grin_get_total_partitions_number(GRIN_PARTITIONED_GRAPH);
  * @brief Get the local partition list of the partitioned graph.
  * For example, a graph may be partitioned into 6 partitions and located in
  * 2 machines, then each machine may contain a local partition list of size 3.
+ * @param GRIN_PARTITIONED_GRAPH The partitioned graph.
+ * @return A partition list of local partitions.
 */
 GRIN_PARTITION_LIST grin_get_local_partition_list(GRIN_PARTITIONED_GRAPH);
 
@@ -65,7 +67,8 @@ const void* grin_get_partition_info(GRIN_PARTITIONED_GRAPH, GRIN_PARTITION);
 
 /**
  * @brief Get a local graph of the partitioned graph.
- * @param partition The partition of the graph.
+ * @param GRIN_PARTITIONED_GRAPH The partitioned graph.
+ * @param GRIN_PARTITION The partition of the graph.
  * @return A local graph.
 */
 GRIN_GRAPH grin_get_local_graph_by_partition(GRIN_PARTITIONED_GRAPH, GRIN_PARTITION);

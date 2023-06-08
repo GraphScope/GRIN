@@ -30,16 +30,16 @@ extern "C" {
 /**
  * @brief Get the vertex list of the graph with master vertices only.
  * This API is only available for simple graph.
- * @param graph The graph object.
- * @return The vertex list.
+ * @param GRIN_GRAPH The graph.
+ * @return The vertex list of master vertices only.
 */
 GRIN_VERTEX_LIST grin_get_vertex_list_select_master(GRIN_GRAPH);
 
 /**
  * @brief Get the vertex list of the graph with mirror vertices only.
  * This API is only available for simple graph.
- * @param graph The graph object.
- * @return The vertex list.
+ * @param GRIN_GRAPH The graph.
+ * @return The vertex list of mirror vertices only.
 */
 GRIN_VERTEX_LIST grin_get_vertex_list_select_mirror(GRIN_GRAPH);
 #endif

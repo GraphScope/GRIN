@@ -23,29 +23,29 @@ extern "C" {
 #define GRIN_INCLUDE_INDEX_ORIGINAL_ID_H_
 
 /**
- * @brief get the datatype of original id of the graph
- * @param GRIN_GRAPH the graph
- * @return the datatype of the original id of the graph
+ * @brief Get the datatype of original id of the graph
+ * @param GRIN_GRAPH The graph
+ * @return The datatype of the original id of the graph
 */
 GRIN_DATATYPE grin_get_vertex_original_id_datatype(GRIN_GRAPH);
 
 #ifdef GRIN_ENABLE_VERTEX_ORIGINAL_ID_OF_INT64
 /**
- * @brief get the int64 original id of a vertex
- * @param GRIN_GRAPH the graph
- * @param GRIN_VERTEX the vertex
- * @return the int64 original id of the vertex
+ * @brief Get the int64 original id of a vertex
+ * @param GRIN_GRAPH The graph
+ * @param GRIN_VERTEX The vertex
+ * @return The int64 original id of the vertex
 */
 long long int grin_get_vertex_original_id_of_int64(GRIN_GRAPH, GRIN_VERTEX);
 
 /**
- * @brief get the vertex by original id. 
+ * @brief Get the vertex by original id. 
  * Different from pk_of_int64, the original id is unique over all vertex types.
- * @param GRIN_GRAPH the graph
- * @param long_long_int the original id of the vertex
- * @return the vertex
+ * @param GRIN_GRAPH The graph
+ * @param id The original id of the vertex
+ * @return The vertex
 */
-GRIN_VERTEX grin_get_vertex_by_original_id_of_int64(GRIN_GRAPH, long long int);
+GRIN_VERTEX grin_get_vertex_by_original_id_of_int64(GRIN_GRAPH, long long int id);
 #endif
 
 #ifdef GRIN_ENABLE_VERTEX_ORIGINAL_ID_OF_STRING
