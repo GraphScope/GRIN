@@ -18,22 +18,13 @@ limitations under the License.
  * @brief Pre-defined macros for storage features.
  * The macros are divided into several sections such as topology,
  * partition, and so on.
- * In each section, the first part lists all available macros, and
- * undefines all macros by default.
- * After that is the MOST IMPORTANT part for storage implementors, 
- * i.e., the storage enable area.
- * Storage implementors should Turn-ON (i.e., define) the specific 
- * macros in this area based the features of the storage.
- * The final part is the rule part to handle dependencies between 
- * macros which should not be edited.
+ * In each section, all available macros are listed first and
+ * undefined by default.
 */
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-#ifndef GRIN_INCLUDE_PREDEFINE_H_
-#define GRIN_INCLUDE_PREDEFINE_H_
 
 #include <stdbool.h>
 #include <stddef.h>
@@ -166,14 +157,6 @@ typedef enum {
 #undef GRIN_ENABLE_ADJACENT_LIST_ARRAY
 #undef GRIN_ENABLE_ADJACENT_LIST_ITERATOR
 // GRIN_END
-
-// GRIN_STORAGE_ENABLE
-// [IMPORTANT] Enable all the features of the storage here
-// GRIN_END
-
-// GRIN_FEATURE_DEPENDENCY
-// GRIN_END
-
 #endif  // GRIN_DOXYGEN_SKIP
 /* End of Section 1 */
 
@@ -393,39 +376,6 @@ typedef enum {
 #undef GRIN_TRAIT_SELECT_MASTER_NEIGHBOR_FOR_ADJACENT_LIST
 #undef GRIN_TRAIT_SELECT_NEIGHBOR_PARTITION_FOR_ADJACENT_LIST
 // GRIN_END
-
-// GRIN_STORAGE_ENABLE
-// [IMPORTANT] Enable all the features of the storage here
-// GRIN_END
-
-// GRIN_FEATURE_DEPENDENCY
-#ifdef GRIN_ASSUME_ALL_REPLICATE_PARTITION
-#define GRIN_ASSUME_REPLICATE_MASTER_MIRROR_PARTITION_FOR_VERTEX_DATA
-#define GRIN_ASSUME_REPLICATE_MASTER_MIRROR_PARTITION_FOR_EDGE_DATA
-#endif
-
-#ifdef GRIN_ASSUME_EDGE_CUT_PARTITION
-#define GRIN_ASSUME_MASTER_ONLY_PARTITION_FOR_VERTEX_DATA
-#define GRIN_ASSUME_REPLICATE_MASTER_MIRROR_PARTITION_FOR_EDGE_DATA
-#endif
-
-#ifdef GRIN_ASSUME_EDGE_CUT_FOLLOW_SRC_PARTITION
-#define GRIN_ASSUME_MASTER_ONLY_PARTITION_FOR_VERTEX_DATA
-#define GRIN_ASSUME_MASTER_ONLY_PARTITION_FOR_EDGE_DATA
-#endif
-
-#ifdef GRIN_ASSUME_EDGE_CUT_FOLLOW_DST_PARTITION
-#define GRIN_ASSUME_MASTER_ONLY_PARTITION_FOR_VERTEX_DATA
-#define GRIN_ASSUME_MASTER_ONLY_PARTITION_FOR_EDGE_DATA
-#endif
-
-#ifdef GRIN_ASSUME_VERTEX_CUT_PARTITION
-#define GRIN_ASSUME_REPLICATE_MASTER_MIRROR_PARTITION_FOR_VERTEX_DATA
-#define GRIN_ASSUME_REPLICATE_MASTER_MIRROR_PARTITION_FOR_EDGE_DATA
-#define GRIN_TRAIT_MASTER_VERTEX_MIRROR_PARTITION_LIST
-#endif
-// GRIN_END
-
 #endif // GRIN_DOXY_SKIP
 /* End of Section 2 */
 
@@ -620,46 +570,6 @@ typedef enum {
 #undef GRIN_ASSUME_REPLICATE_MASTER_MIRROR_PARTITION_FOR_EDGE_PROPERTY
 #undef GRIN_ASSUME_SPLIT_MASTER_MIRROR_PARTITION_FOR_EDGE_PROPERTY
 // GRIN_END
-
-// GRIN_STORAGE_ENABLE
-// [IMPORTANT] Enable all the features of the storage here
-// GRIN_END
-
-// GRIN_FEATURE_DEPENDENCY
-#ifdef GRIN_ASSUME_ALL_REPLICATE_PARTITION
-#define GRIN_ASSUME_REPLICATE_MASTER_MIRROR_PARTITION_FOR_VERTEX_PROPERTY
-#define GRIN_ASSUME_REPLICATE_MASTER_MIRROR_PARTITION_FOR_EDGE_PROPERTY
-#endif
-
-#ifdef GRIN_ASSUME_EDGE_CUT_PARTITION
-#define GRIN_ASSUME_MASTER_ONLY_PARTITION_FOR_VERTEX_PROPERTY
-#define GRIN_ASSUME_REPLICATE_MASTER_MIRROR_PARTITION_FOR_EDGE_PROPERTY
-#endif
-
-#ifdef GRIN_ASSUME_EDGE_CUT_FOLLOW_SRC_PARTITION
-#define GRIN_ASSUME_MASTER_ONLY_PARTITION_FOR_VERTEX_PROPERTY
-#define GRIN_ASSUME_MASTER_ONLY_PARTITION_FOR_EDGE_PROPERTY
-#endif
-
-#ifdef GRIN_ASSUME_EDGE_CUT_FOLLOW_DST_PARTITION
-#define GRIN_ASSUME_MASTER_ONLY_PARTITION_FOR_VERTEX_PROPERTY
-#define GRIN_ASSUME_MASTER_ONLY_PARTITION_FOR_EDGE_PROPERTY
-#endif
-
-#ifdef GRIN_ASSUME_VERTEX_CUT_PARTITION
-#define GRIN_ASSUME_REPLICATE_MASTER_MIRROR_PARTITION_FOR_VERTEX_PROPERTY
-#define GRIN_ASSUME_REPLICATE_MASTER_MIRROR_PARTITION_FOR_EDGE_PROPERTY
-#endif
-
-#ifdef GRIN_ENABLE_VERTEX_PRIMARY_KEYS
-#define GRIN_ENABLE_ROW
-#endif
-
-#ifdef GRIN_ENABLE_EDGE_PRIMARY_KEYS
-#define GRIN_ENABLE_ROW
-#endif
-// GRIN_END
-
 #endif // GRIN_DOXY_SKIP
 /* End of Section 3 */
 
@@ -737,154 +647,8 @@ typedef enum {
 #undef GRIN_ENABLE_VERTEX_PK_INDEX
 #undef GRIN_ENABLE_EDGE_PK_INDEX
 // GRIN_END
-
-// GRIN_STORAGE_ENABLE
-// [IMPORTANT] Enable all the features of the storage here
-// GRIN_END
-
-// GRIN_FEATURE_DEPENDENCY
-// GRIN_END
-
 #endif  // GRIN_DOXYGEN_SKIP
 /* End of Section 4 */
-
-/** @name NullValues
- * Macros for Null(invalid) values
- */
-///@{
-/** @brief Null graph (invalid return value) */
-#define GRIN_NULL_GRAPH NULL
-/** @brief Non-existing vertex (invalid return value) */
-#define GRIN_NULL_VERTEX NULL
-/** @brief Non-existing edge (invalid return value) */
-#define GRIN_NULL_EDGE NULL
-/** @brief Null list of any kind (invalid return value) */
-#define GRIN_NULL_LIST NULL
-/** @brief Null list iterator of any kind (invalid return value) */
-#define GRIN_NULL_LIST_ITERATOR NULL
-/** @brief Non-existing partition (invalid return value) */
-#define GRIN_NULL_PARTITION NULL
-/** @brief Null vertex reference (invalid return value) */
-#define GRIN_NULL_VERTEX_REF NULL
-/** @brief Null edge reference (invalid return value) */
-#define GRIN_NULL_EDGE_REF NULL
-/** @brief Non-existing vertex type (invalid return value) */
-#define GRIN_NULL_VERTEX_TYPE NULL
-/** @brief Non-existing edge type (invalid return value) */
-#define GRIN_NULL_EDGE_TYPE NULL
-/** @brief Non-existing vertex property (invalid return value) */
-#define GRIN_NULL_VERTEX_PROPERTY NULL
-/** @brief Non-existing vertex property (invalid return value) */
-#define GRIN_NULL_EDGE_PROPERTY NULL
-/** @brief Null row (invalid return value) */
-#define GRIN_NULL_ROW NULL
-/** @brief Null natural id of any kind (invalid return value) */
-#define GRIN_NULL_NATURAL_ID (unsigned)~0
-/** @brief Null size (invalid return value) */
-#define GRIN_NULL_SIZE (unsigned)~0
-/** @breif Null name (invalid return value) */
-#define GRIN_NULL_NAME NULL
-///@}
-
-
-/* Define the handles using typedef */
-typedef void* GRIN_GRAPH;
-typedef void* GRIN_VERTEX;
-typedef void* GRIN_EDGE;
-
-#ifdef GRIN_WITH_VERTEX_DATA
-typedef void* GRIN_VERTEX_DATA;
-#endif
-
-#ifdef GRIN_ENABLE_VERTEX_LIST
-typedef void* GRIN_VERTEX_LIST;
-#endif
-
-#ifdef GRIN_ENABLE_VERTEX_LIST_ITERATOR
-typedef void* GRIN_VERTEX_LIST_ITERATOR;
-#endif
-
-#ifdef GRIN_ENABLE_ADJACENT_LIST
-typedef void* GRIN_ADJACENT_LIST;
-#endif
-
-#ifdef GRIN_ENABLE_ADJACENT_LIST_ITERATOR
-typedef void* GRIN_ADJACENT_LIST_ITERATOR;
-#endif
-
-#ifdef GRIN_WITH_EDGE_DATA
-typedef void* GRIN_EDGE_DATA;
-#endif
-
-#ifdef GRIN_ENABLE_EDGE_LIST
-typedef void* GRIN_EDGE_LIST;
-#endif
-
-#ifdef GRIN_ENABLE_EDGE_LIST_ITERATOR
-typedef void* GRIN_EDGE_LIST_ITERATOR;
-#endif
-
-#ifdef GRIN_ENABLE_GRAPH_PARTITION
-typedef void* GRIN_PARTITIONED_GRAPH;
-typedef void* GRIN_PARTITION;
-typedef void* GRIN_PARTITION_LIST;
-#endif
-
-#ifdef GRIN_TRAIT_NATURAL_ID_FOR_PARTITION
-typedef unsigned GRIN_PARTITION_ID;
-#endif
-
-#ifdef GRIN_ENABLE_VERTEX_REF
-typedef void* GRIN_VERTEX_REF;
-#endif
-
-#ifdef GRIN_ENABLE_EDGE_REF
-typedef void* GRIN_EDGE_REF;
-#endif
-
-
-#ifdef GRIN_WITH_VERTEX_PROPERTY
-typedef void* GRIN_VERTEX_TYPE;
-typedef void* GRIN_VERTEX_TYPE_LIST;
-typedef void* GRIN_VERTEX_PROPERTY;
-typedef void* GRIN_VERTEX_PROPERTY_LIST;
-#endif
-
-#ifdef GRIN_TRAIT_NATURAL_ID_FOR_VERTEX_TYPE
-typedef unsigned GRIN_VERTEX_TYPE_ID;
-#endif
-
-#ifdef GRIN_TRAIT_NATURAL_ID_FOR_VERTEX_PROPERTY
-typedef unsigned GRIN_VERTEX_PROPERTY_ID;
-#endif
-
-#ifdef GRIN_WITH_EDGE_PROPERTY
-typedef void* GRIN_EDGE_TYPE;
-typedef void* GRIN_EDGE_TYPE_LIST;
-typedef void* GRIN_VEV_TYPE;
-typedef void* GRIN_VEV_TYPE_LIST;
-typedef void* GRIN_EDGE_PROPERTY;
-typedef void* GRIN_EDGE_PROPERTY_LIST;
-#endif
-
-#ifdef GRIN_TRAIT_NATURAL_ID_FOR_EDGE_TYPE
-typedef unsigned GRIN_EDGE_TYPE_ID;
-#endif
-
-#ifdef GRIN_TRAIT_NATURAL_ID_FOR_EDGE_PROPERTY
-typedef unsigned GRIN_EDGE_PROPERTY_ID;
-#endif
-
-#ifdef GRIN_ENABLE_ROW
-typedef void* GRIN_ROW;
-#endif
-
-#if defined(GRIN_WITH_VERTEX_LABEL) || defined(GRIN_WITH_EDGE_LABEL)
-typedef void* GRIN_LABEL;
-typedef void* GRIN_LABEL_LIST;
-#endif
-
-#endif  // GRIN_INCLUDE_PREDEFINE_H_
 
 #ifdef __cplusplus
 }
