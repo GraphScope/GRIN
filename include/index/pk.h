@@ -45,6 +45,25 @@ GRIN_VERTEX grin_get_vertex_by_primary_keys_row(GRIN_GRAPH, GRIN_VERTEX_TYPE, GR
  * @return The vertex.
 */
 GRIN_VERTEX grin_get_vertex_by_pk_of_int64(GRIN_GRAPH, GRIN_VERTEX_TYPE, long long int pk);
+
+/**
+ * @brief Get the min vertex pk of int64.
+ * Together with ``grin_get_max_vertex_pk_of_int64``, this API can be used to
+ * bound the range of pk of int64 to support structures like vertex range
+ * in the computing side.
+ * @param GRIN_GRAPH The graph.
+ * @param GRIN_VERTEX_TYPE The vertex type.
+ * @return The min vertex pk of int64.
+*/
+long long int grin_get_min_vertex_pk_of_int64(GRIN_GRAPH, GRIN_VERTEX_TYPE);
+
+/**
+ * @brief Get the max vertex pk of int64.
+ * @param GRIN_GRAPH The graph.
+ * @param GRIN_VERTEX_TYPE The vertex type.
+ * @return The max vertex pk of int64.
+*/
+long long int grin_get_max_vertex_pk_of_int64(GRIN_GRAPH, GRIN_VERTEX_TYPE);
 #endif
 
 #if defined(GRIN_ENABLE_EDGE_PK_INDEX) && defined(GRIN_ENABLE_EDGE_PRIMARY_KEYS)
@@ -53,6 +72,10 @@ GRIN_EDGE grin_get_edge_by_primary_keys_row(GRIN_GRAPH, GRIN_EDGE_TYPE, GRIN_ROW
 
 #if defined(GRIN_ENABLE_EDGE_PK_INDEX) && defined(GRIN_ENABLE_EDGE_PK_OF_INT64)
 GRIN_EDGE grin_get_edge_by_pk_of_int64(GRIN_GRAPH, GRIN_EDGE_TYPE, long long int);
+
+long long int grin_get_min_edge_pk_of_int64(GRIN_GRAPH, GRIN_EDGE_TYPE);
+
+long long int grin_get_max_edge_pk_of_int64(GRIN_GRAPH, GRIN_EDGE_TYPE);
 #endif
 
 
