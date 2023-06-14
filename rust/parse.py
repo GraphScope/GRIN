@@ -46,25 +46,31 @@ def parse(path):
             prefix = ''
             if line.startswith(('GRIN_', 'void', 'bool', 'size_t', 'const', 'int')):
                 func_name = get_func_name(line)
-                res[func_name] = macros.copy()
+                res[func_name] = macros[:1].copy()
             elif line.startswith('#ifdef'):
-                assert(len(macros) == 0)
+                #assert(len(macros) == 0)
                 macro_name = get_yes_macro_name(line)
                 macros.append(macro_name)
             elif line.startswith('#ifndef'):
                 if line.strip().endswith('_'):
                     continue
-                assert(len(macros) == 0)
+                #assert(len(macros) == 0)
                 macro_name = get_not_macro_name(line)
                 macros.append(macro_name)
             elif line.startswith('#endif'):
-                assert(len(macros) <= 1)
-                if len(macros) == 1:
-                    macros = macros[:-1]
+                #assert(len(macros) <= 1)
+                #if len(macros) == 1:
+                macros = macros[:-1]
             elif line.startswith('#if '):
-                assert(len(macros) == 0)
+                #assert(len(macros) == 0)
                 macro_name = parse_expr(line)
                 macros.append(macro_name)
+            elif line.startswith('typedef'):
+                func_name = get_func_name(line)[:-1]
+                if func_name:
+                    func_name = snake_to_camel(func_name)
+                    print(func_name, macros[:1])
+                    res[func_name] = macros[:1].copy()
     return res
 
 def to_rust(deps):
@@ -97,7 +103,7 @@ def to_rust(deps):
         assert False, f'unknown: {deps}'
  
 def snake_to_camel(s):
-    if s.startswith(('GRIN_DATATYPE_', 'GRIN_DIRECTION_', 'GRIN_ERROR_CODE_', 'GRIN_V6D')):
+    if s.startswith(('GRIN_DATATYPE_', 'GRIN_DIRECTION_', 'GRIN_ERROR_CODE_', 'GRIN_FEATURES_ENABLE')):
         return s.upper()
     return ''.join([w.capitalize() for w in s.split('_')])
 
@@ -131,7 +137,7 @@ def rewrite(file, r, strip=7):
             line = static_replace(line)
             if line.startswith('extern '):
                 if externc_flag:
-                    f.write('extern "C" {')
+                    f.write('extern "C" {\n')
                     externc_flag = False
                 continue
             if line.startswith('}'):
@@ -148,14 +154,20 @@ def rewrite(file, r, strip=7):
                 if func_name in r and r[func_name]:
                     f.write(f'    {r[func_name]}\n')
                 f.write('    #[allow(unused)]\n')
-                
+            if line.find('pub type') != -1:
+                func_name = line
+                func_name = func_name[func_name.find('pub type')+9:]
+                func_name = func_name.split(' ')[0]
+                if func_name in r and r[func_name]:
+                    f.write(f'{r[func_name]}\n')
+                    f.write('#[allow(unused)]\n')
             if line.find('RUST_KEEP') != -1:
                 macro_name = line[line.find('GRIN'):line.find('RUST_KEEP')-3].lower()
                 if need_ending_line:
                     f.write('}\n\n')
                 segs = line.split('RUST_KEEP')
                 for s in segs[1:]:
-                    f.write(f'#[cfg(feature = \"{macro_name}\")]\n')
+                    f.write(f'#[cfg(feature = \"{macro_name}\")]\n#[allow(unused)]\n')
                     f.write(s[1:s.find(';')+1])
                     f.write('\n')
                 break
@@ -164,22 +176,35 @@ def rewrite(file, r, strip=7):
             f.write(line)
 
 
-def parse_to_rs(path, dst):
-    r = parse(path / 'rust/grin_all.h')
+def parse_to_rs(path, dst, predefine, strip=7):
+    r = {}
+    r |= parse(path / predefine)
     for f in path.glob('include/**/*.h'):
         r |= parse(f)
     print(r)
     for k in r:
         r[k] = to_rust(r[k])
     print(r)
-    rewrite(f'{dst}.rs', r)
+    rewrite(f'{dst}.rs', r, strip=strip)
 
-def parse_to_toml(path, dst):
+def get_features(path, storage):
+    macros = []
+    with open(path / f'storage/{storage}/predefine.h') as f:
+        lines = f.readlines()
+    for line in lines:
+        if line.startswith('#define') and line.find('GRIN_NULL') == -1:
+            macros.append(line[8:].strip().lower())
+    return macros
+
+def parse_to_toml(path, storages):
+    features = {}
+    for s in storages:
+        features[f'grin_features_enable_{s}'] = get_features(path, s)
     with open(path / 'template/predefine.h') as f:
         lines = f.readlines()
     macros = []
     for line in lines:
-        if line.startswith('#define'):
+        if line.startswith('#define') and line.find('GRIN_NULL') == -1:
             macros.append(line[8:].strip().lower())
     with open('Cargo.toml', 'w') as f:
         f.write('[package]\n')
@@ -190,15 +215,35 @@ def parse_to_toml(path, dst):
         f.write('[features]\n')
         for k in macros:
             f.write(f'{k} = []\n')
+        for feat in features:
+            f.write(f'{feat} = {features[feat]}\n')
 
 def bindgen(src, dst):
     os.system(f'bindgen {src} -o {dst}.rs -- -I"../include" -I".."')
 
-
-if __name__ == '__main__':
+def all(path):
     src = 'grin_all.h'
     dst = 'grin_all'
-    path = Path('..')
+    predefine = 'template/predefine.h'
     bindgen(src, dst)
-    parse_to_rs(path, dst)
-    parse_to_toml(path, dst)
+    parse_to_rs(path, dst, predefine)
+
+def v6d(path):
+    src = 'grin_v6d.h'
+    dst = 'grin_v6d'
+    predefine = 'storage/v6d/predefine.h'
+    bindgen(src, dst)
+    parse_to_rs(path, dst, predefine, strip=50)
+
+def merge(filenames):
+    with open('grin.rs', 'w') as outfile:
+        for fname in filenames:
+            with open(f'grin_{fname}.rs') as infile:
+                outfile.write(infile.read())
+
+if __name__ == '__main__':
+    path = Path('..')
+    all(path)
+    v6d(path)
+    merge(['all', 'v6d'])
+    parse_to_toml(path, ['v6d'])

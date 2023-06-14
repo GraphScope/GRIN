@@ -14,14 +14,56 @@ limitations under the License.
 */
 
 /**
- * @file features.h
- * @brief 
- * Storage implementors first Turn-ON (i.e., define) the specific 
- * macros in this area based the features of the storage.
- * Then define the types of the enabled handles as well as corresponding
- * null values.
-*/
+ * @file predefine.h
+ * @brief This template file consists of four parts:
+ * 1. The predefined enumerate types of GRIN, which should NOT be modified.
+ * 2. The supported macros which should be specified by storage implementors
+ * based on storage features.
+ * 3. The typedefs of the enabled handles. This should be specified by storage.
+ * 4. The corresponding null values of the enabled handles. This should be
+ * specified by storage.
+ */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include <stdbool.h>
+#include <stddef.h>
+
+/* 1. Predefined enumerate types of GRIN */
+/// Enumerates the directions of edges with respect to a certain vertex
+typedef enum {
+  IN = 0,     ///< incoming
+  OUT = 1,    ///< outgoing
+  BOTH = 2,   ///< incoming & outgoing
+} GRIN_DIRECTION;
+
+/// Enumerates the datatype supported in the storage
+typedef enum {
+  Undefined = 0,      ///< other unknown types
+  Int32 = 1,          ///< int
+  UInt32 = 2,         ///< unsigned int
+  Int64 = 3,          ///< long int
+  UInt64 = 4,         ///< unsigned long int
+  Float = 5,          ///< float
+  Double = 6,         ///< double
+  String = 7,         ///< string
+  Date32 = 8,         ///< date
+  Time32 = 9,         ///< Time32
+  Timestamp64 = 10,   ///< Timestamp
+} GRIN_DATATYPE;
+
+/// Enumerates the error codes of grin
+typedef enum {
+  NO_ERROR = 0,              ///< success
+  UNKNOWN_ERROR = 1,         ///< unknown error
+  INVALID_VALUE = 2,         ///< invalid value
+  UNKNOWN_DATATYPE = 3,      ///< unknown datatype
+} GRIN_ERROR_CODE;
+
+
+#ifdef GRIN_FEATURES_ENABLE_V6D
 /* Define supported macros based on storage features */
 // Topology
 #define GRIN_ASSUME_HAS_DIRECTED_GRAPH
@@ -61,8 +103,8 @@ limitations under the License.
 #define GRIN_ENABLE_VERTEX_PK_INDEX
 
 /* Define the handles using typedef */
-typedef void* GRIN_GRAPH;                      
-typedef unsigned long long int GRIN_VERTEX;                     
+typedef void* GRIN_GRAPH;
+typedef unsigned long long int GRIN_VERTEX;                 
 typedef void* GRIN_EDGE;                       
 
 #ifdef GRIN_WITH_VERTEX_DATA
@@ -160,16 +202,35 @@ typedef void* GRIN_LABEL_LIST;
 #define GRIN_NULL_GRAPH NULL
 #define GRIN_NULL_VERTEX (unsigned long long int)~0
 #define GRIN_NULL_EDGE NULL
-#define GRIN_NULL_LIST NULL
-#define GRIN_NULL_LIST_ITERATOR NULL
+#define GRIN_NULL_VERTEX_LIST NULL
+#define GRIN_NULL_VERTEX_LIST_ITERATOR NULL
+#define GRIN_NULL_ADJACENT_LIST NULL
+#define GRIN_NULL_ADJACENT_LIST_ITERATOR NULL
+#define GRIN_NULL_PARTITIONED_GRAPH NULL
 #define GRIN_NULL_PARTITION (unsigned)~0
+#define GRIN_NULL_PARTITION_LIST NULL
+#define GRIN_NULL_PARTITION_ID (unsigned)~0
 #define GRIN_NULL_VERTEX_REF -1
-#define GRIN_NULL_EDGE_REF NULL
 #define GRIN_NULL_VERTEX_TYPE (unsigned)~0
-#define GRIN_NULL_EDGE_TYPE (unsigned)~0
+#define GRIN_NULL_VERTEX_TYPE_LIST NULL
 #define GRIN_NULL_VERTEX_PROPERTY (unsigned long long int)~0
+#define GRIN_NULL_VERTEX_PROPERTY_LIST NULL
+#define GRIN_NULL_VERTEX_TYPE_ID (unsigned)~0
+#define GRIN_NULL_VERTEX_PROPERTY_ID (unsigned)~0
+#define GRIN_NULL_EDGE_TYPE (unsigned)~0
+#define GRIN_NULL_EDGE_TYPE_LIST NULL
+#define GRIN_NULL_VEV_TYPE NULL
+#define GRIN_NULL_VEV_TYPE_LIST NULL
 #define GRIN_NULL_EDGE_PROPERTY (unsigned long long int)~0
+#define GRIN_NULL_EDGE_PROPERTY_LIST NULL
+#define GRIN_NULL_EDGE_TYPE_ID (unsigned)~0
+#define GRIN_NULL_EDGE_PROPERTY_ID (unsigned)~0
 #define GRIN_NULL_ROW NULL
-#define GRIN_NULL_NATURAL_ID (unsigned)~0
 #define GRIN_NULL_SIZE (unsigned)~0
 #define GRIN_NULL_NAME NULL
+
+#endif // GRIN_FEATURES_ENABLE_V6D
+
+#ifdef __cplusplus
+}
+#endif
