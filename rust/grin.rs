@@ -1833,9 +1833,6 @@ pub const GRIN_NULL_VERTEX: GrinVertex = u64::MAX;
 pub const GRIN_NULL_EDGE: GrinEdge = std::ptr::null_mut();
 #[cfg(feature = "grin_features_enable_v6d")]
 #[allow(unused)]
-pub const GRIN_NULL_VERTEX_DATA: GrinVertexData = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
 pub const GRIN_NULL_VERTEX_LIST: GrinVertexList = std::ptr::null_mut();
 #[cfg(feature = "grin_features_enable_v6d")]
 #[allow(unused)]
@@ -1846,15 +1843,6 @@ pub const GRIN_NULL_ADJACENT_LIST: GrinAdjacentList = std::ptr::null_mut();
 #[cfg(feature = "grin_features_enable_v6d")]
 #[allow(unused)]
 pub const GRIN_NULL_ADJACENT_LIST_ITERATOR: GrinAdjacentListIterator = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub const GRIN_NULL_EDGE_DATA: GrinEdgeData = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub const GRIN_NULL_EDGE_LIST: GrinEdgeList = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub const GRIN_NULL_EDGE_LIST_ITERATOR: GrinEdgeListIterator = std::ptr::null_mut();
 #[cfg(feature = "grin_features_enable_v6d")]
 #[allow(unused)]
 pub const GRIN_NULL_PARTITIONED_GRAPH: GrinPartitionedGraph = std::ptr::null_mut();
@@ -1915,12 +1903,6 @@ pub const GRIN_NULL_EDGE_PROPERTY_ID: GrinEdgePropertyId = u32::MAX;
 #[cfg(feature = "grin_features_enable_v6d")]
 #[allow(unused)]
 pub const GRIN_NULL_ROW: GrinRow = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub const GRIN_NULL_LABEL: GrinLabel = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub const GRIN_NULL_LABEL_LIST: GrinLabelList = std::ptr::null_mut();
 #[cfg(feature = "grin_features_enable_v6d")]
 #[allow(unused)]
 pub const GRIN_NULL_SIZE: u32 = u32::MAX;
