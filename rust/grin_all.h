@@ -19,6 +19,7 @@
 #include "index/label.h"
 #include "index/order.h"
 #include "index/original_id.h"
+#include "index/pk.h"
 #include "common/error.h"
 #include "common/message.h"
 

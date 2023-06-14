@@ -44,7 +44,9 @@ def parse(path):
                 continue
             line = prefix + _line
             prefix = ''
-            if line.startswith(('GRIN_', 'void', 'bool', 'size_t', 'const', 'int')):
+            if line.startswith(('GRIN_', 'void', 'bool', 'size_t', 'const', 'int', 'long long int',
+                                'unsigned int', 'unsigned long long int', 
+                                'float', 'double', 'const char*', 'struct')):
                 func_name = get_func_name(line)
                 res[func_name] = macros[:1].copy()
             elif line.startswith('#ifdef'):

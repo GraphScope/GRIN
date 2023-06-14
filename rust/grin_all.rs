@@ -501,6 +501,7 @@ extern "C" {
     pub fn grin_is_mirror_vertex(arg1: GrinGraph, arg2: GrinVertex) -> bool;
 
     #[doc = " @brief serialize the vertex ref handle to int64\n This API is enabled by ``GRIN_TRAIT_FAST_VERTEX_REF``, meaning the vertex ref\n can be serialized into int64 instead of string.\n Obviously transferring and serializing int64 is faster than string.\n @param GrinGraph The graph\n @param GrinVertexRef The vertex ref"]
+    #[cfg(feature = "grin_trait_fast_vertex_ref")]
     #[allow(unused)]
     pub fn grin_serialize_vertex_ref_as_int64(
         arg1: GrinGraph,
@@ -697,6 +698,7 @@ extern "C" {
     pub fn grin_get_primary_keys_row_by_vertex(arg1: GrinGraph, arg2: GrinVertex) -> GrinRow;
 
     #[doc = " @brief Get the vertex's primary key value of int64.\n This API is enabled by ``GRIN_ENABLE_VERTEX_PK_OF_INT64``, meaning\n that all vertex types have a property of int64 as primary key.\n Note that the pk is still unique under a certain vertex type,\n though it is int64 for all vertex types.\n @param GrinGraph The graph\n @param GrinVertex The vertex\n @return The primary key value of int64"]
+    #[cfg(feature = "grin_enable_vertex_pk_of_int64")]
     #[allow(unused)]
     pub fn grin_get_vertex_pk_of_int64(
         arg1: GrinGraph,
@@ -718,6 +720,7 @@ extern "C" {
     #[allow(unused)]
     pub fn grin_get_primary_keys_row_by_edge(arg1: GrinGraph, arg2: GrinEdge) -> GrinRow;
 
+    #[cfg(feature = "grin_enable_edge_pk_of_int64")]
     #[allow(unused)]
     pub fn grin_get_edge_pk_of_int64(
         arg1: GrinGraph,
@@ -806,6 +809,7 @@ extern "C" {
     ) -> i32;
 
     #[doc = " @brief Get the value of uint32, given a vertex and a vertex property.\n The user should make sure the vertex property is of datatype uint32.\n The return int has no predefined invalid value.\n User should use ``grin_get_last_error_code()`` to check if the API call\n is successful.\n @param GrinGraph The graph\n @param GrinVertex The vertex\n @param GrinVertexProperty The vertex property\n @return The value of the property"]
+    #[cfg(feature = "grin_with_vertex_property")]
     #[allow(unused)]
     pub fn grin_get_vertex_property_value_of_uint32(
         arg1: GrinGraph,
@@ -814,6 +818,7 @@ extern "C" {
     ) -> u32;
 
     #[doc = " @brief Get the value of int64, given a vertex and a vertex property.\n The user should make sure the vertex property is of datatype int64.\n The return int has no predefined invalid value.\n User should use ``grin_get_last_error_code()`` to check if the API call\n is successful.\n @param GrinGraph The graph\n @param GrinVertex The vertex\n @param GrinVertexProperty The vertex property\n @return The value of the property"]
+    #[cfg(feature = "grin_with_vertex_property")]
     #[allow(unused)]
     pub fn grin_get_vertex_property_value_of_int64(
         arg1: GrinGraph,
@@ -822,6 +827,7 @@ extern "C" {
     ) -> i64;
 
     #[doc = " @brief Get the value of uint64, given a vertex and a vertex property.\n The user should make sure the vertex property is of datatype uint64.\n The return int has no predefined invalid value.\n User should use ``grin_get_last_error_code()`` to check if the API call\n is successful.\n @param GrinGraph The graph\n @param GrinVertex The vertex\n @param GrinVertexProperty The vertex property\n @return The value of the property"]
+    #[cfg(feature = "grin_with_vertex_property")]
     #[allow(unused)]
     pub fn grin_get_vertex_property_value_of_uint64(
         arg1: GrinGraph,
@@ -830,6 +836,7 @@ extern "C" {
     ) -> u64;
 
     #[doc = " @brief Get the value of float, given a vertex and a vertex property.\n The user should make sure the vertex property is of datatype float.\n The return int has no predefined invalid value.\n User should use ``grin_get_last_error_code()`` to check if the API call\n is successful.\n @param GrinGraph The graph\n @param GrinVertex The vertex\n @param GrinVertexProperty The vertex property\n @return The value of the property"]
+    #[cfg(feature = "grin_with_vertex_property")]
     #[allow(unused)]
     pub fn grin_get_vertex_property_value_of_float(
         arg1: GrinGraph,
@@ -838,6 +845,7 @@ extern "C" {
     ) -> f32;
 
     #[doc = " @brief Get the value of double, given a vertex and a vertex property.\n The user should make sure the vertex property is of datatype double.\n The return int has no predefined invalid value.\n User should use ``grin_get_last_error_code()`` to check if the API call\n is successful.\n @param GrinGraph The graph\n @param GrinVertex The vertex\n @param GrinVertexProperty The vertex property\n @return The value of the property"]
+    #[cfg(feature = "grin_with_vertex_property")]
     #[allow(unused)]
     pub fn grin_get_vertex_property_value_of_double(
         arg1: GrinGraph,
@@ -873,6 +881,7 @@ extern "C" {
     ) -> i32;
 
     #[doc = " @brief Get the value of int64, given a vertex and a vertex property.\n The user should make sure the vertex property is of datatype timestamp64.\n The return int has no predefined invalid value.\n User should use ``grin_get_last_error_code()`` to check if the API call\n is successful.\n Note that the returned string should be explicitly freed by the user,\n by calling API ``grin_destroy_string_value``.\n @param GrinGraph The graph\n @param GrinVertex The vertex\n @param GrinVertexProperty The vertex property\n @return The value of the property"]
+    #[cfg(feature = "grin_with_vertex_property")]
     #[allow(unused)]
     pub fn grin_get_vertex_property_value_of_timestamp64(
         arg1: GrinGraph,
@@ -923,6 +932,7 @@ extern "C" {
         arg3: GrinEdgeProperty,
     ) -> i32;
 
+    #[cfg(feature = "grin_with_edge_property")]
     #[allow(unused)]
     pub fn grin_get_edge_property_value_of_uint32(
         arg1: GrinGraph,
@@ -930,6 +940,7 @@ extern "C" {
         arg3: GrinEdgeProperty,
     ) -> u32;
 
+    #[cfg(feature = "grin_with_edge_property")]
     #[allow(unused)]
     pub fn grin_get_edge_property_value_of_int64(
         arg1: GrinGraph,
@@ -937,6 +948,7 @@ extern "C" {
         arg3: GrinEdgeProperty,
     ) -> i64;
 
+    #[cfg(feature = "grin_with_edge_property")]
     #[allow(unused)]
     pub fn grin_get_edge_property_value_of_uint64(
         arg1: GrinGraph,
@@ -944,6 +956,7 @@ extern "C" {
         arg3: GrinEdgeProperty,
     ) -> u64;
 
+    #[cfg(feature = "grin_with_edge_property")]
     #[allow(unused)]
     pub fn grin_get_edge_property_value_of_float(
         arg1: GrinGraph,
@@ -951,6 +964,7 @@ extern "C" {
         arg3: GrinEdgeProperty,
     ) -> f32;
 
+    #[cfg(feature = "grin_with_edge_property")]
     #[allow(unused)]
     pub fn grin_get_edge_property_value_of_double(
         arg1: GrinGraph,
@@ -982,6 +996,7 @@ extern "C" {
         arg3: GrinEdgeProperty,
     ) -> i32;
 
+    #[cfg(feature = "grin_with_edge_property")]
     #[allow(unused)]
     pub fn grin_get_edge_property_value_of_timestamp64(
         arg1: GrinGraph,
@@ -1128,6 +1143,7 @@ extern "C" {
         arg3: usize,
     ) -> i32;
 
+    #[cfg(feature = "grin_enable_row")]
     #[allow(unused)]
     pub fn grin_get_uint32_from_row(
         arg1: GrinGraph,
@@ -1135,6 +1151,7 @@ extern "C" {
         arg3: usize,
     ) -> u32;
 
+    #[cfg(feature = "grin_enable_row")]
     #[allow(unused)]
     pub fn grin_get_int64_from_row(
         arg1: GrinGraph,
@@ -1142,6 +1159,7 @@ extern "C" {
         arg3: usize,
     ) -> i64;
 
+    #[cfg(feature = "grin_enable_row")]
     #[allow(unused)]
     pub fn grin_get_uint64_from_row(
         arg1: GrinGraph,
@@ -1149,9 +1167,11 @@ extern "C" {
         arg3: usize,
     ) -> u64;
 
+    #[cfg(feature = "grin_enable_row")]
     #[allow(unused)]
     pub fn grin_get_float_from_row(arg1: GrinGraph, arg2: GrinRow, arg3: usize) -> f32;
 
+    #[cfg(feature = "grin_enable_row")]
     #[allow(unused)]
     pub fn grin_get_double_from_row(arg1: GrinGraph, arg2: GrinRow, arg3: usize) -> f64;
 
@@ -1179,6 +1199,7 @@ extern "C" {
         arg3: usize,
     ) -> i32;
 
+    #[cfg(feature = "grin_enable_row")]
     #[allow(unused)]
     pub fn grin_get_timestamp64_from_row(
         arg1: GrinGraph,
@@ -1588,6 +1609,7 @@ extern "C" {
     pub fn grin_get_vertex_original_id_datatype(arg1: GrinGraph) -> GrinDatatype;
 
     #[doc = " @brief Get the int64 original id of a vertex\n @param GrinGraph The graph\n @param GrinVertex The vertex\n @return The int64 original id of the vertex"]
+    #[cfg(feature = "grin_enable_vertex_original_id_of_int64")]
     #[allow(unused)]
     pub fn grin_get_vertex_original_id_of_int64(
         arg1: GrinGraph,
@@ -1615,6 +1637,70 @@ extern "C" {
         arg1: GrinGraph,
         arg2: *const ::std::os::raw::c_char,
     ) -> GrinVertex;
+
+    #[doc = " @brief Get the vertex by primary keys row.\n The values in the row must be in the same order as the primary keys\n properties, which can be obtained by ``grin_get_primary_keys_by_vertex_type``.\n @param GrinGraph The graph.\n @param GrinVertexType The vertex type.\n @param GrinRow The values row of primary keys properties.\n @return The vertex."]
+    #[cfg(all(feature = "grin_enable_vertex_pk_index", feature = "grin_enable_vertex_primary_keys"))]
+    #[allow(unused)]
+    pub fn grin_get_vertex_by_primary_keys_row(
+        arg1: GrinGraph,
+        arg2: GrinVertexType,
+        arg3: GrinRow,
+    ) -> GrinVertex;
+
+    #[doc = " @brief Get the vertex by primary key of int64.\n In this case, only one int64 value is needed to get the vertex under a type.\n @param GrinGraph The graph.\n @param GrinVertexType The vertex type.\n @param pk The value of primary key of int64.\n @return The vertex."]
+    #[cfg(all(feature = "grin_enable_vertex_pk_index", feature = "grin_enable_vertex_pk_of_int64"))]
+    #[allow(unused)]
+    pub fn grin_get_vertex_by_pk_of_int64(
+        arg1: GrinGraph,
+        arg2: GrinVertexType,
+        pk: i64,
+    ) -> GrinVertex;
+
+    #[doc = " @brief Get the min vertex pk of int64.\n Together with ``grin_get_max_vertex_pk_of_int64``, this API can be used to\n bound the range of pk of int64 to support structures like vertex range\n in the computing side.\n @param GrinGraph The graph.\n @param GrinVertexType The vertex type.\n @return The min vertex pk of int64."]
+    #[cfg(all(feature = "grin_enable_vertex_pk_index", feature = "grin_enable_vertex_pk_of_int64"))]
+    #[allow(unused)]
+    pub fn grin_get_min_vertex_pk_of_int64(
+        arg1: GrinGraph,
+        arg2: GrinVertexType,
+    ) -> i64;
+
+    #[doc = " @brief Get the max vertex pk of int64.\n @param GrinGraph The graph.\n @param GrinVertexType The vertex type.\n @return The max vertex pk of int64."]
+    #[cfg(all(feature = "grin_enable_vertex_pk_index", feature = "grin_enable_vertex_pk_of_int64"))]
+    #[allow(unused)]
+    pub fn grin_get_max_vertex_pk_of_int64(
+        arg1: GrinGraph,
+        arg2: GrinVertexType,
+    ) -> i64;
+
+    #[cfg(all(feature = "grin_enable_edge_pk_index", feature = "grin_enable_edge_primary_keys"))]
+    #[allow(unused)]
+    pub fn grin_get_edge_by_primary_keys_row(
+        arg1: GrinGraph,
+        arg2: GrinEdgeType,
+        arg3: GrinRow,
+    ) -> GrinEdge;
+
+    #[cfg(all(feature = "grin_enable_edge_pk_index", feature = "grin_enable_edge_pk_of_int64"))]
+    #[allow(unused)]
+    pub fn grin_get_edge_by_pk_of_int64(
+        arg1: GrinGraph,
+        arg2: GrinEdgeType,
+        arg3: i64,
+    ) -> GrinEdge;
+
+    #[cfg(all(feature = "grin_enable_edge_pk_index", feature = "grin_enable_edge_pk_of_int64"))]
+    #[allow(unused)]
+    pub fn grin_get_min_edge_pk_of_int64(
+        arg1: GrinGraph,
+        arg2: GrinEdgeType,
+    ) -> i64;
+
+    #[cfg(all(feature = "grin_enable_edge_pk_index", feature = "grin_enable_edge_pk_of_int64"))]
+    #[allow(unused)]
+    pub fn grin_get_max_edge_pk_of_int64(
+        arg1: GrinGraph,
+        arg2: GrinEdgeType,
+    ) -> i64;
 
 
     #[doc = " @brief Get the last error code.\n The error code is thread local.\n Currently users only need to check the error code when using\n getting-value APIs whose return has no predefined invalid value."]
