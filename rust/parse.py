@@ -4,11 +4,8 @@ from pathlib import Path
 def get_func_name(line):
     return line.split('(')[0].strip().split(' ')[-1].strip()
 
-def get_yes_macro_name(line):
-    return ('yes', [('yes', line.split(' ')[1].strip())])
-
-def get_not_macro_name(line):
-    return ('not', [('not', line.split(' ')[1].strip())])
+def get_macro_name(line):
+    return ('one', [('yes', line.split(' ')[1].strip())])
 
 def parse_expr(line):
     line = line.strip()
@@ -48,53 +45,36 @@ def parse(path):
                                 'unsigned int', 'unsigned long long int', 
                                 'float', 'double', 'const char*', 'struct')):
                 func_name = get_func_name(line)
-                res[func_name] = macros[:1].copy()
+                res[func_name] = macros.copy()
             elif line.startswith('#ifdef'):
-                #assert(len(macros) == 0)
-                macro_name = get_yes_macro_name(line)
-                macros.append(macro_name)
-            elif line.startswith('#ifndef'):
-                if line.strip().endswith('_'):
-                    continue
-                #assert(len(macros) == 0)
-                macro_name = get_not_macro_name(line)
+                assert(len(macros) == 0)
+                macro_name = get_macro_name(line)
                 macros.append(macro_name)
             elif line.startswith('#endif'):
-                #assert(len(macros) <= 1)
-                #if len(macros) == 1:
-                macros = macros[:-1]
+                assert(len(macros) <= 1)
+                if len(macros) == 1:
+                    macros = macros[:-1]
             elif line.startswith('#if '):
-                #assert(len(macros) == 0)
+                assert(len(macros) == 0)
                 macro_name = parse_expr(line)
                 macros.append(macro_name)
-            elif line.startswith('typedef'):
-                func_name = get_func_name(line)[:-1]
-                if func_name:
-                    func_name = snake_to_camel(func_name)
-                    print(func_name, macros[:1])
-                    res[func_name] = macros[:1].copy()
     return res
 
 def to_rust(deps):
     if len(deps) == 0:
         return ''
     assert(len(deps) == 1)
-    one_yes_format = '#[cfg(feature = \"{}\")]'
-    one_not_format = '#[cfg(not(feature = \"{}\"))]'
+    one_foramt = '#[cfg(feature = \"{}\")]'
     yes_format = 'feature = \"{}\"'
     not_format = 'not(feature = \"{}\")'
     all_format = '#[cfg(all({}))]'
     any_format = '#[cfg(any({}))]'
 
     deps = deps[0]
-    if deps[0] == 'yes':
+    if deps[0] == 'one':
         assert(len(deps[1]) == 1)
         assert(deps[1][0][0] == 'yes')
-        return one_yes_format.format(deps[1][0][1].lower())
-    elif deps[0] == 'not':
-        assert(len(deps[1]) == 1)
-        assert(deps[1][0][0] == 'not')
-        return one_not_format.format(deps[1][0][1].lower())
+        return one_foramt.format(deps[1][0][1].lower())
     elif deps[0] == 'and':
         conds = [not_format.format(d[1].lower()) if d[0] == 'not' else yes_format.format(d[1].lower()) for d in deps[1]]
         return all_format.format(", ".join(conds))
@@ -130,52 +110,53 @@ def rewrite(file, r, strip=7):
         lines = f.readlines()
     externc_flag = True
     need_ending_line = True
-    meet_error_code = False
-    with open(file, 'w') as f:
-        for i, line in enumerate(lines):
-            if i < strip:
-                continue
-            line = snake_to_camel_line(line)
-            line = static_replace(line)
-            if line.startswith('extern '):
-                if externc_flag:
-                    f.write('extern "C" {\n')
-                    externc_flag = False
-                continue
-            if line.startswith('}'):
-                if i < len(lines) - 1:
-                    f.write('\n')
-                else:
-                    need_ending_line = False
-                    f.write('}\n')
-                continue
-            if line.find('pub fn') != -1:
-                func_name = line
-                func_name = func_name[func_name.find('pub fn')+7:]
-                func_name = func_name.split('(')[0]
-                if func_name in r and r[func_name]:
-                    f.write(f'    {r[func_name]}\n')
-                f.write('    #[allow(unused)]\n')
-            if line.find('pub type') != -1:
-                func_name = line
-                func_name = func_name[func_name.find('pub type')+9:]
-                func_name = func_name.split(' ')[0]
-                if func_name in r and r[func_name]:
-                    f.write(f'{r[func_name]}\n')
-                    f.write('#[allow(unused)]\n')
-            if line.find('RUST_KEEP') != -1:
-                macro_name = line[line.find('GRIN'):line.find('RUST_KEEP')-3].lower()
-                if need_ending_line:
-                    f.write('}\n\n')
-                segs = line.split('RUST_KEEP')
-                for s in segs[1:]:
-                    f.write(f'#[cfg(feature = \"{macro_name}\")]\n#[allow(unused)]\n')
-                    f.write(s[1:s.find(';')+1])
-                    f.write('\n')
-                break
-            if line.find('pub static mut grin_error_code: GrinErrorCode') != -1:
-                continue
-            f.write(line)
+    parts = [[], [], [], []]
+    p = 0
+    for i, line in enumerate(lines):
+        if i < strip:
+            continue
+        line = snake_to_camel_line(line)
+        line = static_replace(line)
+        if line.startswith('extern '):
+            if externc_flag:
+                p += 1
+                parts[p].append('extern "C" {')
+                externc_flag = False
+            continue
+        if line.startswith('}'):
+            if i < len(lines) - 1:
+                parts[p].append('')
+            else:
+                need_ending_line = False
+                parts[p].append('}')
+            continue
+        if line.find('pub fn') != -1:
+            func_name = line
+            func_name = func_name[func_name.find('pub fn')+7:]
+            func_name = func_name.split('(')[0]
+            if func_name in r and r[func_name]:
+                parts[p].append(f'    {r[func_name]}')
+            parts[p].append('    #[allow(unused)]')
+        if line.find('pub type') != -1:
+            func_name = line
+            func_name = func_name[func_name.find('pub type')+9:]
+            func_name = func_name.split(' ')[0]
+            if func_name in r and r[func_name]:
+                parts[p].append(f'{r[func_name]}')
+                parts[p].append('#[allow(unused)]')
+        if line.find('RUST_KEEP') != -1:
+            macro_name = line[line.find('GRIN'):line.find('RUST_KEEP')-3].lower()
+            if need_ending_line:
+                parts[p][-1] = '}'
+            p += 1
+            segs = line.split('RUST_KEEP')
+            for s in segs[1:]:
+                parts[p].append(s[1:s.find(';')+1])
+            break
+        if line.find('pub type GrinGraph') != -1:
+            p += 1
+        parts[p].append(line[:-1])
+    return parts
 
 
 def parse_to_rs(path, dst, predefine, strip=7):
@@ -183,11 +164,9 @@ def parse_to_rs(path, dst, predefine, strip=7):
     r |= parse(path / predefine)
     for f in path.glob('include/**/*.h'):
         r |= parse(f)
-    print(r)
     for k in r:
         r[k] = to_rust(r[k])
-    print(r)
-    rewrite(f'{dst}.rs', r, strip=strip)
+    return rewrite(f'{dst}.rs', r, strip=strip)
 
 def get_features(path, storage):
     macros = []
@@ -215,7 +194,6 @@ def parse_to_toml(path, storages):
         f.write('authors = [\"dijie\"]\n')
         f.write('\n')
         f.write('[features]\n')
-        f.write('default = [\'grin_features_enable_all\']\n')
         for k in macros:
             f.write(f'{k} = []\n')
         for feat in features:
@@ -229,24 +207,45 @@ def all(path):
     dst = 'grin_all'
     predefine = 'template/predefine.h'
     bindgen(src, dst)
-    parse_to_rs(path, dst, predefine)
+    return parse_to_rs(path, dst, predefine)
 
 def v6d(path):
     src = 'grin_v6d.h'
     dst = 'grin_v6d'
     predefine = 'storage/v6d/predefine.h'
     bindgen(src, dst)
-    parse_to_rs(path, dst, predefine, strip=50)
+    return parse_to_rs(path, dst, predefine, strip=50)
 
-def merge(filenames):
+def merge(partss):
     with open('grin.rs', 'w') as outfile:
-        for fname in filenames:
-            with open(f'grin_{fname}.rs') as infile:
-                outfile.write(infile.read())
+        # write allparts 0
+        outfile.write('\n'.join(partss['all'][0]))
+        outfile.write('\n')
+        # write every parts 1 & 3
+        outfile.write('cfg_if::cfg_if! {\n')
+        first = True
+        for k in partss:
+            if k != 'all':
+                if first:
+                    first = False
+                    outfile.write('    if')
+                else:
+                    outfile.write(' elif')
+                outfile.write(f' #[cfg(feature = \"grin_features_enable_{k}\")]')
+            else:
+                outfile.write(' else ')
+            outfile.write('{\n')
+            outfile.write('\n'.join([f'        {x}' for x in partss[k][1] + partss[k][3]]))
+            outfile.write('\n    }')
+        outfile.write('\n}\n')
+        # write allparts 2
+        outfile.write('\n'.join(partss['all'][2]))
+        outfile.write('\n')
+        
 
 if __name__ == '__main__':
     path = Path('..')
-    all(path)
-    v6d(path)
-    merge(['all', 'v6d'])
+    allparts = all(path)
+    v6dparts = v6d(path)
+    merge({'v6d': v6dparts, 'all': allparts})
     parse_to_toml(path, ['v6d'])

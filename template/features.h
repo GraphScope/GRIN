@@ -347,12 +347,6 @@ limitations under the License.
 #define GRIN_ENABLE_VERTEX_PRIMARY_KEYS
 
 /** @ingroup PropertyMacros
- * @brief There are primary keys for vertices, and the primary key is only
- * a single integer.
-*/
-#define GRIN_ENABLE_VERTEX_PK_OF_INT64
-
-/** @ingroup PropertyMacros
  * @brief The storage provides natural number IDs for properties bound to
  * a certain vertex type.
  * It follows the design of natural ID trait in GRIN.
@@ -392,12 +386,6 @@ limitations under the License.
  * on the primary keys.
 */
 #define GRIN_ENABLE_EDGE_PRIMARY_KEYS
-
-/** @ingroup PropertyMacros
- * @brief There are primary keys for edges, and the primary key is only
- * a single integer.
-*/
-#define GRIN_ENABLE_EDGE_PK_OF_INT64
 
 /** @ingroup PropertyMacros
  * @brief The storage provides natural number IDs for properties bound to
@@ -487,23 +475,15 @@ limitations under the License.
 #define GRIN_ASSUME_ALL_VERTEX_LIST_SORTED
 ///@}
 
-/** @name IndexOIDMacros
- * @brief Macros for original ID features
+/** @name IndexInternalIDMacros
+ * @brief Macros for internal ID indexing features
  */
 ///@{
-/** @ingroup IndexOIDMacros
- * @brief There is a unique original ID of type int64 for each vertex.
- * This facilitates queries starting from a specific vertex,
- * since users can get the vertex handle directly using its original ID.
+/** @ingroup IndexInternalIDMacros
+ * @brief There is a unique internal ID of type int64 for each vertex,
+ * and most importantly the internal ID has a range.
  */
-#define GRIN_ENABLE_VERTEX_ORIGINAL_ID_OF_INT64
-
-/** @ingroup IndexOIDMacros
- * @brief There is a unique original ID of type string for each vertex.
- * This facilitates queries starting from a specific vertex,
- * since users can get the vertex handle directly using its original ID.
- */
-#define GRIN_ENABLE_VERTEX_ORIGINAL_ID_OF_STRING
+#define GRIN_ENABLE_VERTEX_INTERNAL_ID_INDEX
 ///@}
 
 /** @name IndexPKMacros

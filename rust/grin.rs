@@ -40,108 +40,137 @@ pub const GRIN_ERROR_CODE_INVALID_VALUE: GrinErrorCode = 2;
 pub const GRIN_ERROR_CODE_UNKNOWN_DATATYPE: GrinErrorCode = 3;
 #[doc = " Enumerates the error codes of grin"]
 pub type GrinErrorCode = u32;
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub type GrinGraph = *mut ::std::os::raw::c_void;
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub type GrinVertex = *mut ::std::os::raw::c_void;
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub type GrinEdge = *mut ::std::os::raw::c_void;
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub type GrinVertexData = *mut ::std::os::raw::c_void;
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub type GrinVertexList = *mut ::std::os::raw::c_void;
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub type GrinVertexListIterator = *mut ::std::os::raw::c_void;
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub type GrinAdjacentList = *mut ::std::os::raw::c_void;
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub type GrinAdjacentListIterator = *mut ::std::os::raw::c_void;
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub type GrinEdgeData = *mut ::std::os::raw::c_void;
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub type GrinEdgeList = *mut ::std::os::raw::c_void;
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub type GrinEdgeListIterator = *mut ::std::os::raw::c_void;
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub type GrinPartitionedGraph = *mut ::std::os::raw::c_void;
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub type GrinPartition = *mut ::std::os::raw::c_void;
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub type GrinPartitionList = *mut ::std::os::raw::c_void;
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub type GrinPartitionId = u32;
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub type GrinVertexRef = *mut ::std::os::raw::c_void;
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub type GrinEdgeRef = *mut ::std::os::raw::c_void;
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub type GrinVertexType = *mut ::std::os::raw::c_void;
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub type GrinVertexTypeList = *mut ::std::os::raw::c_void;
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub type GrinVertexProperty = *mut ::std::os::raw::c_void;
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub type GrinVertexPropertyList = *mut ::std::os::raw::c_void;
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub type GrinVertexTypeId = u32;
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub type GrinVertexPropertyId = u32;
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub type GrinEdgeType = *mut ::std::os::raw::c_void;
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub type GrinEdgeTypeList = *mut ::std::os::raw::c_void;
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub type GrinVevType = *mut ::std::os::raw::c_void;
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub type GrinVevTypeList = *mut ::std::os::raw::c_void;
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub type GrinEdgeProperty = *mut ::std::os::raw::c_void;
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub type GrinEdgePropertyList = *mut ::std::os::raw::c_void;
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub type GrinEdgeTypeId = u32;
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub type GrinEdgePropertyId = u32;
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub type GrinRow = *mut ::std::os::raw::c_void;
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub type GrinLabel = *mut ::std::os::raw::c_void;
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub type GrinLabelList = *mut ::std::os::raw::c_void;
+cfg_if::cfg_if! {
+    if #[cfg(feature = "grin_features_enable_v6d")]{
+        pub type GrinGraph = *mut ::std::os::raw::c_void;
+        pub type GrinVertex = u64;
+        pub type GrinEdge = *mut ::std::os::raw::c_void;
+        pub type GrinVertexList = *mut ::std::os::raw::c_void;
+        pub type GrinVertexListIterator = *mut ::std::os::raw::c_void;
+        pub type GrinAdjacentList = *mut ::std::os::raw::c_void;
+        pub type GrinAdjacentListIterator = *mut ::std::os::raw::c_void;
+        pub type GrinPartitionedGraph = *mut ::std::os::raw::c_void;
+        pub type GrinPartition = u32;
+        pub type GrinPartitionList = *mut ::std::os::raw::c_void;
+        pub type GrinPartitionId = u32;
+        pub type GrinVertexRef = i64;
+        pub type GrinVertexType = u32;
+        pub type GrinVertexTypeList = *mut ::std::os::raw::c_void;
+        pub type GrinVertexProperty = u64;
+        pub type GrinVertexPropertyList = *mut ::std::os::raw::c_void;
+        pub type GrinVertexTypeId = u32;
+        pub type GrinVertexPropertyId = u32;
+        pub type GrinEdgeType = u32;
+        pub type GrinEdgeTypeList = *mut ::std::os::raw::c_void;
+        pub type GrinVevType = *mut ::std::os::raw::c_void;
+        pub type GrinVevTypeList = *mut ::std::os::raw::c_void;
+        pub type GrinEdgeProperty = u64;
+        pub type GrinEdgePropertyList = *mut ::std::os::raw::c_void;
+        pub type GrinEdgeTypeId = u32;
+        pub type GrinEdgePropertyId = u32;
+        pub type GrinRow = *mut ::std::os::raw::c_void;
+        pub const GRIN_NULL_DATATYPE: GrinDatatype = GRIN_DATATYPE_UNDEFINED;
+        pub const GRIN_NULL_GRAPH: GrinGraph = std::ptr::null_mut();
+        pub const GRIN_NULL_VERTEX: GrinVertex = u64::MAX;
+        pub const GRIN_NULL_EDGE: GrinEdge = std::ptr::null_mut();
+        pub const GRIN_NULL_VERTEX_LIST: GrinVertexList = std::ptr::null_mut();
+        pub const GRIN_NULL_VERTEX_LIST_ITERATOR: GrinVertexListIterator = std::ptr::null_mut();
+        pub const GRIN_NULL_ADJACENT_LIST: GrinAdjacentList = std::ptr::null_mut();
+        pub const GRIN_NULL_ADJACENT_LIST_ITERATOR: GrinAdjacentListIterator = std::ptr::null_mut();
+        pub const GRIN_NULL_PARTITIONED_GRAPH: GrinPartitionedGraph = std::ptr::null_mut();
+        pub const GRIN_NULL_PARTITION: GrinPartition = u32::MAX;
+        pub const GRIN_NULL_PARTITION_LIST: GrinPartitionList = std::ptr::null_mut();
+        pub const GRIN_NULL_PARTITION_ID: GrinPartitionId = u32::MAX;
+        pub const GRIN_NULL_VERTEX_REF: GrinVertexRef = -1;
+        pub const GRIN_NULL_VERTEX_TYPE: GrinVertexType = u32::MAX;
+        pub const GRIN_NULL_VERTEX_TYPE_LIST: GrinVertexTypeList = std::ptr::null_mut();
+        pub const GRIN_NULL_VERTEX_PROPERTY: GrinVertexProperty = u64::MAX;
+        pub const GRIN_NULL_VERTEX_PROPERTY_LIST: GrinVertexPropertyList = std::ptr::null_mut();
+        pub const GRIN_NULL_VERTEX_TYPE_ID: GrinVertexTypeId = u32::MAX;
+        pub const GRIN_NULL_VERTEX_PROPERTY_ID: GrinVertexPropertyId = u32::MAX;
+        pub const GRIN_NULL_EDGE_TYPE: GrinEdgeType = u32::MAX;
+        pub const GRIN_NULL_EDGE_TYPE_LIST: GrinEdgeTypeList = std::ptr::null_mut();
+        pub const GRIN_NULL_VEV_TYPE: GrinVevType = std::ptr::null_mut();
+        pub const GRIN_NULL_VEV_TYPE_LIST: GrinVevTypeList = std::ptr::null_mut();
+        pub const GRIN_NULL_EDGE_PROPERTY: GrinEdgeProperty = u64::MAX;
+        pub const GRIN_NULL_EDGE_PROPERTY_LIST: GrinEdgePropertyList = std::ptr::null_mut();
+        pub const GRIN_NULL_EDGE_TYPE_ID: GrinEdgeTypeId = u32::MAX;
+        pub const GRIN_NULL_EDGE_PROPERTY_ID: GrinEdgePropertyId = u32::MAX;
+        pub const GRIN_NULL_ROW: GrinRow = std::ptr::null_mut();
+        pub const GRIN_NULL_SIZE: u32 = u32::MAX;
+    } else {
+        pub type GrinGraph = *mut ::std::os::raw::c_void;
+        pub type GrinVertex = *mut ::std::os::raw::c_void;
+        pub type GrinEdge = *mut ::std::os::raw::c_void;
+        pub type GrinVertexData = *mut ::std::os::raw::c_void;
+        pub type GrinVertexList = *mut ::std::os::raw::c_void;
+        pub type GrinVertexListIterator = *mut ::std::os::raw::c_void;
+        pub type GrinAdjacentList = *mut ::std::os::raw::c_void;
+        pub type GrinAdjacentListIterator = *mut ::std::os::raw::c_void;
+        pub type GrinEdgeData = *mut ::std::os::raw::c_void;
+        pub type GrinEdgeList = *mut ::std::os::raw::c_void;
+        pub type GrinEdgeListIterator = *mut ::std::os::raw::c_void;
+        pub type GrinPartitionedGraph = *mut ::std::os::raw::c_void;
+        pub type GrinPartition = *mut ::std::os::raw::c_void;
+        pub type GrinPartitionList = *mut ::std::os::raw::c_void;
+        pub type GrinPartitionId = u32;
+        pub type GrinVertexRef = *mut ::std::os::raw::c_void;
+        pub type GrinEdgeRef = *mut ::std::os::raw::c_void;
+        pub type GrinVertexType = *mut ::std::os::raw::c_void;
+        pub type GrinVertexTypeList = *mut ::std::os::raw::c_void;
+        pub type GrinVertexProperty = *mut ::std::os::raw::c_void;
+        pub type GrinVertexPropertyList = *mut ::std::os::raw::c_void;
+        pub type GrinVertexTypeId = u32;
+        pub type GrinVertexPropertyId = u32;
+        pub type GrinEdgeType = *mut ::std::os::raw::c_void;
+        pub type GrinEdgeTypeList = *mut ::std::os::raw::c_void;
+        pub type GrinVevType = *mut ::std::os::raw::c_void;
+        pub type GrinVevTypeList = *mut ::std::os::raw::c_void;
+        pub type GrinEdgeProperty = *mut ::std::os::raw::c_void;
+        pub type GrinEdgePropertyList = *mut ::std::os::raw::c_void;
+        pub type GrinEdgeTypeId = u32;
+        pub type GrinEdgePropertyId = u32;
+        pub type GrinRow = *mut ::std::os::raw::c_void;
+        pub type GrinLabel = *mut ::std::os::raw::c_void;
+        pub type GrinLabelList = *mut ::std::os::raw::c_void;
+        pub const GRIN_NULL_DATATYPE: GrinDatatype = GRIN_DATATYPE_UNDEFINED;
+        pub const GRIN_NULL_GRAPH: GrinGraph = std::ptr::null_mut();
+        pub const GRIN_NULL_VERTEX: GrinVertex = std::ptr::null_mut();
+        pub const GRIN_NULL_EDGE: GrinEdge = std::ptr::null_mut();
+        pub const GRIN_NULL_VERTEX_DATA: GrinVertexData = std::ptr::null_mut();
+        pub const GRIN_NULL_VERTEX_LIST: GrinVertexList = std::ptr::null_mut();
+        pub const GRIN_NULL_VERTEX_LIST_ITERATOR: GrinVertexListIterator = std::ptr::null_mut();
+        pub const GRIN_NULL_ADJACENT_LIST: GrinAdjacentList = std::ptr::null_mut();
+        pub const GRIN_NULL_ADJACENT_LIST_ITERATOR: GrinAdjacentListIterator = std::ptr::null_mut();
+        pub const GRIN_NULL_EDGE_DATA: GrinEdgeData = std::ptr::null_mut();
+        pub const GRIN_NULL_EDGE_LIST: GrinEdgeList = std::ptr::null_mut();
+        pub const GRIN_NULL_EDGE_LIST_ITERATOR: GrinEdgeListIterator = std::ptr::null_mut();
+        pub const GRIN_NULL_PARTITIONED_GRAPH: GrinPartitionedGraph = std::ptr::null_mut();
+        pub const GRIN_NULL_PARTITION: GrinPartition = std::ptr::null_mut();
+        pub const GRIN_NULL_PARTITION_LIST: GrinPartitionList = std::ptr::null_mut();
+        pub const GRIN_NULL_PARTITION_ID: GrinPartitionId = u32::MAX;
+        pub const GRIN_NULL_VERTEX_REF: GrinVertexRef = std::ptr::null_mut();
+        pub const GRIN_NULL_EDGE_REF: GrinEdgeRef = std::ptr::null_mut();
+        pub const GRIN_NULL_VERTEX_TYPE: GrinVertexType = std::ptr::null_mut();
+        pub const GRIN_NULL_VERTEX_TYPE_LIST: GrinVertexTypeList = std::ptr::null_mut();
+        pub const GRIN_NULL_VERTEX_PROPERTY: GrinVertexProperty = std::ptr::null_mut();
+        pub const GRIN_NULL_VERTEX_PROPERTY_LIST: GrinVertexPropertyList = std::ptr::null_mut();
+        pub const GRIN_NULL_VERTEX_TYPE_ID: GrinVertexTypeId = u32::MAX;
+        pub const GRIN_NULL_VERTEX_PROPERTY_ID: GrinVertexPropertyId = u32::MAX;
+        pub const GRIN_NULL_EDGE_TYPE: GrinEdgeType = std::ptr::null_mut();
+        pub const GRIN_NULL_EDGE_TYPE_LIST: GrinEdgeTypeList = std::ptr::null_mut();
+        pub const GRIN_NULL_VEV_TYPE: GrinVevType = std::ptr::null_mut();
+        pub const GRIN_NULL_VEV_TYPE_LIST: GrinVevTypeList = std::ptr::null_mut();
+        pub const GRIN_NULL_EDGE_PROPERTY: GrinEdgeProperty = std::ptr::null_mut();
+        pub const GRIN_NULL_EDGE_PROPERTY_LIST: GrinEdgePropertyList = std::ptr::null_mut();
+        pub const GRIN_NULL_EDGE_TYPE_ID: GrinEdgeTypeId = u32::MAX;
+        pub const GRIN_NULL_EDGE_PROPERTY_ID: GrinEdgePropertyId = u32::MAX;
+        pub const GRIN_NULL_ROW: GrinRow = std::ptr::null_mut();
+        pub const GRIN_NULL_LABEL: GrinLabel = std::ptr::null_mut();
+        pub const GRIN_NULL_LABEL_LIST: GrinLabelList = std::ptr::null_mut();
+        pub const GRIN_NULL_SIZE: u32 = u32::MAX;
+    }
+}
 extern "C" {
     #[cfg(feature = "grin_enable_adjacent_list")]
     #[allow(unused)]
@@ -697,14 +726,6 @@ extern "C" {
     #[allow(unused)]
     pub fn grin_get_primary_keys_row_by_vertex(arg1: GrinGraph, arg2: GrinVertex) -> GrinRow;
 
-    #[doc = " @brief Get the vertex's primary key value of int64.\n This API is enabled by ``GRIN_ENABLE_VERTEX_PK_OF_INT64``, meaning\n that all vertex types have a property of int64 as primary key.\n Note that the pk is still unique under a certain vertex type,\n though it is int64 for all vertex types.\n @param GrinGraph The graph\n @param GrinVertex The vertex\n @return The primary key value of int64"]
-    #[cfg(feature = "grin_enable_vertex_pk_of_int64")]
-    #[allow(unused)]
-    pub fn grin_get_vertex_pk_of_int64(
-        arg1: GrinGraph,
-        arg2: GrinVertex,
-    ) -> i64;
-
     #[cfg(feature = "grin_enable_edge_primary_keys")]
     #[allow(unused)]
     pub fn grin_get_edge_types_with_primary_keys(arg1: GrinGraph) -> GrinEdgeTypeList;
@@ -719,13 +740,6 @@ extern "C" {
     #[cfg(feature = "grin_enable_edge_primary_keys")]
     #[allow(unused)]
     pub fn grin_get_primary_keys_row_by_edge(arg1: GrinGraph, arg2: GrinEdge) -> GrinRow;
-
-    #[cfg(feature = "grin_enable_edge_pk_of_int64")]
-    #[allow(unused)]
-    pub fn grin_get_edge_pk_of_int64(
-        arg1: GrinGraph,
-        arg2: GrinEdge,
-    ) -> i64;
 
     #[allow(unused)]
     pub fn grin_destroy_string_value(arg1: GrinGraph, arg2: *const ::std::os::raw::c_char);
@@ -1604,39 +1618,39 @@ extern "C" {
         arg3: GrinVertex,
     ) -> usize;
 
-    #[doc = " @brief Get the datatype of original id of the graph\n @param GrinGraph The graph\n @return The datatype of the original id of the graph"]
+    #[doc = " @brief Get the int64 internal id of a vertex\n @param GrinGraph The graph\n @param GrinVertex The vertex\n @return The int64 internal id of the vertex"]
+    #[cfg(all(feature = "grin_enable_vertex_internal_id_index", feature = "grin_with_vertex_property"))]
     #[allow(unused)]
-    pub fn grin_get_vertex_original_id_datatype(arg1: GrinGraph) -> GrinDatatype;
-
-    #[doc = " @brief Get the int64 original id of a vertex\n @param GrinGraph The graph\n @param GrinVertex The vertex\n @return The int64 original id of the vertex"]
-    #[cfg(feature = "grin_enable_vertex_original_id_of_int64")]
-    #[allow(unused)]
-    pub fn grin_get_vertex_original_id_of_int64(
+    pub fn grin_get_vertex_internal_id_by_type(
         arg1: GrinGraph,
-        arg2: GrinVertex,
+        arg2: GrinVertexType,
+        arg3: GrinVertex,
     ) -> i64;
 
-    #[doc = " @brief Get the vertex by original id.\n Different from pk_of_int64, the original id is unique over all vertex types.\n @param GrinGraph The graph\n @param id The original id of the vertex\n @return The vertex"]
-    #[cfg(feature = "grin_enable_vertex_original_id_of_int64")]
+    #[doc = " @brief Get the vertex by internal id under type\n @param GrinGraph The graph\n @param GrinVertexType The vertex type\n @param id The internal id of the vertex under type\n @return The vertex"]
+    #[cfg(all(feature = "grin_enable_vertex_internal_id_index", feature = "grin_with_vertex_property"))]
     #[allow(unused)]
-    pub fn grin_get_vertex_by_original_id_of_int64(
+    pub fn grin_get_vertex_by_internal_id_by_type(
         arg1: GrinGraph,
+        arg2: GrinVertexType,
         id: i64,
     ) -> GrinVertex;
 
-    #[cfg(feature = "grin_enable_vertex_original_id_of_string")]
+    #[doc = " @brief Get the max internal id under type.\n @param GrinGraph The graph\n @param GrinVertexType The vertex type\n @return The max internal id under type"]
+    #[cfg(all(feature = "grin_enable_vertex_internal_id_index", feature = "grin_with_vertex_property"))]
     #[allow(unused)]
-    pub fn grin_get_vertex_original_id_of_string(
+    pub fn grin_get_max_vertex_internal_id_by_type(
         arg1: GrinGraph,
-        arg2: GrinVertex,
-    ) -> *const ::std::os::raw::c_char;
+        arg2: GrinVertexType,
+    ) -> i64;
 
-    #[cfg(feature = "grin_enable_vertex_original_id_of_string")]
+    #[doc = " @brief Get the min internal id under type.\n @param GrinGraph The graph\n @param GrinVertexType The vertex type\n @return The min internal id under type"]
+    #[cfg(all(feature = "grin_enable_vertex_internal_id_index", feature = "grin_with_vertex_property"))]
     #[allow(unused)]
-    pub fn grin_get_vertex_by_original_id_of_string(
+    pub fn grin_get_min_vertex_internal_id_by_type(
         arg1: GrinGraph,
-        arg2: *const ::std::os::raw::c_char,
-    ) -> GrinVertex;
+        arg2: GrinVertexType,
+    ) -> i64;
 
     #[doc = " @brief Get the vertex by primary keys row.\n The values in the row must be in the same order as the primary keys\n properties, which can be obtained by ``grin_get_primary_keys_by_vertex_type``.\n @param GrinGraph The graph.\n @param GrinVertexType The vertex type.\n @param GrinRow The values row of primary keys properties.\n @return The vertex."]
     #[cfg(all(feature = "grin_enable_vertex_pk_index", feature = "grin_enable_vertex_primary_keys"))]
@@ -1647,31 +1661,6 @@ extern "C" {
         arg3: GrinRow,
     ) -> GrinVertex;
 
-    #[doc = " @brief Get the vertex by primary key of int64.\n In this case, only one int64 value is needed to get the vertex under a type.\n @param GrinGraph The graph.\n @param GrinVertexType The vertex type.\n @param pk The value of primary key of int64.\n @return The vertex."]
-    #[cfg(all(feature = "grin_enable_vertex_pk_index", feature = "grin_enable_vertex_pk_of_int64"))]
-    #[allow(unused)]
-    pub fn grin_get_vertex_by_pk_of_int64(
-        arg1: GrinGraph,
-        arg2: GrinVertexType,
-        pk: i64,
-    ) -> GrinVertex;
-
-    #[doc = " @brief Get the min vertex pk of int64.\n Together with ``grin_get_max_vertex_pk_of_int64``, this API can be used to\n bound the range of pk of int64 to support structures like vertex range\n in the computing side.\n @param GrinGraph The graph.\n @param GrinVertexType The vertex type.\n @return The min vertex pk of int64."]
-    #[cfg(all(feature = "grin_enable_vertex_pk_index", feature = "grin_enable_vertex_pk_of_int64"))]
-    #[allow(unused)]
-    pub fn grin_get_min_vertex_pk_of_int64(
-        arg1: GrinGraph,
-        arg2: GrinVertexType,
-    ) -> i64;
-
-    #[doc = " @brief Get the max vertex pk of int64.\n @param GrinGraph The graph.\n @param GrinVertexType The vertex type.\n @return The max vertex pk of int64."]
-    #[cfg(all(feature = "grin_enable_vertex_pk_index", feature = "grin_enable_vertex_pk_of_int64"))]
-    #[allow(unused)]
-    pub fn grin_get_max_vertex_pk_of_int64(
-        arg1: GrinGraph,
-        arg2: GrinVertexType,
-    ) -> i64;
-
     #[cfg(all(feature = "grin_enable_edge_pk_index", feature = "grin_enable_edge_primary_keys"))]
     #[allow(unused)]
     pub fn grin_get_edge_by_primary_keys_row(
@@ -1680,28 +1669,7 @@ extern "C" {
         arg3: GrinRow,
     ) -> GrinEdge;
 
-    #[cfg(all(feature = "grin_enable_edge_pk_index", feature = "grin_enable_edge_pk_of_int64"))]
-    #[allow(unused)]
-    pub fn grin_get_edge_by_pk_of_int64(
-        arg1: GrinGraph,
-        arg2: GrinEdgeType,
-        arg3: i64,
-    ) -> GrinEdge;
-
-    #[cfg(all(feature = "grin_enable_edge_pk_index", feature = "grin_enable_edge_pk_of_int64"))]
-    #[allow(unused)]
-    pub fn grin_get_min_edge_pk_of_int64(
-        arg1: GrinGraph,
-        arg2: GrinEdgeType,
-    ) -> i64;
-
-    #[cfg(all(feature = "grin_enable_edge_pk_index", feature = "grin_enable_edge_pk_of_int64"))]
-    #[allow(unused)]
-    pub fn grin_get_max_edge_pk_of_int64(
-        arg1: GrinGraph,
-        arg2: GrinEdgeType,
-    ) -> i64;
-
+    pub static mut grin_error_code: GrinErrorCode;
 
     #[doc = " @brief Get the last error code.\n The error code is thread local.\n Currently users only need to check the error code when using\n getting-value APIs whose return has no predefined invalid value."]
     #[allow(unused)]
@@ -1710,285 +1678,4 @@ extern "C" {
     #[doc = " @brief Get the static feature prototype message of the storage.\n This proto describes the features of the storage, such as whether\n it supports property graph or partitioned graph.\n @return The serialized proto message."]
     #[allow(unused)]
     pub fn grin_get_static_storage_feature_msg() -> *const ::std::os::raw::c_char;
-
 }
-
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub const GRIN_NULL_DATATYPE: GrinDatatype = GRIN_DATATYPE_UNDEFINED;
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub const GRIN_NULL_GRAPH: GrinGraph = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub const GRIN_NULL_VERTEX: GrinVertex = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub const GRIN_NULL_EDGE: GrinEdge = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub const GRIN_NULL_VERTEX_DATA: GrinVertexData = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub const GRIN_NULL_VERTEX_LIST: GrinVertexList = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub const GRIN_NULL_VERTEX_LIST_ITERATOR: GrinVertexListIterator = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub const GRIN_NULL_ADJACENT_LIST: GrinAdjacentList = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub const GRIN_NULL_ADJACENT_LIST_ITERATOR: GrinAdjacentListIterator = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub const GRIN_NULL_EDGE_DATA: GrinEdgeData = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub const GRIN_NULL_EDGE_LIST: GrinEdgeList = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub const GRIN_NULL_EDGE_LIST_ITERATOR: GrinEdgeListIterator = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub const GRIN_NULL_PARTITIONED_GRAPH: GrinPartitionedGraph = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub const GRIN_NULL_PARTITION: GrinPartition = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub const GRIN_NULL_PARTITION_LIST: GrinPartitionList = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub const GRIN_NULL_PARTITION_ID: GrinPartitionId = u32::MAX;
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub const GRIN_NULL_VERTEX_REF: GrinVertexRef = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub const GRIN_NULL_EDGE_REF: GrinEdgeRef = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub const GRIN_NULL_VERTEX_TYPE: GrinVertexType = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub const GRIN_NULL_VERTEX_TYPE_LIST: GrinVertexTypeList = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub const GRIN_NULL_VERTEX_PROPERTY: GrinVertexProperty = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub const GRIN_NULL_VERTEX_PROPERTY_LIST: GrinVertexPropertyList = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub const GRIN_NULL_VERTEX_TYPE_ID: GrinVertexTypeId = u32::MAX;
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub const GRIN_NULL_VERTEX_PROPERTY_ID: GrinVertexPropertyId = u32::MAX;
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub const GRIN_NULL_EDGE_TYPE: GrinEdgeType = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub const GRIN_NULL_EDGE_TYPE_LIST: GrinEdgeTypeList = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub const GRIN_NULL_VEV_TYPE: GrinVevType = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub const GRIN_NULL_VEV_TYPE_LIST: GrinVevTypeList = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub const GRIN_NULL_EDGE_PROPERTY: GrinEdgeProperty = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub const GRIN_NULL_EDGE_PROPERTY_LIST: GrinEdgePropertyList = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub const GRIN_NULL_EDGE_TYPE_ID: GrinEdgeTypeId = u32::MAX;
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub const GRIN_NULL_EDGE_PROPERTY_ID: GrinEdgePropertyId = u32::MAX;
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub const GRIN_NULL_ROW: GrinRow = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub const GRIN_NULL_LABEL: GrinLabel = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub const GRIN_NULL_LABEL_LIST: GrinLabelList = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_all")]
-#[allow(unused)]
-pub const GRIN_NULL_SIZE: u32 = u32::MAX;
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub type GrinGraph = *mut ::std::os::raw::c_void;
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub type GrinVertex = u64;
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub type GrinEdge = *mut ::std::os::raw::c_void;
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub type GrinVertexList = *mut ::std::os::raw::c_void;
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub type GrinVertexListIterator = *mut ::std::os::raw::c_void;
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub type GrinAdjacentList = *mut ::std::os::raw::c_void;
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub type GrinAdjacentListIterator = *mut ::std::os::raw::c_void;
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub type GrinPartitionedGraph = *mut ::std::os::raw::c_void;
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub type GrinPartition = u32;
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub type GrinPartitionList = *mut ::std::os::raw::c_void;
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub type GrinPartitionId = u32;
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub type GrinVertexRef = i64;
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub type GrinVertexType = u32;
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub type GrinVertexTypeList = *mut ::std::os::raw::c_void;
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub type GrinVertexProperty = u64;
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub type GrinVertexPropertyList = *mut ::std::os::raw::c_void;
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub type GrinVertexTypeId = u32;
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub type GrinVertexPropertyId = u32;
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub type GrinEdgeType = u32;
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub type GrinEdgeTypeList = *mut ::std::os::raw::c_void;
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub type GrinVevType = *mut ::std::os::raw::c_void;
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub type GrinVevTypeList = *mut ::std::os::raw::c_void;
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub type GrinEdgeProperty = u64;
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub type GrinEdgePropertyList = *mut ::std::os::raw::c_void;
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub type GrinEdgeTypeId = u32;
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub type GrinEdgePropertyId = u32;
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub type GrinRow = *mut ::std::os::raw::c_void;
-extern "C" {
-}
-
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub const GRIN_NULL_DATATYPE: GrinDatatype = GRIN_DATATYPE_UNDEFINED;
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub const GRIN_NULL_GRAPH: GrinGraph = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub const GRIN_NULL_VERTEX: GrinVertex = u64::MAX;
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub const GRIN_NULL_EDGE: GrinEdge = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub const GRIN_NULL_VERTEX_LIST: GrinVertexList = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub const GRIN_NULL_VERTEX_LIST_ITERATOR: GrinVertexListIterator = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub const GRIN_NULL_ADJACENT_LIST: GrinAdjacentList = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub const GRIN_NULL_ADJACENT_LIST_ITERATOR: GrinAdjacentListIterator = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub const GRIN_NULL_PARTITIONED_GRAPH: GrinPartitionedGraph = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub const GRIN_NULL_PARTITION: GrinPartition = u32::MAX;
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub const GRIN_NULL_PARTITION_LIST: GrinPartitionList = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub const GRIN_NULL_PARTITION_ID: GrinPartitionId = u32::MAX;
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub const GRIN_NULL_VERTEX_REF: GrinVertexRef = -1;
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub const GRIN_NULL_VERTEX_TYPE: GrinVertexType = u32::MAX;
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub const GRIN_NULL_VERTEX_TYPE_LIST: GrinVertexTypeList = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub const GRIN_NULL_VERTEX_PROPERTY: GrinVertexProperty = u64::MAX;
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub const GRIN_NULL_VERTEX_PROPERTY_LIST: GrinVertexPropertyList = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub const GRIN_NULL_VERTEX_TYPE_ID: GrinVertexTypeId = u32::MAX;
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub const GRIN_NULL_VERTEX_PROPERTY_ID: GrinVertexPropertyId = u32::MAX;
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub const GRIN_NULL_EDGE_TYPE: GrinEdgeType = u32::MAX;
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub const GRIN_NULL_EDGE_TYPE_LIST: GrinEdgeTypeList = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub const GRIN_NULL_VEV_TYPE: GrinVevType = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub const GRIN_NULL_VEV_TYPE_LIST: GrinVevTypeList = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub const GRIN_NULL_EDGE_PROPERTY: GrinEdgeProperty = u64::MAX;
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub const GRIN_NULL_EDGE_PROPERTY_LIST: GrinEdgePropertyList = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub const GRIN_NULL_EDGE_TYPE_ID: GrinEdgeTypeId = u32::MAX;
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub const GRIN_NULL_EDGE_PROPERTY_ID: GrinEdgePropertyId = u32::MAX;
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub const GRIN_NULL_ROW: GrinRow = std::ptr::null_mut();
-#[cfg(feature = "grin_features_enable_v6d")]
-#[allow(unused)]
-pub const GRIN_NULL_SIZE: u32 = u32::MAX;

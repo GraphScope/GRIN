@@ -52,30 +52,12 @@ GRIN_VERTEX_PROPERTY_LIST grin_get_primary_keys_by_vertex_type(GRIN_GRAPH, GRIN_
 GRIN_ROW grin_get_primary_keys_row_by_vertex(GRIN_GRAPH, GRIN_VERTEX);
 #endif
 
-#ifdef GRIN_ENABLE_VERTEX_PK_OF_INT64
-/**
- * @brief Get the vertex's primary key value of int64.
- * This API is enabled by ``GRIN_ENABLE_VERTEX_PK_OF_INT64``, meaning
- * that all vertex types have a property of int64 as primary key.
- * Note that the pk is still unique under a certain vertex type,
- * though it is int64 for all vertex types.
- * @param GRIN_GRAPH The graph
- * @param GRIN_VERTEX The vertex
- * @return The primary key value of int64
-*/
-long long int grin_get_vertex_pk_of_int64(GRIN_GRAPH, GRIN_VERTEX);
-#endif
-
 #ifdef GRIN_ENABLE_EDGE_PRIMARY_KEYS
 GRIN_EDGE_TYPE_LIST grin_get_edge_types_with_primary_keys(GRIN_GRAPH);
 
 GRIN_EDGE_PROPERTY_LIST grin_get_primary_keys_by_edge_type(GRIN_GRAPH, GRIN_EDGE_TYPE);
 
 GRIN_ROW grin_get_primary_keys_row_by_edge(GRIN_GRAPH, GRIN_EDGE);
-#endif
-
-#ifdef GRIN_ENABLE_EDGE_PK_OF_INT64
-long long int grin_get_edge_pk_of_int64(GRIN_GRAPH, GRIN_EDGE);
 #endif
 
 #endif  // GRIN_INCLUDE_PROPERTY_PRIMARY_KEY_H_

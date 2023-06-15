@@ -105,8 +105,7 @@ message IndexFeature {
 
     bool grin_assume_all_vertex_list_sorted = 3;
     
-    bool grin_enable_vertex_original_id_of_int64 = 4;
-    bool grin_enable_vertex_original_id_of_string = 5;
+    bool grin_enable_vertex_internal_id_index = 4;
 }
 
 message PredicateFeature {

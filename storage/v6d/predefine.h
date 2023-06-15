@@ -62,8 +62,6 @@ typedef enum {
   UNKNOWN_DATATYPE = 3,      ///< unknown datatype
 } GRIN_ERROR_CODE;
 
-
-#ifdef GRIN_FEATURES_ENABLE_V6D
 /* Define supported macros based on storage features */
 // Topology
 #define GRIN_ASSUME_HAS_DIRECTED_GRAPH
@@ -88,7 +86,6 @@ typedef enum {
 #define GRIN_WITH_VERTEX_PROPERTY_NAME
 #define GRIN_WITH_VERTEX_TYPE_NAME
 #define GRIN_TRAIT_NATURAL_ID_FOR_VERTEX_TYPE
-#define GRIN_ENABLE_VERTEX_PK_OF_INT64
 #define GRIN_TRAIT_NATURAL_ID_FOR_VERTEX_PROPERTY
 #define GRIN_WITH_EDGE_PROPERTY
 #define GRIN_WITH_EDGE_PROPERTY_NAME
@@ -96,7 +93,7 @@ typedef enum {
 #define GRIN_TRAIT_NATURAL_ID_FOR_EDGE_TYPE
 #define GRIN_TRAIT_NATURAL_ID_FOR_EDGE_PROPERTY
 // Index
-#define GRIN_ENABLE_VERTEX_ORIGINAL_ID_OF_INT64
+#define GRIN_ENABLE_VERTEX_INTERNAL_ID_INDEX
 #define GRIN_ENABLE_VERTEX_PK_INDEX
 
 /* Define the handles using typedef */
@@ -225,8 +222,6 @@ typedef void* GRIN_LABEL_LIST;
 #define GRIN_NULL_ROW NULL
 #define GRIN_NULL_SIZE (unsigned)~0
 #define GRIN_NULL_NAME NULL
-
-#endif // GRIN_FEATURES_ENABLE_V6D
 
 #ifdef __cplusplus
 }
