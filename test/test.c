@@ -4,9 +4,9 @@
 #include <sys/time.h>     
 #include "predefine.h"
 #include "common/error.h"
+#include "index/internal_id.h"
 #include "index/label.h"
 #include "index/order.h"
-#include "index/original_id.h"
 #include "index/pk.h"
 #include "partition/partition.h"
 #include "partition/reference.h"
@@ -439,11 +439,11 @@ FOR_VERTEX_LIST_END(g, vl)
 #ifdef GRIN_WITH_VERTEX_PROPERTY_NAME
   GRIN_VERTEX_PROPERTY_LIST vpl1 =
       grin_get_vertex_properties_by_name(g, "unknown");
-  assert(vpl1 == GRIN_NULL_LIST);
+  assert(vpl1 == GRIN_NULL_VERTEX_PROPERTY_LIST);
 
   GRIN_VERTEX_PROPERTY_LIST vpl2 =
       grin_get_vertex_properties_by_name(g, "name");
-  assert(vpl2 != GRIN_NULL_LIST);
+  assert(vpl2 != GRIN_NULL_VERTEX_PROPERTY_LIST);
   
   size_t vpl2_size = grin_get_vertex_property_list_size(g, vpl2);
   for (size_t i = 0; i < vpl2_size; ++i) {
@@ -599,11 +599,11 @@ FOR_VERTEX_LIST_END(g, vl)
 #ifdef GRIN_WITH_EDGE_PROPERTY_NAME
   GRIN_EDGE_PROPERTY_LIST epl1 =
       grin_get_edge_properties_by_name(g, "unknown");
-  assert(epl1 == GRIN_NULL_LIST);
+  assert(epl1 == GRIN_NULL_EDGE_PROPERTY_LIST);
 
   GRIN_EDGE_PROPERTY_LIST epl2 =
       grin_get_edge_properties_by_name(g, "weight");
-  assert(epl2 != GRIN_NULL_LIST);
+  assert(epl2 != GRIN_NULL_EDGE_PROPERTY_LIST);
   
   size_t epl2_size = grin_get_edge_property_list_size(g, epl2);
   for (size_t i = 0; i < epl2_size; ++i) {
@@ -655,7 +655,7 @@ void test_property_primary_key(int argc, char** argv) {
       GRIN_ROW r = grin_create_row(g);
       assert(dt == Int64);
       grin_insert_int64_to_row(g, r, j);
-      GRIN_VERTEX v = grin_get_vertex_by_primary_keys(g, vt, r);
+      GRIN_VERTEX v = grin_get_vertex_by_primary_keys_row(g, vt, r);
       if (id_type[j] == i) {
         assert(v != GRIN_NULL_VERTEX);
       #ifdef GRIN_ENABLE_VERTEX_ORIGINAL_ID_OF_INT64
