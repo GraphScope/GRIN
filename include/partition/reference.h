@@ -87,7 +87,7 @@ GRIN_PARTITION grin_get_master_partition_from_edge_ref(GRIN_GRAPH, GRIN_EDGE_REF
 
 const char* grin_serialize_edge_ref(GRIN_GRAPH, GRIN_EDGE_REF);
 
-void grin_destroy_serialized_edge_ref(GRIN_GRAPH, GRIN_EDGE_REF);
+void grin_destroy_serialized_edge_ref(GRIN_GRAPH, const char*);
 
 GRIN_EDGE_REF grin_deserialize_to_edge_ref(GRIN_GRAPH, const char*);
 
