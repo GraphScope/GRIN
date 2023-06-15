@@ -215,6 +215,7 @@ def parse_to_toml(path, storages):
         f.write('authors = [\"dijie\"]\n')
         f.write('\n')
         f.write('[features]\n')
+        f.write('default = [\'grin_features_enable_all\']\n')
         for k in macros:
             f.write(f'{k} = []\n')
         for feat in features:

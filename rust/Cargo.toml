@@ -4,6 +4,7 @@ version = "0.1.1"
 authors = ["dijie"]
 
 [features]
+default = ['grin_features_enable_all']
 grin_assume_has_directed_graph = []
 grin_assume_has_undirected_graph = []
 grin_assume_has_multi_edge_graph = []
