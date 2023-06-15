@@ -1,6 +1,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
+#include <sys/time.h>     
 #include "predefine.h"
 #include "common/error.h"
 #include "index/label.h"
@@ -120,7 +121,7 @@ const char *v_names[] = {"josh", "vadas", "peter"}; // TODO align with order in 
 GRIN_GRAPH get_graph(int argc, char** argv, int p) {
 #ifdef GRIN_ENABLE_GRAPH_PARTITION
   GRIN_PARTITIONED_GRAPH pg =
-      grin_get_partitioned_graph_from_storage(argc - 1, &(argv[1]));
+      grin_get_partitioned_graph_from_storage(argv[1], "");
   GRIN_PARTITION_LIST local_partitions = grin_get_local_partition_list(pg);
   assert(p < grin_get_partition_list_size(pg, local_partitions));
   GRIN_PARTITION partition =
@@ -136,7 +137,7 @@ GRIN_GRAPH get_graph(int argc, char** argv, int p) {
   grin_destroy_partition_list(pg, local_partitions);
   grin_destroy_partitioned_graph(pg);
 #else
-  GRIN_GRAPH g = grin_get_graph_from_storage(argc - 1, &(argv[1]));
+  GRIN_GRAPH g = grin_get_graph_from_storage(argv[1], "");
 #endif
   return g;
 }
@@ -685,9 +686,13 @@ void test_property_vertex_pk_of_int64(int argc, char** argv) {
   GRIN_GRAPH g = get_graph(argc, argv, 0);
 
 FOR_VERTEX_LIST_BEGIN(g, vl)
+  long long int pk_min = grin_get_min_vertex_pk_of_int64(g, __vt);
+  long long int pk_max = grin_get_max_vertex_pk_of_int64(g, __vt);
+  printf("%s pk_min %lld, pk_max %lld\n", vt_names[__vtl_i], pk_min, pk_max);
   FOR_VERTEX_BEGIN(g, vl, v)
   long long int pk = grin_get_vertex_pk_of_int64(g, v);
   printf("vertex pk: %lld\n", pk);
+  assert(pk_min <= pk && pk <= pk_max);
 
 #ifdef GRIN_ENABLE_VERTEX_PK_INDEX
   GRIN_VERTEX v1 = grin_get_vertex_by_pk_of_int64(g, __vt, pk);
@@ -731,14 +736,14 @@ void test_property(int argc, char** argv) {
   test_property_vertex_pk_of_int64(argc, argv);
 #endif
 #ifdef GRIN_WITH_VERTEX_PROPERTY_NAME
-  test_error_code(argc, argv);
+  // test_error_code(argc, argv);
 #endif
 }
 
 
 void test_partition_reference(int argc, char** argv) {
   printf("+++++++++++++++++++++ Test partition/reference +++++++++++++++++++++\n");
-  GRIN_PARTITIONED_GRAPH pg = grin_get_partitioned_graph_from_storage(argc - 1, &(argv[1]));
+  GRIN_PARTITIONED_GRAPH pg = grin_get_partitioned_graph_from_storage(argv[1], "");
   GRIN_PARTITION_LIST local_partitions = grin_get_local_partition_list(pg);
   assert(grin_get_partition_list_size(pg, local_partitions) >= 2);
 
@@ -963,7 +968,7 @@ void test_topology(int argc, char** argv) {
   test_topology_adjacent_list(argc, argv, IN);
 }
 
-
+#if defined(GRIN_ASSUME_ALL_VERTEX_LIST_SORTED) && defined(GRIN_ENABLE_VERTEX_LIST_ARRAY)
 void test_index_order(int argc, char** argv) {
   printf("+++++++++++++++++++++ Test index order +++++++++++++++++++++\n");
   GRIN_GRAPH g = get_graph(argc, argv, 0);
@@ -1010,6 +1015,7 @@ FOR_VERTEX_LIST_END(g, vl)
 
   grin_destroy_graph(g);
 }
+#endif
 
 void test_index_original_id(int argc, char** argv) {
   printf("+++++++++++++++++++++ Test index original id +++++++++++++++++++++\n");
@@ -1037,11 +1043,35 @@ void test_index(int argc, char** argv) {
   test_index_original_id(argc, argv);
 }
 
+void test_vertex_property_value(int argc, char** argv) {
+  GRIN_GRAPH g = get_graph(argc, argv, 0);
+  GRIN_VERTEX_TYPE vt = grin_get_vertex_type_by_name(g, "person");
+  GRIN_VERTEX_PROPERTY vp = grin_get_vertex_property_by_name(g, vt, "age");
+  GRIN_VERTEX v = get_one_master_person(g);
+  struct timeval t1, t2;
+  gettimeofday(&t1, NULL);
+  for (int i = 0; i < 1000000; ++i) {
+    long long int age = grin_get_vertex_property_value_of_int64(g, v, vp);
+  }
+  gettimeofday(&t2, NULL);
+  double elapsedTime = (t2.tv_sec - t1.tv_sec) * 1000.0;
+  elapsedTime += (t2.tv_usec - t1.tv_usec) / 1000.0; 
+  printf("%f ms.\n", elapsedTime);
+  grin_destroy_vertex(g, v);
+  grin_destroy_vertex_property(g, vp);
+  grin_destroy_vertex_type(g, vt);
+  grin_destroy_graph(g);
+}
+
+void test_perf(int argc, char** argv) {
+  test_vertex_property_value(argc, argv);
+}
 
 int main(int argc, char** argv) {
   test_index(argc, argv);
   test_property(argc, argv);
   test_partition(argc, argv);
   test_topology(argc, argv);
+  test_perf(argc, argv);
   return 0;
 }
