@@ -1,31 +1,6 @@
 Property APIs
 --------------
 
-Primary Key 
-^^^^^^^^^^^^
-Primary keys (p.k. for short) are defined in the schema of property graphs to ensure the values of
-p.k. properties are unique across all vertices under a given type. Moreover, p.k. are also used to
-index vertices and edges. In the future, GRIN may distinguish p.k. from "indexing with p.k.", but
-currently they are the same thing.
-
-To get a vertex from its p.k. values, we will first put all the values into a row according to the
-properties of p.k.. Then we will use the row to get the vertex handle. The following example shows
-how to get the vertex of type "person" with name "marko" and age 29.
-
-
-::
-
-    GRIN_VERTEX_TYPE vtype = grin_get_vertex_type_by_name(g, "person");
-    GRIN_ROW row = grin_create_row(g);
-    if (!grin_insert_string_to_row(g, row, "marko")) {
-        printf("Failed to insert string to row\n");
-    }
-    if (!grin_insert_int32_to_row(g, row, 29)) {
-        printf("Failed to insert int32 to row\n");
-    }
-    GRIN_VERTEX v = grin_get_vertex_by_primary_keys(g, vtype, row);
-
-
 Get Vertex Property Value
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 GRIN provides APIs to get a single property value of a vertex, as well as all the property values
@@ -55,6 +30,27 @@ of a vertex as a row.
             grin_destroy_string_value(g, value1);
         } else ...
     }
+
+
+Primary Key 
+^^^^^^^^^^^^
+GRIN explicitly distinguishs the concepts of primary keys and indexing based on primary keys.
+Primary keys are the properties that are used to identify a vertex or an edge.
+Just like in relational databases, primary keys are unique under a given vertex or edge type.
+While indexing based on primary keys is the ability to find a vertex or an edge by its primary key.
+These two sets of APIs are defined in ``property/primarykey.h`` and ``index/pk.h`` respectively.
+Indexing with PK is discussed in the index section.
+
+Getting the PK of a vertex is very similar to getting the value of a property.
+Users should first get a row for the values of PK properties using the API
+``GRIN_ROW grin_get_vertex_primary_keys_row(GRIN_GRAPH g, GRIN_VERTEX v)``,
+and then get values from the row one-by-one.
+
+
+
+    
+
+
 
 
 

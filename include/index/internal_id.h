@@ -42,18 +42,18 @@ long long int grin_get_vertex_internal_id(GRIN_GRAPH, GRIN_VERTEX);
 GRIN_VERTEX grin_get_vertex_by_internal_id(GRIN_GRAPH, long long int id);
 
 /**
- * @brief Get the max internal id.
+ * @brief Get the higher bound of internal id.
  * @param GRIN_GRAPH The graph
- * @return The max internal id
+ * @return The higher bound
 */
-long long int grin_get_max_vertex_internal_id(GRIN_GRAPH);
+long long int grin_get_vertex_internal_id_higher_bound(GRIN_GRAPH);
 
 /**
- * @brief Get the min internal id.
+ * @brief Get the lower bound of internal id.
  * @param GRIN_GRAPH The graph
- * @return The min internal id
+ * @return The lower bound
 */
-long long int grin_get_min_vertex_internal_id(GRIN_GRAPH);
+long long int grin_get_vertex_internal_id_lower_bound(GRIN_GRAPH);
 #endif
 
 #if defined(GRIN_ENABLE_VERTEX_INTERNAL_ID_INDEX) && defined(GRIN_WITH_VERTEX_PROPERTY)
@@ -75,20 +75,20 @@ long long int grin_get_vertex_internal_id_by_type(GRIN_GRAPH, GRIN_VERTEX_TYPE, 
 GRIN_VERTEX grin_get_vertex_by_internal_id_by_type(GRIN_GRAPH, GRIN_VERTEX_TYPE, long long int id);
 
 /**
- * @brief Get the max internal id under type.
+ * @brief Get the higher bound of internal id under type.
  * @param GRIN_GRAPH The graph
  * @param GRIN_VERTEX_TYPE The vertex type
- * @return The max internal id under type
+ * @return The higher bound of internal id under type
 */
-long long int grin_get_max_vertex_internal_id_by_type(GRIN_GRAPH, GRIN_VERTEX_TYPE);
+long long int grin_get_vertex_internal_id_higher_bound_by_type(GRIN_GRAPH, GRIN_VERTEX_TYPE);
 
 /**
- * @brief Get the min internal id under type.
+ * @brief Get the lower bound internal id under type.
  * @param GRIN_GRAPH The graph
  * @param GRIN_VERTEX_TYPE The vertex type
- * @return The min internal id under type
+ * @return The lower bound internal id under type
 */
-long long int grin_get_min_vertex_internal_id_by_type(GRIN_GRAPH, GRIN_VERTEX_TYPE);
+long long int grin_get_vertex_internal_id_lower_bound_by_type(GRIN_GRAPH, GRIN_VERTEX_TYPE);
 #endif
 
 #endif // GRIN_INCLUDE_INDEX_INTERNAL_ID_H_

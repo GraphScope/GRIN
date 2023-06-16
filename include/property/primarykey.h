@@ -49,7 +49,7 @@ GRIN_VERTEX_PROPERTY_LIST grin_get_primary_keys_by_vertex_type(GRIN_GRAPH, GRIN_
  * @param GRIN_VERTEX The vertex
  * @return The primary keys values row
 */
-GRIN_ROW grin_get_primary_keys_row_by_vertex(GRIN_GRAPH, GRIN_VERTEX);
+GRIN_ROW grin_get_vertex_primary_keys_row(GRIN_GRAPH, GRIN_VERTEX);
 #endif
 
 #ifdef GRIN_ENABLE_EDGE_PRIMARY_KEYS
@@ -57,7 +57,7 @@ GRIN_EDGE_TYPE_LIST grin_get_edge_types_with_primary_keys(GRIN_GRAPH);
 
 GRIN_EDGE_PROPERTY_LIST grin_get_primary_keys_by_edge_type(GRIN_GRAPH, GRIN_EDGE_TYPE);
 
-GRIN_ROW grin_get_primary_keys_row_by_edge(GRIN_GRAPH, GRIN_EDGE);
+GRIN_ROW grin_get_edge_primary_keys_row(GRIN_GRAPH, GRIN_EDGE);
 #endif
 
 #endif  // GRIN_INCLUDE_PROPERTY_PRIMARY_KEY_H_

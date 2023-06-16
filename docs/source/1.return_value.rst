@@ -9,18 +9,23 @@ it can be used as a paramter of another GRIN API call.
 In the last section, we already got a ``GRIN_GRAPH`` handle ``g``.
 We can use it to get the vertex list of the graph:
 
-:: 
-    
+::
+
+    #ifdef GRIN_WITH_VERTEX_PROPERTY
+    GRIN_VERTEX_TYPE vt = grin_get_vertex_type_by_name(g, "person");
+    GRIN_VERTEX_LIST vlist = grin_get_vertex_list_by_type(g, vt);
+    #else
     GRIN_VERTEX_LIST vlist = grin_get_vertex_list(g);
+    #endif
 
     #ifdef GRIN_ENABLE_VERTEX_LIST_ARRAY
     size_t vlist_size = grin_get_vertex_list_size(g, vlist);
 
-    for (unsigned int i = 0; i < vlist_size; ++i) {
+    for (unsigned int i = 0; i < vlist_size; ++i){
         GRIN_VERTEX v = grin_get_vertex_from_list(g, vlist, i);
         // use v 
         grin_destroy_vertex(g, v);
-    }
+    } 
     #endif
 
     #ifdef GRIN_ENABLE_VERTEX_LIST_ITERATOR
@@ -31,18 +36,27 @@ We can use it to get the vertex list of the graph:
         // use v 
         grin_destroy_vertex(g, v);
         grin_get_next_vertex_list_iter(g, vlist_iter);
-    }
-
+    } 
+    
     grin_destroy_vertex_list_iter(g, vlist_iter);
     #endif
 
     grin_destroy_vertex_list(g, vlist);
 
-In the first line, we get a ``vertex list`` handle in GRIN from a graph handle.
-Then the vertex list can be accessed in two ways: array and iterator.
-This is controlled by the macros enabled by the storage, meaning some storage may
+In the first step, we get a ``vertex list`` handle in GRIN from a graph handle.
+Note that when vertex property is supported (i.e., ``GRIN_WITH_VERTEX_PROPERTY`` is defined),
+GRIN only provides the API to get the vertex list of a single type (e.g., person).
+This is based on the low-level API design principle of GRIN, which means GRIN APIs
+are a set of low-level abstractions for graph-retrieval actions. Please refer the
+low-level API subsection in topology api for more details.
+However, GRIN do provide high-level APIs in its extension, please refer the extension
+section for more details.
+
+Then in the next step, the vertex list can be accessed in two ways: array and iterator.
+This is also controlled by the macros enabled by the storage, meaning some storage may
 only support one type of accessment while some may support both.
-Finally, we have to destroy every handle we get from GRIN to avoid memory leak.
+
+In the final step, we have to destroy every handle we get from GRIN to avoid memory leak.
 
 Others
 ^^^^^^
@@ -64,11 +78,8 @@ Validation
 ^^^^^^^^^^
 GRIN provides invalid values for handles to let users check if a handle is valid or not.
 Normally, the invalid value is of a GRIN handle ``GRIN_A`` is defined as ``GRIN_NULL_A``.
-If ``A`` is a list or iterator, use ``GRIN_NULL_LIST`` or ``GRIN_NULL_LIST_ITERATOR`` instead of
-specifying ``GRIN_NULL_A_LIST``.
 
-GRIN also provides invalid values for common values, namely ``GRIN_NULL_SIZE``, ``GRIN_NULL_NATURAL_ID``
-and ``GRIN_NULL_NAME``.
+GRIN also provides invalid values for common values, namely ``GRIN_NULL_SIZE`` and ``GRIN_NULL_NAME``.
 
 GRIN does NOT provide invalid values for enumerates, because each enumerate should cover all the possible
 values.

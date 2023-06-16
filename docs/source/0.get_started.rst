@@ -8,17 +8,18 @@ Here we introduce the ``get_graph_from_storage`` API.
 
 ::
     
-    GRIN_GRAPH grin_get_graph_from_storage(int, char**);
+    GRIN_GRAPH grin_get_graph_from_storage(const char* id, const char* version);
 
 From the definition, we can see that this API takes two parameters, 
-the first one is the number of arguments, and the second one is the arguments. 
+the first one is the id of the graph, and the second one is the graph's version. 
 
-The arguments are used to specify the graph in storage.
-Different storage systems may have different ways to specify the graph.
+This follows the graph URI design of GRIN, where ``<storage_prefix>://<graph_id>:<graph_version>``
+is used to identify a graph. For storages that do not support versioning, the version is ignored by
+the storage implementor, thus can be set as any value like an empty string.
 
-For example, in Vineyard,
-the first argument is the ``IPC_socket`` of the Vineyard server,
-and the second argument is the ``object_id`` of the graph.
+Note that some storage may requires additional enviroment variables to be set before using this API.
+For example, in ``vineyard``, users should setup the ``VINEYARD_IPC_SOCKET`` enviroment variable
+to specify the socket path of vineyardd before using this API.
 
 The return value of this API is a GRIN graph handle.
 
@@ -26,13 +27,13 @@ Partitioned Graph
 ^^^^^^^^^^^^^^^^^
 However in GraphScope, the graphs we often meet are large graphs that are partitioned into multiple fragments.
 GRIN regards them as partitioned graphs and each fragment of a partitioned graph is considered as
-a graph in GRIN.
+the graph.
 
 To get a partitioned graph, we need to use the ``get_partitioned_graph_from_storage`` API.
 
 ::
         
-    GRIN_PARTITIONED_GRAPH grin_get_partitioned_graph_from_storage(int, char**);
+    GRIN_PARTITIONED_GRAPH grin_get_partitioned_graph_from_storage(const char*, const char*);
 
 The parameters of this API are the same as the ``get_graph_from_storage`` API.
 The return value of this API is a GRIN partitioned graph handle.
@@ -41,7 +42,7 @@ To further get the graph handle of a specific fragment, we use:
 
 ::
 
-    GRIN_PARTITIONED_GRAPH pg = grin_get_partitioned_graph_from_storage(2, ["ipc_socket", "object_id"]);
+    GRIN_PARTITIONED_GRAPH pg = grin_get_partitioned_graph_from_storage("id", "version"]);
     GRIN_PARTITION_LIST local_partitions = grin_get_local_partition_list(pg);
     size_t num_partitions = grin_get_partition_list_size(local_partitions);
 
