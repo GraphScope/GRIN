@@ -99,8 +99,8 @@ Graph* DemoStorage::load_modern_graph(const std::string& name,
   graph->AddEdgeType("knows");
   graph->AddEdgeType("created");
   // add VEV type
-  graph->AddVEVType("person", "knows", "person");
-  graph->AddVEVType("person", "created", "software");
+  graph->AddVEVType("person", "knows", "person", MANY_TO_MANY);
+  graph->AddVEVType("person", "created", "software", ONE_TO_MANY);
 
   // add vertex property
   Property vp_0_0("id", GRIN_DATATYPE::Int64, true);
