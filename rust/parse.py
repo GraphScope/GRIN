@@ -125,7 +125,10 @@ def rewrite(file, r, strip=7):
             continue
         if line.startswith('}'):
             if i < len(lines) - 1:
-                parts[p].append('')
+                if externc_flag:
+                    parts[p].append('}')
+                else:
+                    parts[p].append('')
             else:
                 need_ending_line = False
                 parts[p].append('}')
@@ -202,7 +205,7 @@ def parse_to_toml(path, storages):
             f.write(f'{feat} = {features[feat]}\n')
 
 def bindgen(src, dst):
-    os.system(f'bindgen {src} -o {dst}.rs -- -I"../include" -I".."')
+    os.system(f'bindgen {src} -o {dst}.rs --no-layout-tests -- -I"../include" -I".."')
 
 def all(path):
     src = 'grin_all.h'

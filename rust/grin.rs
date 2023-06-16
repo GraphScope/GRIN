@@ -44,7 +44,15 @@ cfg_if::cfg_if! {
     if #[cfg(feature = "grin_features_enable_v6d")]{
         pub type GrinGraph = *mut ::std::os::raw::c_void;
         pub type GrinVertex = u64;
-        pub type GrinEdge = *mut ::std::os::raw::c_void;
+        #[repr(C)]
+        #[derive(Debug, Copy, Clone)]
+        pub struct GrinEdge {
+            pub src: GrinVertex,
+            pub dst: GrinVertex,
+            pub dir: GrinDirection,
+            pub etype: u32,
+            pub eid: u64,
+        }
         pub type GrinVertexList = *mut ::std::os::raw::c_void;
         pub type GrinVertexListIterator = *mut ::std::os::raw::c_void;
         pub type GrinAdjacentList = *mut ::std::os::raw::c_void;

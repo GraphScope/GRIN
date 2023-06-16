@@ -50,7 +50,15 @@ pub const GRIN_ERROR_CODE_UNKNOWN_DATATYPE: GRIN_ERROR_CODE = 3;
 pub type GRIN_ERROR_CODE = ::std::os::raw::c_uint;
 pub type GRIN_GRAPH = *mut ::std::os::raw::c_void;
 pub type GRIN_VERTEX = ::std::os::raw::c_ulonglong;
-pub type GRIN_EDGE = *mut ::std::os::raw::c_void;
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct GRIN_EDGE {
+    pub src: GRIN_VERTEX,
+    pub dst: GRIN_VERTEX,
+    pub dir: GRIN_DIRECTION,
+    pub etype: ::std::os::raw::c_uint,
+    pub eid: ::std::os::raw::c_ulonglong,
+}
 pub type GRIN_VERTEX_LIST = *mut ::std::os::raw::c_void;
 pub type GRIN_VERTEX_LIST_ITERATOR = *mut ::std::os::raw::c_void;
 pub type GRIN_ADJACENT_LIST = *mut ::std::os::raw::c_void;
