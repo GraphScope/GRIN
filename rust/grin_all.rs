@@ -546,7 +546,7 @@ extern "C" {
 }
 extern "C" {
     #[doc = " @brief Get the primary keys values row of a vertex\n The values in the row are in the same order as the primary keys properties.\n @param GRIN_GRAPH The graph\n @param GRIN_VERTEX The vertex\n @return The primary keys values row"]
-    pub fn grin_get_primary_keys_row_by_vertex(arg1: GRIN_GRAPH, arg2: GRIN_VERTEX) -> GRIN_ROW;
+    pub fn grin_get_vertex_primary_keys_row(arg1: GRIN_GRAPH, arg2: GRIN_VERTEX) -> GRIN_ROW;
 }
 extern "C" {
     pub fn grin_get_edge_types_with_primary_keys(arg1: GRIN_GRAPH) -> GRIN_EDGE_TYPE_LIST;
@@ -558,7 +558,7 @@ extern "C" {
     ) -> GRIN_EDGE_PROPERTY_LIST;
 }
 extern "C" {
-    pub fn grin_get_primary_keys_row_by_edge(arg1: GRIN_GRAPH, arg2: GRIN_EDGE) -> GRIN_ROW;
+    pub fn grin_get_edge_primary_keys_row(arg1: GRIN_GRAPH, arg2: GRIN_EDGE) -> GRIN_ROW;
 }
 extern "C" {
     pub fn grin_destroy_string_value(arg1: GRIN_GRAPH, arg2: *const ::std::os::raw::c_char);
@@ -1327,15 +1327,15 @@ extern "C" {
     ) -> GRIN_VERTEX;
 }
 extern "C" {
-    #[doc = " @brief Get the max internal id under type.\n @param GRIN_GRAPH The graph\n @param GRIN_VERTEX_TYPE The vertex type\n @return The max internal id under type"]
-    pub fn grin_get_max_vertex_internal_id_by_type(
+    #[doc = " @brief Get the upper bound of internal id under type.\n @param GRIN_GRAPH The graph\n @param GRIN_VERTEX_TYPE The vertex type\n @return The upper bound of internal id under type"]
+    pub fn grin_get_vertex_internal_id_upper_bound_by_type(
         arg1: GRIN_GRAPH,
         arg2: GRIN_VERTEX_TYPE,
     ) -> ::std::os::raw::c_longlong;
 }
 extern "C" {
-    #[doc = " @brief Get the min internal id under type.\n @param GRIN_GRAPH The graph\n @param GRIN_VERTEX_TYPE The vertex type\n @return The min internal id under type"]
-    pub fn grin_get_min_vertex_internal_id_by_type(
+    #[doc = " @brief Get the lower bound internal id under type.\n @param GRIN_GRAPH The graph\n @param GRIN_VERTEX_TYPE The vertex type\n @return The lower bound internal id under type"]
+    pub fn grin_get_vertex_internal_id_lower_bound_by_type(
         arg1: GRIN_GRAPH,
         arg2: GRIN_VERTEX_TYPE,
     ) -> ::std::os::raw::c_longlong;

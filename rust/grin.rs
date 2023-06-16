@@ -724,7 +724,7 @@ extern "C" {
     #[doc = " @brief Get the primary keys values row of a vertex\n The values in the row are in the same order as the primary keys properties.\n @param GrinGraph The graph\n @param GrinVertex The vertex\n @return The primary keys values row"]
     #[cfg(feature = "grin_enable_vertex_primary_keys")]
     #[allow(unused)]
-    pub fn grin_get_primary_keys_row_by_vertex(arg1: GrinGraph, arg2: GrinVertex) -> GrinRow;
+    pub fn grin_get_vertex_primary_keys_row(arg1: GrinGraph, arg2: GrinVertex) -> GrinRow;
 
     #[cfg(feature = "grin_enable_edge_primary_keys")]
     #[allow(unused)]
@@ -739,7 +739,7 @@ extern "C" {
 
     #[cfg(feature = "grin_enable_edge_primary_keys")]
     #[allow(unused)]
-    pub fn grin_get_primary_keys_row_by_edge(arg1: GrinGraph, arg2: GrinEdge) -> GrinRow;
+    pub fn grin_get_edge_primary_keys_row(arg1: GrinGraph, arg2: GrinEdge) -> GrinRow;
 
     #[allow(unused)]
     pub fn grin_destroy_string_value(arg1: GrinGraph, arg2: *const ::std::os::raw::c_char);
@@ -1636,18 +1636,18 @@ extern "C" {
         id: i64,
     ) -> GrinVertex;
 
-    #[doc = " @brief Get the max internal id under type.\n @param GrinGraph The graph\n @param GrinVertexType The vertex type\n @return The max internal id under type"]
+    #[doc = " @brief Get the upper bound of internal id under type.\n @param GrinGraph The graph\n @param GrinVertexType The vertex type\n @return The upper bound of internal id under type"]
     #[cfg(all(feature = "grin_enable_vertex_internal_id_index", feature = "grin_with_vertex_property"))]
     #[allow(unused)]
-    pub fn grin_get_max_vertex_internal_id_by_type(
+    pub fn grin_get_vertex_internal_id_upper_bound_by_type(
         arg1: GrinGraph,
         arg2: GrinVertexType,
     ) -> i64;
 
-    #[doc = " @brief Get the min internal id under type.\n @param GrinGraph The graph\n @param GrinVertexType The vertex type\n @return The min internal id under type"]
+    #[doc = " @brief Get the lower bound internal id under type.\n @param GrinGraph The graph\n @param GrinVertexType The vertex type\n @return The lower bound internal id under type"]
     #[cfg(all(feature = "grin_enable_vertex_internal_id_index", feature = "grin_with_vertex_property"))]
     #[allow(unused)]
-    pub fn grin_get_min_vertex_internal_id_by_type(
+    pub fn grin_get_vertex_internal_id_lower_bound_by_type(
         arg1: GrinGraph,
         arg2: GrinVertexType,
     ) -> i64;

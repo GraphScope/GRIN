@@ -18,7 +18,7 @@ defined, the position API is enabled:
 Internal ID
 ^^^^^^^^^^^
 Internal ID is an integer range indexing for vertices under a certain type.
-The key feature of internal ID is that storage can provide lower and higher 
+The key feature of internal ID is that storage can provide lower and upper 
 bounds (left close right open) for internal IDs of vertices under a certain type.
 This enables the ability to use vertices as array index in the computing engine.
 

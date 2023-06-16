@@ -42,11 +42,11 @@ long long int grin_get_vertex_internal_id(GRIN_GRAPH, GRIN_VERTEX);
 GRIN_VERTEX grin_get_vertex_by_internal_id(GRIN_GRAPH, long long int id);
 
 /**
- * @brief Get the higher bound of internal id.
+ * @brief Get the upper bound of internal id.
  * @param GRIN_GRAPH The graph
- * @return The higher bound
+ * @return The upper bound
 */
-long long int grin_get_vertex_internal_id_higher_bound(GRIN_GRAPH);
+long long int grin_get_vertex_internal_id_upper_bound(GRIN_GRAPH);
 
 /**
  * @brief Get the lower bound of internal id.
@@ -75,12 +75,12 @@ long long int grin_get_vertex_internal_id_by_type(GRIN_GRAPH, GRIN_VERTEX_TYPE, 
 GRIN_VERTEX grin_get_vertex_by_internal_id_by_type(GRIN_GRAPH, GRIN_VERTEX_TYPE, long long int id);
 
 /**
- * @brief Get the higher bound of internal id under type.
+ * @brief Get the upper bound of internal id under type.
  * @param GRIN_GRAPH The graph
  * @param GRIN_VERTEX_TYPE The vertex type
- * @return The higher bound of internal id under type
+ * @return The upper bound of internal id under type
 */
-long long int grin_get_vertex_internal_id_higher_bound_by_type(GRIN_GRAPH, GRIN_VERTEX_TYPE);
+long long int grin_get_vertex_internal_id_upper_bound_by_type(GRIN_GRAPH, GRIN_VERTEX_TYPE);
 
 /**
  * @brief Get the lower bound internal id under type.
