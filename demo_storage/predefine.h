@@ -670,6 +670,7 @@ typedef enum {
 #define GRIN_TRAIT_NATURAL_ID_FOR_EDGE_TYPE
 #define GRIN_ENABLE_EDGE_PRIMARY_KEYS
 #define GRIN_TRAIT_NATURAL_ID_FOR_EDGE_PROPERTY
+#define GRIN_TRAIT_SPECIFIC_VEV_RELATION
 // GRIN_END
 
 // GRIN_FEATURE_DEPENDENCY
@@ -874,7 +875,7 @@ typedef void *GRIN_ROW;
 #endif
 
 #if defined(GRIN_WITH_VERTEX_LABEL) || defined(GRIN_WITH_EDGE_LABEL)
-typedef char *GRIN_LABEL;
+typedef void *GRIN_LABEL;
 typedef void *GRIN_LABEL_LIST;
 #endif
 

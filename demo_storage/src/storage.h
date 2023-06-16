@@ -24,7 +24,6 @@ limitations under the License.
 #include <tuple>
 #include <utility>
 #include <vector>
-
 #include "../predefine.h"
 
 #define DEMO_STORAGE_NAMESPACE demo_storage_namespace
@@ -34,6 +33,13 @@ namespace DEMO_STORAGE_NAMESPACE {
 int64_t get_id_from_gid(const int64_t gid);
 uint32_t get_type_id_from_gid(const int64_t gid);
 int64_t generate_gid_from_type_id_and_id(uint32_t type_id, int64_t id);
+
+typedef enum {
+  ONE_TO_ONE = 0,
+  ONE_TO_MANY = 1,
+  MANY_TO_ONE = 2,
+  MANY_TO_MANY = 3
+} VEV_RELATION_TYPE;
 
 struct Property {
   std::string name_;
@@ -226,7 +232,8 @@ class Graph {
   const std::string& GetEdgeTypeName(uint32_t type_id) const noexcept {
     return edge_types_[type_id];
   }
-  const std::vector<std::tuple<uint32_t, uint32_t, uint32_t>>&
+  const std::vector<
+      std::pair<std::tuple<uint32_t, uint32_t, uint32_t>, VEV_RELATION_TYPE>>&
   GetVertexEdgeVertexTypes() const noexcept {
     return vev_types_;
   }
@@ -333,12 +340,12 @@ class Graph {
   // get vertices and edges
   const Vertex& GetVertex(int64_t gid) const {
     uint32_t type_id = get_type_id_from_gid(gid);
-    uint32_t id = get_id_from_gid(gid);
+    int64_t id = get_id_from_gid(gid);
     return vertices_[type_id][id];
   }
   const Edge& GetEdge(int64_t gid) const {
     uint32_t type_id = get_type_id_from_gid(gid);
-    uint32_t id = get_id_from_gid(gid);
+    int64_t id = get_id_from_gid(gid);
     return edges_[type_id][id];
   }
   const std::vector<Vertex>& GetVertices(uint32_t type_id) const {
@@ -452,13 +459,17 @@ class Graph {
     }
   }
   void AddVEVType(const std::string& src_type, const std::string& edge_type,
-                  const std::string& dest_type) noexcept {
+                  const std::string& dest_type,
+                  const VEV_RELATION_TYPE vev_relation_type) noexcept {
     AddVertexType(src_type);
     AddVertexType(dest_type);
     AddEdgeType(edge_type);
-    vev_types_.push_back(std::make_tuple(GetVertexTypeId(src_type),
-                                         GetEdgeTypeId(edge_type),
-                                         GetVertexTypeId(dest_type)));
+    auto edge_type_id = GetEdgeTypeId(edge_type);
+    auto src_type_id = GetVertexTypeId(src_type);
+    auto dest_type_id = GetVertexTypeId(dest_type);
+    vev_types_.push_back(
+        std::make_pair(std::make_tuple(src_type_id, edge_type_id, dest_type_id),
+                       vev_relation_type));
   }
 
   // add properties
@@ -503,7 +514,9 @@ class Graph {
   // schema
   std::vector<std::string> vertex_types_, edge_types_;
   std::map<std::string, uint32_t> vertex_type_2_id_, edge_type_2_id_;
-  std::vector<std::tuple<uint32_t, uint32_t, uint32_t>> vev_types_;
+  std::vector<
+      std::pair<std::tuple<uint32_t, uint32_t, uint32_t>, VEV_RELATION_TYPE>>
+      vev_types_;
   std::vector<std::vector<Property>> vertex_properties_, edge_properties_;
   std::vector<std::map<std::string, uint32_t>> vertex_property_2_id_,
       edge_property_2_id_;
