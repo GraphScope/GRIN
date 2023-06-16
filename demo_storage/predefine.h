@@ -423,7 +423,6 @@ typedef enum {
 #define GRIN_TRAIT_FAST_VERTEX_REF
 #define GRIN_ENABLE_EDGE_REF
 #define GRIN_ASSUME_ALL_REPLICATE_PARTITION
-#define GRIN_ASSUME_REPLICATE_MASTER_MIRROR_PARTITION_FOR_VERTEX_DATA
 #define GRIN_TRAIT_MASTER_VERTEX_MIRROR_PARTITION_LIST
 #define GRIN_TRAIT_MIRROR_VERTEX_MIRROR_PARTITION_LIST
 #define GRIN_TRAIT_MASTER_EDGE_MIRROR_PARTITION_LIST
@@ -772,8 +771,9 @@ typedef enum {
 #define GRIN_WITH_VERTEX_LABEL
 #define GRIN_WITH_EDGE_LABEL
 #define GRIN_ASSUME_ALL_VERTEX_LIST_SORTED
-#define GRIN_ENABLE_VERTEX_ORIGINAL_ID_OF_INT64
-#define GRIN_ENABLE_VERTEX_ORIGINAL_ID_OF_STRING
+#define GRIN_ENABLE_VERTEX_INTERNAL_ID_INDEX
+#define GRIN_ENABLE_VERTEX_PK_INDEX
+#define GRIN_ENABLE_EDGE_PK_INDEX
 // GRIN_END
 
 // GRIN_FEATURE_DEPENDENCY
@@ -781,44 +781,6 @@ typedef enum {
 
 #endif // GRIN_DOXYGEN_SKIP
 /* End of Section 4 */
-
-/** @name NullValues
- * Macros for Null(invalid) values
- */
-///@{
-/** @brief Null graph (invalid return value) */
-#define GRIN_NULL_GRAPH NULL
-/** @brief Non-existing vertex (invalid return value) */
-#define GRIN_NULL_VERTEX -1
-/** @brief Non-existing edge (invalid return value) */
-#define GRIN_NULL_EDGE -1
-/** @brief Null list of any kind (invalid return value) */
-#define GRIN_NULL_LIST NULL
-/** @brief Null list iterator of any kind (invalid return value) */
-#define GRIN_NULL_LIST_ITERATOR NULL
-/** @brief Non-existing partition (invalid return value) */
-#define GRIN_NULL_PARTITION (unsigned)~0
-/** @brief Null vertex reference (invalid return value) */
-#define GRIN_NULL_VERTEX_REF -1
-/** @brief Null edge reference (invalid return value) */
-#define GRIN_NULL_EDGE_REF -1
-/** @brief Non-existing vertex type (invalid return value) */
-#define GRIN_NULL_VERTEX_TYPE (unsigned)~0
-/** @brief Non-existing edge type (invalid return value) */
-#define GRIN_NULL_EDGE_TYPE (unsigned)~0
-/** @brief Non-existing vertex property (invalid return value) */
-#define GRIN_NULL_VERTEX_PROPERTY (unsigned)~0
-/** @brief Non-existing vertex property (invalid return value) */
-#define GRIN_NULL_EDGE_PROPERTY (unsigned)~0
-/** @brief Null row (invalid return value) */
-#define GRIN_NULL_ROW NULL
-/** @brief Null natural id of any kind (invalid return value) */
-#define GRIN_NULL_NATURAL_ID (unsigned)~0
-/** @brief Null size (invalid return value) */
-#define GRIN_NULL_SIZE (unsigned)~0
-/** @breif Null name (invalid return value) */
-#define GRIN_NULL_NAME NULL
-///@}
 
 /* Define the handlers using typedef */
 typedef void *GRIN_GRAPH;
@@ -915,6 +877,43 @@ typedef void *GRIN_ROW;
 typedef char *GRIN_LABEL;
 typedef void *GRIN_LABEL_LIST;
 #endif
+
+#define GRIN_NULL_GRAPH NULL
+#define GRIN_NULL_VERTEX -1
+#define GRIN_NULL_EDGE -1
+#define GRIN_NULL_VERTEX_DATA NULL
+#define GRIN_NULL_VERTEX_LIST NULL
+#define GRIN_NULL_VERTEX_LIST_ITERATOR NULL
+#define GRIN_NULL_ADJACENT_LIST NULL
+#define GRIN_NULL_ADJACENT_LIST_ITERATOR NULL
+#define GRIN_NULL_EDGE_DATA NULL
+#define GRIN_NULL_EDGE_LIST NULL
+#define GRIN_NULL_EDGE_LIST_ITERATOR NULL
+#define GRIN_NULL_PARTITIONED_GRAPH NULL
+#define GRIN_NULL_PARTITION (unsigned)~0
+#define GRIN_NULL_PARTITION_LIST NULL
+#define GRIN_NULL_PARTITION_ID (unsigned)~0
+#define GRIN_NULL_VERTEX_REF -1
+#define GRIN_NULL_EDGE_REF -1
+#define GRIN_NULL_VERTEX_TYPE (unsigned)~0
+#define GRIN_NULL_VERTEX_TYPE_LIST NULL
+#define GRIN_NULL_VERTEX_PROPERTY (unsigned)~0
+#define GRIN_NULL_VERTEX_PROPERTY_LIST NULL
+#define GRIN_NULL_VERTEX_TYPE_ID (unsigned)~0
+#define GRIN_NULL_VERTEX_PROPERTY_ID (unsigned)~0
+#define GRIN_NULL_EDGE_TYPE (unsigned)~0
+#define GRIN_NULL_EDGE_TYPE_LIST NULL
+#define GRIN_NULL_VEV_TYPE (unsigned)~0
+#define GRIN_NULL_VEV_TYPE_LIST NULL
+#define GRIN_NULL_EDGE_PROPERTY (unsigned)~0
+#define GRIN_NULL_EDGE_PROPERTY_LIST NULL
+#define GRIN_NULL_EDGE_TYPE_ID (unsigned)~0
+#define GRIN_NULL_EDGE_PROPERTY_ID (unsigned)~0
+#define GRIN_NULL_ROW NULL
+#define GRIN_NULL_LABEL NULL
+#define GRIN_NULL_LABEL_LIST NULL
+#define GRIN_NULL_SIZE (unsigned)~0
+#define GRIN_NULL_NAME NULL
 
 #ifdef __cplusplus
 }
