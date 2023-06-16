@@ -193,6 +193,8 @@ def parse_to_toml(path, storages):
         f.write('version = \"0.1.1\"\n')
         f.write('authors = [\"dijie\"]\n')
         f.write('\n')
+        f.write('[dependencies]\n')
+        f.write('cfg-if = \"0.1\"\n\n')
         f.write('[features]\n')
         for k in macros:
             f.write(f'{k} = []\n')
