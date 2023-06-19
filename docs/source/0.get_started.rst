@@ -3,42 +3,47 @@ Getting Started
 
 Get Graph from Storage
 ^^^^^^^^^^^^^^^^^^^^^^
-To use GRIN, the first API we need is to get the graph handle for the graph in storage.
+To use GRIN, the first API we need is to get a graph handle for the graph in storage.
 Here we introduce the ``get_graph_from_storage`` API.
 
 ::
     
     GRIN_GRAPH grin_get_graph_from_storage(const char* id, const char* version);
 
-From the definition, we can see that this API takes two parameters, 
-the first one is the id of the graph, and the second one is the graph's version. 
+From the definition, we can see that this API takes two parameters:
 
-This follows the graph URI design of GRIN, where ``<storage_prefix>://<graph_id>:<graph_version>``
-is used to identify a graph. For storages that do not support versioning, the version is ignored by
-the storage implementor, thus can be set as any value like an empty string.
+The first one is the **id**, a string that identifies the graph. 
+This follows the graph URI design of GRIN, where `<storage_prefix>://<graph_id>:<graph_version>`
+is used to identify a graph.
 
-Note that some storage may requires additional enviroment variables to be set before using this API.
-For example, in ``vineyard``, users should setup the ``VINEYARD_IPC_SOCKET`` enviroment variable
-to specify the socket path of vineyardd before using this API.
+The second is the **version**, an optional string that specifies the version of 
+the graph. 
+This is ignored by the storage implementor if the storage does not support versioning.
+
+Note that some storage systems may require additional environment variables
+to be set before using this API.
+For example, in vineyard, users should setup the `VINEYARD_IPC_SOCKET`
+environment variable to specify the socket path of vineyardd before using this API.
 
 The return value of this API is a GRIN graph handle.
 
 Partitioned Graph
 ^^^^^^^^^^^^^^^^^
-However in GraphScope, the graphs we often meet are large graphs that are partitioned into multiple fragments.
-GRIN regards them as partitioned graphs and each fragment of a partitioned graph is considered as
-the graph.
+In GRIN, a partitioned graph is a graph that is split into multiple fragments,
+which can be stored separately.
 
-To get a partitioned graph, we need to use the ``get_partitioned_graph_from_storage`` API.
+To work with a partitioned graph, we first need to get a handle to the partitioned graph.
+We can do this using the `grin_get_partitioned_graph_from_storage` function.
 
 ::
         
     GRIN_PARTITIONED_GRAPH grin_get_partitioned_graph_from_storage(const char*, const char*);
 
-The parameters of this API are the same as the ``get_graph_from_storage`` API.
+The parameters of this API are the same as the ``grin_get_graph_from_storage`` API.
 The return value of this API is a GRIN partitioned graph handle.
 
-To further get the graph handle of a specific fragment, we use:
+Once we have a handle to the partitioned graph, we can access the individual 
+graph fragments using the `grin_get_local_partition_list` and `grin_get_graph_by_partition` functions.
 
 ::
 
@@ -51,7 +56,18 @@ To further get the graph handle of a specific fragment, we use:
       GRIN_GRAPH g = grin_get_local_graph_by_partition(pg, partition);
     }
 
-All these types here with ``GRIN_`` prefix are GRIN handle types, which are typedefined by the storage.
-Actions should not be taken based on the specific type (e.g., ``void*`` or ``int``) of any handle,
-because different storage may use different types for the same handle.
+We can then perform operations on each fragment of the partitioned graph,
+just as we would with a regular graph.
 
+Note that partitioned graphs can be useful for working with large graphs 
+that are too large to be stored in memory all at once. By splitting the graph 
+into smaller fragments, we can work with the graph more efficiently.
+
+In the above code, all the types with ``GRIN_`` prefix are GRIN handle types.
+A GRIN handle is an opaque value that identifies an object in GRIN.
+It is important to note that the specific type of the handle,
+whether it be an integer, a pointer, or something else, is not specified by 
+GRIN APIs and may vary between different implementations of GRIN from different storage systems.
+Therefore, it is not safe to make assumptions about the type of a handle and 
+its properties based on its value.
+Instead, you should use the GRIN APIs to access the object associated with the handle.

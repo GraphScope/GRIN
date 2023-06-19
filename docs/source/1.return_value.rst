@@ -1,6 +1,6 @@
 Return Values
 --------------
-handle
+Handle
 ^^^^^^^^^^
 The return value of a GRIN API call is a GRIN handle in most cases.
 A GRIN handle represents a GRIN object such as vertex or edge, and
