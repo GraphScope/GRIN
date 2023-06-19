@@ -34,17 +34,17 @@ of a vertex as a row.
 
 Primary Key 
 ^^^^^^^^^^^^
-GRIN explicitly distinguishs the concepts of primary keys and indexing based on primary keys.
-Primary keys are the properties that are used to identify a vertex or an edge.
-Just like in relational databases, primary keys are unique under a given vertex or edge type.
-While indexing based on primary keys is the ability to find a vertex or an edge by its primary key.
-These two sets of APIs are defined in ``property/primarykey.h`` and ``index/pk.h`` respectively.
-Indexing with PK is discussed in the index section.
+GRIN explicitly distinguishes the concepts of primary keys and indexing based on primary keys.
+Primary keys are used to identify a vertex or an edge, and just like in relational databases, 
+they are unique under a given vertex or edge type. 
+Indexing based on primary keys is the ability to find a vertex or an edge by its primary key. 
+These two sets of APIs are defined in ``property/primarykey.h`` and ``index/pk.h`` respectively. 
+Indexing with PK is discussed in the index section. 
 
-Getting the PK of a vertex is very similar to getting the value of a property.
-Users should first get a row for the values of PK properties using the API
-``GRIN_ROW grin_get_vertex_primary_keys_row(GRIN_GRAPH g, GRIN_VERTEX v)``,
-and then get values from the row one-by-one.
+Getting the primary key of a vertex is similar to getting the value of a property. 
+Users first get a row for the values of PK properties using the API 
+``grin_get_vertex_primary_keys_row``, and then get values from the row one-by-one.
+
 
 
 

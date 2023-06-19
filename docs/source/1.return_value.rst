@@ -1,13 +1,13 @@
 Return Values
 --------------
 Handle
-^^^^^^^^^^
-The return value of a GRIN API call is a GRIN handle in most cases.
-A GRIN handle represents a GRIN object such as vertex or edge, and
-it can be used as a paramter of another GRIN API call.
+^^^^^^^
 
-In the last section, we already got a ``GRIN_GRAPH`` handle ``g``.
-We can use it to get the vertex list of the graph:
+In most cases, the return value of a GRIN API call is a GRIN handle.
+A GRIN handle represents a GRIN object, such as a vertex or edge, and can be 
+used as a parameter for another GRIN API call. 
+For example, in the previous section, we obtained a GRIN_GRAPH handle g, 
+which we can use to get a vertex list of the graph:
 
 ::
 
@@ -43,57 +43,56 @@ We can use it to get the vertex list of the graph:
 
     grin_destroy_vertex_list(g, vlist);
 
-In the first step, we get a ``vertex list`` handle in GRIN from a graph handle.
-Note that when vertex property is supported (i.e., ``GRIN_WITH_VERTEX_PROPERTY`` is defined),
+In the first step, we obtain a vertex list handle from a graph handle.
+Note that when vertex property is supported (i.e., GRIN_WITH_VERTEX_PROPERTY is defined),
 GRIN only provides the API to get the vertex list of a single type (e.g., person).
-This is based on the low-level API design principle of GRIN, which means GRIN APIs
-are a set of low-level abstractions for graph-retrieval actions. Please refer the
-low-level API subsection in topology api for more details.
-However, GRIN do provide high-level APIs in its extension, please refer the extension
-section for more details.
+This is based on the low-level API design principle of GRIN, which means
+GRIN APIs are a set of low-level abstractions for graph-retrieval actions.
+Please refer to the low-level API subsection in the topology API section for more details.
+However, GRIN does provide high-level APIs in its extensions.
+Please refer to the extension section for more details.
 
-Then in the next step, the vertex list can be accessed in two ways: array and iterator.
-This is also controlled by the macros enabled by the storage, meaning some storage may
-only support one type of accessment while some may support both.
+In the next step, the vertex list can be accessed in two ways: array and iterator.
+This is also controlled by the macros enabled by the storage.
+Some storage may only support one type of access, while some may support both.
 
-In the final step, we have to destroy every handle we get from GRIN to avoid memory leak.
+In the final step, we have to destroy every handle we obtain from GRIN to avoid memory leaks.
 
 Others
 ^^^^^^
 Exceptionally, there are three types of values returned by GRIN API calls other than handles:
 
-- GRIN enumerates: This includes enumerates defined in predefine.h, namely GRIN_DIRECTION, GRIN_DATATYPE and GRIN_ERROR_CODE.
-- common values: This includes common values such as ``size_t`` for list size, ``bool`` for condition check, ``unsigned int`` for id, and ``const char*`` for name.
-- property values: This includes property values such as ``int32``, ``int64``, ``float``, ``double`` and ``const char*``. The types of defined in the GRIN_DATATYPE enumerate.
-- serialized values: This includes serialized ``const char*`` from vertex ref or edge ref.
+- GRIN enumerates: This includes enumerates defined in predefine.h, namely GRIN_DIRECTION, GRIN_DATATYPE, and GRIN_ERROR_CODE.
+- Common values: This includes common values such as ``size_t`` for list size, ``bool`` for condition check, ``unsigned int`` for ID, and ``const char*`` for name.
+- Property values: This includes property values such as ``int32``, ``int64``, ``float``, ``double``, and ``const char*``. The types are defined in the ``GRIN_DATATYPE`` enumerate.
+- Serialized values: This includes serialized ``const char*`` from vertex ref or edge ref.
 
-Users do NOT have to destroy these return values since they are on ``"stack"`` only except for 
-the ``const char*`` in property values and serialized values.
-In which case, users have to destroy the string value by ``grin_destroy_string_value`` and ``grin_destroy_serialized_vertex(edge)_ref`` accordingly.
-
-Note that if the ``const char*`` is returned by a GRIN API call for name, such as vertex type name,
-or edge property name, users do NOT have to destroy it, since they are common values.
+Users do NOT have to destroy these return values since they are on the ``"stack"``,
+except for the ``const char*`` in property values and serialized values.
+In this case, users have to destroy the string value by using ``grin_destroy_string_value``
+and ``grin_destroy_serialized_vertex(edge)_ref``, respectively.
+Note that if the ``const char*`` is returned by a GRIN API call for a name,
+such as a vertex type name or edge property name, users do NOT have to destroy
+it since they are common values.
 
 Validation
-^^^^^^^^^^
-GRIN provides invalid values for handles to let users check if a handle is valid or not.
-Normally, the invalid value is of a GRIN handle ``GRIN_A`` is defined as ``GRIN_NULL_A``.
-
-GRIN also provides invalid values for common values, namely ``GRIN_NULL_SIZE`` and ``GRIN_NULL_NAME``.
-
-GRIN does NOT provide invalid values for enumerates, because each enumerate should cover all the possible
-values.
-
-GRIN also does NOT define invalid values for property values, because there is no specific value can
-be defined as invalid for types like ``int32`` or ``double``. This case if handled by GRIN error codes
-in the next section.
+^^^^^^^^^^^
+GRIN provides invalid values for handles to let users check whether a handle 
+is valid or not. Normally, the invalid value of a GRIN handle ``GRIN_A`` is 
+defined as ``GRIN_NULL_A``. GRIN also provides invalid values for common values,
+namely ``GRIN_NULL_SIZE`` and ``GRIN_NULL_NAME``. GRIN does NOT provide invalid
+values for enumerates because each enumerate should cover all possible values.
+GRIN also does NOT define invalid values for property values because there is
+no specific value that can be defined as invalid for types like ``int32`` or ``double``.
+This case is handled by GRIN error codes, as explained in the next section.
 
 Error Code
-^^^^^^^^^^
-GRIN defines a set of error codes in ``GRIN_ERROR_CODE`` enumerate.
-When a GRIN API call figures out an error, but cannot return invalid values (e.g., the property value case
-above), it can set the ``thread_local`` error code to indicate the error.
-Users can get the error code using ``grin_get_last_error_code`` API and handle the error case.
+^^^^^^^^^^^
+GRIN defines a set of error codes in the ``GRIN_ERROR_CODE`` enumerate.
+When a GRIN API call encounters an error but cannot return invalid values
+(e.g., the property value case above), it can set the thread_local error code to
+indicate the error. Users can get the error code using the ``grin_get_last_error_code``
+API and handle the error case accordingly.
 
 ::
 
