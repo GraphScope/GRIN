@@ -167,11 +167,8 @@ extern "C" {
     pub fn grin_get_edge_from_iter(arg1: GRIN_GRAPH, arg2: GRIN_EDGE_LIST_ITERATOR) -> GRIN_EDGE;
 }
 extern "C" {
-    #[doc = " @brief Get a (non-partitioned) graph from storage\n @param id The identity of the graph in the storage.\n @param version The version of the graph, for storage with no version,\n this param will be ignored.\n @return A graph handle."]
-    pub fn grin_get_graph_from_storage(
-        arg1: *const ::std::os::raw::c_char,
-        arg2: *const ::std::os::raw::c_char,
-    ) -> GRIN_GRAPH;
+    #[doc = " @brief Get a (non-partitioned) graph from storage\n @param uri The URI of the graph.\n Current URI for supported storage includes:\n 1. gart://{etcd_endpoint}?prefix={etcd_prefix}&version={version}\n 2. graphar://{yaml_path}?partition_num={partition_num}&strategy={strategy}\n 3. v6d://{object_id}?ipc_socket={ipc_socket} where ipc_socket is optional.\n @return A graph handle."]
+    pub fn grin_get_graph_from_storage(arg1: *const ::std::os::raw::c_char) -> GRIN_GRAPH;
 }
 extern "C" {
     pub fn grin_destroy_graph(arg1: GRIN_GRAPH);
@@ -259,10 +256,9 @@ extern "C" {
     ) -> GRIN_VERTEX;
 }
 extern "C" {
-    #[doc = " @brief Get a partitioned graph from a storage.\n @param id The identity of the graph in the storage.\n @param version The version of the graph, for storage with no version,\n this param will be ignored.\n @return A partitioned graph handle."]
+    #[doc = " @brief Get a partitioned graph from a storage.\n @param uri The URI of the graph.\n Current URI for supported storage includes:\n 1. gart://{etcd_endpoint}?prefix={etcd_prefix}&version={version}\n 2. graphar://{yaml_path}?partition_num={partition_num}&strategy={strategy}\n 3. v6d://{object_id}?ipc_socket={ipc_socket} where ipc_socket is optional.\n @return A partitioned graph handle."]
     pub fn grin_get_partitioned_graph_from_storage(
-        id: *const ::std::os::raw::c_char,
-        version: *const ::std::os::raw::c_char,
+        uri: *const ::std::os::raw::c_char,
     ) -> GRIN_PARTITIONED_GRAPH;
 }
 extern "C" {
@@ -430,7 +426,7 @@ extern "C" {
     ) -> *const ::std::os::raw::c_char;
 }
 extern "C" {
-    pub fn grin_destroy_serialized_edge_ref(arg1: GRIN_GRAPH, arg2: GRIN_EDGE_REF);
+    pub fn grin_destroy_serialized_edge_ref(arg1: GRIN_GRAPH, arg2: *const ::std::os::raw::c_char);
 }
 extern "C" {
     pub fn grin_deserialize_to_edge_ref(

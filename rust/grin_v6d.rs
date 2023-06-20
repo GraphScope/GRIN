@@ -61,7 +61,15 @@ pub struct GRIN_EDGE {
 }
 pub type GRIN_VERTEX_LIST = *mut ::std::os::raw::c_void;
 pub type GRIN_VERTEX_LIST_ITERATOR = *mut ::std::os::raw::c_void;
-pub type GRIN_ADJACENT_LIST = *mut ::std::os::raw::c_void;
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct GRIN_ADJACENT_LIST {
+    pub begin: *const ::std::os::raw::c_void,
+    pub end: *const ::std::os::raw::c_void,
+    pub vid: GRIN_VERTEX,
+    pub dir: GRIN_DIRECTION,
+    pub etype: ::std::os::raw::c_uint,
+}
 pub type GRIN_ADJACENT_LIST_ITERATOR = *mut ::std::os::raw::c_void;
 pub type GRIN_PARTITIONED_GRAPH = *mut ::std::os::raw::c_void;
 pub type GRIN_PARTITION = ::std::os::raw::c_uint;

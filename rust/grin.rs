@@ -55,7 +55,15 @@ cfg_if::cfg_if! {
         }
         pub type GrinVertexList = *mut ::std::os::raw::c_void;
         pub type GrinVertexListIterator = *mut ::std::os::raw::c_void;
-        pub type GrinAdjacentList = *mut ::std::os::raw::c_void;
+        #[repr(C)]
+        #[derive(Debug, Copy, Clone)]
+        pub struct GrinAdjacentList {
+            pub begin: *const ::std::os::raw::c_void,
+            pub end: *const ::std::os::raw::c_void,
+            pub vid: GrinVertex,
+            pub dir: GrinDirection,
+            pub etype: u32,
+        }
         pub type GrinAdjacentListIterator = *mut ::std::os::raw::c_void;
         pub type GrinPartitionedGraph = *mut ::std::os::raw::c_void;
         pub type GrinPartition = u32;
@@ -283,12 +291,9 @@ extern "C" {
     #[allow(unused)]
     pub fn grin_get_edge_from_iter(arg1: GrinGraph, arg2: GrinEdgeListIterator) -> GrinEdge;
 
-    #[doc = " @brief Get a (non-partitioned) graph from storage\n @param id The identity of the graph in the storage.\n @param version The version of the graph, for storage with no version,\n this param will be ignored.\n @return A graph handle."]
+    #[doc = " @brief Get a (non-partitioned) graph from storage\n @param uri The URI of the graph.\n Current URI for supported storage includes:\n 1. gart://{etcd_endpoint}?prefix={etcd_prefix}&version={version}\n 2. graphar://{yaml_path}?partition_num={partition_num}&strategy={strategy}\n 3. v6d://{object_id}?ipc_socket={ipc_socket} where ipc_socket is optional.\n @return A graph handle."]
     #[allow(unused)]
-    pub fn grin_get_graph_from_storage(
-        arg1: *const ::std::os::raw::c_char,
-        arg2: *const ::std::os::raw::c_char,
-    ) -> GrinGraph;
+    pub fn grin_get_graph_from_storage(arg1: *const ::std::os::raw::c_char) -> GrinGraph;
 
     #[allow(unused)]
     pub fn grin_destroy_graph(arg1: GrinGraph);
@@ -389,12 +394,11 @@ extern "C" {
         arg2: GrinVertexListIterator,
     ) -> GrinVertex;
 
-    #[doc = " @brief Get a partitioned graph from a storage.\n @param id The identity of the graph in the storage.\n @param version The version of the graph, for storage with no version,\n this param will be ignored.\n @return A partitioned graph handle."]
+    #[doc = " @brief Get a partitioned graph from a storage.\n @param uri The URI of the graph.\n Current URI for supported storage includes:\n 1. gart://{etcd_endpoint}?prefix={etcd_prefix}&version={version}\n 2. graphar://{yaml_path}?partition_num={partition_num}&strategy={strategy}\n 3. v6d://{object_id}?ipc_socket={ipc_socket} where ipc_socket is optional.\n @return A partitioned graph handle."]
     #[cfg(feature = "grin_enable_graph_partition")]
     #[allow(unused)]
     pub fn grin_get_partitioned_graph_from_storage(
-        id: *const ::std::os::raw::c_char,
-        version: *const ::std::os::raw::c_char,
+        uri: *const ::std::os::raw::c_char,
     ) -> GrinPartitionedGraph;
 
     #[cfg(feature = "grin_enable_graph_partition")]
@@ -595,7 +599,7 @@ extern "C" {
 
     #[cfg(feature = "grin_enable_edge_ref")]
     #[allow(unused)]
-    pub fn grin_destroy_serialized_edge_ref(arg1: GrinGraph, arg2: GrinEdgeRef);
+    pub fn grin_destroy_serialized_edge_ref(arg1: GrinGraph, arg2: *const ::std::os::raw::c_char);
 
     #[cfg(feature = "grin_enable_edge_ref")]
     #[allow(unused)]
