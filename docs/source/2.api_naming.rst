@@ -57,7 +57,7 @@ Format                      Description
 grin_destroy_A              destroy handle of A
 grin_is_X                   check whether condition X statisfied
 grin_equal_A                check whether two A handles are equal
-grin_select_A_for_B_list    select elements in B list based on A, A can be type or partition
+grin_get_A_list_select_B    select elements in A list based on B, B can be master, mirror or certain partition
 =========================== ==============
 
 
@@ -67,6 +67,5 @@ Parameter Order
 Rules to order parameters of APIs:
 
 - From larger-range handle to smaller-range handle
-- A is placed before B list for grin_select_A_for_B_list
 
 
