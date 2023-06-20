@@ -8,10 +8,10 @@
 /// RUST_KEEP pub const GRIN_NULL_DATATYPE: GrinDatatype = GRIN_DATATYPE_UNDEFINED;
 /// RUST_KEEP pub const GRIN_NULL_GRAPH: GrinGraph = std::ptr::null_mut();
 /// RUST_KEEP pub const GRIN_NULL_VERTEX: GrinVertex = u64::MAX;
-/// RUST_KEEP pub const GRIN_NULL_EDGE: GrinEdge = std::ptr::null_mut();
+/// RUST_KEEP pub const GRIN_NULL_EDGE: GrinEdge = GrinEdge{src: u64::MAX, dst: u64::MAX, dir: GRIN_DIRECTION_BOTH, etype: u32::MAX, eid: u64::MAX};
 /// RUST_KEEP pub const GRIN_NULL_VERTEX_LIST: GrinVertexList = std::ptr::null_mut();
 /// RUST_KEEP pub const GRIN_NULL_VERTEX_LIST_ITERATOR: GrinVertexListIterator = std::ptr::null_mut();
-/// RUST_KEEP pub const GRIN_NULL_ADJACENT_LIST: GrinAdjacentList = std::ptr::null_mut();
+/// RUST_KEEP pub const GRIN_NULL_ADJACENT_LIST: GrinAdjacentList = GrinAdjacentList{begin: std::ptr::null(), end: std::ptr::null(), vid: u64::MAX, dir: GRIN_DIRECTION_BOTH, etype: u32::MAX};
 /// RUST_KEEP pub const GRIN_NULL_ADJACENT_LIST_ITERATOR: GrinAdjacentListIterator = std::ptr::null_mut();
 /// RUST_KEEP pub const GRIN_NULL_PARTITIONED_GRAPH: GrinPartitionedGraph = std::ptr::null_mut();
 /// RUST_KEEP pub const GRIN_NULL_PARTITION: GrinPartition = u32::MAX;
