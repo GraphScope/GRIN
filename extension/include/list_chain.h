@@ -17,8 +17,10 @@ limitations under the License.
 extern "C" {
 #endif
 
-#ifndef GRIN_EXTENSION_INCLUDE_TOPOLOGY_LIST_CHAIN_H_
-#define GRIN_EXTENSION_INCLUDE_TOPOLOGY_LIST_CHAIN_H_
+#ifndef GRIN_EXTENSION_INCLUDE_LIST_CHAIN_H_
+#define GRIN_EXTENSION_INCLUDE_LIST_CHAIN_H_
+
+#include "../handle.h"
 
 #if defined(GRIN_ENABLE_VERTEX_LIST) && defined(GRIN_WITH_VERTEX_PROPERTY)
 GRIN_VERTEX_LIST_CHAIN grin_get_vertex_list_chain_of_all_types(GRIN_GRAPH);
@@ -82,7 +84,7 @@ GRIN_EDGE grin_get_edge_from_adjacent_list_chain_iter(GRIN_GRAPH, GRIN_ADJACENT_
 GRIN_VERTEX grin_get_neighbor_from_adjacent_list_chain_iter(GRIN_GRAPH, GRIN_ADJACENT_LIST_CHAIN_ITERATOR);
 #endif
 
-#endif // GRIN_EXTENSION_INCLUDE_TOPOLOGY_VERTEX_LIST_CHAIN_H_
+#endif // GRIN_EXTENSION_INCLUDE_VERTEX_LIST_CHAIN_H_
 
 #ifdef __cplusplus
 }
