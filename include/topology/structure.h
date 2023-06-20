@@ -22,12 +22,14 @@ extern "C" {
 
 /**
  * @brief Get a (non-partitioned) graph from storage
- * @param id The identity of the graph in the storage.
- * @param version The version of the graph, for storage with no version,
- * this param will be ignored.
+ * @param uri The URI of the graph.
+ * Current URI for supported storage includes:
+ * 1. gart://{etcd_endpoint}?prefix={etcd_prefix}&version={version}
+ * 2. graphar://{yaml_path}?partition_num={partition_num}&strategy={strategy}
+ * 3. v6d://{object_id}?ipc_socket={ipc_socket} where ipc_socket is optional.
  * @return A graph handle.
 */
-GRIN_GRAPH grin_get_graph_from_storage(const char*, const char*);
+GRIN_GRAPH grin_get_graph_from_storage(const char*);
 
 void grin_destroy_graph(GRIN_GRAPH);
 

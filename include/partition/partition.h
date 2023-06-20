@@ -29,12 +29,14 @@ extern "C" {
 #ifdef GRIN_ENABLE_GRAPH_PARTITION
 /**
  * @brief Get a partitioned graph from a storage.
- * @param id The identity of the graph in the storage.
- * @param version The version of the graph, for storage with no version,
- * this param will be ignored.
+ * @param uri The URI of the graph.
+ * Current URI for supported storage includes:
+ * 1. gart://{etcd_endpoint}?prefix={etcd_prefix}&version={version}
+ * 2. graphar://{yaml_path}?partition_num={partition_num}&strategy={strategy}
+ * 3. v6d://{object_id}?ipc_socket={ipc_socket} where ipc_socket is optional.
  * @return A partitioned graph handle.
 */
-GRIN_PARTITIONED_GRAPH grin_get_partitioned_graph_from_storage(const char* id, const char* version);
+GRIN_PARTITIONED_GRAPH grin_get_partitioned_graph_from_storage(const char* uri);
 
 void grin_destroy_partitioned_graph(GRIN_PARTITIONED_GRAPH);
 
