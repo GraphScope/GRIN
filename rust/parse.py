@@ -99,6 +99,7 @@ def static_replace(line):
         '::std::os::raw::c_int': 'i32',
         '::std::os::raw::c_ulonglong': 'u64',
         '::std::os::raw::c_longlong': 'i64',
+        'Copy, Clone': 'Copy, Clone, PartialEq',
     }
     for k in replaces:
         line = line.replace(k, replaces[k])

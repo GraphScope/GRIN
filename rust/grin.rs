@@ -45,7 +45,7 @@ cfg_if::cfg_if! {
         pub type GrinGraph = *mut ::std::os::raw::c_void;
         pub type GrinVertex = u64;
         #[repr(C)]
-        #[derive(Debug, Copy, Clone)]
+        #[derive(Debug, Copy, Clone, PartialEq)]
         pub struct GrinEdge {
             pub src: GrinVertex,
             pub dst: GrinVertex,
@@ -56,7 +56,7 @@ cfg_if::cfg_if! {
         pub type GrinVertexList = *mut ::std::os::raw::c_void;
         pub type GrinVertexListIterator = *mut ::std::os::raw::c_void;
         #[repr(C)]
-        #[derive(Debug, Copy, Clone)]
+        #[derive(Debug, Copy, Clone, PartialEq)]
         pub struct GrinAdjacentList {
             pub begin: *const ::std::os::raw::c_void,
             pub end: *const ::std::os::raw::c_void,
