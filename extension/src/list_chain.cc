@@ -43,39 +43,43 @@ void grin_destroy_vertex_list_chain(GRIN_GRAPH g, GRIN_VERTEX_LIST_CHAIN vchain)
 }
 
 GRIN_VERTEX_LIST_CHAIN_ITERATOR grin_get_vertex_list_chain_begin(GRIN_GRAPH g, GRIN_VERTEX_LIST_CHAIN vchain) {
-    GRIN_VERTEX_LIST_CHAIN_ITERATOR iter;
-    iter.iterators = new GRIN_VERTEX_LIST_ITERATOR[vchain.size];
-    iter.size = vchain.size;
-    iter.current = 0;
+    auto iter = new GRIN_VERTEX_LIST_CHAIN_ITERATOR_T();
+    iter->iterators = new GRIN_VERTEX_LIST_ITERATOR[vchain.size];
+    iter->size = vchain.size;
+    iter->current = 0;
     for (unsigned int i = 0; i < vchain.size; i++) {
-        iter.iterators[i] = grin_get_vertex_list_begin(g, vchain.lists[i]);
+        iter->iterators[i] = grin_get_vertex_list_begin(g, vchain.lists[i]);
     }
-    while (iter.current < iter.size && grin_is_vertex_list_end(g, iter.iterators[iter.current])) {
-        iter.current++;
+    while (iter->current < iter->size && grin_is_vertex_list_end(g, iter->iterators[iter->current])) {
+        iter->current++;
     }
     return iter;
 }
 
 void grin_destroy_vertex_list_chain_iter(GRIN_GRAPH g, GRIN_VERTEX_LIST_CHAIN_ITERATOR vchain_iter) {
-    for (unsigned int i = 0; i < vchain_iter.size; i++) {
-        grin_destroy_vertex_list_iter(g, vchain_iter.iterators[i]);
+    auto _vchain_iter = static_cast<GRIN_VERTEX_LIST_CHAIN_ITERATOR_T*>(vchain_iter);
+    for (unsigned int i = 0; i < _vchain_iter->size; i++) {
+        grin_destroy_vertex_list_iter(g, _vchain_iter->iterators[i]);
     }
-    delete[] vchain_iter.iterators;
+    delete[] _vchain_iter->iterators;
 }
 
 void grin_get_next_vertex_list_chain_iter(GRIN_GRAPH g, GRIN_VERTEX_LIST_CHAIN_ITERATOR vchain_iter) {
-    grin_get_next_vertex_list_iter(g, vchain_iter.iterators[vchain_iter.current]);
-    while (vchain_iter.current < vchain_iter.size && grin_is_vertex_list_end(g, vchain_iter.iterators[vchain_iter.current])) {
-        vchain_iter.current++;
+    auto _vchain_iter = static_cast<GRIN_VERTEX_LIST_CHAIN_ITERATOR_T*>(vchain_iter);
+    grin_get_next_vertex_list_iter(g, _vchain_iter->iterators[_vchain_iter->current]);
+    while (_vchain_iter->current < _vchain_iter->size && grin_is_vertex_list_end(g, _vchain_iter->iterators[_vchain_iter->current])) {
+        _vchain_iter->current++;
     }
 }
 
 bool grin_is_vertex_list_chain_end(GRIN_GRAPH g, GRIN_VERTEX_LIST_CHAIN_ITERATOR vchain_iter) {
-    return vchain_iter.current >= vchain_iter.size;
+    auto _vchain_iter = static_cast<GRIN_VERTEX_LIST_CHAIN_ITERATOR_T*>(vchain_iter);
+    return _vchain_iter->current >= _vchain_iter->size;
 }
 
 GRIN_VERTEX grin_get_vertex_from_vertex_list_chain_iter(GRIN_GRAPH g, GRIN_VERTEX_LIST_CHAIN_ITERATOR vchain_iter) {
-    GRIN_VERTEX_LIST_ITERATOR iter = vchain_iter.iterators[vchain_iter.current];
+    auto _vchain_iter = static_cast<GRIN_VERTEX_LIST_CHAIN_ITERATOR_T*>(vchain_iter);
+    GRIN_VERTEX_LIST_ITERATOR iter = _vchain_iter->iterators[_vchain_iter->current];
     return grin_get_vertex_from_iter(g, iter);
 }
 #endif
@@ -152,42 +156,47 @@ void grin_destroy_adjacent_list_chain(GRIN_GRAPH g, GRIN_ADJACENT_LIST_CHAIN ach
 }
 
 GRIN_ADJACENT_LIST_CHAIN_ITERATOR grin_get_adjacent_list_chain_begin(GRIN_GRAPH g, GRIN_ADJACENT_LIST_CHAIN achain) {
-    GRIN_ADJACENT_LIST_CHAIN_ITERATOR iter;
-    iter.iterators = new GRIN_ADJACENT_LIST_ITERATOR[achain.size];
-    iter.size = achain.size;
-    iter.current = 0;
+    auto iter = new GRIN_ADJACENT_LIST_CHAIN_ITERATOR_T();
+    iter->iterators = new GRIN_ADJACENT_LIST_ITERATOR[achain.size];
+    iter->size = achain.size;
+    iter->current = 0;
     for (unsigned int i = 0; i < achain.size; i++) {
-        iter.iterators[i] = grin_get_adjacent_list_begin(g, achain.lists[i]);
+        iter->iterators[i] = grin_get_adjacent_list_begin(g, achain.lists[i]);
     }
-    while (iter.current < iter.size && grin_is_adjacent_list_end(g, iter.iterators[iter.current])) {
-        iter.current++;
+    while (iter->current < iter->size && grin_is_adjacent_list_end(g, iter->iterators[iter->current])) {
+        iter->current++;
     }
     return iter;
 }
 
 void grin_destroy_adjacent_list_chain_iter(GRIN_GRAPH g, GRIN_ADJACENT_LIST_CHAIN_ITERATOR achain_iter) {
-    for (unsigned int i = 0; i < achain_iter.size; i++) {
-        grin_destroy_adjacent_list_iter(g, achain_iter.iterators[i]);
+    auto _achain_iter = static_cast<GRIN_ADJACENT_LIST_CHAIN_ITERATOR_T*>(achain_iter);
+    for (unsigned int i = 0; i < _achain_iter->size; i++) {
+        grin_destroy_adjacent_list_iter(g, _achain_iter->iterators[i]);
     }
-    delete[] achain_iter.iterators;
+    delete[] _achain_iter->iterators;
 }
 
 void grin_get_next_adjacent_list_chain_iter(GRIN_GRAPH g, GRIN_ADJACENT_LIST_CHAIN_ITERATOR achain_iter) {
-    grin_get_next_adjacent_list_iter(g, achain_iter.iterators[achain_iter.current]);
-    while (achain_iter.current < achain_iter.size && grin_is_adjacent_list_end(g, achain_iter.iterators[achain_iter.current])) {
-        achain_iter.current++;
+    auto _achain_iter = static_cast<GRIN_ADJACENT_LIST_CHAIN_ITERATOR_T*>(achain_iter);
+    grin_get_next_adjacent_list_iter(g, _achain_iter->iterators[_achain_iter->current]);
+    while (_achain_iter->current < _achain_iter->size && grin_is_adjacent_list_end(g, _achain_iter->iterators[_achain_iter->current])) {
+        _achain_iter->current++;
     }
 }
 
 bool grin_is_adjacent_list_chain_end(GRIN_GRAPH g, GRIN_ADJACENT_LIST_CHAIN_ITERATOR achain_iter) {
-    return achain_iter.current >= achain_iter.size;
+    auto _achain_iter = static_cast<GRIN_ADJACENT_LIST_CHAIN_ITERATOR_T*>(achain_iter);
+    return _achain_iter->current >= _achain_iter->size;
 }
 
 GRIN_EDGE grin_get_edge_from_adjacent_list_chain_iter(GRIN_GRAPH g, GRIN_ADJACENT_LIST_CHAIN_ITERATOR achain_iter) {
-    return grin_get_edge_from_adjacent_list_iter(g, achain_iter.iterators[achain_iter.current]);
+    auto _achain_iter = static_cast<GRIN_ADJACENT_LIST_CHAIN_ITERATOR_T*>(achain_iter);
+    return grin_get_edge_from_adjacent_list_iter(g, _achain_iter->iterators[_achain_iter->current]);
 }
 
 GRIN_VERTEX grin_get_neighbor_from_adjacent_list_chain_iter(GRIN_GRAPH g, GRIN_ADJACENT_LIST_CHAIN_ITERATOR achain_iter) {
-    return grin_get_neighbor_from_adjacent_list_iter(g, achain_iter.iterators[achain_iter.current]);
+    auto _achain_iter = static_cast<GRIN_ADJACENT_LIST_CHAIN_ITERATOR_T*>(achain_iter);
+    return grin_get_neighbor_from_adjacent_list_iter(g, _achain_iter->iterators[_achain_iter->current]);
 }
 #endif
