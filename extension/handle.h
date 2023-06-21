@@ -32,11 +32,13 @@ typedef struct GRIN_VERTEX_LIST_CHAIN {
     unsigned int size;
 } GRIN_VERTEX_LIST_CHAIN;
 
-typedef struct GRIN_VERTEX_LIST_CHAIN_ITERATOR {
+typedef struct GRIN_VERTEX_LIST_CHAIN_ITERATOR_T {
     GRIN_VERTEX_LIST_ITERATOR* iterators;
     unsigned int size;
     unsigned int current;
-} GRIN_VERTEX_LIST_CHAIN_ITERATOR;
+} GRIN_VERTEX_LIST_CHAIN_ITERATOR_T;
+
+typedef void* GRIN_VERTEX_LIST_CHAIN_ITERATOR;
 #endif
 
 #if defined(GRIN_ENABLE_EDGE_LIST) && defined(GRIN_WITH_EDGE_PROPERTY)
@@ -51,11 +53,13 @@ typedef struct GRIN_ADJACENT_LIST_CHAIN {
     unsigned int size;
 } GRIN_ADJACENT_LIST_CHAIN;
 
-typedef struct GRIN_ADJACENT_LIST_CHAIN_ITERATOR {
+typedef struct GRIN_ADJACENT_LIST_CHAIN_ITERATOR_T {
     GRIN_ADJACENT_LIST_ITERATOR* iterators;
     unsigned int size;
     unsigned int current;
-} GRIN_ADJACENT_LIST_CHAIN_ITERATOR;
+} GRIN_ADJACENT_LIST_CHAIN_ITERATOR_T;
+
+typedef void* GRIN_ADJACENT_LIST_CHAIN_ITERATOR;
 #endif
 
 #endif // GRIN_EXTENSION_HANDLE_H_
