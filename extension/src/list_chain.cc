@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#include "../include/list_chain.h"
+#include "list_chain.h"
 #include "property/topology.h"
 #include "property/type.h"
 #include "topology/vertexlist.h"
