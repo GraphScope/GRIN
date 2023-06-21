@@ -23,10 +23,8 @@ limitations under the License.
 extern "C" {
 #endif
 
-#ifndef GRIN_EXTENSION_PREDEFINE_H_
-#define GRIN_EXTENSION_PREDEFINE_H_
-
-#include "predefine.h"
+#ifndef GRIN_EXTENSION_HANDLE_H_
+#define GRIN_EXTENSION_HANDLE_H_
 
 #if defined(GRIN_ENABLE_VERTEX_LIST) && defined(GRIN_WITH_VERTEX_PROPERTY)
 typedef struct GRIN_VERTEX_LIST_CHAIN {
@@ -60,7 +58,7 @@ typedef struct GRIN_ADJACENT_LIST_CHAIN_ITERATOR {
 } GRIN_ADJACENT_LIST_CHAIN_ITERATOR;
 #endif
 
-#endif // GRIN_EXTENSION_PREDEFINE_H_
+#endif // GRIN_EXTENSION_HANDLE_H_
 
 #ifdef __cplusplus
 }
