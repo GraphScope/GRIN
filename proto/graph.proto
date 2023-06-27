@@ -106,6 +106,9 @@ message IndexFeature {
     bool grin_assume_all_vertex_list_sorted = 3;
     
     bool grin_enable_vertex_internal_id_index = 4;
+
+    bool grin_enable_vertex_pk_index = 5;
+    bool grin_enable_edge_pk_index = 6;
 }
 
 message PredicateFeature {
