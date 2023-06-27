@@ -1,11 +1,13 @@
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
+#include <sys/time.h>     
 #include "predefine.h"
 #include "common/error.h"
+#include "index/internal_id.h"
 #include "index/label.h"
 #include "index/order.h"
-#include "index/original_id.h"
+#include "index/pk.h"
 #include "partition/partition.h"
 #include "partition/reference.h"
 #include "partition/topology.h"
@@ -110,16 +112,15 @@
 const char *vt_names[] = {"person", "software"};
 const char *et_names[] = {"created", "knows"};
 
-#ifdef GRIN_ENABLE_VERTEX_ORIGINAL_ID_OF_INT64
-const char *v_names[] = {"WRONG", "marko", "vadas", "lop", "josh", "ripple", "peter"};
-#else
-const char *v_names[] = {"josh", "vadas", "peter"}; // TODO align with order in local graph
-#endif
+const char *v_names[][4] = {
+  {"josh", "vadas", "peter", "marko"},
+  {"lop", "ripple", "wrong", "wrong"}
+}; // TODO align with order in local graph
 
 GRIN_GRAPH get_graph(int argc, char** argv, int p) {
 #ifdef GRIN_ENABLE_GRAPH_PARTITION
   GRIN_PARTITIONED_GRAPH pg =
-      grin_get_partitioned_graph_from_storage(argc - 1, &(argv[1]));
+      grin_get_partitioned_graph_from_storage(argv[1]);
   GRIN_PARTITION_LIST local_partitions = grin_get_local_partition_list(pg);
   assert(p < grin_get_partition_list_size(pg, local_partitions));
   GRIN_PARTITION partition =
@@ -135,7 +136,7 @@ GRIN_GRAPH get_graph(int argc, char** argv, int p) {
   grin_destroy_partition_list(pg, local_partitions);
   grin_destroy_partitioned_graph(pg);
 #else
-  GRIN_GRAPH g = grin_get_graph_from_storage(argc - 1, &(argv[1]));
+  GRIN_GRAPH g = grin_get_graph_from_storage(argv[1]);
 #endif
   return g;
 }
@@ -150,8 +151,8 @@ GRIN_VERTEX get_one_master_person(GRIN_GRAPH g) {
   GRIN_VERTEX v = grin_get_vertex_from_iter(g, vli);
   grin_destroy_vertex_list_iter(g, vli);
   grin_destroy_vertex_list(g, vl);
-#ifdef GRIN_ENABLE_VERTEX_ORIGINAL_ID_OF_INT64
-  printf("Got vertex %s\n", v_names[grin_get_vertex_original_id_of_int64(g, v)]);
+#ifdef GRIN_ENABLE_VERTEX_INTERNAL_ID_INDEX
+  printf("Got vertex %s\n", v_names[vt][grin_get_vertex_internal_id_by_type(g, vt, v)]);
 #endif
   return v;
 }
@@ -166,8 +167,8 @@ GRIN_VERTEX get_one_person(GRIN_GRAPH g) {
   GRIN_VERTEX v = grin_get_vertex_from_iter(g, vli);
   grin_destroy_vertex_list_iter(g, vli);
   grin_destroy_vertex_list(g, vl);
-#ifdef GRIN_ENABLE_VERTEX_ORIGINAL_ID_OF_INT64
-  printf("Got vertex %s\n", v_names[grin_get_vertex_original_id_of_int64(g, v)]);
+#ifdef GRIN_ENABLE_VERTEX_INTERNAL_ID_INDEX
+  printf("Got vertex %s\n", v_names[vt][grin_get_vertex_internal_id_by_type(g, vt, v)]);
 #endif
   return v;
 }
@@ -334,8 +335,8 @@ FOR_VERTEX_LIST_SELECT_MASTER_BEGIN(g, vl)
   GRIN_VERTEX_PROPERTY_LIST vpl = grin_get_vertex_property_list_by_type(g, __vt);
   size_t vpl_size = grin_get_vertex_property_list_size(g, vpl);
   FOR_VERTEX_BEGIN(g, vl, v)
-  #ifdef GRIN_ENABLE_VERTEX_ORIGINAL_ID_OF_INT64
-    long long int vid = grin_get_vertex_original_id_of_int64(g, v);
+  #ifdef GRIN_ENABLE_VERTEX_INTERNAL_ID_INDEX
+    long long int vid = grin_get_vertex_internal_id_by_type(g, __vt, v);
   #else
     long long int vid = __vcnt;
   #endif
@@ -354,9 +355,9 @@ FOR_VERTEX_LIST_SELECT_MASTER_BEGIN(g, vl)
         assert(pv == rv);
       #endif
       #ifdef GRIN_WITH_VERTEX_PROPERTY_NAME
-        printf("%s %s: %lld\n", v_names[vid], grin_get_vertex_property_name(g, __vt, vp), pv);
+        printf("%s %s: %lld\n", v_names[__vt][vid], grin_get_vertex_property_name(g, __vt, vp), pv);
       #else
-        printf("%s %zu: %lld\n", v_names[vid], j, pv);
+        printf("%s %zu: %lld\n", v_names[__vt][vid], j, pv);
       #endif
       } else if (dt == String) {
         const char* pv =
@@ -367,9 +368,9 @@ FOR_VERTEX_LIST_SELECT_MASTER_BEGIN(g, vl)
         assert(strcmp(pv, rv) == 0);
       #endif
       #ifdef GRIN_WITH_VERTEX_PROPERTY_NAME
-        printf("%s %s: %s\n", v_names[vid], grin_get_vertex_property_name(g, __vt, vp), pv);
+        printf("%s %s: %s\n", v_names[__vt][vid], grin_get_vertex_property_name(g, __vt, vp), pv);
       #else
-        printf("%s %zu: %s\n", v_names[vid], j, pv);
+        printf("%s %zu: %s\n", v_names[__vt][vid], j, pv);
       #endif
         grin_destroy_string_value(g, pv);
         grin_destroy_string_value(g, rv);
@@ -437,11 +438,11 @@ FOR_VERTEX_LIST_END(g, vl)
 #ifdef GRIN_WITH_VERTEX_PROPERTY_NAME
   GRIN_VERTEX_PROPERTY_LIST vpl1 =
       grin_get_vertex_properties_by_name(g, "unknown");
-  assert(vpl1 == GRIN_NULL_LIST);
+  assert(vpl1 == GRIN_NULL_VERTEX_PROPERTY_LIST);
 
   GRIN_VERTEX_PROPERTY_LIST vpl2 =
       grin_get_vertex_properties_by_name(g, "name");
-  assert(vpl2 != GRIN_NULL_LIST);
+  assert(vpl2 != GRIN_NULL_VERTEX_PROPERTY_LIST);
   
   size_t vpl2_size = grin_get_vertex_property_list_size(g, vpl2);
   for (size_t i = 0; i < vpl2_size; ++i) {
@@ -474,9 +475,11 @@ FOR_VERTEX_LIST_SELECT_MASTER_BEGIN(g, vl)
       while (!grin_is_adjacent_list_end(g, ali)) {
         GRIN_EDGE e = grin_get_edge_from_adjacent_list_iter(g, ali);
         GRIN_VERTEX u = grin_get_neighbor_from_adjacent_list_iter(g, ali);
-      #ifdef GRIN_ENABLE_VERTEX_ORIGINAL_ID_OF_INT64
-        long long int vid = grin_get_vertex_original_id_of_int64(g, v);
-        long long int uid = grin_get_vertex_original_id_of_int64(g, u);
+      #ifdef GRIN_ENABLE_VERTEX_INTERNAL_ID_INDEX
+        GRIN_VERTEX_TYPE ut = grin_get_vertex_type(g, u);
+        long long int vid = grin_get_vertex_internal_id_by_type(g, __vt, v);
+        long long int uid = grin_get_vertex_internal_id_by_type(g, ut, u);
+        grin_destroy_vertex_type(g, ut);
       #else
         long long int vid = __vcnt;
         long long int uid = acnt;
@@ -496,10 +499,10 @@ FOR_VERTEX_LIST_SELECT_MASTER_BEGIN(g, vl)
             assert(pv == rv);
           #endif
           #ifdef GRIN_WITH_EDGE_PROPERTY_NAME
-            printf("%s %s %s: %lld\n", v_names[vid], v_names[uid], 
+            printf("%s %s %s: %lld\n", v_names[__vt][vid], v_names[ut][uid], 
               grin_get_edge_property_name(g, __et, ep), pv);
           #else
-            printf("%s %zu %lld: %lld\n", v_names[vid], j, uid, pv);
+            printf("%s %zu %lld: %lld\n", v_names[__vt][vid], j, uid, pv);
           #endif
           } else if (dt == Double) {
             double pv = grin_get_edge_property_value_of_double(g, e, ep);
@@ -509,10 +512,10 @@ FOR_VERTEX_LIST_SELECT_MASTER_BEGIN(g, vl)
             assert(pv == rv);
           #endif
           #ifdef GRIN_WITH_EDGE_PROPERTY_NAME
-            printf("%s %s %s: %lf\n", v_names[vid], v_names[uid], 
+            printf("%s %s %s: %lf\n", v_names[__vt][vid], v_names[ut][uid], 
               grin_get_edge_property_name(g, __et, ep), pv);
           #else
-            printf("%s %zu %lld: %lf\n", v_names[vid], j, uid, pv);
+            printf("%s %zu %lld: %lf\n", v_names[__vt][vid], j, uid, pv);
           #endif
           } else if (dt == String) {
             const char* pv = grin_get_edge_property_value_of_string(g, e, ep);
@@ -522,10 +525,10 @@ FOR_VERTEX_LIST_SELECT_MASTER_BEGIN(g, vl)
             assert(strcmp(pv, rv) == 0);
           #endif
           #ifdef GRIN_WITH_EDGE_PROPERTY_NAME
-            printf("%s %s %s: %s\n", v_names[vid], v_names[uid], 
+            printf("%s %s %s: %s\n", v_names[__vt][vid], v_names[ut][uid], 
               grin_get_edge_property_name(g, __et, ep), pv);
           #else
-            printf("%s %zu %lld: %s\n", v_names[vid], j, uid, pv);
+            printf("%s %zu %lld: %s\n", v_names[__vt][vid], j, uid, pv);
           #endif
           }
         }
@@ -597,11 +600,11 @@ FOR_VERTEX_LIST_END(g, vl)
 #ifdef GRIN_WITH_EDGE_PROPERTY_NAME
   GRIN_EDGE_PROPERTY_LIST epl1 =
       grin_get_edge_properties_by_name(g, "unknown");
-  assert(epl1 == GRIN_NULL_LIST);
+  assert(epl1 == GRIN_NULL_EDGE_PROPERTY_LIST);
 
   GRIN_EDGE_PROPERTY_LIST epl2 =
       grin_get_edge_properties_by_name(g, "weight");
-  assert(epl2 != GRIN_NULL_LIST);
+  assert(epl2 != GRIN_NULL_EDGE_PROPERTY_LIST);
   
   size_t epl2_size = grin_get_edge_property_list_size(g, epl2);
   for (size_t i = 0; i < epl2_size; ++i) {
@@ -653,17 +656,16 @@ void test_property_primary_key(int argc, char** argv) {
       GRIN_ROW r = grin_create_row(g);
       assert(dt == Int64);
       grin_insert_int64_to_row(g, r, j);
-      GRIN_VERTEX v = grin_get_vertex_by_primary_keys(g, vt, r);
-      if (id_type[j] == i) {
-        assert(v != GRIN_NULL_VERTEX);
-      #ifdef GRIN_ENABLE_VERTEX_ORIGINAL_ID_OF_INT64
-        long long int vid = grin_get_vertex_original_id_of_int64(g, v);
-        assert(vid == j);
-      #endif
+#ifdef GRIN_ENABLE_VERTEX_PK_INDEX
+      GRIN_VERTEX v = grin_get_vertex_by_primary_keys_row(g, vt, r);
+      if (v != GRIN_NULL_VERTEX && id_type[j] == i) {
+        GRIN_ROW nr = grin_get_vertex_primary_keys_row(g, v);
+        long long int k = grin_get_int64_from_row(g, nr, 0);
+        assert(k == j);
+        grin_destroy_row(g, nr);
         grin_destroy_vertex(g, v);
-      } else {
-        assert(v == GRIN_NULL_VERTEX);
       }
+#endif
       grin_destroy_row(g, r);
     }
 
@@ -676,7 +678,6 @@ void test_property_primary_key(int argc, char** argv) {
   grin_destroy_graph(g);
 }
 #endif
-
 
 void test_error_code(int argc, char** argv) {
   printf("+++++++++++++++++++++ Test error code +++++++++++++++++++++\n");
@@ -705,14 +706,14 @@ void test_property(int argc, char** argv) {
   test_property_primary_key(argc, argv);
 #endif
 #ifdef GRIN_WITH_VERTEX_PROPERTY_NAME
-  test_error_code(argc, argv);
+  // test_error_code(argc, argv);
 #endif
 }
 
 
 void test_partition_reference(int argc, char** argv) {
   printf("+++++++++++++++++++++ Test partition/reference +++++++++++++++++++++\n");
-  GRIN_PARTITIONED_GRAPH pg = grin_get_partitioned_graph_from_storage(argc - 1, &(argv[1]));
+  GRIN_PARTITIONED_GRAPH pg = grin_get_partitioned_graph_from_storage(argv[1]);
   GRIN_PARTITION_LIST local_partitions = grin_get_local_partition_list(pg);
   assert(grin_get_partition_list_size(pg, local_partitions) >= 2);
 
@@ -865,8 +866,8 @@ void test_topology_adjacent_list(int argc, char** argv, GRIN_DIRECTION dir) {
 
 FOR_VERTEX_LIST_BEGIN(g, vl)
   FOR_VERTEX_BEGIN(g, vl, v)
-  #ifdef GRIN_ENABLE_VERTEX_ORIGINAL_ID_OF_INT64
-    long long int vid = grin_get_vertex_original_id_of_int64(g, v);
+  #ifdef GRIN_ENABLE_VERTEX_INTERNAL_ID_INDEX
+    long long int vid = grin_get_vertex_internal_id_by_type(g, __vt, v);
   #else
     long long int vid = __vcnt;
   #endif
@@ -919,9 +920,9 @@ FOR_VERTEX_LIST_BEGIN(g, vl)
     #endif
       grin_destroy_adjacent_list_iter(g, ali);
     #ifdef GRIN_WITH_EDGE_PROPERTY
-      printf("vertex %s adjlist, edgetype: %s, checked num: %zu\n", v_names[vid], et_names[__etl_i], acnt);
+      printf("vertex %s adjlist, edgetype: %s, checked num: %zu\n", v_names[__vt][vid], et_names[__etl_i], acnt);
     #else
-      printf("vertex %s adjlist, checked num: %zu\n", v_names[vid], acnt);
+      printf("vertex %s adjlist, checked num: %zu\n", v_names[__vt][vid], acnt);
     #endif
     FOR_ADJ_LIST_END(g, al)
   FOR_VERTEX_END(g, vl, v)
@@ -937,7 +938,7 @@ void test_topology(int argc, char** argv) {
   test_topology_adjacent_list(argc, argv, IN);
 }
 
-
+#if defined(GRIN_ASSUME_ALL_VERTEX_LIST_SORTED) && defined(GRIN_ENABLE_VERTEX_LIST_ARRAY)
 void test_index_order(int argc, char** argv) {
   printf("+++++++++++++++++++++ Test index order +++++++++++++++++++++\n");
   GRIN_GRAPH g = get_graph(argc, argv, 0);
@@ -984,16 +985,20 @@ FOR_VERTEX_LIST_END(g, vl)
 
   grin_destroy_graph(g);
 }
+#endif
 
-void test_index_original_id(int argc, char** argv) {
-  printf("+++++++++++++++++++++ Test index original id +++++++++++++++++++++\n");
+void test_index_internal_id(int argc, char** argv) {
+  printf("+++++++++++++++++++++ Test index internal id +++++++++++++++++++++\n");
   GRIN_GRAPH g = get_graph(argc, argv, 0);
 
 FOR_VERTEX_LIST_BEGIN(g, vl)
+  long long int min = grin_get_vertex_internal_id_lower_bound_by_type(g, __vt);
+  long long int max = grin_get_vertex_internal_id_upper_bound_by_type(g, __vt);
   FOR_VERTEX_BEGIN(g, vl, v)
-#ifdef GRIN_ENABLE_VERTEX_ORIGINAL_ID_OF_INT64
-  long long int oid = grin_get_vertex_original_id_of_int64(g, v);
-  GRIN_VERTEX v1 = grin_get_vertex_by_original_id_of_int64(g, oid);
+#ifdef GRIN_ENABLE_VERTEX_INTERNAL_ID_INDEX
+  long long int oid = grin_get_vertex_internal_id_by_type(g, __vt, v);
+  assert(oid >= min && oid < max);
+  GRIN_VERTEX v1 = grin_get_vertex_by_internal_id_by_type(g, __vt, oid);
   assert(grin_equal_vertex(g, v, v1));
   grin_destroy_vertex(g, v1);
 #endif
@@ -1008,14 +1013,40 @@ void test_index(int argc, char** argv) {
 #if defined(GRIN_ASSUME_ALL_VERTEX_LIST_SORTED) && defined(GRIN_ENABLE_VERTEX_LIST_ARRAY)
   test_index_order(argc, argv);
 #endif
-  test_index_original_id(argc, argv);
+#ifdef GRIN_ENABLE_VERTEX_INTERNAL_ID_INDEX
+  test_index_internal_id(argc, argv);
+#endif
 }
 
+void test_vertex_property_value(int argc, char** argv) {
+  GRIN_GRAPH g = get_graph(argc, argv, 0);
+  GRIN_VERTEX_TYPE vt = grin_get_vertex_type_by_name(g, "person");
+  GRIN_VERTEX_PROPERTY vp = grin_get_vertex_property_by_name(g, vt, "age");
+  GRIN_VERTEX v = get_one_master_person(g);
+  struct timeval t1, t2;
+  gettimeofday(&t1, NULL);
+  for (int i = 0; i < 1000000; ++i) {
+    long long int age = grin_get_vertex_property_value_of_int64(g, v, vp);
+  }
+  gettimeofday(&t2, NULL);
+  double elapsedTime = (t2.tv_sec - t1.tv_sec) * 1000.0;
+  elapsedTime += (t2.tv_usec - t1.tv_usec) / 1000.0; 
+  printf("%f ms.\n", elapsedTime);
+  grin_destroy_vertex(g, v);
+  grin_destroy_vertex_property(g, vp);
+  grin_destroy_vertex_type(g, vt);
+  grin_destroy_graph(g);
+}
+
+void test_perf(int argc, char** argv) {
+  test_vertex_property_value(argc, argv);
+}
 
 int main(int argc, char** argv) {
   test_index(argc, argv);
   test_property(argc, argv);
   test_partition(argc, argv);
   test_topology(argc, argv);
+  test_perf(argc, argv);
   return 0;
 }

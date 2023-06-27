@@ -24,6 +24,12 @@ extern "C" {
 
 
 #ifdef GRIN_WITH_VERTEX_PROPERTY
+/**
+ * @brief Get the vertex property list of the graph.
+ * This API is only available for property graph.
+ * @param GRIN_GRAPH The graph.
+ * @return The vertex property list.
+*/
 GRIN_VERTEX_PROPERTY_LIST grin_get_vertex_property_list_by_type(GRIN_GRAPH, GRIN_VERTEX_TYPE);
 
 size_t grin_get_vertex_property_list_size(GRIN_GRAPH, GRIN_VERTEX_PROPERTY_LIST);
@@ -38,9 +44,28 @@ bool grin_insert_vertex_property_to_list(GRIN_GRAPH, GRIN_VERTEX_PROPERTY_LIST, 
 #endif
 
 #ifdef GRIN_TRAIT_NATURAL_ID_FOR_VERTEX_PROPERTY
+/**
+ * @brief Get the vertex property handle by id.
+ * This API is enabled by ``GRIN_TRAIT_NATURAL_ID_FOR_VERTEX_PROPERTY``,
+ * meaning that the storage has naturally increasing ids for vertex properties
+ * under a certain vertex type.
+ * @param GRIN_GRAPH The graph.
+ * @param GRIN_VERTEX_TYPE The vertex type.
+ * @param GRIN_VERTEX_PROPERTY_ID The vertex property id.
+ * @return The vertex property handle.
+*/
 GRIN_VERTEX_PROPERTY grin_get_vertex_property_by_id(GRIN_GRAPH, GRIN_VERTEX_TYPE, GRIN_VERTEX_PROPERTY_ID);
 
-/// We must specify the vertex type here, because the vertex property id is unique only under a specific vertex type
+/**
+ * @brief Get the vertex property's natural id.
+ * This API is enabled by ``GRIN_TRAIT_NATURAL_ID_FOR_VERTEX_PROPERTY``,
+ * meaning that the storage has naturally increasing ids for vertex properties
+ * under a certain vertex type.
+ * @param GRIN_GRAPH The graph.
+ * @param GRIN_VERTEX_TYPE The vertex type.
+ * @param GRIN_VERTEX_PROPERTY The vertex property handle.
+ * @return The vertex property id.
+*/
 GRIN_VERTEX_PROPERTY_ID grin_get_vertex_property_id(GRIN_GRAPH, GRIN_VERTEX_TYPE, GRIN_VERTEX_PROPERTY);
 #endif
 

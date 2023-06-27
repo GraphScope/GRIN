@@ -20,25 +20,59 @@ extern "C" {
 #ifndef GRIN_INCLUDE_TOPOLOGY_STRUCTURE_H_
 #define GRIN_INCLUDE_TOPOLOGY_STRUCTURE_H_
 
-
-GRIN_GRAPH grin_get_graph_from_storage(int, char**);
+/**
+ * @brief Get a (non-partitioned) graph from storage
+ * @param uri The URI of the graph.
+ * Current URI for supported storage includes:
+ * 1. gart://{etcd_endpoint}?prefix={etcd_prefix}&version={version}
+ * 2. graphar://{yaml_path}?partition_num={partition_num}&strategy={strategy}
+ * 3. v6d://{object_id}?ipc_socket={ipc_socket} where ipc_socket is optional.
+ * @return A graph handle.
+*/
+GRIN_GRAPH grin_get_graph_from_storage(const char*);
 
 void grin_destroy_graph(GRIN_GRAPH);
 
 // Graph
 #if defined(GRIN_ASSUME_HAS_DIRECTED_GRAPH) && defined(GRIN_ASSUME_HAS_UNDIRECTED_GRAPH)
+/**
+ * @brief Check if the graph is directed.
+ * This API is only available when the storage supports both directed and
+ * undirected graph. Otherwise, check which of ``GRIN_ASSUME_HAS_DIRECTED_GRAPH``
+ * and ``GRIN_ASSUME_HAS_UNDIRECTED_GRAPH`` is defined.
+ * @param GRIN_GRAPH The graph.
+ * @return True if the graph is directed, otherwise false.
+*/
 bool grin_is_directed(GRIN_GRAPH);
 #endif
 
 #ifdef GRIN_ASSUME_HAS_MULTI_EDGE_GRAPH
+/**
+ * @brief Check if the graph is a multigraph.
+ * This API is only available when the storage supports multigraph.
+ * @param GRIN_GRAPH The graph.
+ * @return True if the graph is a multigraph, otherwise false.
+*/
 bool grin_is_multigraph(GRIN_GRAPH);
 #endif
 
-#if !defined(GRIN_WITH_VERTEX_PROPERTY)
+#ifndef GRIN_WITH_VERTEX_PROPERTY
+/**
+ * @brief Get the number of vertices in the graph.
+ * This API is only available for simple graph.
+ * @param GRIN_GRAPH The graph.
+ * @return The number of vertices in the graph.
+*/
 size_t grin_get_vertex_num(GRIN_GRAPH);
 #endif
 
-#if !defined(GRIN_WITH_EDGE_PROPERTY)
+#ifndef GRIN_WITH_EDGE_PROPERTY
+/**
+ * @brief Get the number of edges in the graph.
+ * This API is only available for simple graph.
+ * @param GRIN_GRAPH The graph.
+ * @return The number of edges in the graph.
+*/
 size_t grin_get_edge_num(GRIN_GRAPH);
 #endif
 
@@ -58,8 +92,20 @@ const void* grin_get_vertex_data_value(GRIN_GRAPH, GRIN_VERTEX);
 // Edge
 void grin_destroy_edge(GRIN_GRAPH, GRIN_EDGE);
 
+/**
+ * @brief Get the source vertex of an edge.
+ * @param GRIN_GRAPH The graph.
+ * @param GRIN_EDGE The edge.
+ * @return The source vertex of the edge.
+*/
 GRIN_VERTEX grin_get_src_vertex_from_edge(GRIN_GRAPH, GRIN_EDGE);
 
+/**
+ * @brief Get the destination vertex of an edge.
+ * @param GRIN_GRAPH The graph.
+ * @param GRIN_EDGE The edge.
+ * @return The destination vertex of the edge.
+*/
 GRIN_VERTEX grin_get_dst_vertex_from_edge(GRIN_GRAPH, GRIN_EDGE);
 
 #ifdef GRIN_WITH_EDGE_DATA

@@ -23,14 +23,6 @@ extern "C" {
 #define GRIN_INCLUDE_PROPERTY_ROW_H_
 
 
-/** @name GRIN_ROW
- * GRIN_ROW works as the pure value array for the properties of a vertex or an edge.
- * In general, you can think of GRIN_ROW as an array of void*, where each void* points to
- * the value of a property. GRIN assumes the user already knows the corresponding
- * property list beforehead, so that she/he knows how to cast the void* into the
- * property's data type.
- */
-///@{
 #ifdef GRIN_ENABLE_ROW
 void grin_destroy_row(GRIN_GRAPH, GRIN_ROW);
 
@@ -54,7 +46,21 @@ int grin_get_time32_from_row(GRIN_GRAPH, GRIN_ROW, size_t);
 
 long long int grin_get_timestamp64_from_row(GRIN_GRAPH, GRIN_ROW, size_t);
 
-/** @brief create a row, usually to get vertex/edge by primary keys */
+/**
+ * @brief Create a row.
+ * Row works as carrier of property values in GRIN.
+ * It is a pure value array, and users can only get the value by the array index.
+ * That means users should understand the property that each value is 
+ * representing when using the row.
+ * Currently rows are used in two scenarios:
+ * 1. Users can create a row of values for primary keys properties,
+ * and then query the vertex/edge using the row if pk indexing is enabled.
+ * 2. Users can get the row of values for the entire property list of 
+ * a vertex/edge in one API ``grin_get_vertex_row`` or ``grin_get_edge_row``.
+ * However this API is not recommended if the user only wants to get the
+ * properties values, in which case, the user can get property values
+ * one-by-one using the APIs like ``grin_get_vertex_property_value_of_int32``.
+*/
 GRIN_ROW grin_create_row(GRIN_GRAPH);
 
 bool grin_insert_int32_to_row(GRIN_GRAPH, GRIN_ROW, int);
@@ -79,27 +85,26 @@ bool grin_insert_timestamp64_to_row(GRIN_GRAPH, GRIN_ROW, long long int);
 #endif
 
 #if defined(GRIN_ENABLE_ROW) && defined(GRIN_TRAIT_CONST_VALUE_PTR)
-/** @brief the value of a property from row by its position in row */
 const void* grin_get_value_from_row(GRIN_GRAPH, GRIN_ROW, GRIN_DATATYPE, size_t);
 #endif
-///@}
+
 
 #if defined(GRIN_WITH_VERTEX_PROPERTY) && defined(GRIN_ENABLE_ROW)
 /**
- * @brief get vertex row directly from the graph, this API only works for row store system
- * @param GRIN_GRAPH the graph
- * @param GRIN_VERTEX the vertex which is the row index
+ * @brief Get row of values for the entire property list of a vertex.
+ * Later users can get property values from the row using APIs like
+ * ``grin_get_int32_from_row``.
+ * However this two-step value getting is not recommended if the user 
+ * only wants to get the value of one property, in which case, the user
+ * should use APIs like ``grin_get_vertex_property_value_of_int32``.
+ * @param GRIN_GRAPH The graph
+ * @param GRIN_VERTEX The vertex
  */
 GRIN_ROW grin_get_vertex_row(GRIN_GRAPH, GRIN_VERTEX);
 #endif
 
 
 #if defined(GRIN_WITH_EDGE_PROPERTY) && defined(GRIN_ENABLE_ROW)
-/**
- * @brief get edge row directly from the graph, this API only works for row store system
- * @param GRIN_GRAPH the graph
- * @param GRIN_EDGE the edge which is the row index
- */
 GRIN_ROW grin_get_edge_row(GRIN_GRAPH, GRIN_EDGE);
 #endif
 
