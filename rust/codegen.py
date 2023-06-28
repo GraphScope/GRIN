@@ -1,4 +1,5 @@
 import os
+import sys
 from pathlib import Path
 
 def get_func_name(line):
@@ -163,7 +164,7 @@ def rewrite(file, r, strip=7):
     return parts
 
 
-def parse_to_rs(path, dst, predefine, strip=7):
+def parse_to_rs(path, dst, predefine, strip):
     r = {}
     r |= parse(path / predefine)
     for f in path.glob('include/**/*.h'):
@@ -208,29 +209,27 @@ def parse_to_toml(path, storages):
 def bindgen(src, dst):
     os.system(f'bindgen {src} -o {dst}.rs --no-layout-tests -- -I"../include" -I".."')
 
-def all(path):
-    src = 'grin_all.h'
-    dst = 'grin_all'
-    predefine = 'template/predefine.h'
+def gen_rs(path, storage):
+    src = f'grin_{storage}.h'
+    dst = f'grin_{storage}'
+    if storage == 'all':
+        predefine = 'template/predefine.h'
+        strip = 7
+    else:
+        predefine = f'storage/{storage}/predefine.h'
+        strip = 50
     bindgen(src, dst)
-    return parse_to_rs(path, dst, predefine)
+    return parse_to_rs(path, dst, predefine, strip=strip)
 
-def v6d(path):
-    src = 'grin_v6d.h'
-    dst = 'grin_v6d'
-    predefine = 'storage/v6d/predefine.h'
-    bindgen(src, dst)
-    return parse_to_rs(path, dst, predefine, strip=50)
-
-def merge(partss):
+def merge(storages, rs):
     with open('grin.rs', 'w') as outfile:
         # write allparts 0
-        outfile.write('\n'.join(partss['all'][0]))
+        outfile.write('\n'.join(rs['all'][0]))
         outfile.write('\n')
         # write every parts 1 & 3
         outfile.write('cfg_if::cfg_if! {\n')
         first = True
-        for k in partss:
+        for k in storages:
             if k != 'all':
                 if first:
                     first = False
@@ -241,17 +240,22 @@ def merge(partss):
             else:
                 outfile.write(' else ')
             outfile.write('{\n')
-            outfile.write('\n'.join([f'        {x}' for x in partss[k][1] + partss[k][3]]))
+            outfile.write('\n'.join([f'        {x}' for x in rs[k][1] + rs[k][3]]))
             outfile.write('\n    }')
         outfile.write('\n}\n')
         # write allparts 2
-        outfile.write('\n'.join(partss['all'][2]))
+        outfile.write('\n'.join(rs['all'][2]))
         outfile.write('\n')
         
+def run(storages):
+    path = Path('..')
+    rs = {}
+    for s in ['all'] + storages:
+        rs[s] = gen_rs(path, s)
+    merge(storages+['all'], rs)
+    parse_to_toml(path, storages)
+
+
 
 if __name__ == '__main__':
-    path = Path('..')
-    allparts = all(path)
-    v6dparts = v6d(path)
-    merge({'v6d': v6dparts, 'all': allparts})
-    parse_to_toml(path, ['v6d'])
+    run(sys.argv[1:])

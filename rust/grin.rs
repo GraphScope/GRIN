@@ -110,6 +110,73 @@ cfg_if::cfg_if! {
         pub const GRIN_NULL_EDGE_PROPERTY_ID: GrinEdgePropertyId = u32::MAX;
         pub const GRIN_NULL_ROW: GrinRow = std::ptr::null_mut();
         pub const GRIN_NULL_SIZE: u32 = u32::MAX;
+    } elif #[cfg(feature = "grin_features_enable_gart")]{
+        pub type GrinGraph = *mut ::std::os::raw::c_void;
+        pub type GrinVertex = u64;
+        pub type GrinVertexList = *mut ::std::os::raw::c_void;
+        pub type GrinVertexListIterator = *mut ::std::os::raw::c_void;
+        pub type GrinAdjacentListIterator = *mut ::std::os::raw::c_void;
+        pub type GrinPartitionedGraph = *mut ::std::os::raw::c_void;
+        pub type GrinPartition = u32;
+        pub type GrinPartitionList = *mut ::std::os::raw::c_void;
+        pub type GrinPartitionId = u32;
+        pub type GrinVertexRef = i64;
+        pub type GrinVertexType = u32;
+        pub type GrinVertexTypeList = *mut ::std::os::raw::c_void;
+        pub type GrinVertexProperty = u64;
+        pub type GrinVertexPropertyList = *mut ::std::os::raw::c_void;
+        pub type GrinVertexTypeId = u32;
+        pub type GrinVertexPropertyId = u32;
+        pub type GrinEdgeType = u32;
+        pub type GrinEdgeTypeList = *mut ::std::os::raw::c_void;
+        pub type GrinEdgeProperty = u64;
+        pub type GrinEdgePropertyList = *mut ::std::os::raw::c_void;
+        #[repr(C)]
+        #[derive(Debug, Copy, Clone, PartialEq)]
+        pub struct GrinEdge {
+            pub src: GrinVertex,
+            pub dst: GrinVertex,
+            pub dir: GrinDirection,
+            pub etype: GrinEdgeType,
+            pub edata: *mut ::std::os::raw::c_char,
+        }
+        #[repr(C)]
+        #[derive(Debug, Copy, Clone, PartialEq)]
+        pub struct GrinAdjacentList {
+            pub v: GrinVertex,
+            pub dir: GrinDirection,
+            pub etype: GrinEdgeType,
+        }
+        pub type GrinEdgeTypeId = u32;
+        pub type GrinEdgePropertyId = u32;
+        pub type GrinRow = *mut ::std::os::raw::c_void;
+        pub const GRIN_NULL_DATATYPE: GrinDatatype = GRIN_DATATYPE_UNDEFINED;
+        pub const GRIN_NULL_GRAPH: GrinGraph = std::ptr::null_mut();
+        pub const GRIN_NULL_VERTEX: GrinVertex = u64::MAX;
+        pub const GRIN_NULL_EDGE: GrinEdge = GrinEdge{src: u64::MAX, dst: u64::MAX, dir: GRIN_DIRECTION_BOTH, etype: u32::MAX, edata: std::ptr::null_mut()};
+        pub const GRIN_NULL_VERTEX_LIST: GrinVertexList = std::ptr::null_mut();
+        pub const GRIN_NULL_VERTEX_LIST_ITERATOR: GrinVertexListIterator = std::ptr::null_mut();
+        pub const GRIN_NULL_ADJACENT_LIST: GrinAdjacentList = GrinAdjacentList{v: u64::MAX, dir: GRIN_DIRECTION_BOTH, etype: u32::MAX};
+        pub const GRIN_NULL_ADJACENT_LIST_ITERATOR: GrinAdjacentListIterator = std::ptr::null_mut();
+        pub const GRIN_NULL_PARTITIONED_GRAPH: GrinPartitionedGraph = std::ptr::null_mut();
+        pub const GRIN_NULL_PARTITION: GrinPartition = u32::MAX;
+        pub const GRIN_NULL_PARTITION_LIST: GrinPartitionList = std::ptr::null_mut();
+        pub const GRIN_NULL_PARTITION_ID: GrinPartitionId = u32::MAX;
+        pub const GRIN_NULL_VERTEX_REF: GrinVertexRef = -1;
+        pub const GRIN_NULL_VERTEX_TYPE: GrinVertexType = u32::MAX;
+        pub const GRIN_NULL_VERTEX_TYPE_LIST: GrinVertexTypeList = std::ptr::null_mut();
+        pub const GRIN_NULL_VERTEX_PROPERTY: GrinVertexProperty = u64::MAX;
+        pub const GRIN_NULL_VERTEX_PROPERTY_LIST: GrinVertexPropertyList = std::ptr::null_mut();
+        pub const GRIN_NULL_VERTEX_TYPE_ID: GrinVertexTypeId = u32::MAX;
+        pub const GRIN_NULL_VERTEX_PROPERTY_ID: GrinVertexPropertyId = u32::MAX;
+        pub const GRIN_NULL_EDGE_TYPE: GrinEdgeType = u32::MAX;
+        pub const GRIN_NULL_EDGE_TYPE_LIST: GrinEdgeTypeList = std::ptr::null_mut();
+        pub const GRIN_NULL_EDGE_PROPERTY: GrinEdgeProperty = u64::MAX;
+        pub const GRIN_NULL_EDGE_PROPERTY_LIST: GrinEdgePropertyList = std::ptr::null_mut();
+        pub const GRIN_NULL_EDGE_TYPE_ID: GrinEdgeTypeId = u32::MAX;
+        pub const GRIN_NULL_EDGE_PROPERTY_ID: GrinEdgePropertyId = u32::MAX;
+        pub const GRIN_NULL_ROW: GrinRow = std::ptr::null_mut();
+        pub const GRIN_NULL_SIZE: u32 = u32::MAX;
     } else {
         pub type GrinGraph = *mut ::std::os::raw::c_void;
         pub type GrinVertex = *mut ::std::os::raw::c_void;
