@@ -94,9 +94,7 @@ message PropertyFeature {
     PropertyDataPartitionStrategy vertex_property = 4;
     PropertyDataPartitionStrategy edge_property = 5;
 
-    bool grin_trait_specific_vev_relation = 6;
-
-    bool grin_trait_const_value_ptr = 7;
+    bool grin_trait_const_value_ptr = 6;
 }
 
 message IndexFeature {
