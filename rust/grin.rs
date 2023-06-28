@@ -78,8 +78,6 @@ cfg_if::cfg_if! {
         pub type GrinVertexPropertyId = u32;
         pub type GrinEdgeType = u32;
         pub type GrinEdgeTypeList = *mut ::std::os::raw::c_void;
-        pub type GrinVevType = *mut ::std::os::raw::c_void;
-        pub type GrinVevTypeList = *mut ::std::os::raw::c_void;
         pub type GrinEdgeProperty = u64;
         pub type GrinEdgePropertyList = *mut ::std::os::raw::c_void;
         pub type GrinEdgeTypeId = u32;
@@ -106,8 +104,6 @@ cfg_if::cfg_if! {
         pub const GRIN_NULL_VERTEX_PROPERTY_ID: GrinVertexPropertyId = u32::MAX;
         pub const GRIN_NULL_EDGE_TYPE: GrinEdgeType = u32::MAX;
         pub const GRIN_NULL_EDGE_TYPE_LIST: GrinEdgeTypeList = std::ptr::null_mut();
-        pub const GRIN_NULL_VEV_TYPE: GrinVevType = std::ptr::null_mut();
-        pub const GRIN_NULL_VEV_TYPE_LIST: GrinVevTypeList = std::ptr::null_mut();
         pub const GRIN_NULL_EDGE_PROPERTY: GrinEdgeProperty = u64::MAX;
         pub const GRIN_NULL_EDGE_PROPERTY_LIST: GrinEdgePropertyList = std::ptr::null_mut();
         pub const GRIN_NULL_EDGE_TYPE_ID: GrinEdgeTypeId = u32::MAX;
@@ -140,8 +136,6 @@ cfg_if::cfg_if! {
         pub type GrinVertexPropertyId = u32;
         pub type GrinEdgeType = *mut ::std::os::raw::c_void;
         pub type GrinEdgeTypeList = *mut ::std::os::raw::c_void;
-        pub type GrinVevType = *mut ::std::os::raw::c_void;
-        pub type GrinVevTypeList = *mut ::std::os::raw::c_void;
         pub type GrinEdgeProperty = *mut ::std::os::raw::c_void;
         pub type GrinEdgePropertyList = *mut ::std::os::raw::c_void;
         pub type GrinEdgeTypeId = u32;
@@ -175,8 +169,6 @@ cfg_if::cfg_if! {
         pub const GRIN_NULL_VERTEX_PROPERTY_ID: GrinVertexPropertyId = u32::MAX;
         pub const GRIN_NULL_EDGE_TYPE: GrinEdgeType = std::ptr::null_mut();
         pub const GRIN_NULL_EDGE_TYPE_LIST: GrinEdgeTypeList = std::ptr::null_mut();
-        pub const GRIN_NULL_VEV_TYPE: GrinVevType = std::ptr::null_mut();
-        pub const GRIN_NULL_VEV_TYPE_LIST: GrinVevTypeList = std::ptr::null_mut();
         pub const GRIN_NULL_EDGE_PROPERTY: GrinEdgeProperty = std::ptr::null_mut();
         pub const GRIN_NULL_EDGE_PROPERTY_LIST: GrinEdgePropertyList = std::ptr::null_mut();
         pub const GRIN_NULL_EDGE_TYPE_ID: GrinEdgeTypeId = u32::MAX;
@@ -703,22 +695,6 @@ extern "C" {
         arg4: GrinEdgeType,
         arg5: GrinPartition,
     ) -> GrinAdjacentList;
-
-    #[cfg(feature = "grin_trait_specific_vev_relation")]
-    #[allow(unused)]
-    pub fn grin_get_one_to_one_vev_types(arg1: GrinGraph) -> GrinVevTypeList;
-
-    #[cfg(feature = "grin_trait_specific_vev_relation")]
-    #[allow(unused)]
-    pub fn grin_get_one_to_many_vev_types(arg1: GrinGraph) -> GrinVevTypeList;
-
-    #[cfg(feature = "grin_trait_specific_vev_relation")]
-    #[allow(unused)]
-    pub fn grin_get_many_to_one_vev_types(arg1: GrinGraph) -> GrinVevTypeList;
-
-    #[cfg(feature = "grin_trait_specific_vev_relation")]
-    #[allow(unused)]
-    pub fn grin_get_many_to_many_vev_types(arg1: GrinGraph) -> GrinVevTypeList;
 
     #[doc = " @brief Get the vertex types that have primary keys\n In some graph, not every vertex type has primary keys.\n @param GrinGraph The graph\n @return The vertex type list of types that have primary keys"]
     #[cfg(feature = "grin_enable_vertex_primary_keys")]
