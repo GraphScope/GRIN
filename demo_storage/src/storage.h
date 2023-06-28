@@ -24,7 +24,6 @@ limitations under the License.
 #include <tuple>
 #include <utility>
 #include <vector>
-#include "../predefine.h"
 
 #define DEMO_STORAGE_NAMESPACE demo_storage_namespace
 
