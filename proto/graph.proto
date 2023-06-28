@@ -19,21 +19,6 @@ message TopologyFeature {
     repeated ListRetrieval adjacent_list_retrievals = 8;
 }
 
-enum GraphPartitionStrategy {
-    GPS_NA = 0;
-    GPS_ALL_REPLICATE = 1;
-    GPS_EDGE_CUT = 2;
-    GPS_VERTEX_CUT = 3;
-    GPS_HYBRID_CUT = 4;
-}
-
-enum PropertyDataPartitionStrategy {
-    PDPS_NA = 0;
-    PDPS_MASTER_ONLY = 1;
-    PDPS_REPLICATE_MASTER_MIRROR = 2;
-    PDPS_SPLIT_MASTER_MIRROR = 3;
-}
-
 message MirrorPartitionListFeature {
     bool grin_trait_master_vertex_mirror_partition_list = 1;
     bool grin_trait_mirror_vertex_mirror_partition_list = 2;
@@ -41,27 +26,21 @@ message MirrorPartitionListFeature {
     bool grin_trait_mirror_edge_mirror_partition_list = 4;
 }
 
+message PartitionFeature {    
+    bool grin_trait_natural_id_for_partition = 1;
+    bool grin_enable_vertex_ref = 2;
+    bool grin_enable_edge_ref = 3;
 
-message PartitionFeature {
-    GraphPartitionStrategy graph_partition_strategy = 1;
-    
-    bool grin_trait_natural_id_for_partition = 2;
-    bool grin_enable_vertex_ref = 3;
-    bool grin_enable_edge_ref = 4;
-    
-    PropertyDataPartitionStrategy vertex_data = 5;
-    PropertyDataPartitionStrategy edge_data = 6;
+    MirrorPartitionListFeature mirror_partition_list_feature = 4;
 
-    MirrorPartitionListFeature mirror_partition_list_feature = 7;
+    bool grin_trait_select_master_for_vertex_list = 5;
+    bool grin_trait_select_partition_for_vertex_list = 6;
+    bool grin_trait_select_master_for_edge_list = 7;
+    bool grin_trait_select_partition_for_edge_list = 8;
+    bool grin_trait_select_master_neighbor_for_adjacent_list = 9;
+    bool grin_trait_select_neighbor_partition_for_adjacent_list = 10;
 
-    bool grin_trait_select_master_for_vertex_list = 8;
-    bool grin_trait_select_partition_for_vertex_list = 9;
-    bool grin_trait_select_master_for_edge_list = 10;
-    bool grin_trait_select_partition_for_edge_list = 11;
-    bool grin_trait_select_master_neighbor_for_adjacent_list = 12;
-    bool grin_trait_select_neighbor_partition_for_adjacent_list = 13;
-
-    bool grin_trait_fast_vertex_ref = 14;
+    bool grin_trait_fast_vertex_ref = 11;
 }
 
 message VertexPropertyFeature {
@@ -91,10 +70,7 @@ message PropertyFeature {
     VertexPropertyFeature vertex_property_feature = 2;
     EdgePropertyFeature edge_property_feature = 3;
 
-    PropertyDataPartitionStrategy vertex_property = 4;
-    PropertyDataPartitionStrategy edge_property = 5;
-
-    bool grin_trait_const_value_ptr = 6;
+    bool grin_trait_const_value_ptr = 4;
 }
 
 message IndexFeature {
@@ -123,17 +99,8 @@ message StorageFeature {
     }
 }
 
-message Statistics {
-    int32 vertex_count = 1;
-    int32 edge_count = 2;
-    int32 partition_count = 3;
-    int32 vertex_type_count = 4;
-    int32 edge_type_count = 5;
-}
-
 message Graph {
     string uri = 1;
     string grin_version = 2;
     repeated StorageFeature features = 3;
-    Statistics statistics = 4;
 }
