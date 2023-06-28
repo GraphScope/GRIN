@@ -13,6 +13,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+// predefine for GRIN
+#include "../predefine.h"
+// storage headers
 #include "src/storage.h"
 
 namespace DEMO_STORAGE_NAMESPACE {
