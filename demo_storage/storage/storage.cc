@@ -16,7 +16,7 @@ limitations under the License.
 // predefine for GRIN
 #include "../predefine.h"
 // storage headers
-#include "src/storage.h"
+#include "storage/storage.h"
 
 namespace DEMO_STORAGE_NAMESPACE {
 DemoStorage demo_storage;
@@ -75,18 +75,18 @@ void Graph::AddEdge(Edge& edge) noexcept {  // NOLINT
 
   both_adj_list_[std::make_tuple(source_type_id, source_id, type_id,
                                  dest_partition_id)]
-      .push_back(edge.GetId());
+      .push_back(edge.GetGid());
   both_adj_list_[std::make_tuple(dest_type_id, dest_id, type_id,
                                  source_partition_id)]
-      .push_back(edge.GetId());
+      .push_back(edge.GetGid());
 
   if (is_directed_) {
     in_adj_list_[std::make_tuple(dest_type_id, dest_id, type_id,
                                  source_partition_id)]
-        .push_back(edge.GetId());
+        .push_back(edge.GetGid());
     out_adj_list_[std::make_tuple(source_type_id, source_id, type_id,
                                   dest_partition_id)]
-        .push_back(edge.GetId());
+        .push_back(edge.GetGid());
   }
 }
 

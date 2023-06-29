@@ -87,7 +87,7 @@ find_package(Protobuf REQUIRED)
 
 find_package(glog REQUIRED)
 
-file(GLOB_RECURSE DEMO_GRIN_SRC_FILES "src/*.cc")
+file(GLOB_RECURSE DEMO_GRIN_SRC_FILES "storage/*.cc" "src/*.cc")
 
 message(${DEMO_GRIN_SRC_FILES})
 
@@ -136,16 +136,29 @@ if (BUILD_TESTS)
         target_include_directories(${E_NAME} SYSTEM BEFORE PRIVATE ${PROJECT_SOURCE_DIR}/../include ${Protobuf_INCLUDE_DIRS})
         target_link_libraries(${E_NAME} PRIVATE demo-grin Threads::Threads ${CMAKE_DL_LIBS} ${Protobuf_LIBRARIES} glog::glog)
     endforeach()
+
+    file(GLOB C_TEST_FILES RELATIVE "${PROJECT_SOURCE_DIR}/test" "${PROJECT_SOURCE_DIR}/test/*.c")
+
+    foreach(f ${C_TEST_FILES})
+        string(REGEX MATCH "^(.*)\\.[^.]*$" dummy ${f})
+        set(E_NAME ${CMAKE_MATCH_1})
+        message(STATUS "Found C test for demo storage - " ${E_NAME})
+        add_executable(C_${E_NAME} test/${E_NAME}.c)
+        target_include_directories(C_${E_NAME} SYSTEM BEFORE PRIVATE ${PROJECT_SOURCE_DIR}/../include ${Protobuf_INCLUDE_DIRS})
+        target_link_libraries(C_${E_NAME} PRIVATE demo-grin Threads::Threads ${CMAKE_DL_LIBS} ${Protobuf_LIBRARIES} glog::glog)
+    endforeach()
 endif()
 
 # ------------------------------------------------------------------------------
 # Format code & cpplint
 # ------------------------------------------------------------------------------
-file(GLOB_RECURSE FILES_NEED_FORMAT "src/*.h" "src/*.cc"
-                                    "test/*.h" "test/*.cc")         
+file(GLOB_RECURSE FILES_NEED_FORMAT "storage/*.h" "storage/*.cc"
+                                    "src/*.h" "src/*.cc"
+                                    "test/*.h" "test/*.cc")
 list(REMOVE_ITEM FILES_NEED_FORMAT "${PROJECT_SOURCE_DIR}/src/common/graph.pb.h" "${PROJECT_SOURCE_DIR}/src/common/graph.pb.cc")
 
-file(GLOB_RECURSE FILES_NEED_LINT "src/*.h" "src/*.cc"
+file(GLOB_RECURSE FILES_NEED_LINT "storage/*.h" "storage/*.cc"
+                                  "src/*.h" "src/*.cc"
                                   "test/*.h" "test/*.cc")
 list(REMOVE_ITEM FILES_NEED_LINT "${PROJECT_SOURCE_DIR}/src/common/graph.pb.h" "${PROJECT_SOURCE_DIR}/src/common/graph.pb.cc")
 

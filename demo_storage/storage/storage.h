@@ -13,8 +13,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#ifndef SRC_STORAGE_H_
-#define SRC_STORAGE_H_
+#ifndef STORAGE_STORAGE_H_
+#define STORAGE_STORAGE_H_
 
 #include <any>
 #include <iostream>
@@ -73,6 +73,9 @@ class Vertex {
   // get methods
   uint32_t GetTypeId() const noexcept { return type_id_; }
   int64_t GetId() const noexcept { return id_; }
+  int64_t GetGid() const noexcept {
+    return generate_gid_from_type_id_and_id(type_id_, id_);
+  }
 
   GRIN_DATATYPE GetOidType() const noexcept { return oid_type_; }
   template <typename T>
@@ -146,6 +149,9 @@ class Edge {
   int64_t GetSource() const noexcept { return source_; }
   int64_t GetDest() const noexcept { return dest_; }
   int64_t GetId() const noexcept { return id_; }
+  int64_t GetGid() const noexcept {
+    return generate_gid_from_type_id_and_id(type_id_, id_);
+  }
 
   GRIN_DATATYPE GetEDataType() const noexcept { return edata_type_; }
   template <typename T>
@@ -522,8 +528,7 @@ class Graph {
   // vertices and edges
   std::vector<std::vector<Vertex>> vertices_;
   std::vector<std::vector<Edge>> edges_;
-  // adj_list, adj_list_[(vtype, vid, partition_id)] = vector of global eid of
-  // edges
+  // adj_list_[(vtype, vid, partition_id)] = vector of global eid for edges
   std::map<std::tuple<uint32_t, int64_t, uint32_t, uint32_t>,
            std::vector<int64_t>>
       in_adj_list_, out_adj_list_, both_adj_list_;
@@ -543,21 +548,30 @@ class DemoStorage {
   }
 
  public:
-  Graph* GetGraph(const std::string& graph_name) noexcept {
-    if (graphs_.find(graph_name) != graphs_.end()) {
-      return graphs_.at(graph_name);
+  Graph* GetGraph(const std::string& graph_name, uint32_t partition_num,
+                  uint32_t partition_id) noexcept {
+    auto tuple = std::make_tuple(graph_name, partition_num, partition_id);
+    if (graphs_.find(tuple) != graphs_.end()) {
+      return graphs_.at(tuple);
     }
     return NULL;
   }
 
-  void PutGraph(const std::string& graph_name, Graph* graph) noexcept {
-    graphs_[graph_name] = graph;
+  void PutGraph(const std::string& graph_name, uint32_t partition_num,
+                uint32_t partition_id, Graph* graph) noexcept {
+    auto tuple = std::make_tuple(graph_name, partition_num, partition_id);
+    if (graphs_.find(tuple) != graphs_.end()) {
+      delete graphs_.at(tuple);
+    }
+    graphs_[tuple] = graph;
   }
 
-  void RemoveGraph(const std::string& graph_name) noexcept {
-    if (graphs_.find(graph_name) != graphs_.end()) {
-      delete graphs_.at(graph_name);
-      graphs_.erase(graph_name);
+  void RemoveGraph(const std::string& graph_name, uint32_t partition_num,
+                   uint32_t partition_id) noexcept {
+    auto tuple = std::make_tuple(graph_name, partition_num, partition_id);
+    if (graphs_.find(tuple) != graphs_.end()) {
+      delete graphs_.at(tuple);
+      graphs_.erase(tuple);
     }
   }
 
@@ -571,7 +585,8 @@ class DemoStorage {
   void LoadModernGraph(const std::string& name, uint32_t partition_num = 1,
                        uint32_t partition_id = 0) noexcept {
     Graph* graph = load_modern_graph(name, partition_num, partition_id);
-    graphs_[graph->GetName()] = graph;
+    graphs_[std::make_tuple(graph->GetName(), partition_num, partition_id)] =
+        graph;
   }
 
  private:
@@ -579,11 +594,12 @@ class DemoStorage {
                            uint32_t partition_id);
 
  private:
-  std::map<std::string, Graph*> graphs_;
+  // graphs_[graph_name][partition_num][partition_id] = pointer of graph
+  std::map<std::tuple<std::string, uint32_t, uint32_t>, Graph*> graphs_;
 };
 
 extern DemoStorage demo_storage;
 
 }  // namespace DEMO_STORAGE_NAMESPACE
 
-#endif  // SRC_STORAGE_H_
+#endif  // STORAGE_STORAGE_H_
