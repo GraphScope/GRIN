@@ -50,12 +50,13 @@ struct Property {
 
 class Vertex {
  public:
-  // construct vertex with type and id in type
+  // default constructor
   Vertex() : type_id_(GRIN_NULL_VERTEX_TYPE), id_(-1) {
     oid_type_ = GRIN_DATATYPE::Undefined;
     vdata_type_ = GRIN_DATATYPE::Undefined;
   }
 
+  // construct vertex with type and id in type, without oid
   explicit Vertex(uint32_t type_id, int64_t id = -1)
       : type_id_(type_id), id_(id) {
     oid_type_ = GRIN_DATATYPE::Undefined;
@@ -134,6 +135,7 @@ class Vertex {
 
 class Edge {
  public:
+  // default constructor
   Edge() : type_id_(GRIN_NULL_EDGE_TYPE), source_(-1), dest_(-1), id_(-1) {
     edata_type_ = GRIN_DATATYPE::Undefined;
   }
@@ -342,7 +344,7 @@ class Graph {
     return res;
   }
 
-  // get vertices and edges
+  // get vertices, edges, and adjacent lists
   const Vertex& GetVertex(int64_t gid) const {
     uint32_t type_id = get_type_id_from_gid(gid);
     int64_t id = get_id_from_gid(gid);
@@ -582,6 +584,8 @@ class DemoStorage {
     graphs_.clear();
   }
 
+ public:
+  // method for loading an example graph: modern_graph
   void LoadModernGraph(const std::string& name, uint32_t partition_num = 1,
                        uint32_t partition_id = 0) noexcept {
     Graph* graph = load_modern_graph(name, partition_num, partition_id);

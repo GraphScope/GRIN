@@ -20,6 +20,8 @@ limitations under the License.
 extern "C" {
 #endif
 
+// Load a modern graph into the demo storage,
+// assigning the graph_name, partition_num and partition_id
 void demo_storage_load_modern_graph(const char*, unsigned, unsigned);
 
 #ifdef __cplusplus
