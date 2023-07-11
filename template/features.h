@@ -385,3 +385,19 @@ limitations under the License.
 ///@}
 
 /* End of Section 4 */
+
+/* Section 5. Common */
+
+/** @name CommonMacros
+ * @brief Macros for common features
+ */
+///@{
+/** @ingroup CommonMacros
+ * @brief The storage supports loose schema, meaning that
+ * some vertices or edges may belong to none of the vertex types or edge types
+ * in the schema respectively.
+*/
+#define GRIN_TRAIT_LOOSE_SCHEMA
+///@}
+
+/* End of Section 4 */
