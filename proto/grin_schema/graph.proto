@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package grin;
+option java_package = "com.alibaba.graphscope.proto.grin_schema";
+
+import "schema.proto";
+import "partition.proto";
+
+message Graph {
+    string uri = 1;
+    Schema schema = 2;
+    Partition partition = 3;
+}
