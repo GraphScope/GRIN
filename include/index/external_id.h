@@ -11,8 +11,8 @@ limitations under the License.
 */
 
 /**
- @file internal_id.h
- @brief Define the internal ID related APIs
+ @file external_id.h
+ @brief Define the external ID related APIs
 */
 
 #ifdef __cplusplus
