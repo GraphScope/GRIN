@@ -367,6 +367,23 @@ limitations under the License.
 #define GRIN_ENABLE_VERTEX_INTERNAL_ID_INDEX
 ///@}
 
+/** @name IndexExternalIDMacros
+ * @brief Macros for external ID indexing features
+ */
+///@{
+/** @ingroup IndexExternalIDMacros
+ * @brief There is a unique external ID of type int64 for each vertex,
+ * e.g., the original ID of a vertex in GNN datasets.
+ */
+#define GRIN_ENABLE_VERTEX_EXTERNAL_ID_OF_INT64
+
+/** @ingroup IndexExternalIDMacros
+ * @brief There is a unique external ID of type string for each vertex,
+ * e.g., the IRI of a vertex in RDF datasets.
+ */
+#define GRIN_ENABLE_VERTEX_EXTERNAL_ID_OF_STRING
+///@}
+
 /** @name IndexPKMacros
  * @brief Macros for pk indexing features
  */

@@ -65,14 +65,6 @@ const char* grin_get_label_name(GRIN_GRAPH, GRIN_LABEL);
 
 #ifdef GRIN_WITH_VERTEX_LABEL
 /**
- * @brief get the vertex list by label
- * @param GRIN_GRAPH the graph
- * @param GRIN_LABEL the label
- * @return the vertex list
-*/
-GRIN_VERTEX_LIST grin_get_vertex_list_by_label(GRIN_GRAPH, GRIN_LABEL);
-
-/**
  * @brief get all the labels of a vertex as a label list
  * @param GRIN_GRAPH the graph
  * @param GRIN_VERTEX the vertex
@@ -81,15 +73,37 @@ GRIN_VERTEX_LIST grin_get_vertex_list_by_label(GRIN_GRAPH, GRIN_LABEL);
 GRIN_LABEL_LIST grin_get_vertex_label_list(GRIN_GRAPH, GRIN_VERTEX);
 #endif
 
-#ifdef GRIN_WITH_EDGE_LABEL
+#if defined(GRIN_WITH_VERTEX_LABEL) && !defined(GRIN_WITH_VERTEX_PROPERTY)
 /**
- * @brief get the edge list by label
+ * @brief get the vertex list by label
  * @param GRIN_GRAPH the graph
  * @param GRIN_LABEL the label
- * @return the edge list
+ * @return the vertex list
 */
-GRIN_EDGE_LIST grin_get_edge_list_by_label(GRIN_GRAPH, GRIN_LABEL);
+GRIN_VERTEX_LIST grin_get_vertex_list_by_label(GRIN_GRAPH, GRIN_LABEL);
+#endif
 
+#if defined(GRIN_WITH_VERTEX_LABEL) && defined(GRIN_WITH_VERTEX_PROPERTY)
+/**
+ * @brief get the vertex list by label
+ * @param GRIN_GRAPH the graph
+ * @param GRIN_VERTEX_TYPE the vertex type
+ * @param GRIN_LABEL the label
+ * @return the vertex list
+*/
+GRIN_VERTEX_LIST grin_get_vertex_list_by_type_by_label(GRIN_GRAPH, GRIN_VERTEX_TYPE, GRIN_LABEL);
+
+/**
+ * @brief get all the vertex types that might have the label
+ * @param GRIN_GRAPH the graph
+ * @param GRIN_LABEL the label
+ * @return the vertex type list
+*/
+GRIN_VERTEX_TYPE_LIST grin_get_vertex_types_by_label(GRIN_GRAPH, GRIN_LABEL);
+#endif
+
+
+#ifdef GRIN_WITH_EDGE_LABEL
 /**
  * @brief get all the labels of an edge as a label list
  * @param GRIN_GRAPH the graph
@@ -97,6 +111,35 @@ GRIN_EDGE_LIST grin_get_edge_list_by_label(GRIN_GRAPH, GRIN_LABEL);
  * @return the label list
 */
 GRIN_LABEL_LIST grin_get_edge_label_list(GRIN_GRAPH, GRIN_EDGE);
+#endif
+
+#if defined(GRIN_WITH_EDGE_LABEL) && !defined(GRIN_WITH_EDGE_PROPERTY)
+/**
+ * @brief get the edge list by label
+ * @param GRIN_GRAPH the graph
+ * @param GRIN_LABEL the label
+ * @return the edge list
+*/
+GRIN_EDGE_LIST grin_get_edge_list_by_label(GRIN_GRAPH, GRIN_LABEL);
+#endif
+
+#if defined(GRIN_WITH_EDGE_LABEL) && defined(GRIN_WITH_EDGE_PROPERTY)
+/**
+ * @brief get the edge list by label
+ * @param GRIN_GRAPH the graph
+ * @param GRIN_EDGE_TYPE the edge type
+ * @param GRIN_LABEL the label
+ * @return the edge list
+*/
+GRIN_EDGE_LIST grin_get_edge_list_by_type_by_label(GRIN_GRAPH, GRIN_EDGE_TYPE, GRIN_LABEL);
+
+/**
+ * @brief get all the edge types that might have the label
+ * @param GRIN_GRAPH the graph
+ * @param GRIN_LABEL the label
+ * @return the edge type list
+*/
+GRIN_EDGE_TYPE_LIST grin_get_edge_types_by_label(GRIN_GRAPH, GRIN_LABEL);
 #endif
 
 #endif // GRIN_INCLUDE_INDEX_LABEL_H_

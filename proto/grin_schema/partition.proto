@@ -14,7 +14,7 @@ message PartitionStrategy {
     message VertexCut {}
     // In hybrid partition strategy, cut-vertices are bind to vertex types,
     // and the structure locally completeness is guaranteed only between cut-vertices
-    message HybridCut {
+    message Cut {
         repeated uint32 cut_vertex_type_ids = 1;
     }
 

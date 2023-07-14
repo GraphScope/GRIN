@@ -21,12 +21,12 @@ message VertexType {
     string type_name = 2;
     repeated Property properties = 3;
 
-    // PG-Schema compatible
-    repeated string labels = 4; // labels of the vertex type
     // PK is the case of ``Keys on Vertex using properties`` in PG-Keys
-    repeated uint32 primary_key_ids = 5; // PK properties must be mandatory 
+    repeated uint32 primary_key_ids = 4; // PK properties must be mandatory 
+    string comment = 5; // description of the vertex type
 
-    string comment = 6; // description of the vertex type
+    // PG-Schema compatible
+    string label_expression = 6; // labels of the vertex type
 }
 
 message EdgeType {
@@ -49,13 +49,14 @@ message EdgeType {
     string type_name = 2;
     repeated Property properties = 3;
 
-    // PG-Schema compatible
-    repeated string labels = 4; // labels of the edge type
     // PK is the case of ``Keys on Edge using properties`` in PG-Keys
-    repeated uint32 primary_key_ids = 5; // PK properties must be mandatory
+    repeated uint32 primary_key_ids = 4; // PK properties must be mandatory
 
-    repeated VertexTypePairRelation vertex_type_pair_relations = 6;
-    string comment = 7; // description of the edge type
+    repeated VertexTypePairRelation vertex_type_pair_relations = 5;
+    string comment = 6; // description of the edge type
+
+    // PG-Schema compatible
+    string label_expression = 7; // labels of the edge type
 }
 
 message Schema {

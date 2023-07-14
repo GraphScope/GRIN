@@ -22,7 +22,7 @@ extern "C" {
 #ifndef GRIN_INCLUDE_COMMON_SCHEMA_H_
 #define GRIN_INCLUDE_COMMON_SCHEMA_H_
 
-#ifdef GRIN_TRAIT_LOOSE_SCHEMA
+#if defined(GRIN_TRAIT_LOOSE_SCHEMA) && defined(GRIN_WITH_VERTEX_PROPERTY)
 /**
  * @brief Get the default vertex type when loose schema is enabled.
  * This default vertex type can be further used to get vertices belongs to
@@ -30,7 +30,9 @@ extern "C" {
  * @return The default vertex type.
 */
 GRIN_VERTEX_TYPE grin_get_default_vertex_type();
+#endif
 
+#if defined(GRIN_TRAIT_LOOSE_SCHEMA) && defined(GRIN_WITH_EDGE_PROPERTY)
 /**
  * @brief Get the default edge type when loose schema is enabled.
  * This default edge type can be further used to get edges belongs to
