@@ -83,6 +83,13 @@ message IndexFeature {
 
     bool grin_enable_vertex_pk_index = 5;
     bool grin_enable_edge_pk_index = 6;
+
+    bool grin_enable_vertex_external_id_of_int64 = 7;
+    bool grin_enable_vertex_external_id_of_string = 8;
+}
+
+message CommonFeature {
+    bool grin_trait_loose_schema = 1;
 }
 
 message PredicateFeature {
@@ -95,7 +102,8 @@ message StorageFeature {
         PartitionFeature partition_feature = 2;
         PropertyFeature property_feature = 3;
         IndexFeature index_feature = 4;
-        PredicateFeature predicate_feature = 5;
+        CommonFeature common_feature = 5;
+        PredicateFeature predicate_feature = 6;
     }
 }
 

@@ -24,13 +24,6 @@ extern "C" {
 
 #if defined(GRIN_WITH_VERTEX_LABEL) || defined(GRIN_WITH_EDGE_LABEL)
 /**
- * @brief get the label list of the graph
- * @param GRIN_GRAPH the graph
- * @return the label list
-*/
-GRIN_LABEL_LIST grin_get_label_list(GRIN_GRAPH);
-
-/**
  * @brief get label list size
  * @param GRIN_GRAPH the graph
  * @param GRIN_LABEL_LIST the label list
@@ -65,12 +58,19 @@ const char* grin_get_label_name(GRIN_GRAPH, GRIN_LABEL);
 
 #ifdef GRIN_WITH_VERTEX_LABEL
 /**
+ * @brief get the label list for vertices in the graph
+ * @param GRIN_GRAPH the graph
+ * @return the label list for vertices
+*/
+GRIN_LABEL_LIST grin_get_vertex_label_list(GRIN_GRAPH);
+
+/**
  * @brief get all the labels of a vertex as a label list
  * @param GRIN_GRAPH the graph
  * @param GRIN_VERTEX the vertex
  * @return the label list
 */
-GRIN_LABEL_LIST grin_get_vertex_label_list(GRIN_GRAPH, GRIN_VERTEX);
+GRIN_LABEL_LIST grin_get_label_list_by_vertex(GRIN_GRAPH, GRIN_VERTEX);
 #endif
 
 #if defined(GRIN_WITH_VERTEX_LABEL) && !defined(GRIN_WITH_VERTEX_PROPERTY)
@@ -105,12 +105,19 @@ GRIN_VERTEX_TYPE_LIST grin_get_vertex_types_by_label(GRIN_GRAPH, GRIN_LABEL);
 
 #ifdef GRIN_WITH_EDGE_LABEL
 /**
+ * @brief get the label list for edges in the graph
+ * @param GRIN_GRAPH the graph
+ * @return the label list for edges
+*/
+GRIN_LABEL_LIST grin_get_edge_label_list(GRIN_GRAPH);
+
+/**
  * @brief get all the labels of an edge as a label list
  * @param GRIN_GRAPH the graph
  * @param GRIN_EDGE the edge
  * @return the label list
 */
-GRIN_LABEL_LIST grin_get_edge_label_list(GRIN_GRAPH, GRIN_EDGE);
+GRIN_LABEL_LIST grin_get_label_list_by_edge(GRIN_GRAPH, GRIN_EDGE);
 #endif
 
 #if defined(GRIN_WITH_EDGE_LABEL) && !defined(GRIN_WITH_EDGE_PROPERTY)
