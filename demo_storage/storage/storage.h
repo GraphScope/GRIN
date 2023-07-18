@@ -312,6 +312,45 @@ class Graph {
     return edge_property_2_id_[etype].at(name);
   }
 
+  // get labels
+  size_t GetVertexLabelNum() const noexcept { return vertex_labels_.size(); }
+  size_t GetEdgeLabelNum() const noexcept { return edge_labels_.size(); }
+  const std::string& GetVertexLabelName(uint32_t label_id) const noexcept {
+    return vertex_labels_[label_id];
+  }
+  const std::string& GetEdgeLabelName(uint32_t label_id) const noexcept {
+    return edge_labels_[label_id];
+  }
+  int32_t GetVertexLabelId(std::string label) const noexcept {
+    if (vertex_label_2_id_.find(label) == vertex_label_2_id_.end()) {
+      return -1;
+    }
+    return vertex_label_2_id_.at(label);
+  }
+  int32_t GetEdgeLabelId(std::string label) const noexcept {
+    if (edge_label_2_id_.find(label) == edge_label_2_id_.end()) {
+      return -1;
+    }
+    return edge_label_2_id_.at(label);
+  }
+  int32_t GetLabelId(std::string label) const noexcept {
+    if (vertex_label_2_id_.find(label) != vertex_label_2_id_.end()) {
+      return vertex_label_2_id_.at(label);
+    }
+    if (edge_label_2_id_.find(label) != edge_label_2_id_.end()) {
+      return edge_label_2_id_.at(label) + vertex_labels_.size();
+    }
+    return -1;
+  }
+  const std::set<uint32_t>& GetVertexTypesByLabel(uint32_t label_id) const
+      noexcept {
+    return vertex_label_2_type_id_[label_id];
+  }
+  const std::set<uint32_t>& GetEdgeTypesByLabel(uint32_t label_id) const
+      noexcept {
+    return edge_label_2_type_id_[label_id];
+  }
+
   // get vertex & edge number
   size_t GetVertexNum(uint32_t type_id) const noexcept {
     if (type_id >= vertices_.size()) {
@@ -509,6 +548,24 @@ class Graph {
     }
   }
 
+  // add labels
+  void AddVertexLabel(const std::string& label) noexcept {
+    if (vertex_label_2_id_.find(label) == vertex_label_2_id_.end()) {
+      vertex_label_2_id_[label] = vertex_labels_.size();
+      vertex_labels_.push_back(label);
+      std::set<uint32_t> tmp;
+      vertex_label_2_type_id_.push_back(tmp);
+    }
+  }
+  void AddEdgeLabel(const std::string& label) noexcept {
+    if (edge_label_2_id_.find(label) == edge_label_2_id_.end()) {
+      edge_label_2_id_[label] = edge_labels_.size();
+      edge_labels_.push_back(label);
+      std::set<uint32_t> tmp;
+      edge_label_2_type_id_.push_back(tmp);
+    }
+  }
+
   // add vertices and edges
   void AddVertex(Vertex& vertex) noexcept;  // NOLINT
   void AddEdge(Edge& edge) noexcept;        // NOLINT
@@ -530,6 +587,17 @@ class Graph {
   // vertices and edges
   std::vector<std::vector<Vertex>> vertices_;
   std::vector<std::vector<Edge>> edges_;
+  // labels
+  std::vector<std::string> vertex_labels_, edge_labels_;
+  std::map<std::string, uint32_t> vertex_label_2_id_, edge_label_2_id_;
+  std::vector<std::set<uint32_t>> vertex_label_2_type_id_,
+      edge_label_2_type_id_;
+  // label indices: label_vertex_ids_[label][partition_id] = vector of global
+  // vid label_edge_ids_[label][partition_id] = vector of global eid
+  std::map<std::pair<uint32_t, uint32_t>, std::vector<std::int64_t>>
+      label_vertex_ids_;
+  std::map<std::pair<uint32_t, uint32_t>, std::vector<std::int64_t>>
+      label_edge_ids_;
   // adj_list_[(vtype, vid, partition_id)] = vector of global eid for edges
   std::map<std::tuple<uint32_t, int64_t, uint32_t, uint32_t>,
            std::vector<int64_t>>

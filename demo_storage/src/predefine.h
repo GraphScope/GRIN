@@ -34,6 +34,7 @@ typedef std::vector<unsigned> GRIN_EDGE_TYPE_LIST_T;
 typedef std::vector<unsigned> GRIN_EDGE_PROPERTY_LIST_T;
 typedef std::vector<unsigned> GRIN_VEV_TYPE_LIST_T;
 typedef std::vector<unsigned> GRIN_PARTITION_LIST_T;
+typedef std::vector<unsigned> GRIN_LABEL_LIST_T;
 
 typedef std::vector<std::any> GRIN_ROW_T;
 
@@ -56,9 +57,11 @@ struct GRIN_VERTEX_LIST_T {
   PARTITION_TYPE_IN_LIST partition_type;
   // only used when partition_type is ONE_PARTITION/ALL_BUT_ONE_PARTITION
   unsigned partition_id;
+  unsigned label_id;
   GRIN_VERTEX_LIST_T(unsigned _type_id,
                      PARTITION_TYPE_IN_LIST _partition_type = ALL_PARTITION,
-                     unsigned _partition_id = 0)
+                     unsigned _partition_id = 0,
+                     unsigned _label_id = GRIN_NULL_LABEL)
       : type_id(_type_id),
         partition_type(_partition_type),
         partition_id(_partition_id) {}
@@ -69,6 +72,7 @@ struct GRIN_VERTEX_LIST_ITERATOR_T {
   PARTITION_TYPE_IN_LIST partition_type;
   // only used when partition_type is ONE_PARTITION/ALL_BUT_ONE_PARTITION
   unsigned partition_id;
+  unsigned label_id;
   int64_t current_offset;
   GRIN_VERTEX_LIST_ITERATOR_T(unsigned _type_id,
                               PARTITION_TYPE_IN_LIST _partition_type,
@@ -84,9 +88,11 @@ struct GRIN_EDGE_LIST_T {
   PARTITION_TYPE_IN_LIST partition_type;
   // only used when partition_type is ONE_PARTITION/ALL_BUT_ONE_PARTITION
   unsigned partition_id;
+  unsigned label_id;
   GRIN_EDGE_LIST_T(unsigned _type_id,
                    PARTITION_TYPE_IN_LIST _partition_type = ALL_PARTITION,
-                   unsigned _partition_id = 0)
+                   unsigned _partition_id = 0,
+                   unsigned _label_id = GRIN_NULL_LABEL)
       : type_id(_type_id),
         partition_type(_partition_type),
         partition_id(_partition_id) {}
@@ -97,6 +103,7 @@ struct GRIN_EDGE_LIST_ITERATOR_T {
   PARTITION_TYPE_IN_LIST partition_type;
   // only used when partition_type is ONE_PARTITION/ALL_BUT_ONE_PARTITION
   unsigned partition_id;
+  unsigned label_id;
   int64_t current_offset;
   GRIN_EDGE_LIST_ITERATOR_T(unsigned _type_id,
                             PARTITION_TYPE_IN_LIST _partition_type,

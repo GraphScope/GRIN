@@ -51,6 +51,15 @@ void Graph::AddVertex(Vertex& vertex) noexcept {  // NOLINT
     std::string oid = vertex.GetOid<std::string>();
     oid_string_2_gid_[oid] = gid;
   }
+
+  // labels
+  auto& labels = vertex.GetLabels();
+  for (auto& label : labels) {
+    AddVertexLabel(label);
+    vertex_label_2_type_id_[vertex_label_2_id_[label]].insert(type_id);
+    label_vertex_ids_[std::make_pair(type_id, vertex_label_2_id_[label])]
+        .push_back(gid);
+  }
 }
 
 void Graph::AddEdge(Edge& edge) noexcept {  // NOLINT
@@ -87,6 +96,15 @@ void Graph::AddEdge(Edge& edge) noexcept {  // NOLINT
     out_adj_list_[std::make_tuple(source_type_id, source_id, type_id,
                                   dest_partition_id)]
         .push_back(edge.GetGid());
+  }
+
+  // labels
+  auto& labels = edge.GetLabels();
+  for (auto& label : labels) {
+    AddEdgeLabel(label);
+    edge_label_2_type_id_[edge_label_2_id_[label]].insert(type_id);
+    label_edge_ids_[std::make_pair(type_id, edge_label_2_id_[label])].push_back(
+        edge.GetGid());
   }
 }
 

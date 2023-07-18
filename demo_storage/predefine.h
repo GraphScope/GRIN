@@ -110,8 +110,8 @@ typedef enum {
 #define GRIN_ENABLE_EDGE_PRIMARY_KEYS
 #define GRIN_TRAIT_NATURAL_ID_FOR_EDGE_PROPERTY
 // Index
-// #define GRIN_WITH_VERTEX_LABEL
-// #define GRIN_WITH_EDGE_LABEL
+#define GRIN_WITH_VERTEX_LABEL
+#define GRIN_WITH_EDGE_LABEL
 #define GRIN_ASSUME_ALL_VERTEX_LIST_SORTED
 #define GRIN_ENABLE_VERTEX_INTERNAL_ID_INDEX
 #define GRIN_ENABLE_VERTEX_EXTERNAL_ID_OF_INT64
@@ -211,7 +211,7 @@ typedef void* GRIN_ROW;
 #endif
 
 #if defined(GRIN_WITH_VERTEX_LABEL) || defined(GRIN_WITH_EDGE_LABEL)
-typedef void* GRIN_LABEL;
+typedef unsigned GRIN_LABEL;
 typedef void* GRIN_LABEL_LIST;
 #endif
 
@@ -246,7 +246,7 @@ typedef void* GRIN_LABEL_LIST;
 #define GRIN_NULL_EDGE_TYPE_ID (unsigned)~0
 #define GRIN_NULL_EDGE_PROPERTY_ID (unsigned)~0
 #define GRIN_NULL_ROW NULL
-#define GRIN_NULL_LABEL NULL
+#define GRIN_NULL_LABEL (unsigned)~0
 #define GRIN_NULL_LABEL_LIST NULL
 #define GRIN_NULL_SIZE (unsigned)~0
 #define GRIN_NULL_NAME NULL
