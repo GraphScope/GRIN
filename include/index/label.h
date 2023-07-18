@@ -54,6 +54,10 @@ GRIN_LABEL grin_get_label_by_name(GRIN_GRAPH, const char*);
  * @return the label name
 */
 const char* grin_get_label_name(GRIN_GRAPH, GRIN_LABEL);
+
+void grin_destroy_label(GRIN_GRAPH, GRIN_LABEL);
+
+void grin_destroy_label_list(GRIN_GRAPH, GRIN_LABEL_LIST);
 #endif
 
 #ifdef GRIN_WITH_VERTEX_LABEL
