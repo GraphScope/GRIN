@@ -99,7 +99,7 @@ GRIN_VERTEX_LIST grin_get_vertex_list_by_type_by_label(GRIN_GRAPH, GRIN_VERTEX_T
  * @param GRIN_LABEL the label
  * @return the vertex type list
 */
-GRIN_VERTEX_TYPE_LIST grin_get_vertex_types_by_label(GRIN_GRAPH, GRIN_LABEL);
+GRIN_VERTEX_TYPE_LIST grin_get_vertex_type_list_by_label(GRIN_GRAPH, GRIN_LABEL);
 #endif
 
 
@@ -146,7 +146,7 @@ GRIN_EDGE_LIST grin_get_edge_list_by_type_by_label(GRIN_GRAPH, GRIN_EDGE_TYPE, G
  * @param GRIN_LABEL the label
  * @return the edge type list
 */
-GRIN_EDGE_TYPE_LIST grin_get_edge_types_by_label(GRIN_GRAPH, GRIN_LABEL);
+GRIN_EDGE_TYPE_LIST grin_get_edge_type_list_by_label(GRIN_GRAPH, GRIN_LABEL);
 #endif
 
 #endif // GRIN_INCLUDE_INDEX_LABEL_H_
