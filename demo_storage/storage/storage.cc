@@ -56,9 +56,11 @@ void Graph::AddVertex(Vertex& vertex) noexcept {  // NOLINT
   auto& labels = vertex.GetLabels();
   for (auto& label : labels) {
     AddVertexLabel(label);
-    vertex_label_2_type_id_[vertex_label_2_id_[label]].insert(type_id);
-    label_vertex_ids_[std::make_pair(type_id, vertex_label_2_id_[label])]
-        .push_back(gid);
+    auto label_id = vertex_label_2_id_[label];
+    vertex_label_2_type_id_[label_id].insert(type_id);
+    vertex_pos_in_type_and_label_[std::make_tuple(type_id, label_id, gid)] =
+        label_vertex_ids_[std::make_pair(type_id, label_id)].size();
+    label_vertex_ids_[std::make_pair(type_id, label_id)].push_back(gid);
   }
 }
 
@@ -155,7 +157,11 @@ Graph* DemoStorage::load_modern_graph(const std::string& name,
     v.AddProperty("id", v_0_id[i]);
     v.AddProperty("name", v_0_name[i]);
     v.AddProperty("age", v_0_age[i]);
-    v.AddLabel("person");
+    v.AddLabel("person_label");
+    if (i % 2 == 0)
+      v.AddLabel("v_label_0");
+    else
+      v.AddLabel("v_label_1");
     graph->AddVertex(v);
   }
   for (int64_t i = 0; i < 2; i++) {
@@ -164,7 +170,11 @@ Graph* DemoStorage::load_modern_graph(const std::string& name,
     v.AddProperty("id", v_1_id[i]);
     v.AddProperty("name", v_1_name[i]);
     v.AddProperty("lang", v_1_lang[i]);
-    v.AddLabel("software");
+    v.AddLabel("software_label");
+    if (i % 2 == 0)
+      v.AddLabel("v_label_0");
+    else
+      v.AddLabel("v_label_1");
     graph->AddVertex(v);
   }
 
@@ -179,14 +189,22 @@ Graph* DemoStorage::load_modern_graph(const std::string& name,
     Edge e = graph->ConstructEdgeFromVertexOid(0, e_0_src[i], e_0_dst[i], i);
     e.SetEData(GRIN_DATATYPE::Double, e_0_weight[i]);
     e.AddProperty("weight", e_0_weight[i]);
-    e.AddLabel("knows");
+    e.AddLabel("knows_label");
+    if (i % 2 == 0)
+      e.AddLabel("e_label_0");
+    else
+      e.AddLabel("e_label_1");
     graph->AddEdge(e);
   }
   for (int64_t i = 0; i < 4; i++) {
     Edge e = graph->ConstructEdgeFromVertexOid(1, e_1_src[i], e_1_dst[i], i);
     e.SetEData(GRIN_DATATYPE::Double, e_1_weight[i]);
     e.AddProperty("weight", e_1_weight[i]);
-    e.AddLabel("created");
+    e.AddLabel("created_label");
+    if (i % 2 == 0)
+      e.AddLabel("e_label_0");
+    else
+      e.AddLabel("e_label_1");
     graph->AddEdge(e);
   }
 

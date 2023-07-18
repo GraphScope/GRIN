@@ -33,8 +33,13 @@ size_t grin_get_edge_list_size(GRIN_GRAPH g, GRIN_EDGE_LIST el) {
   auto _g = static_cast<GRIN_GRAPH_T*>(g);
   auto _el = static_cast<GRIN_EDGE_LIST_T*>(el);
   auto etype = _el->type_id;
+  auto label = _el->label_id;
   if (etype >= _g->GetEdgeTypeNum())
     return GRIN_NULL_SIZE;
+
+  if (label != GRIN_NULL_LABEL) {
+    return _g->GetEdgeNumByLabel(etype, label);
+  }
 
   if (_el->partition_type == ALL_PARTITION) {
     return _g->GetEdgeNum(etype);
@@ -52,7 +57,17 @@ GRIN_EDGE grin_get_edge_from_list(GRIN_GRAPH g, GRIN_EDGE_LIST el, size_t idx) {
   auto _g = static_cast<GRIN_GRAPH_T*>(g);
   auto _el = static_cast<GRIN_EDGE_LIST_T*>(el);
   auto etype = _el->type_id;
+  auto label = _el->label_id;
   auto num = _g->GetEdgeNum(etype);
+
+  if (label != GRIN_NULL_LABEL) {
+    auto& edges = _g->GetEdgeIdsByLabel(etype, label);
+    if (idx < edges.size()) {
+      return edges[idx];
+    } else {
+      return GRIN_NULL_EDGE;
+    }
+  }
 
   if (_el->partition_type == ALL_PARTITION) {
     if (idx < num) {
@@ -99,7 +114,8 @@ GRIN_EDGE_LIST_ITERATOR grin_get_edge_list_begin(GRIN_GRAPH g,
   auto etype = _el->type_id;
 
   if (_el->partition_type == ALL_PARTITION) {
-    return new GRIN_EDGE_LIST_ITERATOR_T(etype, ALL_PARTITION, 0, 0);
+    return new GRIN_EDGE_LIST_ITERATOR_T(etype, ALL_PARTITION, 0,
+                                         GRIN_NULL_LABEL, 0);
   }
 
   auto num = _g->GetEdgeNum(etype);
@@ -111,7 +127,7 @@ GRIN_EDGE_LIST_ITERATOR grin_get_edge_list_begin(GRIN_GRAPH g,
     if (_offset >= num)
       _offset = -1;
     return new GRIN_EDGE_LIST_ITERATOR_T(etype, ONE_PARTITION, partition_id,
-                                         _offset);
+                                         GRIN_NULL_LABEL, _offset);
   }
 
   if (_el->partition_type == ALL_BUT_ONE_PARTITION) {
@@ -120,8 +136,8 @@ GRIN_EDGE_LIST_ITERATOR grin_get_edge_list_begin(GRIN_GRAPH g,
       _offset++;
     if (_offset >= num)
       _offset = -1;
-    return new GRIN_EDGE_LIST_ITERATOR_T(etype, ALL_BUT_ONE_PARTITION,
-                                         partition_id, _offset);
+    return new GRIN_EDGE_LIST_ITERATOR_T(
+        etype, ALL_BUT_ONE_PARTITION, partition_id, GRIN_NULL_LABEL, _offset);
   }
 
   return GRIN_NULL_EDGE_LIST_ITERATOR;

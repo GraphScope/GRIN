@@ -17,7 +17,6 @@ limitations under the License.
 #define STORAGE_STORAGE_H_
 
 #include <any>
-#include <iostream>
 #include <map>
 #include <set>
 #include <string>
@@ -382,6 +381,20 @@ class Graph {
     }
     return res;
   }
+  size_t GetVertexNumByLabel(uint32_t type_id, uint32_t label_id) {
+    std::pair tmp = std::make_pair(type_id, label_id);
+    if (label_vertex_ids_.find(tmp) == label_vertex_ids_.end()) {
+      return 0;
+    }
+    return label_vertex_ids_[tmp].size();
+  }
+  size_t GetEdgeNumByLabel(uint32_t type_id, uint32_t label_id) {
+    std::pair tmp = std::make_pair(type_id, label_id);
+    if (label_edge_ids_.find(tmp) == label_edge_ids_.end()) {
+      return 0;
+    }
+    return label_edge_ids_[tmp].size();
+  }
 
   // get vertices, edges, and adjacent lists
   const Vertex& GetVertex(int64_t gid) const {
@@ -399,6 +412,21 @@ class Graph {
   }
   const std::vector<Edge>& GetEdges(uint32_t type_id) const {
     return edges_[type_id];
+  }
+  const std::vector<int64_t>& GetVertexIdsByLabel(uint32_t type_id,
+                                                  uint32_t label_id) {
+    std::pair tmp = std::make_pair(type_id, label_id);
+    return label_vertex_ids_[tmp];
+  }
+  const std::vector<int64_t>& GetEdgeIdsByLabel(uint32_t type_id,
+                                                uint32_t label_id) {
+    std::pair tmp = std::make_pair(type_id, label_id);
+    return label_edge_ids_[tmp];
+  }
+  size_t GetVertexPositionInTypeAndLabel(uint32_t type_id, uint32_t label_id,
+                                         int64_t gid) {
+    std::tuple tmp = std::make_tuple(type_id, label_id, gid);
+    return vertex_pos_in_type_and_label_[tmp];
   }
   size_t GetAdjacentListSize(uint32_t vtype_id, int64_t vid, uint32_t etype_id,
                              uint32_t partition_id, GRIN_DIRECTION dir) {
@@ -592,12 +620,16 @@ class Graph {
   std::map<std::string, uint32_t> vertex_label_2_id_, edge_label_2_id_;
   std::vector<std::set<uint32_t>> vertex_label_2_type_id_,
       edge_label_2_type_id_;
-  // label indices: label_vertex_ids_[label][partition_id] = vector of global
-  // vid label_edge_ids_[label][partition_id] = vector of global eid
+  // label indices:
+  // label_vertex_ids_[label][partition_id] = vector of global vid
   std::map<std::pair<uint32_t, uint32_t>, std::vector<std::int64_t>>
       label_vertex_ids_;
+  // label_edge_ids_[label][partition_id] = vector of global eid
   std::map<std::pair<uint32_t, uint32_t>, std::vector<std::int64_t>>
       label_edge_ids_;
+  // vertex_pos_in_type_and_label_[(vtype, label, gid)] = position
+  std::map<std::tuple<uint32_t, uint32_t, int64_t>, size_t>
+      vertex_pos_in_type_and_label_;
   // adj_list_[(vtype, vid, partition_id)] = vector of global eid for edges
   std::map<std::tuple<uint32_t, int64_t, uint32_t, uint32_t>,
            std::vector<int64_t>>

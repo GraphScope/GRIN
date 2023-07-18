@@ -33,8 +33,13 @@ size_t grin_get_vertex_list_size(GRIN_GRAPH g, GRIN_VERTEX_LIST vl) {
   auto _g = static_cast<GRIN_GRAPH_T*>(g);
   auto _vl = static_cast<GRIN_VERTEX_LIST_T*>(vl);
   auto vtype = _vl->type_id;
+  auto label = _vl->label_id;
   if (vtype >= _g->GetVertexTypeNum())
     GRIN_NULL_SIZE;
+
+  if (label != GRIN_NULL_LABEL) {
+    return _g->GetVertexNumByLabel(vtype, label);
+  }
 
   if (_vl->partition_type == ALL_PARTITION) {
     return _g->GetVertexNum(vtype);
@@ -53,7 +58,17 @@ GRIN_VERTEX grin_get_vertex_from_list(GRIN_GRAPH g, GRIN_VERTEX_LIST vl,
   auto _g = static_cast<GRIN_GRAPH_T*>(g);
   auto _vl = static_cast<GRIN_VERTEX_LIST_T*>(vl);
   auto vtype = _vl->type_id;
+  auto label = _vl->label_id;
   auto num = _g->GetVertexNum(vtype);
+
+  if (label != GRIN_NULL_LABEL) {
+    auto& vertices = _g->GetVertexIdsByLabel(vtype, label);
+    if (idx < vertices.size()) {
+      return vertices[idx];
+    } else {
+      return GRIN_NULL_VERTEX;
+    }
+  }
 
   if (_vl->partition_type == ALL_PARTITION) {
     if (idx < num) {
@@ -101,7 +116,8 @@ GRIN_VERTEX_LIST_ITERATOR grin_get_vertex_list_begin(GRIN_GRAPH g,
   auto vtype = _vl->type_id;
 
   if (_vl->partition_type == ALL_PARTITION) {
-    return new GRIN_VERTEX_LIST_ITERATOR_T(vtype, ALL_PARTITION, 0, 0);
+    return new GRIN_VERTEX_LIST_ITERATOR_T(vtype, ALL_PARTITION, 0,
+                                           GRIN_NULL_LABEL, 0);
   }
 
   auto num = _g->GetVertexNum(vtype);
@@ -113,7 +129,7 @@ GRIN_VERTEX_LIST_ITERATOR grin_get_vertex_list_begin(GRIN_GRAPH g,
     if (_offset >= num)
       _offset = -1;
     return new GRIN_VERTEX_LIST_ITERATOR_T(vtype, ONE_PARTITION, partition_id,
-                                           _offset);
+                                           GRIN_NULL_LABEL, _offset);
   }
 
   if (_vl->partition_type == ALL_BUT_ONE_PARTITION) {
@@ -122,8 +138,8 @@ GRIN_VERTEX_LIST_ITERATOR grin_get_vertex_list_begin(GRIN_GRAPH g,
       _offset++;
     if (_offset >= num)
       _offset = -1;
-    return new GRIN_VERTEX_LIST_ITERATOR_T(vtype, ALL_BUT_ONE_PARTITION,
-                                           partition_id, _offset);
+    return new GRIN_VERTEX_LIST_ITERATOR_T(
+        vtype, ALL_BUT_ONE_PARTITION, partition_id, GRIN_NULL_LABEL, _offset);
   }
 
   return GRIN_NULL_VERTEX_LIST_ITERATOR;

@@ -64,7 +64,8 @@ struct GRIN_VERTEX_LIST_T {
                      unsigned _label_id = GRIN_NULL_LABEL)
       : type_id(_type_id),
         partition_type(_partition_type),
-        partition_id(_partition_id) {}
+        partition_id(_partition_id),
+        label_id(_label_id) {}
 };
 
 struct GRIN_VERTEX_LIST_ITERATOR_T {
@@ -76,10 +77,12 @@ struct GRIN_VERTEX_LIST_ITERATOR_T {
   int64_t current_offset;
   GRIN_VERTEX_LIST_ITERATOR_T(unsigned _type_id,
                               PARTITION_TYPE_IN_LIST _partition_type,
-                              unsigned _partition_id, int64_t _current_offset)
+                              unsigned _partition_id, unsigned _label_id,
+                              int64_t _current_offset)
       : type_id(_type_id),
         partition_type(_partition_type),
         partition_id(_partition_id),
+        label_id(_label_id),
         current_offset(_current_offset) {}
 };
 
@@ -95,7 +98,8 @@ struct GRIN_EDGE_LIST_T {
                    unsigned _label_id = GRIN_NULL_LABEL)
       : type_id(_type_id),
         partition_type(_partition_type),
-        partition_id(_partition_id) {}
+        partition_id(_partition_id),
+        label_id(_label_id) {}
 };
 
 struct GRIN_EDGE_LIST_ITERATOR_T {
@@ -107,10 +111,12 @@ struct GRIN_EDGE_LIST_ITERATOR_T {
   int64_t current_offset;
   GRIN_EDGE_LIST_ITERATOR_T(unsigned _type_id,
                             PARTITION_TYPE_IN_LIST _partition_type,
-                            unsigned _partition_id, int64_t _current_offset)
+                            unsigned _partition_id, unsigned _label_id,
+                            int64_t _current_offset)
       : type_id(_type_id),
         partition_type(_partition_type),
         partition_id(_partition_id),
+        label_id(_label_id),
         current_offset(_current_offset) {}
 };
 
