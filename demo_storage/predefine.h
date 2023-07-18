@@ -119,7 +119,7 @@ typedef enum {
 #define GRIN_ENABLE_VERTEX_PK_INDEX
 #define GRIN_ENABLE_EDGE_PK_INDEX
 // Common
-#define GRIN_TRAIT_LOOSE_SCHEMA
+// #define GRIN_TRAIT_LOOSE_SCHEMA
 
 /* 3. Define the handles using typedef */
 typedef void *GRIN_GRAPH;
