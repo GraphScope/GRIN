@@ -54,6 +54,10 @@ GRIN_LABEL grin_get_label_by_name(GRIN_GRAPH, const char*);
  * @return the label name
 */
 const char* grin_get_label_name(GRIN_GRAPH, GRIN_LABEL);
+
+void grin_destroy_label(GRIN_GRAPH, GRIN_LABEL);
+
+void grin_destroy_label_list(GRIN_GRAPH, GRIN_LABEL_LIST);
 #endif
 
 #ifdef GRIN_WITH_VERTEX_LABEL
@@ -99,7 +103,7 @@ GRIN_VERTEX_LIST grin_get_vertex_list_by_type_by_label(GRIN_GRAPH, GRIN_VERTEX_T
  * @param GRIN_LABEL the label
  * @return the vertex type list
 */
-GRIN_VERTEX_TYPE_LIST grin_get_vertex_types_by_label(GRIN_GRAPH, GRIN_LABEL);
+GRIN_VERTEX_TYPE_LIST grin_get_vertex_type_list_by_label(GRIN_GRAPH, GRIN_LABEL);
 #endif
 
 
@@ -146,7 +150,7 @@ GRIN_EDGE_LIST grin_get_edge_list_by_type_by_label(GRIN_GRAPH, GRIN_EDGE_TYPE, G
  * @param GRIN_LABEL the label
  * @return the edge type list
 */
-GRIN_EDGE_TYPE_LIST grin_get_edge_types_by_label(GRIN_GRAPH, GRIN_LABEL);
+GRIN_EDGE_TYPE_LIST grin_get_edge_type_list_by_label(GRIN_GRAPH, GRIN_LABEL);
 #endif
 
 #endif // GRIN_INCLUDE_INDEX_LABEL_H_
