@@ -114,10 +114,10 @@ GRIN_VERTEX_LIST_ITERATOR grin_get_vertex_list_begin(GRIN_GRAPH g,
   auto _g = static_cast<GRIN_GRAPH_T*>(g);
   auto _vl = static_cast<GRIN_VERTEX_LIST_T*>(vl);
   auto vtype = _vl->type_id;
+  auto label = _vl->label_id;
 
   if (_vl->partition_type == ALL_PARTITION) {
-    return new GRIN_VERTEX_LIST_ITERATOR_T(vtype, ALL_PARTITION, 0,
-                                           GRIN_NULL_LABEL, 0);
+    return new GRIN_VERTEX_LIST_ITERATOR_T(vtype, ALL_PARTITION, 0, label, 0);
   }
 
   auto num = _g->GetVertexNum(vtype);
@@ -156,7 +156,9 @@ void grin_get_next_vertex_list_iter(GRIN_GRAPH g,
   auto _g = static_cast<GRIN_GRAPH_T*>(g);
   auto _vli = static_cast<GRIN_VERTEX_LIST_ITERATOR_T*>(vli);
   auto vtype = _vli->type_id;
-  auto num = _g->GetVertexNum(vtype);
+  auto label = _vli->label_id;
+  auto num = label == GRIN_NULL_LABEL ? _g->GetVertexNum(vtype)
+                                      : _g->GetVertexNumByLabel(vtype, label);
 
   if (_vli->partition_type == ALL_PARTITION) {
     _vli->current_offset++;
@@ -199,8 +201,14 @@ bool grin_is_vertex_list_end(GRIN_GRAPH g, GRIN_VERTEX_LIST_ITERATOR vli) {
 
 GRIN_VERTEX grin_get_vertex_from_iter(GRIN_GRAPH g,
                                       GRIN_VERTEX_LIST_ITERATOR vli) {
+  auto _g = static_cast<GRIN_GRAPH_T*>(g);
   auto _vli = static_cast<GRIN_VERTEX_LIST_ITERATOR_T*>(vli);
-  return DEMO_STORAGE_NAMESPACE::generate_gid_from_type_id_and_id(
-      _vli->type_id, _vli->current_offset);
+  if (_vli->label_id != GRIN_NULL_LABEL) {
+    return _g->GetVertexIdsByLabel(_vli->type_id,
+                                   _vli->label_id)[_vli->current_offset];
+  } else {
+    return DEMO_STORAGE_NAMESPACE::generate_gid_from_type_id_and_id(
+        _vli->type_id, _vli->current_offset);
+  }
 }
 #endif

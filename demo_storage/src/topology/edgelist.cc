@@ -112,10 +112,10 @@ GRIN_EDGE_LIST_ITERATOR grin_get_edge_list_begin(GRIN_GRAPH g,
   auto _g = static_cast<GRIN_GRAPH_T*>(g);
   auto _el = static_cast<GRIN_EDGE_LIST_T*>(el);
   auto etype = _el->type_id;
+  auto label = _el->label_id;
 
   if (_el->partition_type == ALL_PARTITION) {
-    return new GRIN_EDGE_LIST_ITERATOR_T(etype, ALL_PARTITION, 0,
-                                         GRIN_NULL_LABEL, 0);
+    return new GRIN_EDGE_LIST_ITERATOR_T(etype, ALL_PARTITION, 0, label, 0);
   }
 
   auto num = _g->GetEdgeNum(etype);
@@ -152,7 +152,9 @@ void grin_get_next_edge_list_iter(GRIN_GRAPH g, GRIN_EDGE_LIST_ITERATOR eli) {
   auto _g = static_cast<GRIN_GRAPH_T*>(g);
   auto _eli = static_cast<GRIN_EDGE_LIST_ITERATOR_T*>(eli);
   auto etype = _eli->type_id;
-  auto num = _g->GetEdgeNum(etype);
+  auto label = _eli->label_id;
+  auto num = label == GRIN_NULL_LABEL ? _g->GetEdgeNum(etype)
+                                      : _g->GetEdgeNumByLabel(etype, label);
 
   if (_eli->partition_type == ALL_PARTITION) {
     _eli->current_offset++;
@@ -194,8 +196,14 @@ bool grin_is_edge_list_end(GRIN_GRAPH g, GRIN_EDGE_LIST_ITERATOR eli) {
 }
 
 GRIN_EDGE grin_get_edge_from_iter(GRIN_GRAPH g, GRIN_EDGE_LIST_ITERATOR eli) {
+  auto _g = static_cast<GRIN_GRAPH_T*>(g);
   auto _eli = static_cast<GRIN_EDGE_LIST_ITERATOR_T*>(eli);
-  return DEMO_STORAGE_NAMESPACE::generate_gid_from_type_id_and_id(
-      _eli->type_id, _eli->current_offset);
+  if (_eli->label_id != GRIN_NULL_LABEL) {
+    return _g->GetEdgeIdsByLabel(_eli->type_id,
+                                 _eli->label_id)[_eli->current_offset];
+  } else {
+    return DEMO_STORAGE_NAMESPACE::generate_gid_from_type_id_and_id(
+        _eli->type_id, _eli->current_offset);
+  }
 }
 #endif
