@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package grin;
+option java_package = "com.alibaba.graphscope.proto.grin_schema";
+
+import "schema.proto";
+
+message PartitionStrategy {
+    // In edge-cut partition strategy, all the vertices are normal-vertices,
+    // and thus the structure locally completeness is guaranteed.
+    message EdgeCut {}
+    // In vertex-cut partition strategy, all the vertices are cut-vertices,
+    // and thus the structure locally completeness is generally not guaranteed.
+    message VertexCut {}
+    // In hybrid partition strategy, cut-vertices are bind to vertex types,
+    // and the structure locally completeness is guaranteed only between cut-vertices
+    message Cut {
+        repeated uint32 cut_vertex_type_ids = 1;
+    }
+
+    oneof item {
+        EdgeCut edge_cut = 1;
+        VertexCut vertex_cut = 2;
+        HybridCut hybrid_cut = 3;
+    }
+}
+
+enum SparseIndexStrategy {
+    // The Compressed Sparse Row Storage
+    SIS_CSR = 0;
+    // The Compressed Sparse Column Storage
+    SIS_CSC = 1;
+    // The Coordinate Storage
+    SIS_COO = 2;
+}
+
+enum PropertyPlacementStrategy {
+    // Properties are replicated when mirror vertices or edges are created.
+    // This means users can access properties of all the inner vertices or
+    // edges locally without any communication.
+    // This is the default property placement strategy in GRIN, and currently
+    // all storages supporting GRIN follow this strategy.
+    PPS_REPLICATE_MASTER_MIRROR = 0;
+    // Properties are split into several parts among the master and mirror partitions
+    // of a vertex or edge. This means a cumulative call is required to get the
+    // properties of a vertex or edge.
+    PPS_SPLIT_MASTER_MIRROR = 1;
+    // Properties are only stored in the master partitions of vertices or edges.
+    // This means to get the properties, users should check whether the vertex
+    // or edge is a master or not, if not, users should route to the master partiton
+    // of the vertex or edge to access the properties.
+    PPS_STAY_MASTER = 2;
+    // In addtion to the PPS_REPLICATE_MASTER_MIRROR strategy, the properties of the 
+    // outer vertices or edges are also stored to further eliminate the communication
+    // cost in accessing the properties of the outer vertices or edges.
+    PPS_REPLICATE_MASTER_MIRROR_OUTER = 3;
+}
+
+message Partition {
+    PartitionStrategy partition_strategy = 1;
+    repeated SparseIndexStrategy sparse_index_strategies = 2;
+    PropertyPlacementStrategy vertex_property_placement = 3;
+    PropertyPlacementStrategy edge_property_placement = 4;
+}

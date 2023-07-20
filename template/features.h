@@ -146,75 +146,6 @@ limitations under the License.
 #define GRIN_ENABLE_EDGE_REF
 ///@}
 
-/** @name PartitionStrategyMacros
- * @brief Macros to define partition strategy assumptions, a partition strategy
- * can be seen as a combination of detail partition assumptions which are defined after
- * the strategies. Please refer to the documents for strategy details.
-*/
-///@{
-/** @ingroup PartitionStrategyMacros
- * @brief The storage ONLY uses all-replicate partition strategy. This means the
- * storage's replicate the graph among all partitions.
-*/
-#define GRIN_ASSUME_ALL_REPLICATE_PARTITION
-
-/** @ingroup PartitionStrategyMacros
- * @brief The storage ONLY uses edge-cut partition strategy. This means the
- * storage's entire partition strategy complies with edge-cut strategy
- * definition in GRIN.
-*/
-#define GRIN_ASSUME_EDGE_CUT_PARTITION
-
-/** @ingroup PartitionStrategyMacros
- * @brief The storage ONLY uses edge-cut partition & edges only follow src strategy.
- * This means the storage's entire partition strategy complies with edge-cut strategy
- * definition in GRIN, and edges are partitioned to the partition of the source vertex.
-*/
-#define GRIN_ASSUME_EDGE_CUT_FOLLOW_SRC_PARTITION
-
-/** @ingroup PartitionStrategyMacros
- * @brief The storage ONLY uses edge-cut partition & edges only follow dst strategy.
- * This means the storage's entire partition strategy complies with edge-cut strategy
- * definition in GRIN, and edges are partitioned to the partition of the destination vertex.
-*/
-#define GRIN_ASSUME_EDGE_CUT_FOLLOW_DST_PARTITION
-
-
-/** @ingroup PartitionStrategyMacros
- * @brief The storage ONLY uses vertex-cut partition strategy. This means the
- * storage's entire partition strategy complies with vertex-cut strategy
- * definition in GRIN.
-*/
-#define GRIN_ASSUME_VERTEX_CUT_PARTITION
-///@}
-
-/** @name PartitionAssumptionMacros
- * @brief Macros to define detailed partition assumptions with respect to the
- * concept of local complete. Please refer to the documents for the meaning of
- * local complete.
-*/
-///@{
-/** @ingroup PartitionAssumptionMacros
- * @brief Assume the vertex data are only stored together with master vertices.
-*/
-#define GRIN_ASSUME_MASTER_ONLY_PARTITION_FOR_VERTEX_DATA
-
-/** @ingroup PartitionAssumptionMacros
- * @brief Assume the vertex data are replicated on both master and mirror vertices.
-*/
-#define GRIN_ASSUME_REPLICATE_MASTER_MIRROR_PARTITION_FOR_VERTEX_DATA
-
-/** @ingroup PartitionAssumptionMacros
- * @brief Assume the edge data are only stored together with master edges.
-*/
-#define GRIN_ASSUME_MASTER_ONLY_PARTITION_FOR_EDGE_DATA
-
-/** @ingroup PartitionAssumptionMacros
- * @brief Assume the edge data are replicated on both master and mirror edges.
-*/
-#define GRIN_ASSUME_REPLICATE_MASTER_MIRROR_PARTITION_FOR_EDGE_DATA
-///@}
-
 /** @name TraitMirrorPartitionMacros
  * @brief Macros for storage that provides the partition list where the mirror
  * vertices are located. This trait is usually enabled by storages using vertex-cut
@@ -395,56 +326,6 @@ limitations under the License.
 #define GRIN_TRAIT_NATURAL_ID_FOR_EDGE_PROPERTY
 ///@}
 
-/** @name TraitFilterTypeMacros
- * @brief Macros of traits to filter vertex/edge type for
- * structures like vertex list and adjacent list.
- */
-///@{
-/** @ingroup TraitFilterTypeMacros
- * @brief The storage provides specific relationship description for each
- * vertex-edge-vertex type traid. This means further optimizations can be
- * applied by the callers for vev traid under certain relationships, such as
- * one-to-one, one-to-many, or many-to-one.
-*/
-#define GRIN_TRAIT_SPECIFIC_VEV_RELATION
-///@}
-
-/** @name PropetyAssumptionMacros
- * @brief Macros of assumptions for property local complete, and particularly define
- * the by type local complete assumptions for hybrid partiton strategy.
- */
-///@{
-/** @ingroup PropetyAssumptionMacros
- * @brief Assume full property values of a vertex are ONLY stored with master vertices.
-*/
-#define GRIN_ASSUME_MASTER_ONLY_PARTITION_FOR_VERTEX_PROPERTY
-
-/** @ingroup PropetyAssumptionMacros
- * @brief Assume full property values of a vertex are replicated with master and mirror vertices.
-*/
-#define GRIN_ASSUME_REPLICATE_MASTER_MIRROR_PARTITION_FOR_VERTEX_PROPERTY
-
-/** @ingroup PropetyAssumptionMacros
- * @brief Assume full property values of a vertex are split among master and mirror vertices.
-*/
-#define GRIN_ASSUME_SPLIT_MASTER_MIRROR_PARTITION_FOR_VERTEX_PROPERTY
-
-/** @ingroup PropetyAssumptionMacros
- * @brief Assume full property values of an edge are ONLY stored with master edges.
-*/
-#define GRIN_ASSUME_MASTER_ONLY_PARTITION_FOR_EDGE_PROPERTY
-
-/** @ingroup PropetyAssumptionMacros
- * @brief Assume full property values of an edge are replicated with master and mirror edges.
-*/
-#define GRIN_ASSUME_REPLICATE_MASTER_MIRROR_PARTITION_FOR_EDGE_PROPERTY
-
-/** @ingroup PropetyAssumptionMacros
- * @brief Assume full property values of an edge are split among master and mirror edges.
-*/
-#define GRIN_ASSUME_SPLIT_MASTER_MIRROR_PARTITION_FOR_EDGE_PROPERTY
-///@}
-
 /* End of Section 3 */
 
 /* Section 4. Index */
@@ -486,6 +367,23 @@ limitations under the License.
 #define GRIN_ENABLE_VERTEX_INTERNAL_ID_INDEX
 ///@}
 
+/** @name IndexExternalIDMacros
+ * @brief Macros for external ID indexing features
+ */
+///@{
+/** @ingroup IndexExternalIDMacros
+ * @brief There is a unique external ID of type int64 for each vertex,
+ * e.g., the original ID of a vertex in GNN datasets.
+ */
+#define GRIN_ENABLE_VERTEX_EXTERNAL_ID_OF_INT64
+
+/** @ingroup IndexExternalIDMacros
+ * @brief There is a unique external ID of type string for each vertex,
+ * e.g., the IRI of a vertex in RDF datasets.
+ */
+#define GRIN_ENABLE_VERTEX_EXTERNAL_ID_OF_STRING
+///@}
+
 /** @name IndexPKMacros
  * @brief Macros for pk indexing features
  */
@@ -501,6 +399,22 @@ limitations under the License.
  * users can get an edge handle using its primary key(s) value(s).
  */
 #define GRIN_ENABLE_EDGE_PK_INDEX
+///@}
+
+/* End of Section 4 */
+
+/* Section 5. Common */
+
+/** @name CommonMacros
+ * @brief Macros for common features
+ */
+///@{
+/** @ingroup CommonMacros
+ * @brief The storage supports loose schema, meaning that
+ * some vertices or edges may belong to none of the vertex types or edge types
+ * in the schema respectively.
+*/
+#define GRIN_TRAIT_LOOSE_SCHEMA
 ///@}
 
 /* End of Section 4 */
