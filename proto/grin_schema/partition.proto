@@ -26,10 +26,10 @@ message PartitionStrategy {
 }
 
 enum SparseIndexStrategy {
-    // The Compressed Row Storage
-    SIS_CRS = 0;
-    // The Compressed Column Storage
-    SIS_CCS = 1;
+    // The Compressed Sparse Row Storage
+    SIS_CSR = 0;
+    // The Compressed Sparse Column Storage
+    SIS_CSC = 1;
     // The Coordinate Storage
     SIS_COO = 2;
 }
