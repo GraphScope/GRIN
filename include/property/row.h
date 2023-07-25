@@ -46,6 +46,8 @@ int grin_get_time32_from_row(GRIN_GRAPH, GRIN_ROW, size_t);
 
 long long int grin_get_timestamp64_from_row(GRIN_GRAPH, GRIN_ROW, size_t);
 
+const float* grin_get_float_array_from_row(GRIN_GRAPH, GRIN_ROW, size_t);
+
 /**
  * @brief Create a row.
  * Row works as carrier of property values in GRIN.
@@ -82,6 +84,8 @@ bool grin_insert_date32_to_row(GRIN_GRAPH, GRIN_ROW, int);
 bool grin_insert_time32_to_row(GRIN_GRAPH, GRIN_ROW, int);
 
 bool grin_insert_timestamp64_to_row(GRIN_GRAPH, GRIN_ROW, long long int);
+
+bool grin_insert_float_array_to_row(GRIN_GRAPH, GRIN_ROW, const float*, size_t);
 #endif
 
 #if defined(GRIN_ENABLE_ROW) && defined(GRIN_TRAIT_CONST_VALUE_PTR)
