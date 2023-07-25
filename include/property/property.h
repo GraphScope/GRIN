@@ -25,6 +25,8 @@ extern "C" {
 
 void grin_destroy_string_value(GRIN_GRAPH, const char*);
 
+void grin_destroy_float_array_value(GRIN_GRAPH, const float*);
+
 #ifdef GRIN_WITH_VERTEX_PROPERTY_NAME
 /**
  * @brief Get the vertex property name
@@ -190,8 +192,6 @@ int grin_get_vertex_property_value_of_date32(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTE
  * The return int has no predefined invalid value.
  * User should use ``grin_get_last_error_code()`` to check if the API call
  * is successful.
- * Note that the returned string should be explicitly freed by the user, 
- * by calling API ``grin_destroy_string_value``.
  * @param GRIN_GRAPH The graph
  * @param GRIN_VERTEX The vertex
  * @param GRIN_VERTEX_PROPERTY The vertex property
@@ -205,14 +205,21 @@ int grin_get_vertex_property_value_of_time32(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTE
  * The return int has no predefined invalid value.
  * User should use ``grin_get_last_error_code()`` to check if the API call
  * is successful.
- * Note that the returned string should be explicitly freed by the user, 
- * by calling API ``grin_destroy_string_value``.
  * @param GRIN_GRAPH The graph
  * @param GRIN_VERTEX The vertex
  * @param GRIN_VERTEX_PROPERTY The vertex property
  * @return The value of the property
 */
 long long int grin_get_vertex_property_value_of_timestamp64(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
+
+/**
+ * @brief Get the vertex value of a float array as a float pointer.
+ * The user should make sure the vertex property is of datatype float array.
+ * The return is NULL if the value is invalid.
+ * Note that the returned float pointer should be explicitly freed by the user,
+ * by calling API ``grin_destroy_float_array_value``.
+*/
+const float* grin_get_vertex_property_value_of_float_array(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
 
 /**
  * @brief Get the vertex type that a given vertex property belongs to.
@@ -254,6 +261,8 @@ int grin_get_edge_property_value_of_date32(GRIN_GRAPH, GRIN_EDGE, GRIN_EDGE_PROP
 int grin_get_edge_property_value_of_time32(GRIN_GRAPH, GRIN_EDGE, GRIN_EDGE_PROPERTY);
 
 long long int grin_get_edge_property_value_of_timestamp64(GRIN_GRAPH, GRIN_EDGE, GRIN_EDGE_PROPERTY);
+
+const float* grin_get_edge_property_value_of_float_array(GRIN_GRAPH, GRIN_EDGE, GRIN_EDGE_PROPERTY);
 
 GRIN_EDGE_TYPE grin_get_edge_type_from_property(GRIN_GRAPH, GRIN_EDGE_PROPERTY);
 #endif
