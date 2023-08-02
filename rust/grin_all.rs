@@ -1212,25 +1212,11 @@ extern "C" {
     ) -> GRIN_EDGE_TYPE_LIST;
 }
 extern "C" {
-    pub fn grin_get_label_by_name(
-        arg1: GRIN_GRAPH,
-        arg2: *const ::std::os::raw::c_char,
-    ) -> GRIN_LABEL;
-}
-extern "C" {
-    pub fn grin_destroy_label(arg1: GRIN_GRAPH, arg2: GRIN_LABEL);
-}
-extern "C" {
-    pub fn grin_get_label_name(arg1: GRIN_GRAPH, arg2: GRIN_LABEL)
-        -> *const ::std::os::raw::c_char;
-}
-extern "C" {
-    pub fn grin_destroy_label_list(arg1: GRIN_GRAPH, arg2: GRIN_LABEL_LIST);
-}
-extern "C" {
+    #[doc = " @brief get label list size\n @param GRIN_GRAPH the graph\n @param GRIN_LABEL_LIST the label list\n @return the label list size"]
     pub fn grin_get_label_list_size(arg1: GRIN_GRAPH, arg2: GRIN_LABEL_LIST) -> usize;
 }
 extern "C" {
+    #[doc = " @brief get the label from the label list by index\n @param GRIN_GRAPH the graph\n @param GRIN_LABEL_LIST the label list\n @param index the index"]
     pub fn grin_get_label_from_list(
         arg1: GRIN_GRAPH,
         arg2: GRIN_LABEL_LIST,
@@ -1238,48 +1224,68 @@ extern "C" {
     ) -> GRIN_LABEL;
 }
 extern "C" {
-    #[doc = " @brief assign a label to a vertex\n @param GRIN_GRAPH the graph\n @param GRIN_LABEL the label\n @param GRIN_VERTEX the vertex\n @return whether succeed"]
-    pub fn grin_assign_label_to_vertex(
+    #[doc = " @brief get the label by name\n @param GRIN_GRAPH the graph\n @param label_name the label name\n @return the label"]
+    pub fn grin_get_label_by_name(
         arg1: GRIN_GRAPH,
-        arg2: GRIN_LABEL,
-        arg3: GRIN_VERTEX,
-    ) -> bool;
+        arg2: *const ::std::os::raw::c_char,
+    ) -> GRIN_LABEL;
 }
 extern "C" {
-    #[doc = " @brief get the label list of a vertex\n @param GRIN_GRAPH the graph\n @param GRIN_VERTEX the vertex"]
-    pub fn grin_get_vertex_label_list(arg1: GRIN_GRAPH, arg2: GRIN_VERTEX) -> GRIN_LABEL_LIST;
+    #[doc = " @brief get the label name\n @param GRIN_GRAPH the graph\n @param GRIN_LABEL the label\n @return the label name"]
+    pub fn grin_get_label_name(arg1: GRIN_GRAPH, arg2: GRIN_LABEL)
+        -> *const ::std::os::raw::c_char;
 }
 extern "C" {
-    #[doc = " @brief get the vertex list by label\n @param GRIN_GRAPH the graph\n @param GRIN_LABEL the label"]
-    pub fn grin_get_vertex_list_by_label(arg1: GRIN_GRAPH, arg2: GRIN_LABEL) -> GRIN_VERTEX_LIST;
+    pub fn grin_destroy_label(arg1: GRIN_GRAPH, arg2: GRIN_LABEL);
 }
 extern "C" {
-    #[doc = " @brief filtering an existing vertex list by label\n @param GRIN_VERTEX_LIST the existing vertex list\n @param GRIN_LABEL the label"]
-    pub fn grin_select_label_for_vertex_list(
+    pub fn grin_destroy_label_list(arg1: GRIN_GRAPH, arg2: GRIN_LABEL_LIST);
+}
+extern "C" {
+    #[doc = " @brief get the label list for vertices in the graph\n @param GRIN_GRAPH the graph\n @return the label list for vertices"]
+    pub fn grin_get_vertex_label_list(arg1: GRIN_GRAPH) -> GRIN_LABEL_LIST;
+}
+extern "C" {
+    #[doc = " @brief get all the labels of a vertex as a label list\n @param GRIN_GRAPH the graph\n @param GRIN_VERTEX the vertex\n @return the label list"]
+    pub fn grin_get_label_list_by_vertex(arg1: GRIN_GRAPH, arg2: GRIN_VERTEX) -> GRIN_LABEL_LIST;
+}
+extern "C" {
+    #[doc = " @brief get the vertex list by label\n @param GRIN_GRAPH the graph\n @param GRIN_VERTEX_TYPE the vertex type\n @param GRIN_LABEL the label\n @return the vertex list"]
+    pub fn grin_get_vertex_list_by_type_by_label(
         arg1: GRIN_GRAPH,
-        arg2: GRIN_LABEL,
-        arg3: GRIN_VERTEX_LIST,
+        arg2: GRIN_VERTEX_TYPE,
+        arg3: GRIN_LABEL,
     ) -> GRIN_VERTEX_LIST;
 }
 extern "C" {
-    #[doc = " @brief assign a label to a edge\n @param GRIN_GRAPH the graph\n @param GRIN_LABEL the label\n @param GRIN_EDGE the edge\n @return whether succeed"]
-    pub fn grin_assign_label_to_edge(arg1: GRIN_GRAPH, arg2: GRIN_LABEL, arg3: GRIN_EDGE) -> bool;
-}
-extern "C" {
-    #[doc = " @brief get the label list of a edge\n @param GRIN_GRAPH the graph\n @param GRIN_EDGE the edge"]
-    pub fn grin_get_edge_label_list(arg1: GRIN_GRAPH, arg2: GRIN_EDGE) -> GRIN_LABEL_LIST;
-}
-extern "C" {
-    #[doc = " @brief get the edge list by label\n @param GRIN_GRAPH the graph\n @param GRIN_LABEL the label"]
-    pub fn grin_get_edge_list_by_label(arg1: GRIN_GRAPH, arg2: GRIN_LABEL) -> GRIN_EDGE_LIST;
-}
-extern "C" {
-    #[doc = " @brief filtering an existing edge list by label\n @param GRIN_EDGE_LIST the existing edge list\n @param GRIN_LABEL the label"]
-    pub fn grin_select_label_for_edge_list(
+    #[doc = " @brief get all the vertex types that might have the label\n @param GRIN_GRAPH the graph\n @param GRIN_LABEL the label\n @return the vertex type list"]
+    pub fn grin_get_vertex_type_list_by_label(
         arg1: GRIN_GRAPH,
         arg2: GRIN_LABEL,
-        arg3: GRIN_EDGE_LIST,
+    ) -> GRIN_VERTEX_TYPE_LIST;
+}
+extern "C" {
+    #[doc = " @brief get the label list for edges in the graph\n @param GRIN_GRAPH the graph\n @return the label list for edges"]
+    pub fn grin_get_edge_label_list(arg1: GRIN_GRAPH) -> GRIN_LABEL_LIST;
+}
+extern "C" {
+    #[doc = " @brief get all the labels of an edge as a label list\n @param GRIN_GRAPH the graph\n @param GRIN_EDGE the edge\n @return the label list"]
+    pub fn grin_get_label_list_by_edge(arg1: GRIN_GRAPH, arg2: GRIN_EDGE) -> GRIN_LABEL_LIST;
+}
+extern "C" {
+    #[doc = " @brief get the edge list by label\n @param GRIN_GRAPH the graph\n @param GRIN_EDGE_TYPE the edge type\n @param GRIN_LABEL the label\n @return the edge list"]
+    pub fn grin_get_edge_list_by_type_by_label(
+        arg1: GRIN_GRAPH,
+        arg2: GRIN_EDGE_TYPE,
+        arg3: GRIN_LABEL,
     ) -> GRIN_EDGE_LIST;
+}
+extern "C" {
+    #[doc = " @brief get all the edge types that might have the label\n @param GRIN_GRAPH the graph\n @param GRIN_LABEL the label\n @return the edge type list"]
+    pub fn grin_get_edge_type_list_by_label(
+        arg1: GRIN_GRAPH,
+        arg2: GRIN_LABEL,
+    ) -> GRIN_EDGE_TYPE_LIST;
 }
 extern "C" {
     pub fn grin_smaller_vertex(arg1: GRIN_GRAPH, arg2: GRIN_VERTEX, arg3: GRIN_VERTEX) -> bool;

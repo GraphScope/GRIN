@@ -1,7 +1,7 @@
 #define GRIN_FEATURES_ENABLE_GART
 #define GRIN_RUST_CODEGEN
 
-#include "storage/gart/predefine.h"
+#include "storage/GART/predefine.h"
 
 #ifdef GRIN_RUST_CODEGEN
 /// GRIN_FEATURES_ENABLE_GART

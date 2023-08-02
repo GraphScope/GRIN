@@ -195,7 +195,7 @@ def parse_to_toml(path, storages):
     with open('Cargo.toml', 'w') as f:
         f.write('[package]\n')
         f.write(f'name = \"grin\"\n')
-        f.write('version = \"0.1.1\"\n')
+        f.write('version = \"0.1.2\"\n')
         f.write('authors = [\"dijie\"]\n')
         f.write('\n')
         f.write('[dependencies]\n')
@@ -235,7 +235,7 @@ def merge(storages, rs):
                     first = False
                     outfile.write('    if')
                 else:
-                    outfile.write(' elif')
+                    outfile.write(' else if')
                 outfile.write(f' #[cfg(feature = \"grin_features_enable_{k}\")]')
             else:
                 outfile.write(' else ')
