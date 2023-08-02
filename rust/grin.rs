@@ -28,6 +28,8 @@ pub const GRIN_DATATYPE_DATE32: GrinDatatype = 8;
 pub const GRIN_DATATYPE_TIME32: GrinDatatype = 9;
 #[doc = "< Timestamp"]
 pub const GRIN_DATATYPE_TIMESTAMP64: GrinDatatype = 10;
+#[doc = "< float array"]
+pub const GRIN_DATATYPE_FLOATARRAY: GrinDatatype = 11;
 #[doc = " Enumerates the datatype supported in the storage"]
 pub type GrinDatatype = u32;
 #[doc = "< success"]
@@ -177,7 +179,7 @@ cfg_if::cfg_if! {
         pub const GRIN_NULL_EDGE_PROPERTY_ID: GrinEdgePropertyId = u32::MAX;
         pub const GRIN_NULL_ROW: GrinRow = std::ptr::null_mut();
         pub const GRIN_NULL_SIZE: u32 = u32::MAX;
-    } else if #[cfg(feature = "grin_features_enable_GraphAr")]{
+    } else if #[cfg(feature = "grin_features_enable_graphar")]{
         pub type GrinGraph = *mut ::std::os::raw::c_void;
         pub type GrinVertex = *mut ::std::os::raw::c_void;
         pub type GrinEdge = *mut ::std::os::raw::c_void;
@@ -856,6 +858,9 @@ extern "C" {
     #[allow(unused)]
     pub fn grin_destroy_string_value(arg1: GrinGraph, arg2: *const ::std::os::raw::c_char);
 
+    #[allow(unused)]
+    pub fn grin_destroy_float_array_value(arg1: GrinGraph, arg2: *const f32);
+
     #[doc = " @brief Get the vertex property name\n @param GrinGraph The graph\n @param GrinVertexType The vertex type that the property belongs to\n @param GrinVertexProperty The vertex property\n @return The property's name as string"]
     #[cfg(feature = "grin_with_vertex_property_name")]
     #[allow(unused)]
@@ -997,7 +1002,7 @@ extern "C" {
         arg3: GrinVertexProperty,
     ) -> i32;
 
-    #[doc = " @brief Get the value of int32, given a vertex and a vertex property.\n The user should make sure the vertex property is of datatype time32.\n The return int has no predefined invalid value.\n User should use ``grin_get_last_error_code()`` to check if the API call\n is successful.\n Note that the returned string should be explicitly freed by the user,\n by calling API ``grin_destroy_string_value``.\n @param GrinGraph The graph\n @param GrinVertex The vertex\n @param GrinVertexProperty The vertex property\n @return The value of the property"]
+    #[doc = " @brief Get the value of int32, given a vertex and a vertex property.\n The user should make sure the vertex property is of datatype time32.\n The return int has no predefined invalid value.\n User should use ``grin_get_last_error_code()`` to check if the API call\n is successful.\n @param GrinGraph The graph\n @param GrinVertex The vertex\n @param GrinVertexProperty The vertex property\n @return The value of the property"]
     #[cfg(feature = "grin_with_vertex_property")]
     #[allow(unused)]
     pub fn grin_get_vertex_property_value_of_time32(
@@ -1006,7 +1011,7 @@ extern "C" {
         arg3: GrinVertexProperty,
     ) -> i32;
 
-    #[doc = " @brief Get the value of int64, given a vertex and a vertex property.\n The user should make sure the vertex property is of datatype timestamp64.\n The return int has no predefined invalid value.\n User should use ``grin_get_last_error_code()`` to check if the API call\n is successful.\n Note that the returned string should be explicitly freed by the user,\n by calling API ``grin_destroy_string_value``.\n @param GrinGraph The graph\n @param GrinVertex The vertex\n @param GrinVertexProperty The vertex property\n @return The value of the property"]
+    #[doc = " @brief Get the value of int64, given a vertex and a vertex property.\n The user should make sure the vertex property is of datatype timestamp64.\n The return int has no predefined invalid value.\n User should use ``grin_get_last_error_code()`` to check if the API call\n is successful.\n @param GrinGraph The graph\n @param GrinVertex The vertex\n @param GrinVertexProperty The vertex property\n @return The value of the property"]
     #[cfg(feature = "grin_with_vertex_property")]
     #[allow(unused)]
     pub fn grin_get_vertex_property_value_of_timestamp64(
@@ -1014,6 +1019,15 @@ extern "C" {
         arg2: GrinVertex,
         arg3: GrinVertexProperty,
     ) -> i64;
+
+    #[doc = " @brief Get the vertex value of a float array as a float pointer.\n The user should make sure the vertex property is of datatype float array.\n The return is NULL if the value is invalid.\n Note that the returned float pointer should be explicitly freed by the user,\n by calling API ``grin_destroy_float_array_value``."]
+    #[cfg(feature = "grin_with_vertex_property")]
+    #[allow(unused)]
+    pub fn grin_get_vertex_property_value_of_float_array(
+        arg1: GrinGraph,
+        arg2: GrinVertex,
+        arg3: GrinVertexProperty,
+    ) -> *const f32;
 
     #[doc = " @brief Get the vertex type that a given vertex property belongs to.\n @param GrinGraph The graph\n @param GrinVertexProperty The vertex property\n @return The vertex type"]
     #[cfg(feature = "grin_with_vertex_property")]
@@ -1129,6 +1143,14 @@ extern "C" {
         arg2: GrinEdge,
         arg3: GrinEdgeProperty,
     ) -> i64;
+
+    #[cfg(feature = "grin_with_edge_property")]
+    #[allow(unused)]
+    pub fn grin_get_edge_property_value_of_float_array(
+        arg1: GrinGraph,
+        arg2: GrinEdge,
+        arg3: GrinEdgeProperty,
+    ) -> *const f32;
 
     #[cfg(feature = "grin_with_edge_property")]
     #[allow(unused)]
@@ -1333,6 +1355,14 @@ extern "C" {
         arg3: usize,
     ) -> i64;
 
+    #[cfg(feature = "grin_enable_row")]
+    #[allow(unused)]
+    pub fn grin_get_float_array_from_row(
+        arg1: GrinGraph,
+        arg2: GrinRow,
+        arg3: usize,
+    ) -> *const f32;
+
     #[doc = " @brief Create a row.\n Row works as carrier of property values in GRIN.\n It is a pure value array, and users can only get the value by the array index.\n That means users should understand the property that each value is\n representing when using the row.\n Currently rows are used in two scenarios:\n 1. Users can create a row of values for primary keys properties,\n and then query the vertex/edge using the row if pk indexing is enabled.\n 2. Users can get the row of values for the entire property list of\n a vertex/edge in one API ``grin_get_vertex_row`` or ``grin_get_edge_row``.\n However this API is not recommended if the user only wants to get the\n properties values, in which case, the user can get property values\n one-by-one using the APIs like ``grin_get_vertex_property_value_of_int32``."]
     #[cfg(feature = "grin_enable_row")]
     #[allow(unused)]
@@ -1408,6 +1438,15 @@ extern "C" {
         arg1: GrinGraph,
         arg2: GrinRow,
         arg3: i64,
+    ) -> bool;
+
+    #[cfg(feature = "grin_enable_row")]
+    #[allow(unused)]
+    pub fn grin_insert_float_array_to_row(
+        arg1: GrinGraph,
+        arg2: GrinRow,
+        arg3: *const f32,
+        arg4: usize,
     ) -> bool;
 
     #[cfg(all(feature = "grin_enable_row", feature = "grin_trait_const_value_ptr"))]

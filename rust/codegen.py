@@ -180,7 +180,7 @@ def get_features(path, storage):
     for line in lines:
         if line.startswith('#define') and line.find('GRIN_NULL') == -1:
             macros.append(line[8:].strip().lower())
-    return macros
+    return macros[1:]
 
 def parse_to_toml(path, storages):
     features = {}
@@ -236,7 +236,7 @@ def merge(storages, rs):
                     outfile.write('    if')
                 else:
                     outfile.write(' else if')
-                outfile.write(f' #[cfg(feature = \"grin_features_enable_{k}\")]')
+                outfile.write(f' #[cfg(feature = \"grin_features_enable_{k.lower()}\")]')
             else:
                 outfile.write(' else ')
             outfile.write('{\n')

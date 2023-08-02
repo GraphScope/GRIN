@@ -24,8 +24,8 @@ limitations under the License.
  * specified by storage.
  */
 
- #ifndef STORAGE_GART_PREDEFINE_H_
- #define STORAGE_GART_PREDEFINE_H_
+#ifndef STORAGE_GART_PREDEFINE_H_
+#define STORAGE_GART_PREDEFINE_H_
 
 #ifdef __cplusplus
 extern "C" {
