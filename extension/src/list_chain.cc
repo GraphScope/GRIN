@@ -31,6 +31,7 @@ GRIN_VERTEX_LIST_CHAIN grin_get_vertex_list_chain_of_all_types(GRIN_GRAPH g) {
     for (unsigned int i = 0; i < vtype_num; i++) {
         GRIN_VERTEX_TYPE vtype = grin_get_vertex_type_from_list(g, vtypes, i);
         vchain.lists[i] = grin_get_vertex_list_by_type(g, vtype);
+        grin_destroy_vertex_type(g, vtype);
     }
     return vchain;
 }
