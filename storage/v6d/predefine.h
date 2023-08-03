@@ -24,6 +24,9 @@ limitations under the License.
  * specified by storage.
  */
 
+#ifndef STORAGE_V6D_PREDEFINE_H_
+#define STORAGE_V6D_PREDEFINE_H_
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -235,3 +238,5 @@ typedef void* GRIN_LABEL_LIST;
 #ifdef __cplusplus
 }
 #endif
+
+#endif // STORAGE_V6D_PREDEFINE_H_
