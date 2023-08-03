@@ -185,7 +185,7 @@ def get_features(path, storage):
 def parse_to_toml(path, storages):
     features = {}
     for s in storages:
-        features[f'grin_features_enable_{s}'] = get_features(path, s)
+        features[f'grin_features_enable_{s.lower()}'] = get_features(path, s)
     with open(path / 'template/predefine.h') as f:
         lines = f.readlines()
     macros = []
