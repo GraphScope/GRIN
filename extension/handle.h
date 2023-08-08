@@ -67,8 +67,7 @@ typedef void* GRIN_INDEXED_ADJACENT_LIST;
 
 typedef struct GRIN_INDEXED_ADJACENT_LIST_T {
     GRIN_ADJACENT_LIST_ITERATOR iterator;
-    std::vector<int64_t> dst_internal_ids;
-    std::vector<GRIN_VERTEX_TYPE> dst_vertex_types;
+    std::vector<GRIN_VERTEX> neighbors;
     std::vector<GRIN_EDGE> edges;
     bool cache_built;
 } GRIN_INDEXED_ADJACENT_LIST_T;
