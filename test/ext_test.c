@@ -96,12 +96,50 @@ void test_adjacent_list_chain(const char* uri, GRIN_DIRECTION d) {
   grin_destroy_graph(g);
 }
 
+void test_indexed_adjacent_list(const char* uri) {
+  GRIN_GRAPH g = get_graph(uri, 0);
+  auto vertex_list = grin_get_vertex_list_by_type(g, 0);
+  auto vertex_iter = grin_get_vertex_list_begin(g, vertex_list);
+  while (!grin_is_vertex_list_end(g, vertex_iter)) {
+    auto v = grin_get_vertex_from_iter(g, vertex_iter);
+    GRIN_EDGE_TYPE_LIST etl = grin_get_edge_type_list(g);
+    size_t etl_size = grin_get_edge_type_list_size(g, etl);
+    for (size_t etl_i = 0; etl_i < etl_size; ++etl_i) {
+      auto adj_list = grin_get_adjacent_list_by_edge_type(g, GRIN_DIRECTION::OUT, v, etl_i);
+      auto indexed_adj_list = grin_get_indexed_adjacent_list(g, adj_list);
+      size_t indexed_adj_list_size = grin_get_indexed_adjacent_list_size(g, indexed_adj_list);
+      for (auto idx = 0; idx < indexed_adj_list_size; ++idx) {
+        auto dst_vertex = grin_get_neighbor_from_indexed_adjacent_list(g, indexed_adj_list, idx);
+        auto edge = grin_get_edge_from_indexed_adjacent_list(g, indexed_adj_list, idx);
+        GRIN_VERTEX_TYPE dst_vt = grin_get_vertex_type(g, dst_vertex);
+      #ifdef GRIN_ENABLE_VERTEX_INTERNAL_ID_INDEX
+        long long int v_id = grin_get_vertex_internal_id_by_type(g, dst_vt, dst_vertex);
+        GRIN_EDGE_TYPE et = grin_get_edge_type(g, e);
+        printf("%s %lld %s\n", grin_get_vertex_type_name(g, dst_vertex), v_id,
+               grin_get_edge_type_name(g, et));
+      #endif
+        grin_destroy_vertex(g, dst_vertex);
+        grin_destroy_edge(g, edge);
+      }
+      grin_destroy_adjacent_list(g, adj_list);
+      grin_destroy_indexed_adjacent_list(g, indexed_adj_list);
+    }
+    
+    grin_destroy_vertex(g, v);
+    grin_get_next_vertex_list_iter(g, vertex_iter);
+  }
+  grin_destroy_graph(g);
+}
+
 int main(int argc, char** argv) {
 #if defined(GRIN_WITH_VERTEX_PROPERTY) && defined(GRIN_WITH_EDGE_PROPERTY) && \
     defined(GRIN_WITH_VERTEX_PROPERTY_NAME) && defined(GRIN_WITH_EDGE_PROPERTY_NAME)
   test_vertex_list_chain(argv[1]);
   test_adjacent_list_chain(argv[1], OUT);
   test_adjacent_list_chain(argv[1], IN);
+#endif
+#if defined (GRIN_ENABLE_ADJACENT_LIST_ITERATOR) && !defined(GRIN_ENABLE_ADJACENT_LIST_ARRAY)
+  test_indexed_adjacent_list(argv[1])
 #endif
   return 0;
 }
