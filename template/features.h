@@ -121,6 +121,21 @@ limitations under the License.
 #define GRIN_ENABLE_GRAPH_PARTITION
 
 /** @ingroup PartitionMacros
+ * @brief The storage uses edge-cut partition strategy.
+*/
+#define GRIN_ASSUME_EDGE_CUT_PARTITION
+
+/** @ingroup PartitionMacros
+ * @brief The storage uses vertex-cut partition strategy.
+*/
+#define GRIN_ASSUME_VERTEX_CUT_PARTITION
+
+/** @ingroup PartitionMacros
+ * @brief The storage uses edge-cut partition with static vertices.
+*/
+#define GRIN_ASSUME_WITH_UNIVERSAL_VERTICES
+
+/** @ingroup PartitionMacros
  * @brief The storage provides natural number IDs for partitions.
  * It follows the design of natural number ID trait in GRIN.
 */

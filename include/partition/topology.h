@@ -74,6 +74,18 @@ GRIN_VERTEX_LIST grin_get_vertex_list_by_type_select_partition(GRIN_GRAPH, GRIN_
 #endif
 
 
+#if defined(GRIN_ASSUME_WITH_UNIVERSAL_VERTICES) && !defined(GRIN_WITH_VERTEX_PROPERTY)
+GRIN_VERTEX_LIST grin_get_vertex_list_select_universal(GRIN_GRAPH);
+
+GRIN_VERTEX_LIST grin_get_vertex_list_select_non_universal(GRIN_GRAPH);
+#endif
+
+#if defined(GRIN_ASSUME_WITH_UNIVERSAL_VERTICES) && defined(GRIN_WITH_VERTEX_PROPERTY)
+GRIN_VERTEX_TYPE_LIST grin_get_vertex_type_list_select_universal(GRIN_GRAPH);
+
+GRIN_VERTEX_TYPE_LIST grin_get_vertex_type_list_select_non_universal(GRIN_GRAPH);
+#endif
+
 
 #if defined(GRIN_TRAIT_SELECT_MASTER_FOR_EDGE_LIST) && !defined(GRIN_WITH_EDGE_PROPERTY)
 GRIN_EDGE_LIST grin_get_edge_list_select_master(GRIN_GRAPH);
