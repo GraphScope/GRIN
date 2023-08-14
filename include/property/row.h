@@ -26,6 +26,8 @@ extern "C" {
 #ifdef GRIN_ENABLE_ROW
 void grin_destroy_row(GRIN_GRAPH, GRIN_ROW);
 
+void grin_destroy_row_value_of_string(GRIN_GRAPH, const char*);
+
 int grin_get_int32_from_row(GRIN_GRAPH, GRIN_ROW, size_t);
 
 unsigned int grin_get_uint32_from_row(GRIN_GRAPH, GRIN_ROW, size_t);

@@ -41,6 +41,8 @@ long long int grin_get_vertex_external_id_of_int64(GRIN_GRAPH, GRIN_VERTEX);
 #endif
 
 #ifdef GRIN_ENABLE_VERTEX_EXTERNAL_ID_OF_STRING
+void grin_destroy_vertex_external_id_of_string(GRIN_GRAPH, const char*);
+
 /**
  * @brief Get the vertex by external id of string.
  * @param GRIN_GRAPH The graph

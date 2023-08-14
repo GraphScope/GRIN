@@ -23,10 +23,6 @@ extern "C" {
 #define GRIN_INCLUDE_PROPERTY_PROPERTY_H_
 
 
-void grin_destroy_string_value(GRIN_GRAPH, const char*);
-
-void grin_destroy_float_array_value(GRIN_GRAPH, const float*);
-
 #ifdef GRIN_WITH_VERTEX_PROPERTY_NAME
 /**
  * @brief Get the vertex property name
@@ -68,6 +64,10 @@ GRIN_EDGE_PROPERTY_LIST grin_get_edge_properties_by_name(GRIN_GRAPH, const char*
 
 
 #ifdef GRIN_WITH_VERTEX_PROPERTY
+void grin_destroy_vertex_property_value_of_string(GRIN_GRAPH, const char*);
+
+void grin_destroy_vertex_property_value_of_float_array(GRIN_GRAPH, const float*);
+
 bool grin_equal_vertex_property(GRIN_GRAPH, GRIN_VERTEX_PROPERTY, GRIN_VERTEX_PROPERTY);
 
 void grin_destroy_vertex_property(GRIN_GRAPH, GRIN_VERTEX_PROPERTY);
@@ -236,6 +236,10 @@ const void* grin_get_vertex_property_value(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTEX_
 
 
 #ifdef GRIN_WITH_EDGE_PROPERTY
+void grin_destroy_edge_property_value_of_string(GRIN_GRAPH, const char*);
+
+void grin_destroy_edge_property_value_of_float_array(GRIN_GRAPH, const float*);
+
 bool grin_equal_edge_property(GRIN_GRAPH, GRIN_EDGE_PROPERTY, GRIN_EDGE_PROPERTY);
 
 void grin_destroy_edge_property(GRIN_GRAPH, GRIN_EDGE_PROPERTY);

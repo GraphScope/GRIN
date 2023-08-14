@@ -74,19 +74,6 @@ GRIN_VERTEX_LIST grin_get_vertex_list_by_type_select_partition(GRIN_GRAPH, GRIN_
 #endif
 
 
-#if defined(GRIN_ASSUME_WITH_UNIVERSAL_VERTICES) && !defined(GRIN_WITH_VERTEX_PROPERTY)
-GRIN_VERTEX_LIST grin_get_vertex_list_select_universal(GRIN_GRAPH);
-
-GRIN_VERTEX_LIST grin_get_vertex_list_select_non_universal(GRIN_GRAPH);
-#endif
-
-#if defined(GRIN_ASSUME_WITH_UNIVERSAL_VERTICES) && defined(GRIN_WITH_VERTEX_PROPERTY)
-GRIN_VERTEX_TYPE_LIST grin_get_vertex_type_list_select_universal(GRIN_GRAPH);
-
-GRIN_VERTEX_TYPE_LIST grin_get_vertex_type_list_select_non_universal(GRIN_GRAPH);
-#endif
-
-
 #if defined(GRIN_TRAIT_SELECT_MASTER_FOR_EDGE_LIST) && !defined(GRIN_WITH_EDGE_PROPERTY)
 GRIN_EDGE_LIST grin_get_edge_list_select_master(GRIN_GRAPH);
 
@@ -128,6 +115,34 @@ GRIN_ADJACENT_LIST grin_get_adjacent_list_select_partition_neighbor(GRIN_GRAPH, 
 
 #if defined(GRIN_TRAIT_SELECT_NEIGHBOR_PARTITION_FOR_ADJACENT_LIST) && defined(GRIN_WITH_VERTEX_PROPERTY)
 GRIN_ADJACENT_LIST grin_get_adjacent_list_by_edge_type_select_partition_neighbor(GRIN_GRAPH, GRIN_DIRECTION, GRIN_VERTEX, GRIN_EDGE_TYPE, GRIN_PARTITION);
+#endif
+
+// Universal Vertices
+#if defined(GRIN_ASSUME_WITH_UNIVERSAL_VERTICES) && defined(GRIN_WITH_VERTEX_PROPERTY)
+GRIN_VERTEX_TYPE_LIST grin_get_vertex_type_list_select_universal(GRIN_GRAPH);
+
+GRIN_VERTEX_TYPE_LIST grin_get_vertex_type_list_select_non_universal(GRIN_GRAPH);
+
+bool grin_is_vertex_type_unisversal(GRIN_GRAPH, GRIN_VERTEX_TYPE);
+#endif
+
+#if defined(GRIN_ASSUME_WITH_UNIVERSAL_VERTICES) && !defined(GRIN_WITH_VERTEX_PROPERTY) && defined(GRIN_ENABLE_VERTEX_LIST)
+GRIN_VERTEX_LIST grin_get_vertex_list_select_universal(GRIN_GRAPH);
+
+GRIN_VERTEX_LIST grin_get_vertex_list_select_non_universal(GRIN_GRAPH);
+#endif
+
+#if defined(GRIN_ASSUME_WITH_UNIVERSAL_VERTICES) && !defined(GRIN_WITH_VERTEX_PROPERTY) && defined(GRIN_ENABLE_EDGE_LIST) 
+GRIN_EDGE_LIST grin_get_edge_list_select_universal(GRIN_GRAPH);
+
+GRIN_EDGE_LIST grin_get_edge_list_select_non_universal(GRIN_GRAPH);
+#endif
+
+
+#if defined(GRIN_ASSUME_WITH_UNIVERSAL_VERTICES) && !defined(GRIN_WITH_VERTEX_PROPERTY) && defined(GRIN_ENABLE_ADJACENT_LIST)
+GRIN_ADJACENT_LIST grin_get_adjacent_list_select_universal_neighbor(GRIN_GRAPH, GRIN_DIRECTION, GRIN_VERTEX);
+
+GRIN_ADJACENT_LIST grin_get_adjacent_list_select_non_universal_neighbor(GRIN_GRAPH, GRIN_DIRECTION, GRIN_VERTEX);
 #endif
 
 

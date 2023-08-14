@@ -35,14 +35,15 @@ message PartitionStrategy {
         * denoted as v, in the set V to a single partition. 
         * This initial assignment results in the set V_i^m.
         * Next, for each partition i, we place the edges of E(V_i^m) into partition i.
-        * Afterwards, we apply the cut edge partition strategy to place the cut edges, 
+        * Afterwards, we apply the cut edge placement strategies to place the cut edges, 
         * which are edges with endpoints in different partitions, into their respective partitions. 
         * This step generates the set E_i. 
         * It is important to note that if the strategy does not involve replicating the cut edges, 
         * then E_i^m will be equal to E_i.
         * However, if the cut edges are being replicated, then each replicated cut edge 
         * is assigned a master partition to build the set E_i^m.
-        * Finally, by letting V_i equal V(E_i) unions V_i^m, we obtain the final partition.
+        * Finally, by letting V_i equal the union of V(E_i) and V_i^m,
+        * we obtain the final partition.
         */
 
         enum DirectedEdgePlacementStrategy {
@@ -50,22 +51,26 @@ message PartitionStrategy {
             DEPS_TO_SRC = 0;
             // Each edge is placed to the partition of its destination vertex
             DEPS_TO_DST = 1;
-            // Each edge is replicated to both partitions of its source and destination vertices
-            DEPS_REPLICATE_TO_BOTH = 2;
+        }
+
+        message DirectedEdgePlacementStrategies {
+            repeated DirectedEdgePlacementStrategy cut_edge_placement_strategies = 1;
         }
 
         enum UndirectedEdgePlacementStrategy {
             // Each edge is placed to the lower partition of its endpoints
-            UEPS_TO_LOWER = 3;
+            UEPS_TO_LOWER = 0;
             // Each edge is placed to the higher partition of its endpoints
-            UEPS_TO_HIGHER = 4;
-            // Each edge is replicated to both partitions of its endpoints
-            UEPS_REPLICATE_TO_BOTH = 5;
+            UEPS_TO_HIGHER = 1;
+        }
+
+        message UndirectedEdgePlacementStrategies {
+            repeated UndirectedEdgePlacementStrategy cut_edge_placement_strategies = 1;
         }
 
         oneof item {
-            DirectedEdgePlacementStrategy directed_cut_edge_placement_strategy = 1;
-            UndirectedEdgePlacementStrategy undirected_cut_edge_placement_strategy = 2;
+            DirectedEdgePlacementStrategies directed_cut_edge_placement_strategies = 1;
+            UndirectedEdgePlacementStrategies undirected_cut_edge_placement_strategies = 2;
         }
     }
 
@@ -89,8 +94,8 @@ message PartitionStrategy {
 message UniversalVertices {
     /**
     * Universal vertices, denoted as U, are replicated to all partitions. 
-    * Additionally, the edges between them, denoted as E(U), are also replicated
-    * to all partitions. 
+    * Additionally, the edges between them, denoted as E(U), 
+    * are also replicated to all partitions, and we call them universal edges.
     * The process begins by selecting U before the partition. This involves 
     * removing U from V and removing E(U) and CE(U, V) from E, where CE(U, V) 
     * represents the cross edges between U and V.
@@ -108,7 +113,7 @@ message UniversalVertices {
     }
     
     repeated uint32 universal_vertex_type_ids = 1;
-    repeated EdgePlacementStrategy cross_edge_placement_strategy = 2;
+    repeated EdgePlacementStrategy cross_edge_placement_strategies = 2;
 }
 
 enum SparseIndexStrategy {
@@ -140,7 +145,6 @@ enum PropertyPlacementStrategy {
 message Partition {
     repeated PartitionStrategy partition_strategies = 1;
     UniversalVertices universal_vertices = 2;
-
 
     repeated PropertyPlacementStrategy vertex_property_placement_strategies = 3;
     repeated PropertyPlacementStrategy edge_property_placement_strategies = 4;
