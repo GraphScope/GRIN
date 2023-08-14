@@ -69,7 +69,7 @@ Exceptionally, there are three types of values returned by GRIN API calls other 
 
 Users do NOT have to destroy these return values since they are on the ``"stack"``,
 except for the ``const char*`` in property values and serialized values.
-In this case, users have to destroy the string value by using ``grin_destroy_string_value``
+In this case, users have to destroy the string value by using ``grin_destroy_vertex_property_value_of_string``
 and ``grin_destroy_serialized_vertex(edge)_ref``, respectively.
 Note that if the ``const char*`` is returned by a GRIN API call for a name,
 such as a vertex type name or edge property name, users do NOT have to destroy
@@ -111,6 +111,6 @@ Return Value Types  Check Invalid               Destroy Required
 handle              != GRIN_NULL_A              grin_destroy_A
 GRIN enumerates     N/A                         N/A
 Common values       != GRIN_NULL_X              N/A
-Property values     grin_get_last_error_code    grin_destroy_string_value only
+Property values     grin_get_last_error_code    grin_destroy_VE_value_of_string only
 Serialized values   N/A                         grin_destroy_serialized_A_ref only
 =================== =========================== =================

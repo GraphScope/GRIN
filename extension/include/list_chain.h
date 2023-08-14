@@ -84,7 +84,7 @@ GRIN_EDGE grin_get_edge_from_adjacent_list_chain_iter(GRIN_GRAPH, GRIN_ADJACENT_
 GRIN_VERTEX grin_get_neighbor_from_adjacent_list_chain_iter(GRIN_GRAPH, GRIN_ADJACENT_LIST_CHAIN_ITERATOR);
 #endif
 
-#endif // GRIN_EXTENSION_INCLUDE_VERTEX_LIST_CHAIN_H_
+#endif // GRIN_EXTENSION_INCLUDE_LIST_CHAIN_H_
 
 #ifdef __cplusplus
 }

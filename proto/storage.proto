@@ -112,5 +112,6 @@ message StorageFeature {
 }
 
 message StorageFeatures {
-    repeated StorageFeature features = 1;
+    string grin_version = 1;
+    repeated StorageFeature features = 2;
 }

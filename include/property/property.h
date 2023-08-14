@@ -165,7 +165,7 @@ double grin_get_vertex_property_value_of_double(GRIN_GRAPH, GRIN_VERTEX, GRIN_VE
  * User should use ``grin_get_last_error_code()`` to check if the API call
  * is successful.
  * Note that the returned string should be explicitly freed by the user, 
- * by calling API ``grin_destroy_string_value``.
+ * by calling API ``grin_destroy_vertex_property_value_of_string``.
  * @param GRIN_GRAPH The graph
  * @param GRIN_VERTEX The vertex
  * @param GRIN_VERTEX_PROPERTY The vertex property

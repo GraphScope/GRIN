@@ -26,8 +26,8 @@ of a vertex as a row.
             const char* value = grin_get_vertex_property_value_of_string(g, v, vprop);
             const char* value1 = grin_get_string_from_row(g, row, i);
             // use the value
-            grin_destroy_string_value(g, value);
-            grin_destroy_string_value(g, value1);
+            grin_destroy_property_value_of_string(g, value);
+            grin_destroy_row_value_of_string(g, value1);
         } else ...
     }
 

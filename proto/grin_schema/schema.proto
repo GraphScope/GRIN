@@ -9,7 +9,7 @@ import "data_type.proto";
 message Property {
     uint32 property_id = 1;
     string property_name = 2;
-    PrimitiveType property_type = 3;
+    StorageDataType property_type = 3;
     string comment = 4; // description of the property
     bool mandatory = 5; // whether this property is mandatory or optional
 }
