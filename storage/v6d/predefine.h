@@ -63,6 +63,7 @@ typedef enum {
   UNKNOWN_ERROR = 1,         ///< unknown error
   INVALID_VALUE = 2,         ///< invalid value
   UNKNOWN_DATATYPE = 3,      ///< unknown datatype
+  NULL_VALUE = 4,            ///< null value
 } GRIN_ERROR_CODE;
 
 /* Define supported macros based on storage features */
