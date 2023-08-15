@@ -12,12 +12,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-
+#include <vector>
 #include "predefine.h"
 
-#include "../include/indexed_adjacent_list.h"
-#include "../handle.h"
-
+#include "indexed_adjacent_list.h"
 #include "property/type.h"
 #include "property/topology.h"
 #include "topology/adjacentlist.h"
@@ -25,6 +23,12 @@ limitations under the License.
 #include "index/internal_id.h"
 
 #if defined (GRIN_ENABLE_ADJACENT_LIST_ITERATOR) && !defined(GRIN_ENABLE_ADJACENT_LIST_ARRAY)
+typedef struct GRIN_INDEXED_ADJACENT_LIST_T {
+    GRIN_ADJACENT_LIST_ITERATOR iterator;
+    std::vector<GRIN_VERTEX> neighbors;
+    std::vector<GRIN_EDGE> edges;
+    bool cache_built;
+} GRIN_INDEXED_ADJACENT_LIST_T;
 
 void _prepare_cache_for_indexed_adjacent_list(GRIN_GRAPH g, GRIN_INDEXED_ADJACENT_LIST indexed_adj_list) {
     auto _indexed_adj_list = static_cast<GRIN_INDEXED_ADJACENT_LIST_T*>(indexed_adj_list);
