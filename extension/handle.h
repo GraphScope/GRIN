@@ -62,6 +62,10 @@ typedef struct GRIN_ADJACENT_LIST_CHAIN_ITERATOR_T {
 typedef void* GRIN_ADJACENT_LIST_CHAIN_ITERATOR;
 #endif
 
+#if defined (GRIN_ENABLE_ADJACENT_LIST_ITERATOR) && !defined(GRIN_ENABLE_ADJACENT_LIST_ARRAY)
+typedef void* GRIN_INDEXED_ADJACENT_LIST;
+#endif
+
 #endif // GRIN_EXTENSION_HANDLE_H_
 
 #ifdef __cplusplus
