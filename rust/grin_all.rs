@@ -47,6 +47,8 @@ pub const GRIN_ERROR_CODE_UNKNOWN_ERROR: GRIN_ERROR_CODE = 1;
 pub const GRIN_ERROR_CODE_INVALID_VALUE: GRIN_ERROR_CODE = 2;
 #[doc = "< unknown datatype"]
 pub const GRIN_ERROR_CODE_UNKNOWN_DATATYPE: GRIN_ERROR_CODE = 3;
+#[doc = "< null value"]
+pub const GRIN_ERROR_CODE_NULL_VALUE: GRIN_ERROR_CODE = 4;
 #[doc = " Enumerates the error codes of grin"]
 pub type GRIN_ERROR_CODE = ::std::os::raw::c_uint;
 pub type GRIN_GRAPH = *mut ::std::os::raw::c_void;
@@ -545,12 +547,6 @@ extern "C" {
     pub fn grin_get_edge_primary_keys_row(arg1: GRIN_GRAPH, arg2: GRIN_EDGE) -> GRIN_ROW;
 }
 extern "C" {
-    pub fn grin_destroy_string_value(arg1: GRIN_GRAPH, arg2: *const ::std::os::raw::c_char);
-}
-extern "C" {
-    pub fn grin_destroy_float_array_value(arg1: GRIN_GRAPH, arg2: *const f32);
-}
-extern "C" {
     #[doc = " @brief Get the vertex property name\n @param GRIN_GRAPH The graph\n @param GRIN_VERTEX_TYPE The vertex type that the property belongs to\n @param GRIN_VERTEX_PROPERTY The vertex property\n @return The property's name as string"]
     pub fn grin_get_vertex_property_name(
         arg1: GRIN_GRAPH,
@@ -592,6 +588,19 @@ extern "C" {
         arg1: GRIN_GRAPH,
         name: *const ::std::os::raw::c_char,
     ) -> GRIN_EDGE_PROPERTY_LIST;
+}
+extern "C" {
+    pub fn grin_destroy_vertex_property_value_of_string(
+        arg1: GRIN_GRAPH,
+        arg2: *const ::std::os::raw::c_char,
+    );
+}
+extern "C" {
+    pub fn grin_destroy_vertex_property_value_of_float_array(
+        arg1: GRIN_GRAPH,
+        arg2: *const f32,
+        arg3: usize,
+    );
 }
 extern "C" {
     pub fn grin_equal_vertex_property(
@@ -659,7 +668,7 @@ extern "C" {
     ) -> f64;
 }
 extern "C" {
-    #[doc = " @brief Get the value of string, given a vertex and a vertex property.\n The user should make sure the vertex property is of datatype string.\n The return int has no predefined invalid value.\n User should use ``grin_get_last_error_code()`` to check if the API call\n is successful.\n Note that the returned string should be explicitly freed by the user,\n by calling API ``grin_destroy_string_value``.\n @param GRIN_GRAPH The graph\n @param GRIN_VERTEX The vertex\n @param GRIN_VERTEX_PROPERTY The vertex property\n @return The value of the property"]
+    #[doc = " @brief Get the value of string, given a vertex and a vertex property.\n The user should make sure the vertex property is of datatype string.\n The return int has no predefined invalid value.\n User should use ``grin_get_last_error_code()`` to check if the API call\n is successful.\n Note that the returned string should be explicitly freed by the user,\n by calling API ``grin_destroy_vertex_property_value_of_string``.\n @param GRIN_GRAPH The graph\n @param GRIN_VERTEX The vertex\n @param GRIN_VERTEX_PROPERTY The vertex property\n @return The value of the property"]
     pub fn grin_get_vertex_property_value_of_string(
         arg1: GRIN_GRAPH,
         arg2: GRIN_VERTEX,
@@ -696,6 +705,7 @@ extern "C" {
         arg1: GRIN_GRAPH,
         arg2: GRIN_VERTEX,
         arg3: GRIN_VERTEX_PROPERTY,
+        arg4: *mut usize,
     ) -> *const f32;
 }
 extern "C" {
@@ -711,6 +721,19 @@ extern "C" {
         arg2: GRIN_VERTEX,
         arg3: GRIN_VERTEX_PROPERTY,
     ) -> *const ::std::os::raw::c_void;
+}
+extern "C" {
+    pub fn grin_destroy_edge_property_value_of_string(
+        arg1: GRIN_GRAPH,
+        arg2: *const ::std::os::raw::c_char,
+    );
+}
+extern "C" {
+    pub fn grin_destroy_edge_property_value_of_float_array(
+        arg1: GRIN_GRAPH,
+        arg2: *const f32,
+        arg3: usize,
+    );
 }
 extern "C" {
     pub fn grin_equal_edge_property(
@@ -803,6 +826,7 @@ extern "C" {
         arg1: GRIN_GRAPH,
         arg2: GRIN_EDGE,
         arg3: GRIN_EDGE_PROPERTY,
+        arg4: *mut usize,
     ) -> *const f32;
 }
 extern "C" {
@@ -918,6 +942,12 @@ extern "C" {
     pub fn grin_destroy_row(arg1: GRIN_GRAPH, arg2: GRIN_ROW);
 }
 extern "C" {
+    pub fn grin_destroy_row_value_of_string(arg1: GRIN_GRAPH, arg2: *const ::std::os::raw::c_char);
+}
+extern "C" {
+    pub fn grin_destroy_row_value_of_float_array(arg1: GRIN_GRAPH, arg2: *const f32, arg3: usize);
+}
+extern "C" {
     pub fn grin_get_int32_from_row(
         arg1: GRIN_GRAPH,
         arg2: GRIN_ROW,
@@ -984,6 +1014,7 @@ extern "C" {
         arg1: GRIN_GRAPH,
         arg2: GRIN_ROW,
         arg3: usize,
+        arg4: *mut usize,
     ) -> *const f32;
 }
 extern "C" {
@@ -1386,8 +1417,12 @@ extern "C" {
     pub fn grin_get_last_error_code() -> GRIN_ERROR_CODE;
 }
 extern "C" {
-    #[doc = " @brief Get the static feature prototype message of the storage.\n This proto describes the features of the storage, such as whether\n it supports property graph or partitioned graph.\n @return The serialized proto message."]
-    pub fn grin_get_static_storage_feature_msg() -> *const ::std::os::raw::c_char;
+    pub fn grin_destroy_msg(msg: *const ::std::os::raw::c_char);
+}
+extern "C" {
+    pub fn grin_get_graph_schema_msg(
+        uri: *const ::std::os::raw::c_char,
+    ) -> *const ::std::os::raw::c_char;
 }
 extern "C" {
     #[doc = " GRIN_FEATURES_ENABLE_ALL\n RUST_KEEP pub const GRIN_NULL_DATATYPE: GrinDatatype = GRIN_DATATYPE_UNDEFINED;\n RUST_KEEP pub const GRIN_NULL_GRAPH: GrinGraph = std::ptr::null_mut();\n RUST_KEEP pub const GRIN_NULL_VERTEX: GrinVertex = std::ptr::null_mut();\n RUST_KEEP pub const GRIN_NULL_EDGE: GrinEdge = std::ptr::null_mut();\n RUST_KEEP pub const GRIN_NULL_VERTEX_DATA: GrinVertexData = std::ptr::null_mut();\n RUST_KEEP pub const GRIN_NULL_VERTEX_LIST: GrinVertexList = std::ptr::null_mut();\n RUST_KEEP pub const GRIN_NULL_VERTEX_LIST_ITERATOR: GrinVertexListIterator = std::ptr::null_mut();\n RUST_KEEP pub const GRIN_NULL_ADJACENT_LIST: GrinAdjacentList = std::ptr::null_mut();\n RUST_KEEP pub const GRIN_NULL_ADJACENT_LIST_ITERATOR: GrinAdjacentListIterator = std::ptr::null_mut();\n RUST_KEEP pub const GRIN_NULL_EDGE_DATA: GrinEdgeData = std::ptr::null_mut();\n RUST_KEEP pub const GRIN_NULL_EDGE_LIST: GrinEdgeList = std::ptr::null_mut();\n RUST_KEEP pub const GRIN_NULL_EDGE_LIST_ITERATOR: GrinEdgeListIterator = std::ptr::null_mut();\n RUST_KEEP pub const GRIN_NULL_PARTITIONED_GRAPH: GrinPartitionedGraph = std::ptr::null_mut();\n RUST_KEEP pub const GRIN_NULL_PARTITION: GrinPartition = std::ptr::null_mut();\n RUST_KEEP pub const GRIN_NULL_PARTITION_LIST: GrinPartitionList = std::ptr::null_mut();\n RUST_KEEP pub const GRIN_NULL_PARTITION_ID: GrinPartitionId = u32::MAX;\n RUST_KEEP pub const GRIN_NULL_VERTEX_REF: GrinVertexRef = std::ptr::null_mut();\n RUST_KEEP pub const GRIN_NULL_EDGE_REF: GrinEdgeRef = std::ptr::null_mut();\n RUST_KEEP pub const GRIN_NULL_VERTEX_TYPE: GrinVertexType = std::ptr::null_mut();\n RUST_KEEP pub const GRIN_NULL_VERTEX_TYPE_LIST: GrinVertexTypeList = std::ptr::null_mut();\n RUST_KEEP pub const GRIN_NULL_VERTEX_PROPERTY: GrinVertexProperty = std::ptr::null_mut();\n RUST_KEEP pub const GRIN_NULL_VERTEX_PROPERTY_LIST: GrinVertexPropertyList = std::ptr::null_mut();\n RUST_KEEP pub const GRIN_NULL_VERTEX_TYPE_ID: GrinVertexTypeId = u32::MAX;\n RUST_KEEP pub const GRIN_NULL_VERTEX_PROPERTY_ID: GrinVertexPropertyId = u32::MAX;\n RUST_KEEP pub const GRIN_NULL_EDGE_TYPE: GrinEdgeType = std::ptr::null_mut();\n RUST_KEEP pub const GRIN_NULL_EDGE_TYPE_LIST: GrinEdgeTypeList = std::ptr::null_mut();\n RUST_KEEP pub const GRIN_NULL_EDGE_PROPERTY: GrinEdgeProperty = std::ptr::null_mut();\n RUST_KEEP pub const GRIN_NULL_EDGE_PROPERTY_LIST: GrinEdgePropertyList = std::ptr::null_mut();\n RUST_KEEP pub const GRIN_NULL_EDGE_TYPE_ID: GrinEdgeTypeId = u32::MAX;\n RUST_KEEP pub const GRIN_NULL_EDGE_PROPERTY_ID: GrinEdgePropertyId = u32::MAX;\n RUST_KEEP pub const GRIN_NULL_ROW: GrinRow = std::ptr::null_mut();\n RUST_KEEP pub const GRIN_NULL_LABEL: GrinLabel = std::ptr::null_mut();\n RUST_KEEP pub const GRIN_NULL_LABEL_LIST: GrinLabelList = std::ptr::null_mut();\n RUST_KEEP pub const GRIN_NULL_SIZE: u32 = u32::MAX;"]
