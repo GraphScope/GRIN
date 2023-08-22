@@ -66,7 +66,7 @@ GRIN_EDGE_PROPERTY_LIST grin_get_edge_properties_by_name(GRIN_GRAPH, const char*
 #ifdef GRIN_WITH_VERTEX_PROPERTY
 void grin_destroy_vertex_property_value_of_string(GRIN_GRAPH, const char*);
 
-void grin_destroy_vertex_property_value_of_float_array(GRIN_GRAPH, const float*);
+void grin_destroy_vertex_property_value_of_float_array(GRIN_GRAPH, const float*, size_t);
 
 bool grin_equal_vertex_property(GRIN_GRAPH, GRIN_VERTEX_PROPERTY, GRIN_VERTEX_PROPERTY);
 
@@ -219,7 +219,7 @@ long long int grin_get_vertex_property_value_of_timestamp64(GRIN_GRAPH, GRIN_VER
  * Note that the returned float pointer should be explicitly freed by the user,
  * by calling API ``grin_destroy_float_array_value``.
 */
-const float* grin_get_vertex_property_value_of_float_array(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
+const float* grin_get_vertex_property_value_of_float_array(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTEX_PROPERTY, size_t**);
 
 /**
  * @brief Get the vertex type that a given vertex property belongs to.
@@ -238,7 +238,7 @@ const void* grin_get_vertex_property_value(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTEX_
 #ifdef GRIN_WITH_EDGE_PROPERTY
 void grin_destroy_edge_property_value_of_string(GRIN_GRAPH, const char*);
 
-void grin_destroy_edge_property_value_of_float_array(GRIN_GRAPH, const float*);
+void grin_destroy_edge_property_value_of_float_array(GRIN_GRAPH, const float*, size_t);
 
 bool grin_equal_edge_property(GRIN_GRAPH, GRIN_EDGE_PROPERTY, GRIN_EDGE_PROPERTY);
 
@@ -266,7 +266,7 @@ int grin_get_edge_property_value_of_time32(GRIN_GRAPH, GRIN_EDGE, GRIN_EDGE_PROP
 
 long long int grin_get_edge_property_value_of_timestamp64(GRIN_GRAPH, GRIN_EDGE, GRIN_EDGE_PROPERTY);
 
-const float* grin_get_edge_property_value_of_float_array(GRIN_GRAPH, GRIN_EDGE, GRIN_EDGE_PROPERTY);
+const float* grin_get_edge_property_value_of_float_array(GRIN_GRAPH, GRIN_EDGE, GRIN_EDGE_PROPERTY, size_t**);
 
 GRIN_EDGE_TYPE grin_get_edge_type_from_property(GRIN_GRAPH, GRIN_EDGE_PROPERTY);
 #endif

@@ -48,7 +48,7 @@ int grin_get_time32_from_row(GRIN_GRAPH, GRIN_ROW, size_t);
 
 long long int grin_get_timestamp64_from_row(GRIN_GRAPH, GRIN_ROW, size_t);
 
-const float* grin_get_float_array_from_row(GRIN_GRAPH, GRIN_ROW, size_t);
+const float* grin_get_float_array_from_row(GRIN_GRAPH, GRIN_ROW, size_t, size_t**);
 
 /**
  * @brief Create a row.
