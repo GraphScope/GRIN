@@ -28,6 +28,8 @@ void grin_destroy_row(GRIN_GRAPH, GRIN_ROW);
 
 void grin_destroy_row_value_of_string(GRIN_GRAPH, const char*);
 
+void grin_destroy_row_value_of_float_array(GRIN_GRAPH, const float*, size_t);
+
 int grin_get_int32_from_row(GRIN_GRAPH, GRIN_ROW, size_t);
 
 unsigned int grin_get_uint32_from_row(GRIN_GRAPH, GRIN_ROW, size_t);
