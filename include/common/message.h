@@ -23,7 +23,7 @@ extern "C" {
 #define GRIN_INCLUDE_COMMON_MESSAGE_H_
 
 #ifdef GRIN_ENABLE_SCHEMA
-void grin_destroy_msg(const char* msg);
+void grin_destroy_graph_schema_msg(const char* msg);
 
 const char* grin_get_graph_schema_msg(const char* uri);
 #endif

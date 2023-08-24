@@ -22,6 +22,8 @@ extern "C" {
 
 #include "../handle.h"
 
+void grin_destroy_static_storage_feature_msg(const char* msg);
+
 const char* grin_get_static_storage_feature_msg();
 
 #endif // GRIN_EXTENSION_INCLUDE_STATIC_MESSAGE_H_

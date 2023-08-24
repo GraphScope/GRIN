@@ -16,6 +16,10 @@ limitations under the License.
 #include "list_chain.h"
 #include "storage.pb.h"
 
+void grin_destroy_static_storage_feature_msg(const char* msg) {
+  delete[] msg;
+}
+
 const char* grin_get_static_storage_feature_msg() {
   grin::StorageFeatures s;
   s.set_grin_version("0.1.4");

@@ -138,7 +138,7 @@ GRIN_EDGE_PROPERTY_ID grin_get_edge_property_id(GRIN_GRAPH, GRIN_EDGE_TYPE, GRIN
 #endif
 
 
-#if !defined(GRIN_STRICT_LOOSE_SCHEMA) && defined(GRIN_WITH_EDGE_PROPERTY)
+#if !defined(GRIN_ENABLE_SCHEMA) && defined(GRIN_WITH_EDGE_PROPERTY)
 GRIN_EDGE_PROPERTY_LIST grin_get_edge_property_list(GRIN_GRAPH, GRIN_EDGE);
 
 const char* grin_get_edge_property_name(GRIN_GRAPH, GRIN_EDGE, GRIN_EDGE_PROPERTY);
