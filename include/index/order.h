@@ -12,7 +12,8 @@ limitations under the License.
 
 /**
  @file order.h
- @brief Define the vertex ordering predicate APIs
+ @brief Define the vertex ordering predicate APIs, this header file
+ will be deprecated in the future
 */
 
 #ifdef __cplusplus

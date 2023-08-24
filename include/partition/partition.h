@@ -65,6 +65,13 @@ bool grin_equal_partition(GRIN_PARTITIONED_GRAPH, GRIN_PARTITION, GRIN_PARTITION
 
 void grin_destroy_partition(GRIN_PARTITIONED_GRAPH, GRIN_PARTITION);
 
+/**
+ * @brief Get the partition info of a partition.
+ * This api will be deprecated in the future.
+ * @param GRIN_PARTITIONED_GRAPH The partitioned graph.
+ * @param GRIN_PARTITION The partition of the graph.
+ * @return The partition info.
+*/
 const void* grin_get_partition_info(GRIN_PARTITIONED_GRAPH, GRIN_PARTITION);
 
 /**

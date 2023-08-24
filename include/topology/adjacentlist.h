@@ -21,11 +21,12 @@ extern "C" {
 #define GRIN_INCLUDE_TOPOLOGY_ADJACENTLIST_H_
 
 
-#if defined(GRIN_ENABLE_ADJACENT_LIST) && !defined(GRIN_WITH_EDGE_PROPERTY)
+#if defined(GRIN_ENABLE_ADJACENT_LIST) && !defined(GRIN_ENABLE_SCHEMA)
 /**
  * @brief Get the adjacent list of a vertex.
- * This API is only available when the graph has no edge property.
- * Otherwise, use ``grin_get_adjacent_list_by_edge_type`` instead.
+ * This API is only available when schema is not enabled.
+ * Otherwise, use ``grin_get_adjacent_list_by_edge_type`` instead,
+ * or consider ``adjacent_list_chain`` in GRIN extension.
  * @param GRIN_GRAPH The graph.
  * @param GRIN_DIRECTION The direction of the adjacent list.
  * @param GRIN_VERTEX The vertex.

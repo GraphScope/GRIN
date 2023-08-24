@@ -22,9 +22,11 @@ extern "C" {
 #ifndef GRIN_INCLUDE_COMMON_MESSAGE_H_
 #define GRIN_INCLUDE_COMMON_MESSAGE_H_
 
+#ifdef GRIN_ENABLE_SCHEMA
 void grin_destroy_msg(const char* msg);
 
 const char* grin_get_graph_schema_msg(const char* uri);
+#endif
 
 #endif // GRIN_INCLUDE_PROTO_MESSAGE_H_
 

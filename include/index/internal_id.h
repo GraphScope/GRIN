@@ -56,10 +56,11 @@ long long int grin_get_vertex_internal_id_upper_bound(GRIN_GRAPH);
 long long int grin_get_vertex_internal_id_lower_bound(GRIN_GRAPH);
 #endif
 
-#if defined(GRIN_ENABLE_VERTEX_INTERNAL_ID_INDEX) && defined(GRIN_WITH_VERTEX_PROPERTY)
+#if defined(GRIN_ENABLE_VERTEX_INTERNAL_ID_INDEX) && defined(GRIN_ENABLE_SCHEMA)
 /**
- * @brief Get the int64 internal id of a vertex
+ * @brief Get the int64 internal id of a vertex of a type
  * @param GRIN_GRAPH The graph
+ * @param GRIN_VERTEX_TYPE The vertex type
  * @param GRIN_VERTEX The vertex
  * @return The int64 internal id of the vertex
 */

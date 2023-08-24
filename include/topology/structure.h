@@ -56,7 +56,7 @@ bool grin_is_directed(GRIN_GRAPH);
 bool grin_is_multigraph(GRIN_GRAPH);
 #endif
 
-#ifndef GRIN_WITH_VERTEX_PROPERTY
+#ifndef GRIN_ENABLE_SCHEMA
 /**
  * @brief Get the number of vertices in the graph.
  * This API is only available for simple graph.
@@ -64,9 +64,7 @@ bool grin_is_multigraph(GRIN_GRAPH);
  * @return The number of vertices in the graph.
 */
 size_t grin_get_vertex_num(GRIN_GRAPH);
-#endif
 
-#ifndef GRIN_WITH_EDGE_PROPERTY
 /**
  * @brief Get the number of edges in the graph.
  * This API is only available for simple graph.

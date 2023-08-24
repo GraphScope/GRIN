@@ -21,11 +21,13 @@ extern "C" {
 #define GRIN_INCLUDE_TOPOLOGY_VERTEXLIST_H_
 
 
-#if defined(GRIN_ENABLE_VERTEX_LIST) && !defined(GRIN_WITH_VERTEX_PROPERTY)
+#if defined(GRIN_ENABLE_VERTEX_LIST) && !defined(GRIN_ENABLE_SCHEMA)
 /**
  * @brief Get the vertex list of the graph
- * This API is only available for simple graph.
- * In property graph, use ``grin_get_vertex_list_by_type`` instead.
+ * This API is only available when schema is not enabled.
+ * When schema is enabled, use ``grin_get_vertex_list_by_type`` to
+ * get the vertex list of a single vertex type, 
+ * or consider ``vertex_list_chain`` in GRIN extension.
  * @param GRIN_GRAPH The graph.
  * @return The vertex list. 
 */

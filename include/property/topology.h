@@ -23,7 +23,7 @@ extern "C" {
 #define GRIN_INCLUDE_PROPERTY_TOPOLOGY_H_
 
 
-#ifdef GRIN_WITH_VERTEX_PROPERTY
+#ifdef GRIN_ENABLE_SCHEMA
 /**
  * @brief Get the vertex number of a given type in the graph.
  * This API is only available for property graph.
@@ -32,13 +32,11 @@ extern "C" {
  * @return The vertex number.
 */
 size_t grin_get_vertex_num_by_type(GRIN_GRAPH, GRIN_VERTEX_TYPE);
-#endif
 
-#ifdef GRIN_WITH_EDGE_PROPERTY
 size_t grin_get_edge_num_by_type(GRIN_GRAPH, GRIN_EDGE_TYPE);
 #endif
 
-#if defined(GRIN_ENABLE_VERTEX_LIST) && defined(GRIN_WITH_VERTEX_PROPERTY)
+#if defined(GRIN_ENABLE_VERTEX_LIST) && defined(GRIN_ENABLE_SCHEMA)
 /**
  * @brief Get the vertex list of a given type.
  * This API is only available for property graph.
@@ -50,11 +48,11 @@ size_t grin_get_edge_num_by_type(GRIN_GRAPH, GRIN_EDGE_TYPE);
 GRIN_VERTEX_LIST grin_get_vertex_list_by_type(GRIN_GRAPH, GRIN_VERTEX_TYPE);
 #endif
 
-#if defined(GRIN_ENABLE_EDGE_LIST) && defined(GRIN_WITH_EDGE_PROPERTY)
+#if defined(GRIN_ENABLE_EDGE_LIST) && defined(GRIN_ENABLE_SCHEMA)
 GRIN_EDGE_LIST grin_get_edge_list_by_type(GRIN_GRAPH, GRIN_EDGE_TYPE);
 #endif
 
-#if defined(GRIN_ENABLE_ADJACENT_LIST) && defined(GRIN_WITH_EDGE_PROPERTY)
+#if defined(GRIN_ENABLE_ADJACENT_LIST) && defined(GRIN_ENABLE_SCHEMA)
 /**
  * @brief Get the adjacent list of given direction, vertex and edge type.
  * This API is only available for property graph.
