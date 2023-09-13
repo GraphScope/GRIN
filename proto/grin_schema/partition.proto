@@ -134,12 +134,10 @@ enum PropertyPlacementStrategy {
     // Property is placed on universal entities
     PPS_ON_UNIVERSAL = 2;
 
-    // Property is split on master and other entities
-    PPS_SPLIT_MASTER = 3;
-    // Property is split on mirror and other entities
-    PPS_SPLIT_MIRROR = 4;
+    // Property is split on master and mirror entities
+    PPS_SPLIT_MASTER_MIRROR = 3;
     // Property is split on universal entities
-    PPS_SPLIT_UNIVERSAL = 5;
+    PPS_SPLIT_UNIVERSAL = 4;
 }
 
 message Partition {

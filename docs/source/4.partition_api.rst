@@ -1,5 +1,141 @@
-Partition APIs
---------------
+Partitioned Graph and APIs
+============================
+When processing large-scale graphs that cannot fit into a single machine, 
+it is common to partition the graph into multiple subgraphs and process them in parallel. 
+This helps balance the workload and minimize communication costs. 
+There are various partition strategies available, such as edgecut and vertexcut, 
+each with the goal of achieving similar-sized subgraphs and reducing cross-partition vertices and edges.
+
+However, different partition strategies can lead to different topology placement features, 
+which makes it difficult for users to write portable graph algorithms. 
+To address this issue, GRIN provides a unified partitioned graph paradigm. 
+This paradigm allows users to represent partitioned graphs with different partition strategies. 
+By using this paradigm, users can easily determine the topology placement for graphs and property placement for LPGs. 
+
+To better understand this concept, let's start by defining some key concepts related to partitions. 
+We will then introduce the corresponding APIs that can be used to work with partitioned graphs.
+
+Partition Strategy 
+-------------------
+
+A partition :math:`P` divides the graph :math:`G` into :math:`p` partitions. 
+Let :math:`V_i` and :math:`E_i` represent the sets of vertices and edges in partition :math:`i`, 
+and let :math:`V_i^M` and :math:`E_i^M` represent the master sets of vertices and edges in partition :math:`i`. 
+The partition is valid if it satisfies these conditions:
+
+- :math:`V_i^M` is a subset of :math:`V_i`.
+- :math:`E_i^M` is a subset of :math:`E_i`.
+- The sets :math:`V_i^M` are disjoint and their union is :math:`V`.
+- The sets :math:`E_i^M` are disjoint and their union is :math:`E`.
+
+Then vertices in :math:`V_i - V_i^M` is denoted as the mirror vertices in partition :math:`i`.
+Similarly, edges in :math:`E_i - E_i^M` are the mirror edges in partition :math:`i`.
+
+A partition strategy is the process of computing :math:`V_i^M`, :math:`E_i^M`, :math:`V_i`, and :math:`E_i`. 
+We say a partition :math:`P` follows a partition strategy if it can be computed using that process. 
+This means a graph partition :math:`P` may follow multiple partition strategies.
+
+Next, we demonstrate the edgecut and vertexcut partition strategies in GRIN.
+We will use :math:`E(V)` to denote the set of edges with both endpoints in :math:`V`,
+and :math:`V(E)` to denote the set of all the endpoints of :math:`E`.
+After that, we introduce the ``universal vertices and edges`` which complements the
+partition strategies with the goal of achieving better performance.
+Finally, we define the ``property placement`` strategies for LPGs.
+
+
+Edgecut
+^^^^^^^
+The edge cut partition strategy begins by assigning each vertex, 
+denoted as :math:`v`, in the set :math:`V` to a single partition. 
+This initial assignment results in the set :math:`V_i^M`.
+Next, for each partition :math:`i`, we place the edges of :math:`E(V_i^M)` into partition :math:`i`.
+Afterwards, we apply the ``cut edge placement`` strategies to place the cut edges, 
+which are edges with endpoints in different partitions, into their respective partitions. 
+This step generates the set :math:`E_i`. 
+It is important to note that if the strategy does not involve replicating the cut edges, 
+then :math:`E_i^M`` will be equal to :math:`E_i`.
+However, if the cut edges are being replicated, then each replicated cut edge 
+is assigned a master partition to build the set :math:`E_i^M`.
+Finally, by letting :math:`V_i` equal the union of :math:`V(E_i)` and :math:`V_i^M`,
+we obtain the final partition.
+
+The cut edge placement strategies for directed graphs are ``following source`` and ``following destination``,
+which means the cut edge can be placed in the partition of its source vertex and destination vertex respectively.
+An edgecut partition strategy can use either of these strategies, or both of them, meaning that
+the cut edges are replicated.
+On the other hand, the cut edge placement strategies for undirected graphs are ``following lower`` and ``following higher``,
+which means the cut edge can be placed in the partition of its endpoints with the lower and higher partition ID respectively.
+
+
+Vertexcut
+^^^^^^^^^^
+The vertex cut partition strategy starts by assigning each edge :math:`e\in E`` 
+to a single partition, resulting in :math:`E_i^M`. 
+We then have :math:`E_i = E_i^M` and :math:`V_i = V(E_i)`. 
+Next, for each zero-degree vertex :math:`z`, we assign a master partition to that vertex.
+Finally, for each vertex :math:`v` that appears in multiple :math:`V_i`, we assign a master 
+partition to that vertex to create :math:`V_i^M`, completing the final partition.
+
+
+Universal Vertices and Edges
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Both edgecut and vertexcut have limitations in handling "super" vertices with extremely large degrees, 
+especially in graphs with power-law degree distribution. 
+The edgecut suffers from workload imbalance, as the partition with "super" vertices will have significantly more edges. 
+On the other hand, the vertexcut loses locality, as different "super" vertices are replicated across different partitions, 
+leading to incomplete neighborhoods of normal vertices.
+
+To address these challenges, GRIN introduces ``universal vertices`` and ``universal edges``, 
+as a complementary to edgecut and vertexcut strategies.
+Universal vertices, denoted as :math:`U`, are vertices replicated to all partitions. 
+Additionally, the edges between them, denoted as :math:`E(U)`, 
+are also replicated to all partitions, and we call them universal edges.
+
+The partition strategy with universal vertice and edges involved begins by selecting :math:`U`` out of :math:`V`. 
+This includes removing :math:`U`` from :math:`V`` and removing :math:`E(U)` and :math:`CE(U, V)` from :math:`E`, 
+where :math:`CE(U, V)` represents the cross edges between :math:`U` and :math:`V`.
+Next, the remaining vertices :math:`V'` and edges :math:`E'` are partitioned based on the partition strategy.
+Following this, each cross edge :math:`e` in :math:`CE(U, V)` is placed based on the 
+``cross edge placement`` strategy, and :math:`E'_i`` is updated accordingly. 
+If replication is involved during the placement process, a master partition 
+is assigned to each cross edge, and :math:`E'_i^M` is updated. 
+This results a valid partition on :math:`V - U` and :math:`E - E(U)`.
+Finally, the partition is augmented by adding :math:`U` and :math:`E(U)` 
+to each :math:`V'_i` and :math:`E'_i` respectively.
+It is important to note that universal vertices and edges are replicated to all partitions, 
+and thus do not have their master partitions.
+
+The cross edge placement strategies includes:
+
+- ``follow master``: this means the cross edge is placed to the master partition of its non-universal endpoint
+- ``follow mirror``: this means the cross edge is placed to the mirror partition of its non-universal endpoint
+- ``follow universal``: this means the cross edge is replicated to all partitions
+
+The most commonly used cross edge placement strategy is ``follow master``,
+but a partition strategy may use more than one strategy simultaneously.
+For example, using ``follow master`` and ``follow mirror`` together means that 
+the cross edge is replicated to all the partitions of its non-universal endpoint.
+
+
+
+Property Placement
+^^^^^^^^^^^^^^^^^^^^
+Property placement is the process of assigning properties to vertices and edges that
+have been replicated to multiple partitions. The propety placement strategies are:
+
+- ``on master``: this means the property is only placed on the master partition of non-universal vertices or edges
+- ``on mirror``: this means the property is only placed on the mirror partition of non-universal vertices or edges
+- ``on universal``: this means the property is replicated to all partitions
+- ``split master mirror``: this means the property is split among master and mirror partitions of non-universal vertices or edges
+- ``split universal``: this means the property is split among all partitions
+
+
+APIs
+-----
+
+Partition List
+^^^^^^^^^^^^^^^
+
 
 Vertex Reference
 ^^^^^^^^^^^^^^^^
@@ -62,3 +198,7 @@ GRIN provides related APIS to handle this if corresponding traits are defined.
     #endif
 
     grin_destroy_vertex_list(g, vlist);
+
+
+Topology
+^^^^^^^^^
