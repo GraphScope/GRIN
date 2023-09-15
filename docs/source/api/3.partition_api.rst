@@ -53,7 +53,7 @@ Afterwards, we apply the ``cut edge placement`` strategies to place the cut edge
 which are edges with endpoints in different partitions, into their respective partitions. 
 This step generates the set :math:`E_i`. 
 It is important to note that if the strategy does not involve replicating the cut edges, 
-then :math:`E_i^M`` will be equal to :math:`E_i`.
+then :math:`E_i^M` will be equal to :math:`E_i`.
 However, if the cut edges are being replicated, then each replicated cut edge 
 is assigned a master partition to build the set :math:`E_i^M`.
 Finally, by letting :math:`V_i` equal the union of :math:`V(E_i)` and :math:`V_i^M`,
@@ -69,7 +69,7 @@ which means the cut edge can be placed in the partition of its endpoints with th
 
 Vertexcut
 ^^^^^^^^^^
-The vertex cut partition strategy starts by assigning each edge :math:`e\in E`` 
+The vertex cut partition strategy starts by assigning each edge :math:`e\in E` 
 to a single partition, resulting in :math:`E_i^M`. 
 We then have :math:`E_i = E_i^M` and :math:`V_i = V(E_i)`. 
 Next, for each zero-degree vertex :math:`z`, we assign a master partition to that vertex.
@@ -91,14 +91,14 @@ Universal vertices, denoted as :math:`U`, are vertices replicated to all partiti
 Additionally, the edges between them, denoted as :math:`E(U)`, 
 are also replicated to all partitions, and we call them universal edges.
 
-The partition strategy with universal vertice and edges involved begins by selecting :math:`U`` out of :math:`V`. 
+The partition strategy with universal vertice and edges involved begins by selecting :math:`U` out of :math:`V`. 
 This includes removing :math:`U`` from :math:`V`` and removing :math:`E(U)` and :math:`CE(U, V)` from :math:`E`, 
 where :math:`CE(U, V)` represents the cross edges between :math:`U` and :math:`V`.
 Next, the remaining vertices :math:`V'` and edges :math:`E'` are partitioned based on the partition strategy.
 Following this, each cross edge :math:`e` in :math:`CE(U, V)` is placed based on the 
-``cross edge placement`` strategy, and :math:`E'_i`` is updated accordingly. 
+``cross edge placement`` strategy, and :math:`E'_i` is updated accordingly. 
 If replication is involved during the placement process, a master partition 
-is assigned to each cross edge, and :math:`E'_i^M` is updated. 
+is assigned to each cross edge, and :math:`{E'}_i^M` is updated. 
 This results a valid partition on :math:`V - U` and :math:`E - E(U)`.
 Finally, the partition is augmented by adding :math:`U` and :math:`E(U)` 
 to each :math:`V'_i` and :math:`E'_i` respectively.
@@ -142,8 +142,8 @@ have been replicated to multiple partitions. The propety placement strategies ar
 
 
 
-APIs
------
+Partition APIs
+---------------
 
 With the understanding of concepts like ``universal``, ``master`` and ``mirror`` in mind,
 we now introduce the ``partition``-related APIs.
@@ -336,7 +336,7 @@ Then for edge selection in edge list and adjacent list, the APIs are:
 
     GRIN_ADJACENT_LIST grin_get_adjacent_list_select_partition_neighbor(GRIN_GRAPH, GRIN_DIRECTION, GRIN_VERTEX, GRIN_PARTITION);
 
-On the other hand, for LPGs, the selection APIs must narrowed to specific types, due the type-centric data organization of LPGs.
+On the other hand, for LPGs, the selection APIs must be narrowed to specific types, due the type-centric data organization of LPGs.
 The APIs become:
 
 .. code-block:: c 

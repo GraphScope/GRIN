@@ -1,0 +1,108 @@
+Extension APIs
+===============
+
+GRIN Extension offers high-level handles and APIs to provide advanced functionalities,
+with default implementation using basic (low-level) APIs of GRIN.
+Storages may overwrite the default implementation if they can provide more efficient
+implementations.
+
+
+List Chain
+-------------
+As we mentioned in ``Property Graph and APIs``,
+GRIN offers low-level APIs to retrieve the vertex list of a single vertex type for LPGs,
+due to the type-centric data organization of LPG.
+However, in many cases, users need to traverse all the vertices in a LPG.
+Although the user can first iterate all the vertex types and then get the vertex list of each vertex type to traverse, 
+this approach increases boilerplate code.
+
+To address this issue, GRIN extension provides a high-level handle ``GRIN_VERTEX_LIST_CHAIN``,
+which is a chain of vertex lists of all vertex types in a LPG.
+To traverse all the vertices in a LPG, users can first get the vertex list chain from the LPG as follows:
+
+.. code-block:: c 
+
+    GRIN_VERTEX_LIST_CHAIN grin_get_vertex_list_chain_of_all_types(GRIN_GRAPH);
+
+Then iterate the vertex list chain just like a vertex list to get all the vertices using the following APIs:
+
+.. code-block:: c
+
+    GRIN_VERTEX_LIST_CHAIN_ITERATOR grin_get_vertex_list_chain_begin(GRIN_GRAPH, GRIN_VERTEX_LIST_CHAIN);
+
+    void grin_get_next_vertex_list_chain_iter(GRIN_GRAPH, GRIN_VERTEX_LIST_CHAIN_ITERATOR);
+
+    bool grin_is_vertex_list_chain_end(GRIN_GRAPH, GRIN_VERTEX_LIST_CHAIN_ITERATOR);
+
+    GRIN_VERTEX grin_get_vertex_from_vertex_list_chain_iter(GRIN_GRAPH, GRIN_VERTEX_LIST_CHAIN_ITERATOR);
+
+Note that we can also select master and mirror vertices from the vertex list chain, like what we do for a vertex list:
+
+.. code-block:: c 
+
+    GRIN_VERTEX_LIST_CHAIN grin_get_vertex_list_chain_of_all_types_select_master(GRIN_GRAPH);
+
+    GRIN_VERTEX_LIST_CHAIN grin_get_vertex_list_chain_of_all_types_select_mirror(GRIN_GRAPH);
+
+GRIN does NOT offer array-like access for a vertex list chain, because it may incur hidden overhead to 
+maintain the array-like access using the basic APIs of GRIN.
+
+Similar APIs are also defined for edge list chain and adjacent list chain. We don't repeat them here.
+
+
+Indexed Adjacent List
+----------------------
+Some storage systems may only provide an iterator for the adjacent list of a
+vertex, which means that array-like access is not available. This limitation
+is often due to efficiency concerns, particularly when the storage system does
+not maintain a continuous memory layout for the adjacent list.
+
+However, in many cases, users need to access the adjacent list of a vertex using
+array-like access, especially during the sampling phase of a GNN (Graph Neural
+Network) algorithm.
+
+To address this issue, the GRIN extension offers a high-level handle called
+"GRIN_INDEXED_ADJACENT_LIST". This handle allows for array-like access to the
+adjacent list of a vertex by temporarily caching the adjacent list in memory.
+
+The APIs are as follows:
+
+.. code-block:: c 
+
+    GRIN_INDEXED_ADJACENT_LIST grin_get_indexed_adjacent_list(GRIN_GRAPH, GRIN_ADJACENT_LIST);
+
+    void grin_destroy_indexed_adjacent_list(GRIN_GRAPH, GRIN_INDEXED_ADJACENT_LIST);
+
+    size_t grin_get_indexed_adjacent_list_size(GRIN_GRAPH, GRIN_INDEXED_ADJACENT_LIST);
+
+    GRIN_VERTEX grin_get_neighbor_from_indexed_adjacent_list(GRIN_GRAPH, GRIN_INDEXED_ADJACENT_LIST, size_t);
+
+    GRIN_EDGE grin_get_edge_from_indexed_adjacent_list(GRIN_GRAPH, GRIN_INDEXED_ADJACENT_LIST, size_t);
+
+
+Static Storage Feature Message
+-------------------------------
+
+C macros are used by GRIN to filter out APIs that storage systems cannot
+handle. In the above example, some storage system may not support array-like access
+to the adjacent list of a vertex. In such a case, the storage system can
+disable the `GRIN_ENABLE_ADJACENT_LIST_ARRAY` macro to exclude the APIs
+related to array-like access of adjacent lists. 
+The selections on macros are referred to
+as the *static storage features* of a storage system.
+
+When users access a storage system through GRIN, they may need to know the
+static storage features of the storage system to adjust their execution plans
+accordingly. GRIN defines the *static storage features* as a proto
+(Protocol Buffer) in `proto/storage.proto` and provides a common API in GRIN
+extension to automatically generate the proto message for the storage
+system.
+
+The API is:
+
+.. code-block:: c 
+
+    const char* grin_get_static_storage_feature_msg();
+
+The returned string is a JSON string that contains the static storage features of the storage system.
+

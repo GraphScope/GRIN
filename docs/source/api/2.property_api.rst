@@ -183,13 +183,13 @@ The data types that GRIN supports and corresponding APIs to get the property val
     // String
     const char* grin_get_vertex_property_value_of_string(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
 
-    // Date32
+    // Date32 (days since 1970-01-01, 0 is 1970-01-01, negative values for dates before 1970-01-01)
     int grin_get_vertex_property_value_of_date32(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
 
-    // Time32
+    // Time32 (seconds since 00:00:00, 0 is 00:00:00)
     int grin_get_vertex_property_value_of_time32(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
 
-    // Timestamp64
+    // Timestamp64 (milliseconds since 1970-01-01 00:00:00 UTC, 0 is 1970-01-01 00:00:00 UTC)
     long long int grin_get_vertex_property_value_of_timestamp64(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
 
     // FloatArray

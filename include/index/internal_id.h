@@ -23,7 +23,7 @@ extern "C" {
 #define GRIN_INCLUDE_INDEX_INTERNAL_ID_H_
 
 
-#if defined(GRIN_ENABLE_VERTEX_INTERNAL_ID_INDEX) && !defined(GRIN_WITH_VERTEX_PROPERTY)
+#if defined(GRIN_ENABLE_VERTEX_INTERNAL_ID_INDEX) && !defined(GRIN_ENABLE_SCHEMA)
 /**
  * @brief Get the int64 internal id of a vertex
  * @param GRIN_GRAPH The graph
