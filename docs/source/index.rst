@@ -61,6 +61,7 @@ Lastly, we provide the developer guide of GRIN for developers to follow.
    api/4.index_api
    api/5.common_api
    api/6.extension_api
+   developer_guide
 
 .. getting_started
 
