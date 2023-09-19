@@ -1,15 +1,15 @@
 <!doctype html>
-<html class="no-js" lang="en">
+<html class="no-js" lang="en" data-content_root="./">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Return Values" href="return_value.html" /><link rel="prev" title="Welcome to GRIN’s documentation!" href="index.html" />
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Graph Topology and APIs" href="api/1.topology_api.html" /><link rel="prev" title="Welcome to GRIN’s documentation!" href="index.html" />
 
-    <!-- Generated with Sphinx 6.2.1 and Furo 2023.03.27 -->
-        <title>Getting Started - GRIN 0.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=fad236701ea90a88636c2a8c73b44ae642ed2a53" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    <!-- Generated with Sphinx 7.2.5 and Furo 2023.09.10 -->
+        <title>Getting Started - GRIN 0.1.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=362ab14a" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
     
     
 
@@ -123,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">GRIN 0.1 documentation</div></a>
+      <a href="index.html"><div class="brand">GRIN 0.1.4 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -146,7 +146,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
-  <span class="sidebar-brand-text">GRIN 0.1 documentation</span>
+  <span class="sidebar-brand-text">GRIN 0.1.4 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -157,13 +157,14 @@
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="return_value.html">Return Values</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api_naming.html">API Naming Rules</a></li>
-<li class="toctree-l1"><a class="reference internal" href="topology_api.html">Topology APIs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="partition_api.html">Partition APIs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="property_api.html">Property APIs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="index_api.html">Index APIs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="extension.html">Extension</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/1.topology_api.html">Graph Topology and APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/2.property_api.html">Property Graph and APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/3.partition_api.html">Partitioned Graph and APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/4.index_api.html">Graph Index and APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/5.common_api.html">Common Functional APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/6.extension_api.html">Extension APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer_guide.html">Developer Guide For Storage Implementors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer_guide.html#developer-guide-for-users">Developer Guide For Users</a></li>
 </ul>
 
 </div>
@@ -199,48 +200,104 @@
         </div>
         <article role="main">
           <section id="getting-started">
-<h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this heading">#</a></h1>
+<h1>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading">#</a></h1>
 <section id="get-graph-from-storage">
-<h2>Get Graph from Storage<a class="headerlink" href="#get-graph-from-storage" title="Permalink to this heading">#</a></h2>
-<p>To use GRIN, the first API we need is to get the graph handle for the graph in storage.
-Here we introduce the <code class="docutils literal notranslate"><span class="pre">get_graph_from_storage</span></code> API.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_GRAPH</span> <span class="n">grin_get_graph_from_storage</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">char</span><span class="o">**</span><span class="p">);</span>
+<h2>Get Graph from Storage<a class="headerlink" href="#get-graph-from-storage" title="Link to this heading">#</a></h2>
+<p>GRIN offers a set of APIs to retrieve graph from storage.
+The first API we need is to get a graph handle for a graph in storage.
+The API is:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_GRAPH</span><span class="w"> </span><span class="nf">grin_get_graph_from_storage</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">uri</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>From the definition, we can see that this API takes two parameters,
-the first one is the number of arguments, and the second one is the arguments.</p>
-<p>The arguments are used to specify the graph in storage.
-Different storage systems may have different ways to specify the graph.</p>
-<p>For example, in Vineyard,
-the first argument is the <code class="docutils literal notranslate"><span class="pre">IPC_socket</span></code> of the Vineyard server,
-and the second argument is the <code class="docutils literal notranslate"><span class="pre">object_id</span></code> of the graph.</p>
+<p>This API takes a URI as its parameter, which is a string that identifies the graph in storage.</p>
+<dl class="simple">
+<dt>Different storage systems may define different required parameters in the URI:</dt><dd><ul class="simple">
+<li><p>gart://{etcd_endpoint}?prefix={etcd_prefix}&amp;version={version}</p></li>
+<li><p>graphar://{yaml_path}?partition_num={partition_num}&amp;strategy={strategy}</p></li>
+<li><p>v6d://{object_id}?ipc_socket={ipc_socket} where ipc_socket is optional.</p></li>
+</ul>
+</dd>
+</dl>
 <p>The return value of this API is a GRIN graph handle.</p>
 </section>
-<section id="partitioned-graph">
-<h2>Partitioned Graph<a class="headerlink" href="#partitioned-graph" title="Permalink to this heading">#</a></h2>
-<p>However in GraphScope, the graphs we often meet are large graphs that are partitioned into multiple fragments.
-GRIN regards them as partitioned graphs and each fragment of a partitioned graph is considered as
-a graph in GRIN.</p>
-<p>To get a partitioned graph, we need to use the <code class="docutils literal notranslate"><span class="pre">get_partitioned_graph_from_storage</span></code> API.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_PARTITIONED_GRAPH</span> <span class="n">grin_get_partitioned_graph_from_storage</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">char</span><span class="o">**</span><span class="p">);</span>
+<section id="handle">
+<h2>Handle<a class="headerlink" href="#handle" title="Link to this heading">#</a></h2>
+<p>A handle is an opaque value that identifies an object in GRIN. The type of a handle is
+predefined by the storage using <code class="docutils literal notranslate"><span class="pre">typedef</span></code> in <code class="docutils literal notranslate"><span class="pre">C</span></code>. For example, the handle type
+<code class="docutils literal notranslate"><span class="pre">GRIN_GRAPH</span></code> we mentioned earlier could be declared as <code class="docutils literal notranslate"><span class="pre">void*</span></code> in some storage
+implementation.</p>
+<p>It is important to note that users should not make any assumptions about the type or
+value of a handle. Handles should be used as input parameters for related APIs to access
+the object they represent.</p>
+<p>For instance, let’s consider an example where we use the mentioned API to obtain a graph
+handle. We can then use this handle to check whether the graph is directed.
+The code is as follows:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="w">  </span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;predefine.h&quot;</span>
+<span class="linenos"> 2</span><span class="w">  </span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;topology/structure.h&quot;</span>
+<span class="linenos"> 3</span>
+<span class="linenos"> 4</span><span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="o">**</span><span class="w"> </span><span class="n">argv</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 5</span><span class="w">      </span><span class="n">GRIN_GRAPH</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">grin_get_graph_from_storage</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">grin_is_directed</span><span class="p">(</span><span class="n">g</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 8</span><span class="w">          </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;The graph is directed&quot;</span><span class="p">);</span>
+<span class="linenos"> 9</span><span class="w">      </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">10</span><span class="w">          </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;The graph is undirected&quot;</span><span class="p">);</span>
+<span class="linenos">11</span><span class="w">      </span><span class="p">}</span>
+<span class="linenos">12</span><span class="w">  </span><span class="p">}</span>
 </pre></div>
 </div>
-<p>The parameters of this API are the same as the <code class="docutils literal notranslate"><span class="pre">get_graph_from_storage</span></code> API.
-The return value of this API is a GRIN partitioned graph handle.</p>
-<p>To further get the graph handle of a specific fragment, we use:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_PARTITIONED_GRAPH</span> <span class="n">pg</span> <span class="o">=</span> <span class="n">grin_get_partitioned_graph_from_storage</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;ipc_socket&quot;</span><span class="p">,</span> <span class="s2">&quot;object_id&quot;</span><span class="p">]);</span>
-<span class="n">GRIN_PARTITION_LIST</span> <span class="n">local_partitions</span> <span class="o">=</span> <span class="n">grin_get_local_partition_list</span><span class="p">(</span><span class="n">pg</span><span class="p">);</span>
-<span class="n">size_t</span> <span class="n">num_partitions</span> <span class="o">=</span> <span class="n">grin_get_partition_list_size</span><span class="p">(</span><span class="n">local_partitions</span><span class="p">);</span>
+<p>In the code snippet, the first line includes the <code class="docutils literal notranslate"><span class="pre">predefine.h</span></code> header file, which contains the
+necessary typedef for <code class="docutils literal notranslate"><span class="pre">GRIN_GRAPH</span></code> and other handles in GRIN. The second line includes the
+<code class="docutils literal notranslate"><span class="pre">topology/structure.h</span></code> header file, which declares the API <code class="docutils literal notranslate"><span class="pre">bool</span> <span class="pre">grin_is_directed(GRIN_GRAPH)</span></code>.
+Moving on, in the fifth line of the <code class="docutils literal notranslate"><span class="pre">main</span></code> function, the graph handle <code class="docutils literal notranslate"><span class="pre">g</span></code> is obtained from the
+storage using a given uri from the command-line. Finally, in the seventh line, we can check whether
+the graph represented by <code class="docutils literal notranslate"><span class="pre">g</span></code> is directed.</p>
+<p>GRIN provides various handle types, each representing a specific graph concept. These handle
+types include graph, vertex, edge, vertex list, edge list, adjacent list, and more. We will introduce
+these handle types in detail when discussing related APIs.</p>
+</section>
+<section id="return-values">
+<h2>Return Values<a class="headerlink" href="#return-values" title="Link to this heading">#</a></h2>
+<p>The most common return values of GRIN APIs are handles. These handles correspond to the resources
+created by the APIs. To free these resources after use, GRIN provides corresponding <code class="docutils literal notranslate"><span class="pre">destroy</span></code> APIs.
+For example, when calling the <code class="docutils literal notranslate"><span class="pre">grin_get_graph_from_storage</span></code> API, a graph handle is returned, which
+can be freed using the <code class="docutils literal notranslate"><span class="pre">grin_destroy_graph</span></code> API. It’s important to note that GRIN APIs are stateless,
+meaning that the responsibility of memory management lies with the users, rather than the storages.</p>
+<p>Some APIs may return values other than handles, such as primitive types like <code class="docutils literal notranslate"><span class="pre">int</span></code> and <code class="docutils literal notranslate"><span class="pre">double</span></code>.
+These values are returned by APIs to get vertex property values and are stored on the <code class="docutils literal notranslate"><span class="pre">stack</span></code>,
+meaning they do not need to be freed. We will provide more
+detailed information about these return values and whether or not there are corresponding
+<code class="docutils literal notranslate"><span class="pre">destroy</span></code> APIs, when discussing related APIs.</p>
+</section>
+<section id="error-handling">
+<h2>Error Handling<a class="headerlink" href="#error-handling" title="Link to this heading">#</a></h2>
+<p>Each handle type also has a <code class="docutils literal notranslate"><span class="pre">invalid</span></code> value that represents an invalid handle.
+For example, the <code class="docutils literal notranslate"><span class="pre">GRIN_GRAPH</span></code> handle type has a <code class="docutils literal notranslate"><span class="pre">invalid</span></code> value denoted as <code class="docutils literal notranslate"><span class="pre">GRIN_NULL_GRAPH</span></code>.
+When the <code class="docutils literal notranslate"><span class="pre">grin_get_graph_from_storage</span></code> API cannot find the graph with the given uri from the storage,
+it returns the <code class="docutils literal notranslate"><span class="pre">GRIN_NULL_GRAPH</span></code> value. This value can be used to check whether the API call is
+successful. An example code snippet is as follows:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;predefine.h&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;topology/structure.h&quot;</span>
 
-<span class="k">if</span> <span class="p">(</span><span class="n">num_partitions</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span> <span class="o">//</span> <span class="n">suppose</span> <span class="n">we</span> <span class="n">have</span> <span class="n">only</span> <span class="n">one</span> <span class="n">local</span> <span class="n">partition</span>
-  <span class="n">GRIN_PARTITION</span> <span class="n">partition</span> <span class="o">=</span> <span class="n">grin_get_partition_from_list</span><span class="p">(</span><span class="n">pg</span><span class="p">,</span> <span class="n">local_partitions</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-  <span class="n">GRIN_GRAPH</span> <span class="n">g</span> <span class="o">=</span> <span class="n">grin_get_local_graph_by_partition</span><span class="p">(</span><span class="n">pg</span><span class="p">,</span> <span class="n">partition</span><span class="p">);</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="o">**</span><span class="w"> </span><span class="n">argv</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">GRIN_GRAPH</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">grin_get_graph_from_storage</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">g</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">GRIN_NULL_GRAPH</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;The graph does not exist&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;The graph exists&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>All these types here with <code class="docutils literal notranslate"><span class="pre">GRIN_</span></code> prefix are GRIN handle types, which are typedefined by the storage.
-Actions should not be taken based on the specific type (e.g., <code class="docutils literal notranslate"><span class="pre">void*</span></code> or <code class="docutils literal notranslate"><span class="pre">int</span></code>) of any handle,
-because different storage may use different types for the same handle.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">GRIN_NULL_GRAPH</span></code> value is also defined in the <code class="docutils literal notranslate"><span class="pre">predefine.h</span></code> header file,
+using a <code class="docutils literal notranslate"><span class="pre">#define</span></code> statetment as follows:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#define GRIN_NULL_GRAPH NULL</span>
+</pre></div>
+</div>
+<p>However, it is hard to define a <code class="docutils literal notranslate"><span class="pre">invalid</span></code> value for primitive types like <code class="docutils literal notranslate"><span class="pre">int</span></code> or <code class="docutils literal notranslate"><span class="pre">double</span></code>.
+Therefore, GRIN uses the <code class="docutils literal notranslate"><span class="pre">error</span> <span class="pre">code</span></code> mechanism to indicate errors for these return value types.
+The details can be found in the <code class="docutils literal notranslate"><span class="pre">Error</span> <span class="pre">Code</span></code> section in <code class="docutils literal notranslate"><span class="pre">Common</span> <span class="pre">Functional</span> <span class="pre">APIs</span></code>.</p>
 </section>
 </section>
 
@@ -249,12 +306,12 @@ because different storage may use different types for the same handle.</p>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="return_value.html">
+          <a class="next-page" href="api/1.topology_api.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Return Values</div>
+                <div class="title">Graph Topology and APIs</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -301,7 +358,9 @@ because different storage may use different types for the same handle.</p>
             <ul>
 <li><a class="reference internal" href="#">Getting Started</a><ul>
 <li><a class="reference internal" href="#get-graph-from-storage">Get Graph from Storage</a></li>
-<li><a class="reference internal" href="#partitioned-graph">Partitioned Graph</a></li>
+<li><a class="reference internal" href="#handle">Handle</a></li>
+<li><a class="reference internal" href="#return-values">Return Values</a></li>
+<li><a class="reference internal" href="#error-handling">Error Handling</a></li>
 </ul>
 </li>
 </ul>
@@ -313,9 +372,9 @@ because different storage may use different types for the same handle.</p>
       
     </aside>
   </div>
-</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
-    <script src="_static/scripts/furo.js"></script>
+</div><script src="_static/documentation_options.js?v=fd825880"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>

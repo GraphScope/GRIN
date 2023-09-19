@@ -1,15 +1,15 @@
 <!doctype html>
-<html class="no-js" lang="en">
+<html class="no-js" lang="en" data-content_root="./">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Index APIs" href="6.index_api.html" /><link rel="prev" title="Partition APIs" href="4.partition_api.html" />
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="prev" title="Graph Topology and APIs" href="3.topology_api.html" />
 
-    <!-- Generated with Sphinx 6.2.1 and Furo 2023.03.27 -->
-        <title>Property APIs - GRIN 0.1.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=fad236701ea90a88636c2a8c73b44ae642ed2a53" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    <!-- Generated with Sphinx 7.2.5 and Furo 2023.09.10 -->
+        <title>Property Graph and APIs - GRIN 0.1.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=362ab14a" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
     
     
 
@@ -156,14 +156,8 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="0.get_started.html">Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="1.return_value.html">Return Values</a></li>
-<li class="toctree-l1"><a class="reference internal" href="2.api_naming.html">API Naming Rules</a></li>
-<li class="toctree-l1"><a class="reference internal" href="3.topology_api.html">Topology APIs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="4.partition_api.html">Partition APIs</a></li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Property APIs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="6.index_api.html">Index APIs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="7.extension.html">Extension</a></li>
+<li class="toctree-l1"><a class="reference internal" href="3.topology_api.html">Graph Topology and APIs</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Property Graph and APIs</a></li>
 </ul>
 
 </div>
@@ -198,48 +192,318 @@
           </label>
         </div>
         <article role="main">
-          <section id="property-apis">
-<h1>Property APIs<a class="headerlink" href="#property-apis" title="Permalink to this heading">#</a></h1>
-<section id="get-vertex-property-value">
-<h2>Get Vertex Property Value<a class="headerlink" href="#get-vertex-property-value" title="Permalink to this heading">#</a></h2>
-<p>GRIN provides APIs to get a single property value of a vertex, as well as all the property values
-of a vertex as a row.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_ROW</span> <span class="n">row</span> <span class="o">=</span> <span class="n">grin_get_vertex_row</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">v</span><span class="p">);</span>
+          <section id="property-graph-and-apis">
+<h1>Property Graph and APIs<a class="headerlink" href="#property-graph-and-apis" title="Link to this heading">#</a></h1>
+<p>A property graph is a commonly used graph abstraction for representing real-world data.
+It allows for properties to be attached to vertices and edges.
+There are two types of property graphs: those that are constrained by a predefined schema,
+and those that are schema-free.</p>
+<p>In the case of a schema-enabled property graph,
+the properties of vertices and edges are defined by a predefined schema.
+GRIN supports this type of property graph and utilizes the Labeled Property Graph (LPG)
+data model to represent it.</p>
+<p>For the schema-enabled case,
+we first introduce the LPG data model and then discuss the APIs
+for accessing the properties of vertices and edges.
+This provides a structured way of working with the properties in the graph.</p>
+<p>On the other hand, a schema-free property graph allows properties to be
+attached to vertices and edges arbitrarily.
+GRIN also supports this type of graph.
+We will then discuss the property APIs for the schema-free case,
+which provide flexibility in working with the properties
+as they can be attached freely without conforming to a predefined schema.</p>
+<section id="labeled-property-graph">
+<h2>Labeled Property Graph<a class="headerlink" href="#labeled-property-graph" title="Link to this heading">#</a></h2>
+<p>GRIN utilizes the Labeled Property Graph (LPG) data model, which is widely used
+by graph computing systems, such as graph databases and graph analytical systems,
+on graph data lakes.</p>
+<p>In this model, a labeled property graph is represented as <span class="math notranslate nohighlight">\(G = (V, E, T_V, T_E, P, L)\)</span>.
+Here, <span class="math notranslate nohighlight">\(V\)</span> is the set of vertices, <span class="math notranslate nohighlight">\(E\)</span> is the set of edges,
+<cite>T_V</cite> is the set of vertex types, <span class="math notranslate nohighlight">\(T_E\)</span> is the set of edge types,
+<cite>P</cite> is the set of properties, and <span class="math notranslate nohighlight">\(L\)</span> is the set of labels.</p>
+<p>Each vertex <span class="math notranslate nohighlight">\(v\)</span> in <span class="math notranslate nohighlight">\(V\)</span> is associated with a vertex type <span class="math notranslate nohighlight">\(t_v\)</span> from <span class="math notranslate nohighlight">\(T_V\)</span>.
+Similarly, each edge <span class="math notranslate nohighlight">\(e\)</span> is associated with an edge type <span class="math notranslate nohighlight">\(t_e\)</span> from <span class="math notranslate nohighlight">\(T_E\)</span>,
+and the graph <span class="math notranslate nohighlight">\(G\)</span> is directed so that each edge has a source and destination vertex.
+A property <span class="math notranslate nohighlight">\(p\)</span> in <span class="math notranslate nohighlight">\(P\)</span> can be either a vertex property specific to a vertex type
+or an edge property specific to an edge type.
+This implies that vertices with the same vertex type have the same set of properties,
+as do edges with the same edge type.
+Moreover, each property <span class="math notranslate nohighlight">\(p\)</span> has a unique name within its respective vertex or
+edge type and a specified data type for its values.</p>
+<p>In addition, each label <span class="math notranslate nohighlight">\(l\)</span> in <span class="math notranslate nohighlight">\(L\)</span> is a distinct string within the graph.
+Every vertex type <span class="math notranslate nohighlight">\(t_v\)</span> has a set of candidate labels <span class="math notranslate nohighlight">\(L(t_v)\)</span> from the set <span class="math notranslate nohighlight">\(L\)</span>,
+and consequently, each vertex can be assigned zero or multiple labels from the
+candidate labels associated with its vertex type.
+We can also apply labels to edge types in the same way as vertex types.</p>
+</section>
+<section id="schema-enabled-property-graph-apis">
+<h2>Schema-enabled Property Graph APIs<a class="headerlink" href="#schema-enabled-property-graph-apis" title="Link to this heading">#</a></h2>
+<p>LPG is a type-centric data model that organizes the properties and labels based on vertex and edge types.
+Thus, we will start by examining the APIs for vertex and edge types.
+After that, we will delve into the APIs related to properties,
+including schema-related functions, value retrieval, and primary key management.
+Additionally, we will cover the APIs for labels.
+Lastly, we will explore the topology APIs designed specifically for schema-enabled property graphs.</p>
+<section id="vertex-and-edge-type">
+<h3>Vertex and Edge Type<a class="headerlink" href="#vertex-and-edge-type" title="Link to this heading">#</a></h3>
+<p>To illustrate the APIs for vertex and edge types, let’s use the example of vertex type.
+The APIs for edge types are similar, so understanding the vertex type APIs will
+give you a good understanding of the edge type APIs too.</p>
+<p>GRIN offers a vertex type list handle, which is used to represent the vertex types.
+This handle allows us to retrieve a vertex type handle using an array-like approach.
+The relevant APIs for this functionality are as follows:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_VERTEX_TYPE_LIST</span><span class="w"> </span><span class="nf">grin_get_vertex_type_list</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">);</span>
 
-<span class="n">GRIN_VERTEX_TYPE</span> <span class="n">vtype</span> <span class="o">=</span> <span class="n">grin_get_vertex_type</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">v</span><span class="p">);</span>
-<span class="n">GRIN_VERTEX_PROPERTY_LIST</span> <span class="n">vpl</span> <span class="o">=</span> <span class="n">grin_get_vertex_property_list_by_type</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">vtype</span><span class="p">);</span>
-<span class="n">size_t</span> <span class="n">vpl_sz</span> <span class="o">=</span> <span class="n">grin_get_vertex_property_list_size</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">vpl</span><span class="p">);</span>
+<span class="kt">size_t</span><span class="w"> </span><span class="nf">grin_get_vertex_type_list_size</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_TYPE_LIST</span><span class="p">);</span>
 
-<span class="k">for</span> <span class="p">(</span><span class="n">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">vpl_sz</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">GRIN_VERTEX_PROPERTY</span> <span class="n">vprop</span> <span class="o">=</span> <span class="n">grin_get_vertex_property_from_list</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">vpl</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>
-    <span class="n">GRIN_DATATYPE</span> <span class="n">dt</span> <span class="o">=</span> <span class="n">grin_get_vertex_property_datatype</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">vprop</span><span class="p">);</span>
+<span class="n">GRIN_VERTEX_TYPE</span><span class="w"> </span><span class="nf">grin_get_vertex_type_from_list</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_TYPE_LIST</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Each vertex type has a unique name, the related APIs are:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="nf">grin_get_vertex_type_name</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_TYPE</span><span class="p">);</span>
 
-    <span class="k">if</span> <span class="p">(</span><span class="n">dt</span> <span class="o">==</span> <span class="n">Int64</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">long</span> <span class="n">long</span> <span class="nb">int</span> <span class="n">value</span> <span class="o">=</span> <span class="n">grin_get_vertex_property_value_of_int64</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">vprop</span><span class="p">);</span>
-        <span class="n">long</span> <span class="n">long</span> <span class="nb">int</span> <span class="n">value1</span> <span class="o">=</span> <span class="n">grin_get_int64_from_row</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>
-        <span class="o">//</span> <span class="n">use</span> <span class="n">the</span> <span class="n">value</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">dt</span> <span class="o">==</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">const</span> <span class="n">char</span><span class="o">*</span> <span class="n">value</span> <span class="o">=</span> <span class="n">grin_get_vertex_property_value_of_string</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">vprop</span><span class="p">);</span>
-        <span class="n">const</span> <span class="n">char</span><span class="o">*</span> <span class="n">value1</span> <span class="o">=</span> <span class="n">grin_get_string_from_row</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>
-        <span class="o">//</span> <span class="n">use</span> <span class="n">the</span> <span class="n">value</span>
-        <span class="n">grin_destroy_string_value</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">value</span><span class="p">);</span>
-        <span class="n">grin_destroy_string_value</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">value1</span><span class="p">);</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="o">...</span>
-<span class="p">}</span>
+<span class="n">GRIN_VERTEX_TYPE</span><span class="w"> </span><span class="nf">grin_get_vertex_type_by_name</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">name</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Also, the vertex types are numbered from 0, denoted as the vertex type ids:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_VERTEX_TYPE_ID</span><span class="w"> </span><span class="nf">grin_get_vertex_type_id</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_TYPE</span><span class="p">);</span>
+
+<span class="n">GRIN_VERTEX_TYPE</span><span class="w"> </span><span class="nf">grin_get_vertex_type_by_id</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_TYPE_ID</span><span class="p">);</span>
 </pre></div>
 </div>
 </section>
+<section id="schema-related-functions">
+<h3>Schema-related Functions<a class="headerlink" href="#schema-related-functions" title="Link to this heading">#</a></h3>
+<p>Properties in LPG are organized based on vertex and edge types.
+We can get the properties of a vertex type using:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_VERTEX_PROPERTY_LIST</span><span class="w"> </span><span class="nf">grin_get_vertex_property_list_by_type</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_TYPE</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Then this property list handle can be used to retrieve a property handle using an array-like approach:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">size_t</span><span class="w"> </span><span class="nf">grin_get_vertex_property_list_size</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_PROPERTY_LIST</span><span class="p">);</span>
+
+<span class="n">GRIN_VERTEX_PROPERTY</span><span class="w"> </span><span class="nf">grin_get_vertex_property_from_list</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_PROPERTY_LIST</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>And of course, we can get the vertex type that a vertex property belongs to:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_VERTEX_TYPE</span><span class="w"> </span><span class="nf">grin_get_vertex_type_from_property</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_PROPERTY</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Each property is assigned a unique name within its respective type, the related APIs are:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="nf">grin_get_vertex_property_name</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_TYPE</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_PROPERTY</span><span class="p">);</span>
+
+<span class="n">GRIN_VERTEX_PROPERTY</span><span class="w"> </span><span class="nf">grin_get_vertex_property_by_name</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_TYPE</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">name</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>And the vertex type is involved in the parameter list because of the type-centric schema nature of LPG.</p>
+<p>In case to get all the properties with the same name across all the vertex types, use:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_VERTEX_PROPERTY_LIST</span><span class="w"> </span><span class="nf">grin_get_vertex_properties_by_name</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">name</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Properties belonging to the same vertex type are numbered from 0, denoted as the property ids:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_VERTEX_PROPERTY_ID</span><span class="w"> </span><span class="nf">grin_get_vertex_property_id</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_TYPE</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_PROPERTY</span><span class="p">);</span>
+
+<span class="n">GRIN_VERTEX_PROPERTY</span><span class="w"> </span><span class="nf">grin_get_vertex_property_by_id</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_TYPE</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_PROPERTY_ID</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The edge property APIs are very similar to the vertex property APIs, so we will not repeat them here.</p>
+</section>
+<section id="value-retrieval">
+<h3>Value Retrieval<a class="headerlink" href="#value-retrieval" title="Link to this heading">#</a></h3>
+<p>Property values can be retrieved from the property handles as long as the property data type is known.
+The data type of a property can be parsed from the graph schema (see the schema section for details),
+or it can be retrieved directly from the property handle:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_DATATYPE</span><span class="w"> </span><span class="nf">grin_get_vertex_property_datatype</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_PROPERTY</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The data types that GRIN supports and corresponding APIs to get the property values of different data types are listed below:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// Int32</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">grin_get_vertex_property_value_of_int32</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_PROPERTY</span><span class="p">);</span>
+
+<span class="c1">// UInt32</span>
+<span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">grin_get_vertex_property_value_of_uint32</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_PROPERTY</span><span class="p">);</span>
+
+<span class="c1">// Int64</span>
+<span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">grin_get_vertex_property_value_of_int64</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_PROPERTY</span><span class="p">);</span>
+
+<span class="c1">// UInt64</span>
+<span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">grin_get_vertex_property_value_of_uint64</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_PROPERTY</span><span class="p">);</span>
+
+<span class="c1">// Float</span>
+<span class="kt">float</span><span class="w"> </span><span class="nf">grin_get_vertex_property_value_of_float</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_PROPERTY</span><span class="p">);</span>
+
+<span class="c1">// Double</span>
+<span class="kt">double</span><span class="w"> </span><span class="nf">grin_get_vertex_property_value_of_double</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_PROPERTY</span><span class="p">);</span>
+
+<span class="c1">// String</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="nf">grin_get_vertex_property_value_of_string</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_PROPERTY</span><span class="p">);</span>
+
+<span class="c1">// Date32</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">grin_get_vertex_property_value_of_date32</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_PROPERTY</span><span class="p">);</span>
+
+<span class="c1">// Time32</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">grin_get_vertex_property_value_of_time32</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_PROPERTY</span><span class="p">);</span>
+
+<span class="c1">// Timestamp64</span>
+<span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">grin_get_vertex_property_value_of_timestamp64</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_PROPERTY</span><span class="p">);</span>
+
+<span class="c1">// FloatArray</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="o">*</span><span class="w"> </span><span class="nf">grin_get_vertex_property_value_of_float_array</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_PROPERTY</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="o">*</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Aside from primitive data types, when the property data type is String, the returned value is a C-style string.
+This means that it is a const pointer to a char array that ends with a null character.
+Also, when the property data type is FloatArray,
+the returned value is a const pointer to a float array.
+In this case, the user should provide a size pointer as the last parameter to receive the size of the array.
+It is important to note that both of these non-primitive types of values should be destroyed after use:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">grin_destroy_vertex_property_value_of_string</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="p">);</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">grin_destroy_vertex_property_value_of_float_array</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The APIs for edge property values are similar to the vertex property value APIs,
+so we will not repeat them here.</p>
+</section>
+<section id="row">
+<h3>Row<a class="headerlink" href="#row" title="Link to this heading">#</a></h3>
+<p>Sometimes we may want to get the all the property values of a vertex in one API call,
+GRIN offers the following API for this purpose:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_ROW</span><span class="w"> </span><span class="nf">grin_get_vertex_row</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The returned <code class="docutils literal notranslate"><span class="pre">GRIN_ROW</span></code> is a row handle to represent the list of values,
+and it can be further used to retrieve the values using an array-like approach:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="nf">grin_get_int32_from_row</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_ROW</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="p">);</span>
+
+<span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">grin_get_uint32_from_row</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_ROW</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="p">);</span>
+
+<span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">grin_get_int64_from_row</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_ROW</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="p">);</span>
+
+<span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">grin_get_uint64_from_row</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_ROW</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="p">);</span>
+
+<span class="kt">float</span><span class="w"> </span><span class="nf">grin_get_float_from_row</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_ROW</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="p">);</span>
+
+<span class="kt">double</span><span class="w"> </span><span class="nf">grin_get_double_from_row</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_ROW</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="p">);</span>
+
+<span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="nf">grin_get_string_from_row</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_ROW</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="p">);</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">grin_get_date32_from_row</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_ROW</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="p">);</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">grin_get_time32_from_row</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_ROW</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="p">);</span>
+
+<span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">grin_get_timestamp64_from_row</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_ROW</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="p">);</span>
+
+<span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="o">*</span><span class="w"> </span><span class="nf">grin_get_float_array_from_row</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_ROW</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="o">*</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Although fetching values from a row handle is less efficient than fetching values from a property handle directly,
+there are cases where we want to hold all the property values of a vertex with one handle.</p>
+</section>
 <section id="primary-key">
-<h2>Primary Key<a class="headerlink" href="#primary-key" title="Permalink to this heading">#</a></h2>
-<p>GRIN explicitly distinguishes the concepts of primary keys and indexing based on primary keys.
-Primary keys are used to identify a vertex or an edge, and just like in relational databases,
-they are unique under a given vertex or edge type.
-Indexing based on primary keys is the ability to find a vertex or an edge by its primary key.
-These two sets of APIs are defined in <code class="docutils literal notranslate"><span class="pre">property/primarykey.h</span></code> and <code class="docutils literal notranslate"><span class="pre">index/pk.h</span></code> respectively.
-Indexing with PK is discussed in the index section.</p>
-<p>Getting the primary key of a vertex is similar to getting the value of a property.
-Users first get a row for the values of PK properties using the API
-<code class="docutils literal notranslate"><span class="pre">grin_get_vertex_primary_keys_row</span></code>, and then get values from the row one-by-one.</p>
+<h3>Primary Key<a class="headerlink" href="#primary-key" title="Link to this heading">#</a></h3>
+<p>Just like in relational databases, primary keys are used to identify a vertex or an edge,
+and particularly in LPG, they are unique under a given vertex or edge type.</p>
+<p>The primary keys of a vertex type is defined as a non-empty subset of the properties belonging
+to the vertex type.
+Users can get such information from the graph schema (see the schema section for details),
+or invoke the following APIs:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_VERTEX_TYPE_LIST</span><span class="w"> </span><span class="nf">grin_get_vertex_types_with_primary_keys</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">);</span>
+
+<span class="n">GRIN_VERTEX_PROPERTY_LIST</span><span class="w"> </span><span class="nf">grin_get_primary_keys_by_vertex_type</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_TYPE</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The first API returns the vertex types that have primary keys defined,
+and the second API returns the primary keys of a given vertex type.</p>
+<p>Also, the values of primary keys can be retrieved as a <code class="docutils literal notranslate"><span class="pre">GRIN_ROW</span></code> from the vertex handle:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_ROW</span><span class="w"> </span><span class="nf">grin_get_vertex_primary_keys_row</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The ability to retrieve vertices or edges from their primary key values are referred as <code class="docutils literal notranslate"><span class="pre">PK</span> <span class="pre">Indexing</span></code>
+in GRIN, which are described in the index section.</p>
+<p>The primary key APIs of edges are very similar to that of the vertices,
+so we will not repeat here.</p>
+</section>
+<section id="label">
+<h3>Label<a class="headerlink" href="#label" title="Link to this heading">#</a></h3>
+<p>Labels are used to annotate vertices and edges.
+In LPG, each vertex type has a set of candidate labels, and they can be fetched using:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_LABEL_LIST</span><span class="w"> </span><span class="nf">grin_get_label_list_by_vertex_type</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_TYPE</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>And each vertex can be assigned zero or multiple labels from the candidate labels associated with its vertex type.
+The labels of a vertex can be retrieved using:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_LABEL_LIST</span><span class="w"> </span><span class="nf">grin_get_label_list_by_vertex</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The returned label list handle can be used to retrieve a label handle using an array-like approach:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">size_t</span><span class="w"> </span><span class="nf">grin_get_label_list_size</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_LABEL_LIST</span><span class="p">);</span>
+
+<span class="n">GRIN_LABEL</span><span class="w"> </span><span class="nf">grin_get_label_from_list</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_LABEL_LIST</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Also, labels have unique names, and can be retrieved directly from their names.
+The name-related APIs are:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="nf">grin_get_label_name</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_LABEL</span><span class="p">);</span>
+
+<span class="n">GRIN_LABEL</span><span class="w"> </span><span class="nf">grin_get_label_by_name</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Similar to primary keys, GRIN refers to the ability to retrieve vertices or edges from their labels as <code class="docutils literal notranslate"><span class="pre">Label</span> <span class="pre">Indexing</span></code>,
+which are described in the index section.</p>
+<p>For edge labels, the APIs are very similar to the vertex label APIs, so we will not repeat them here.</p>
+</section>
+<section id="topology">
+<h3>Topology<a class="headerlink" href="#topology" title="Link to this heading">#</a></h3>
+<p>When schema is enabled, the topology APIs will become a little different from the ones we shown in the <code class="docutils literal notranslate"><span class="pre">Topology</span> <span class="pre">API</span></code>,
+because LPG organizes the graph topology in a type-centric fashion.</p>
+<p>For example, vertex list of a specific vertex type can be retrieved using:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_VERTEX_LIST</span><span class="w"> </span><span class="nf">grin_get_vertex_list_by_type</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_TYPE</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Previously, the vertex list of the entire graph could be fetched directly.
+However, due to the type-centric topology organization of LPG, this is no longer possible.
+Instead, users must now iterate through the vertex types and retrieve the vertex list of each type separately.
+This design choice was made to avoid storages combining the vertex lists of different types under the hood,
+which would result in hidden overhead.
+If users still need a single handle to represent the entire vertex list of LPG,
+they can refer to the <code class="docutils literal notranslate"><span class="pre">list_chain</span></code> section in the <code class="docutils literal notranslate"><span class="pre">GRIN</span> <span class="pre">Extension</span></code> for more information.</p>
+<p>APIs for edge and adjacent lists are also defined in a type-centric fashion, where the edge type must be specified:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_EDGE_LIST</span><span class="w"> </span><span class="nf">grin_get_edge_list_by_type</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_EDGE_TYPE</span><span class="p">);</span>
+
+<span class="n">GRIN_ADJACENT_LIST</span><span class="w"> </span><span class="nf">grin_get_adjacent_list_by_edge_type</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_DIRECTION</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_EDGE_TYPE</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="schema-free-property-graph-apis">
+<h2>Schema-free Property Graph APIs<a class="headerlink" href="#schema-free-property-graph-apis" title="Link to this heading">#</a></h2>
+<section id="property">
+<h3>Property<a class="headerlink" href="#property" title="Link to this heading">#</a></h3>
+<p>In schema-free property graphs, properties can be attached to vertices and edges arbitrarily.
+Thus, the APIs for properties are different from the schema-enabled case.</p>
+<p>To get the property list of a vertex, use:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_VERTEX_PROPERTY_LIST</span><span class="w"> </span><span class="nf">grin_get_vertex_property_list</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>To get the name of a vertex property, use:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="nf">grin_get_vertex_property_name</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_PROPERTY</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>And to get a specific property of a vertex using its name, use:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_VERTEX_PROPERTY</span><span class="w"> </span><span class="nf">grin_get_vertex_property_by_name</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">name</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>However, IDs are not supported as vertex properties in schema-free property graphs
+since vertex properties are considered to be distinct from one another.</p>
+<p>The APIs for edge properties are similar to the vertex property APIs, so we will not repeat them here.</p>
+</section>
+<section id="id1">
+<h3>Label<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<p>Labels in schema-free property graphs are also assigned arbitrarily.
+Thus the APIs to get candidate labels of a vertex or edge type are not enabled for schema-free property graphs.
+Other APIs for labels are the same to the schema-enabled case, so we will not repeat them here.</p>
+</section>
 </section>
 </section>
 
@@ -248,23 +512,15 @@ Users first get a row for the values of PK properties using the API
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="6.index_api.html">
-              <div class="page-info">
-                <div class="context">
-                  <span>Next</span>
-                </div>
-                <div class="title">Index APIs</div>
-              </div>
-              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
-            </a>
-          <a class="prev-page" href="4.partition_api.html">
+          
+          <a class="prev-page" href="3.topology_api.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Partition APIs</div>
+                <div class="title">Graph Topology and APIs</div>
                 
               </div>
             </a>
@@ -298,9 +554,23 @@ Users first get a row for the values of PK properties using the API
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Property APIs</a><ul>
-<li><a class="reference internal" href="#get-vertex-property-value">Get Vertex Property Value</a></li>
+<li><a class="reference internal" href="#">Property Graph and APIs</a><ul>
+<li><a class="reference internal" href="#labeled-property-graph">Labeled Property Graph</a></li>
+<li><a class="reference internal" href="#schema-enabled-property-graph-apis">Schema-enabled Property Graph APIs</a><ul>
+<li><a class="reference internal" href="#vertex-and-edge-type">Vertex and Edge Type</a></li>
+<li><a class="reference internal" href="#schema-related-functions">Schema-related Functions</a></li>
+<li><a class="reference internal" href="#value-retrieval">Value Retrieval</a></li>
+<li><a class="reference internal" href="#row">Row</a></li>
 <li><a class="reference internal" href="#primary-key">Primary Key</a></li>
+<li><a class="reference internal" href="#label">Label</a></li>
+<li><a class="reference internal" href="#topology">Topology</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#schema-free-property-graph-apis">Schema-free Property Graph APIs</a><ul>
+<li><a class="reference internal" href="#property">Property</a></li>
+<li><a class="reference internal" href="#id1">Label</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -312,9 +582,10 @@ Users first get a row for the values of PK properties using the API
       
     </aside>
   </div>
-</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
-    <script src="_static/scripts/furo.js"></script>
+</div><script src="_static/documentation_options.js?v=a58bc63e"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=32e29ea5"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     </body>
 </html>

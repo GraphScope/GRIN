@@ -1,15 +1,15 @@
 <!doctype html>
-<html class="no-js" lang="en">
+<html class="no-js" lang="en" data-content_root="./">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="API Naming Rules" href="2.api_naming.html" /><link rel="prev" title="Getting Started" href="0.get_started.html" />
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" />
 
-    <!-- Generated with Sphinx 6.2.1 and Furo 2023.03.27 -->
+    <!-- Generated with Sphinx 7.2.5 and Furo 2023.09.10 -->
         <title>Return Values - GRIN 0.1.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=fad236701ea90a88636c2a8c73b44ae642ed2a53" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=362ab14a" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
     
     
 
@@ -155,15 +155,9 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="0.get_started.html">Getting Started</a></li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Return Values</a></li>
-<li class="toctree-l1"><a class="reference internal" href="2.api_naming.html">API Naming Rules</a></li>
-<li class="toctree-l1"><a class="reference internal" href="3.topology_api.html">Topology APIs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="4.partition_api.html">Partition APIs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="5.property_api.html">Property APIs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="6.index_api.html">Index APIs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="7.extension.html">Extension</a></li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="3.topology_api.html">Graph Topology and APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="5.property_api.html">Property Graph and APIs</a></li>
 </ul>
 
 </div>
@@ -199,9 +193,9 @@
         </div>
         <article role="main">
           <section id="return-values">
-<h1>Return Values<a class="headerlink" href="#return-values" title="Permalink to this heading">#</a></h1>
+<h1>Return Values<a class="headerlink" href="#return-values" title="Link to this heading">#</a></h1>
 <section id="handle">
-<h2>Handle<a class="headerlink" href="#handle" title="Permalink to this heading">#</a></h2>
+<h2>Handle<a class="headerlink" href="#handle" title="Link to this heading">#</a></h2>
 <p>In most cases, the return value of a GRIN API call is a GRIN handle.
 A GRIN handle represents a GRIN object, such as a vertex or edge, and can be
 used as a parameter for another GRIN API call.
@@ -254,7 +248,7 @@ Some storage may only support one type of access, while some may support both.</
 <p>In the final step, we have to destroy every handle we obtain from GRIN to avoid memory leaks.</p>
 </section>
 <section id="others">
-<h2>Others<a class="headerlink" href="#others" title="Permalink to this heading">#</a></h2>
+<h2>Others<a class="headerlink" href="#others" title="Link to this heading">#</a></h2>
 <p>Exceptionally, there are three types of values returned by GRIN API calls other than handles:</p>
 <ul class="simple">
 <li><p>GRIN enumerates: This includes enumerates defined in predefine.h, namely GRIN_DIRECTION, GRIN_DATATYPE, and GRIN_ERROR_CODE.</p></li>
@@ -264,14 +258,14 @@ Some storage may only support one type of access, while some may support both.</
 </ul>
 <p>Users do NOT have to destroy these return values since they are on the <code class="docutils literal notranslate"><span class="pre">&quot;stack&quot;</span></code>,
 except for the <code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char*</span></code> in property values and serialized values.
-In this case, users have to destroy the string value by using <code class="docutils literal notranslate"><span class="pre">grin_destroy_string_value</span></code>
+In this case, users have to destroy the string value by using <code class="docutils literal notranslate"><span class="pre">grin_destroy_vertex_property_value_of_string</span></code>
 and <code class="docutils literal notranslate"><span class="pre">grin_destroy_serialized_vertex(edge)_ref</span></code>, respectively.
 Note that if the <code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char*</span></code> is returned by a GRIN API call for a name,
 such as a vertex type name or edge property name, users do NOT have to destroy
 it since they are common values.</p>
 </section>
 <section id="validation">
-<h2>Validation<a class="headerlink" href="#validation" title="Permalink to this heading">#</a></h2>
+<h2>Validation<a class="headerlink" href="#validation" title="Link to this heading">#</a></h2>
 <p>GRIN provides invalid values for handles to let users check whether a handle
 is valid or not. Normally, the invalid value of a GRIN handle <code class="docutils literal notranslate"><span class="pre">GRIN_A</span></code> is
 defined as <code class="docutils literal notranslate"><span class="pre">GRIN_NULL_A</span></code>. GRIN also provides invalid values for common values,
@@ -282,7 +276,7 @@ no specific value that can be defined as invalid for types like <code class="doc
 This case is handled by GRIN error codes, as explained in the next section.</p>
 </section>
 <section id="error-code">
-<h2>Error Code<a class="headerlink" href="#error-code" title="Permalink to this heading">#</a></h2>
+<h2>Error Code<a class="headerlink" href="#error-code" title="Link to this heading">#</a></h2>
 <p>GRIN defines a set of error codes in the <code class="docutils literal notranslate"><span class="pre">GRIN_ERROR_CODE</span></code> enumerate.
 When a GRIN API call encounters an error but cannot return invalid values
 (e.g., the property value case above), it can set the thread_local error code to
@@ -296,7 +290,7 @@ API and handle the error case accordingly.</p>
 </div>
 </section>
 <section id="summary">
-<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this heading">#</a></h2>
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
 <p>To summerize, we list a table for return values of GRIN API calls and related operations:</p>
 <div class="table-wrapper docutils container">
 <table class="docutils align-default">
@@ -321,7 +315,7 @@ API and handle the error case accordingly.</p>
 </tr>
 <tr class="row-odd"><td><p>Property values</p></td>
 <td><p>grin_get_last_error_code</p></td>
-<td><p>grin_destroy_string_value only</p></td>
+<td><p>grin_destroy_VE_value_of_string only</p></td>
 </tr>
 <tr class="row-even"><td><p>Serialized values</p></td>
 <td><p>N/A</p></td>
@@ -338,26 +332,8 @@ API and handle the error case accordingly.</p>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="2.api_naming.html">
-              <div class="page-info">
-                <div class="context">
-                  <span>Next</span>
-                </div>
-                <div class="title">API Naming Rules</div>
-              </div>
-              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
-            </a>
-          <a class="prev-page" href="0.get_started.html">
-              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
-              <div class="page-info">
-                <div class="context">
-                  <span>Previous</span>
-                </div>
-                
-                <div class="title">Getting Started</div>
-                
-              </div>
-            </a>
+          
+          
         </div>
         <div class="bottom-of-page">
           <div class="left-details">
@@ -405,9 +381,9 @@ API and handle the error case accordingly.</p>
       
     </aside>
   </div>
-</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
-    <script src="_static/scripts/furo.js"></script>
+</div><script src="_static/documentation_options.js?v=a58bc63e"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>

@@ -1,0 +1,125 @@
+Graph Index and APIs
+=====================
+The main purpose of a graph index is to enhance data retrieval efficiency. Users can efficiently
+identify a vertex or an edge using primary keys, labels, or internal/external IDs, on which indices are built.
+
+
+External ID
+-------------
+The concept of external ID in graph storage is derived from the
+Internationalized Resource Identifier (IRI) used in the Resource
+Description Framework (RDF). In a graph, the external ID of a vertex is a
+unique identifier that is predefined in the raw data of the graph,
+neither assigned by the storage nor the users. 
+GRIN allows storages to expose two types of external IDs: string and integer. 
+The string external ID is a sequence of characters, while the integer
+external ID is a 64-bit integer.
+
+Using the string case as an example, we list the related APIs as follows:
+
+.. code-block:: c 
+
+    GRIN_VERTEX grin_get_vertex_by_external_id_of_string(GRIN_GRAPH, const char* id);
+
+    const char* grin_get_vertex_external_id_of_string(GRIN_GRAPH, GRIN_VERTEX);
+
+Note that the returned external ID should be destroyed by the user after use:
+
+.. code-block:: c 
+
+    void grin_destroy_vertex_external_id_of_string(GRIN_GRAPH, const char*);
+
+
+
+Internal ID
+-------------
+When storing graphs, it is common to assign internal IDs to vertices. These
+internal IDs help in representing the vertices within the storage. However,
+different storage systems may adopt different strategies for assigning these
+internal IDs.
+
+GRIN allows storage systems to expose their specific internal ID assignments
+through a range constraint. This constraint requires the storage system to
+provide both a lower bound (closed) and an upper bound (open) for the internal
+IDs. By knowing this ID range, users can treat the internal IDs as an array
+index range in computations.
+
+Utilizing the internal IDs in this manner reduces complexity from O(log(n)) to
+O(1) when compared to using external IDs as keys in a mapping. This approach
+allows for faster computations and improved efficiency.
+
+GRIN assumes that the internal IDs are 64-bit integers. The range
+constraint is imposed on all vertices for a simple graph and on all vertices
+within each type for a LPG.
+
+The APIs for internal ID on simple graphs are as follows:
+
+.. code-block:: c 
+
+    long long int grin_get_vertex_internal_id(GRIN_GRAPH, GRIN_VERTEX);
+
+    GRIN_VERTEX grin_get_vertex_by_internal_id(GRIN_GRAPH, long long int id);
+
+    long long int grin_get_vertex_internal_id_upper_bound(GRIN_GRAPH);
+
+    long long int grin_get_vertex_internal_id_lower_bound(GRIN_GRAPH);
+
+While the APIs for internal ID on LPGs are as follows:
+
+.. code-block:: c 
+
+    long long int grin_get_vertex_internal_id_by_type(GRIN_GRAPH, GRIN_VERTEX_TYPE, GRIN_VERTEX);
+
+    GRIN_VERTEX grin_get_vertex_by_internal_id_by_type(GRIN_GRAPH, GRIN_VERTEX_TYPE, long long int id);
+
+    long long int grin_get_vertex_internal_id_upper_bound_by_type(GRIN_GRAPH, GRIN_VERTEX_TYPE);
+
+    long long int grin_get_vertex_internal_id_lower_bound_by_type(GRIN_GRAPH, GRIN_VERTEX_TYPE);
+
+
+
+PK Indexing
+------------
+PK indexing is used to retrieve a vertex or an edge based on its primary keys
+(PK). To obtain a vertex using its PK values, we need to arrange all the values
+into a row, following the PK properties of the vertex's type. This row can then
+be used to retrieve the vertex handle. The case for an edge is similar.
+
+The following example illustrates how to retrieve a vertex of type "person" with
+a name of "marko" and an age of 29, assuming that the PK properties for "person"
+are "name" and "age".
+
+.. code-block:: c 
+
+    GRIN_VERTEX_TYPE vtype = grin_get_vertex_type_by_name(g, "person");
+    GRIN_ROW row = grin_create_row(g);
+    if (!grin_insert_string_to_row(g, row, "marko")) {
+        printf("Failed to insert string to row\n");
+    }
+    if (!grin_insert_int32_to_row(g, row, 29)) {
+        printf("Failed to insert int32 to row\n");
+    }
+    GRIN_VERTEX v = grin_get_vertex_by_primary_keys(g, vtype, row);
+
+
+Label Indexing
+---------------
+Label indexing is used to retrieve vertices or edges having a specific label.
+
+For simple graphs, the APIs are:
+
+.. code-block:: c 
+
+    GRIN_VERTEX_LIST grin_get_vertex_list_by_label(GRIN_GRAPH, GRIN_LABEL);
+
+    GRIN_EDGE_LIST grin_get_edge_list_by_label(GRIN_GRAPH, GRIN_LABEL);
+
+For LPGs, the APIs are:
+
+.. code-block:: c 
+
+    GRIN_VERTEX_LIST grin_get_vertex_list_by_type_by_label(GRIN_GRAPH, GRIN_VERTEX_TYPE, GRIN_LABEL);
+
+    GRIN_EDGE_LIST grin_get_edge_list_by_type_by_label(GRIN_GRAPH, GRIN_EDGE_TYPE, GRIN_LABEL);
+
+This is because vertex and edge lists in LPGs can only contain vertices and edges of the same type.

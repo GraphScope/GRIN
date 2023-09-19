@@ -1,0 +1,401 @@
+Property Graph and APIs
+========================
+
+A property graph is a commonly used graph abstraction for representing real-world data. 
+It allows for properties to be attached to vertices and edges. 
+There are two types of property graphs: those that are constrained by a predefined schema, 
+and those that are schema-free.
+
+In the case of a schema-enabled property graph, 
+the properties of vertices and edges are defined by a predefined schema. 
+GRIN supports this type of property graph and utilizes the Labeled Property Graph (LPG) 
+data model to represent it. 
+
+For the schema-enabled case, 
+we first introduce the LPG data model and then discuss the APIs 
+for accessing the properties of vertices and edges. 
+This provides a structured way of working with the properties in the graph.
+
+On the other hand, a schema-free property graph allows properties to be 
+attached to vertices and edges arbitrarily. 
+GRIN also supports this type of graph. 
+We will then discuss the property APIs for the schema-free case, 
+which provide flexibility in working with the properties 
+as they can be attached freely without conforming to a predefined schema.
+
+
+Labeled Property Graph
+-----------------------
+GRIN utilizes the Labeled Property Graph (LPG) data model, which is widely used
+by graph computing systems, such as graph databases and graph analytical systems, 
+on graph data lakes. 
+
+In this model, a labeled property graph is represented as :math:`G = (V, E, T_V, T_E, P, L)`. 
+Here, :math:`V` is the set of vertices, :math:`E` is the set of edges, 
+`T_V` is the set of vertex types, :math:`T_E` is the set of edge types, 
+`P` is the set of properties, and :math:`L` is the set of labels.
+
+Each vertex :math:`v` in :math:`V` is associated with a vertex type :math:`t_v` from :math:`T_V`. 
+Similarly, each edge :math:`e` is associated with an edge type :math:`t_e` from :math:`T_E`, 
+and the graph :math:`G` is directed so that each edge has a source and destination vertex. 
+A property :math:`p` in :math:`P` can be either a vertex property specific to a vertex type 
+or an edge property specific to an edge type. 
+This implies that vertices with the same vertex type have the same set of properties, 
+as do edges with the same edge type. 
+Moreover, each property :math:`p` has a unique name within its respective vertex or 
+edge type and a specified data type for its values.
+
+In addition, each label :math:`l` in :math:`L` is a distinct string within the graph. 
+Every vertex type :math:`t_v` has a set of candidate labels :math:`L(t_v)` from the set :math:`L`,
+and consequently, each vertex can be assigned zero or multiple labels from the 
+candidate labels associated with its vertex type.
+We can also apply labels to edge types in the same way as vertex types.
+
+Schema-enabled Property Graph APIs
+------------------------------------
+LPG is a type-centric data model that organizes the properties and labels based on vertex and edge types. 
+Thus, we will start by examining the APIs for vertex and edge types. 
+After that, we will delve into the APIs related to properties, 
+including schema-related functions, value retrieval, and primary key management. 
+Additionally, we will cover the APIs for labels. 
+Lastly, we will explore the topology APIs designed specifically for schema-enabled property graphs.
+
+Vertex and Edge Type
+^^^^^^^^^^^^^^^^^^^^^
+To illustrate the APIs for vertex and edge types, let's use the example of vertex type. 
+The APIs for edge types are similar, so understanding the vertex type APIs will 
+give you a good understanding of the edge type APIs too.
+
+GRIN offers a vertex type list handle, which is used to represent the vertex types. 
+This handle allows us to retrieve a vertex type handle using an array-like approach. 
+The relevant APIs for this functionality are as follows:
+
+.. code-block:: c 
+
+    GRIN_VERTEX_TYPE_LIST grin_get_vertex_type_list(GRIN_GRAPH);
+
+    size_t grin_get_vertex_type_list_size(GRIN_GRAPH, GRIN_VERTEX_TYPE_LIST);
+
+    GRIN_VERTEX_TYPE grin_get_vertex_type_from_list(GRIN_GRAPH, GRIN_VERTEX_TYPE_LIST, size_t);
+
+
+Each vertex type has a unique name, the related APIs are:
+
+.. code-block:: c 
+
+    const char* grin_get_vertex_type_name(GRIN_GRAPH, GRIN_VERTEX_TYPE);
+
+    GRIN_VERTEX_TYPE grin_get_vertex_type_by_name(GRIN_GRAPH, const char* name);
+
+Also, the vertex types are numbered from 0, denoted as the vertex type ids:
+
+.. code-block:: c 
+
+    GRIN_VERTEX_TYPE_ID grin_get_vertex_type_id(GRIN_GRAPH, GRIN_VERTEX_TYPE);
+
+    GRIN_VERTEX_TYPE grin_get_vertex_type_by_id(GRIN_GRAPH, GRIN_VERTEX_TYPE_ID);
+
+
+Schema-related Functions
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+Properties in LPG are organized based on vertex and edge types.
+We can get the properties of a vertex type using:
+
+.. code-block:: c 
+
+    GRIN_VERTEX_PROPERTY_LIST grin_get_vertex_property_list_by_type(GRIN_GRAPH, GRIN_VERTEX_TYPE);
+
+Then this property list handle can be used to retrieve a property handle using an array-like approach:
+
+.. code-block:: c 
+
+    size_t grin_get_vertex_property_list_size(GRIN_GRAPH, GRIN_VERTEX_PROPERTY_LIST);
+
+    GRIN_VERTEX_PROPERTY grin_get_vertex_property_from_list(GRIN_GRAPH, GRIN_VERTEX_PROPERTY_LIST, size_t);
+
+And of course, we can get the vertex type that a vertex property belongs to:
+
+.. code-block:: c 
+
+    GRIN_VERTEX_TYPE grin_get_vertex_type_from_property(GRIN_GRAPH, GRIN_VERTEX_PROPERTY);
+
+Each property is assigned a unique name within its respective type, the related APIs are:
+
+.. code-block:: c 
+
+    const char* grin_get_vertex_property_name(GRIN_GRAPH, GRIN_VERTEX_TYPE, GRIN_VERTEX_PROPERTY);
+
+    GRIN_VERTEX_PROPERTY grin_get_vertex_property_by_name(GRIN_GRAPH, GRIN_VERTEX_TYPE, const char* name);
+
+And the vertex type is involved in the parameter list because of the type-centric schema nature of LPG.
+
+In case to get all the properties with the same name across all the vertex types, use:
+
+.. code-block:: c
+    
+    GRIN_VERTEX_PROPERTY_LIST grin_get_vertex_properties_by_name(GRIN_GRAPH, const char* name);
+
+Properties belonging to the same vertex type are numbered from 0, denoted as the property ids:
+
+.. code-block:: c 
+
+    GRIN_VERTEX_PROPERTY_ID grin_get_vertex_property_id(GRIN_GRAPH, GRIN_VERTEX_TYPE, GRIN_VERTEX_PROPERTY);
+
+    GRIN_VERTEX_PROPERTY grin_get_vertex_property_by_id(GRIN_GRAPH, GRIN_VERTEX_TYPE, GRIN_VERTEX_PROPERTY_ID);
+
+The edge property APIs are very similar to the vertex property APIs, so we will not repeat them here.
+
+
+Value Retrieval
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+Property values can be retrieved from the property handles as long as the property data type is known.
+The data type of a property can be parsed from the graph schema (see the schema section for details),
+or it can be retrieved directly from the property handle:
+
+.. code-block:: c 
+
+    GRIN_DATATYPE grin_get_vertex_property_datatype(GRIN_GRAPH, GRIN_VERTEX_PROPERTY);
+
+The data types that GRIN supports and corresponding APIs to get the property values of different data types are listed below:
+
+.. code-block:: c
+
+    // Int32
+    int grin_get_vertex_property_value_of_int32(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
+
+    // UInt32
+    unsigned int grin_get_vertex_property_value_of_uint32(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
+
+    // Int64
+    long long int grin_get_vertex_property_value_of_int64(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
+
+    // UInt64
+    unsigned long long int grin_get_vertex_property_value_of_uint64(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
+
+    // Float
+    float grin_get_vertex_property_value_of_float(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
+
+    // Double
+    double grin_get_vertex_property_value_of_double(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
+
+    // String
+    const char* grin_get_vertex_property_value_of_string(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
+
+    // Date32 (days since 1970-01-01, 0 is 1970-01-01, negative values for dates before 1970-01-01)
+    int grin_get_vertex_property_value_of_date32(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
+
+    // Time32 (seconds since 00:00:00, 0 is 00:00:00)
+    int grin_get_vertex_property_value_of_time32(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
+
+    // Timestamp64 (milliseconds since 1970-01-01 00:00:00 UTC, 0 is 1970-01-01 00:00:00 UTC)
+    long long int grin_get_vertex_property_value_of_timestamp64(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
+
+    // FloatArray
+    const float* grin_get_vertex_property_value_of_float_array(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTEX_PROPERTY, size_t*);
+
+Aside from primitive data types, when the property data type is String, the returned value is a C-style string. 
+This means that it is a const pointer to a char array that ends with a null character. 
+Also, when the property data type is FloatArray, 
+the returned value is a const pointer to a float array. 
+In this case, the user should provide a size pointer as the last parameter to receive the size of the array. 
+It is important to note that both of these non-primitive types of values should be destroyed after use:
+
+.. code-block:: c 
+
+    void grin_destroy_vertex_property_value_of_string(GRIN_GRAPH, const char*);
+
+    void grin_destroy_vertex_property_value_of_float_array(GRIN_GRAPH, const float*, size_t);
+
+The APIs for edge property values are similar to the vertex property value APIs,
+so we will not repeat them here.
+
+Row 
+^^^^^^
+
+Sometimes we may want to get the all the property values of a vertex in one API call,
+GRIN offers the following API for this purpose:
+
+.. code-block:: c 
+
+    GRIN_ROW grin_get_vertex_row(GRIN_GRAPH, GRIN_VERTEX);
+
+The returned ``GRIN_ROW`` is a row handle to represent the list of values,
+and it can be further used to retrieve the values using an array-like approach:
+
+.. code-block:: c
+
+    int grin_get_int32_from_row(GRIN_GRAPH, GRIN_ROW, size_t);
+
+    unsigned int grin_get_uint32_from_row(GRIN_GRAPH, GRIN_ROW, size_t);
+
+    long long int grin_get_int64_from_row(GRIN_GRAPH, GRIN_ROW, size_t);
+
+    unsigned long long int grin_get_uint64_from_row(GRIN_GRAPH, GRIN_ROW, size_t);
+
+    float grin_get_float_from_row(GRIN_GRAPH, GRIN_ROW, size_t);
+
+    double grin_get_double_from_row(GRIN_GRAPH, GRIN_ROW, size_t);
+
+    const char* grin_get_string_from_row(GRIN_GRAPH, GRIN_ROW, size_t);
+
+    int grin_get_date32_from_row(GRIN_GRAPH, GRIN_ROW, size_t);
+
+    int grin_get_time32_from_row(GRIN_GRAPH, GRIN_ROW, size_t);
+
+    long long int grin_get_timestamp64_from_row(GRIN_GRAPH, GRIN_ROW, size_t);
+
+    const float* grin_get_float_array_from_row(GRIN_GRAPH, GRIN_ROW, size_t, size_t*);
+
+Although fetching values from a row handle is less efficient than fetching values from a property handle directly,
+there are cases where we want to hold all the property values of a vertex with one handle.
+
+
+Primary Key
+^^^^^^^^^^^^^
+
+Just like in relational databases, primary keys are used to identify a vertex or an edge, 
+and particularly in LPG, they are unique under a given vertex or edge type.
+
+The primary keys of a vertex type is defined as a non-empty subset of the properties belonging
+to the vertex type.
+Users can get such information from the graph schema (see the schema section for details),
+or invoke the following APIs:
+
+.. code-block:: c 
+
+    GRIN_VERTEX_TYPE_LIST grin_get_vertex_types_with_primary_keys(GRIN_GRAPH);
+
+    GRIN_VERTEX_PROPERTY_LIST grin_get_primary_keys_by_vertex_type(GRIN_GRAPH, GRIN_VERTEX_TYPE);
+
+The first API returns the vertex types that have primary keys defined,
+and the second API returns the primary keys of a given vertex type.
+
+Also, the values of primary keys can be retrieved as a ``GRIN_ROW`` from the vertex handle:
+
+.. code-block:: c
+
+    GRIN_ROW grin_get_vertex_primary_keys_row(GRIN_GRAPH, GRIN_VERTEX);
+
+The ability to retrieve vertices or edges from their primary key values are referred as ``PK Indexing``
+in GRIN, which are described in the index section.
+
+The primary key APIs of edges are very similar to that of the vertices,
+so we will not repeat here.
+
+
+
+Label
+^^^^^^^
+
+Labels are used to annotate vertices and edges.
+In LPG, each vertex type has a set of candidate labels, and they can be fetched using:
+
+.. code-block:: c 
+
+    GRIN_LABEL_LIST grin_get_label_list_by_vertex_type(GRIN_GRAPH, GRIN_VERTEX_TYPE);
+
+And each vertex can be assigned zero or multiple labels from the candidate labels associated with its vertex type.
+The labels of a vertex can be retrieved using:
+
+.. code-block:: c 
+
+    GRIN_LABEL_LIST grin_get_label_list_by_vertex(GRIN_GRAPH, GRIN_VERTEX);
+
+The returned label list handle can be used to retrieve a label handle using an array-like approach:
+
+.. code-block:: c 
+
+    size_t grin_get_label_list_size(GRIN_GRAPH, GRIN_LABEL_LIST);
+
+    GRIN_LABEL grin_get_label_from_list(GRIN_GRAPH, GRIN_LABEL_LIST, size_t);
+
+Also, labels have unique names, and can be retrieved directly from their names.
+The name-related APIs are:
+
+.. code-block:: c
+
+    const char* grin_get_label_name(GRIN_GRAPH, GRIN_LABEL);
+
+    GRIN_LABEL grin_get_label_by_name(GRIN_GRAPH, const char*);
+
+Similar to primary keys, GRIN refers to the ability to retrieve vertices or edges from their labels as ``Label Indexing``,
+which are described in the index section.
+
+For edge labels, the APIs are very similar to the vertex label APIs, so we will not repeat them here.
+
+
+Topology
+^^^^^^^^^
+
+When schema is enabled, the topology APIs will become a little different from the ones we shown in the ``Topology API``,
+because LPG organizes the graph topology in a type-centric fashion.
+
+For example, vertex list of a specific vertex type can be retrieved using:
+
+.. code-block:: c 
+
+    GRIN_VERTEX_LIST grin_get_vertex_list_by_type(GRIN_GRAPH, GRIN_VERTEX_TYPE);
+
+Previously, the vertex list of the entire graph could be fetched directly. 
+However, due to the type-centric topology organization of LPG, this is no longer possible. 
+Instead, users must now iterate through the vertex types and retrieve the vertex list of each type separately. 
+This design choice was made to avoid storages combining the vertex lists of different types under the hood,
+which would result in hidden overhead. 
+If users still need a single handle to represent the entire vertex list of LPG, 
+they can refer to the ``list_chain`` section in the ``GRIN Extension`` for more information.
+
+APIs for edge and adjacent lists are also defined in a type-centric fashion, where the edge type must be specified:
+
+.. code-block:: c 
+
+    GRIN_EDGE_LIST grin_get_edge_list_by_type(GRIN_GRAPH, GRIN_EDGE_TYPE);
+
+    GRIN_ADJACENT_LIST grin_get_adjacent_list_by_edge_type(GRIN_GRAPH, GRIN_DIRECTION, GRIN_VERTEX, GRIN_EDGE_TYPE);
+
+
+Schema-free Property Graph APIs
+--------------------------------
+
+Property
+^^^^^^^^^
+
+In schema-free property graphs, properties can be attached to vertices and edges arbitrarily.
+Thus, the APIs for properties are different from the schema-enabled case.
+
+To get the property list of a vertex, use:
+
+.. code-block:: c 
+
+    GRIN_VERTEX_PROPERTY_LIST grin_get_vertex_property_list(GRIN_GRAPH, GRIN_VERTEX);
+
+To get the name of a vertex property, use:
+
+.. code-block:: c
+
+    const char* grin_get_vertex_property_name(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
+
+And to get a specific property of a vertex using its name, use:
+
+.. code-block:: c 
+
+    GRIN_VERTEX_PROPERTY grin_get_vertex_property_by_name(GRIN_GRAPH, GRIN_VERTEX, const char* name);
+
+However, IDs are not supported as vertex properties in schema-free property graphs 
+since vertex properties are considered to be distinct from one another.
+
+The APIs for edge properties are similar to the vertex property APIs, so we will not repeat them here.
+
+Label
+^^^^^^^
+
+Labels in schema-free property graphs are also assigned arbitrarily.
+Thus the APIs to get candidate labels of a vertex or edge type are not enabled for schema-free property graphs.
+Other APIs for labels are the same to the schema-enabled case, so we will not repeat them here.
+
+
+
+
+
+

@@ -1,0 +1,564 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" />
+
+    <!-- Generated with Sphinx 7.2.5 and Furo 2023.09.10 -->
+        <title>Partitioned Graph and APIs - GRIN 0.1.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=362ab14a" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">GRIN 0.1.1 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  
+  <span class="sidebar-brand-text">GRIN 0.1.1 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="partitioned-graph-and-apis">
+<h1>Partitioned Graph and APIs<a class="headerlink" href="#partitioned-graph-and-apis" title="Link to this heading">#</a></h1>
+<p>When processing large-scale graphs that cannot fit into a single machine,
+it is common to partition the graph into multiple subgraphs and process them in parallel.
+This helps balance the workload and minimize communication costs.
+There are various partition strategies available, such as edgecut and vertexcut,
+each with the goal of achieving similar-sized subgraphs and reducing cross-partition vertices and edges.</p>
+<p>However, different partition strategies can lead to different topology placement features,
+which makes it difficult for users to write portable graph algorithms.
+To address this issue, GRIN provides a unified partitioned graph paradigm.
+This paradigm allows users to represent partitioned graphs with different partition strategies.
+By using this paradigm, users can easily determine the topology placement for graphs and property placement for LPGs.</p>
+<p>To better understand this concept, let’s start by defining some key concepts related to partitions.
+We will then introduce the corresponding APIs that can be used to work with partitioned graphs.</p>
+<section id="partition-strategy">
+<h2>Partition Strategy<a class="headerlink" href="#partition-strategy" title="Link to this heading">#</a></h2>
+<p>A partition <span class="math notranslate nohighlight">\(P\)</span> divides the graph <span class="math notranslate nohighlight">\(G\)</span> into <span class="math notranslate nohighlight">\(p\)</span> partitions.
+Let <span class="math notranslate nohighlight">\(V_i\)</span> and <span class="math notranslate nohighlight">\(E_i\)</span> represent the sets of vertices and edges in partition <span class="math notranslate nohighlight">\(i\)</span>,
+and let <span class="math notranslate nohighlight">\(V_i^M\)</span> and <span class="math notranslate nohighlight">\(E_i^M\)</span> represent the master sets of vertices and edges in partition <span class="math notranslate nohighlight">\(i\)</span>.
+The partition is valid if it satisfies these conditions:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(V_i^M\)</span> is a subset of <span class="math notranslate nohighlight">\(V_i\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(E_i^M\)</span> is a subset of <span class="math notranslate nohighlight">\(E_i\)</span>.</p></li>
+<li><p>The sets <span class="math notranslate nohighlight">\(V_i^M\)</span> are disjoint and their union is <span class="math notranslate nohighlight">\(V\)</span>.</p></li>
+<li><p>The sets <span class="math notranslate nohighlight">\(E_i^M\)</span> are disjoint and their union is <span class="math notranslate nohighlight">\(E\)</span>.</p></li>
+</ul>
+<p>Then vertices in <span class="math notranslate nohighlight">\(V_i - V_i^M\)</span> is denoted as the mirror vertices in partition <span class="math notranslate nohighlight">\(i\)</span>.
+Similarly, edges in <span class="math notranslate nohighlight">\(E_i - E_i^M\)</span> are the mirror edges in partition <span class="math notranslate nohighlight">\(i\)</span>.</p>
+<p>A partition strategy is the process of computing <span class="math notranslate nohighlight">\(V_i^M\)</span>, <span class="math notranslate nohighlight">\(E_i^M\)</span>, <span class="math notranslate nohighlight">\(V_i\)</span>, and <span class="math notranslate nohighlight">\(E_i\)</span>.
+We say a partition <span class="math notranslate nohighlight">\(P\)</span> follows a partition strategy if it can be computed using that process.
+This means a graph partition <span class="math notranslate nohighlight">\(P\)</span> may follow multiple partition strategies.</p>
+<p>Next, we demonstrate the edgecut and vertexcut partition strategies in GRIN.
+We will use <span class="math notranslate nohighlight">\(E(V)\)</span> to denote the set of edges with both endpoints in <span class="math notranslate nohighlight">\(V\)</span>,
+and <span class="math notranslate nohighlight">\(V(E)\)</span> to denote the set of all the endpoints of <span class="math notranslate nohighlight">\(E\)</span>.
+After that, we introduce the <code class="docutils literal notranslate"><span class="pre">universal</span> <span class="pre">vertices</span> <span class="pre">and</span> <span class="pre">edges</span></code> which complements the
+partition strategies with the goal of achieving better performance.
+Finally, we define the <code class="docutils literal notranslate"><span class="pre">property</span> <span class="pre">placement</span></code> strategies for LPGs.</p>
+<section id="edgecut">
+<h3>Edgecut<a class="headerlink" href="#edgecut" title="Link to this heading">#</a></h3>
+<p>The edge cut partition strategy begins by assigning each vertex,
+denoted as <span class="math notranslate nohighlight">\(v\)</span>, in the set <span class="math notranslate nohighlight">\(V\)</span> to a single partition.
+This initial assignment results in the set <span class="math notranslate nohighlight">\(V_i^M\)</span>.
+Next, for each partition <span class="math notranslate nohighlight">\(i\)</span>, we place the edges of <span class="math notranslate nohighlight">\(E(V_i^M)\)</span> into partition <span class="math notranslate nohighlight">\(i\)</span>.
+Afterwards, we apply the <code class="docutils literal notranslate"><span class="pre">cut</span> <span class="pre">edge</span> <span class="pre">placement</span></code> strategies to place the cut edges,
+which are edges with endpoints in different partitions, into their respective partitions.
+This step generates the set <span class="math notranslate nohighlight">\(E_i\)</span>.
+It is important to note that if the strategy does not involve replicating the cut edges,
+then <span class="math notranslate nohighlight">\(E_i^M`\)</span> will be equal to <span class="math notranslate nohighlight">\(E_i\)</span>.
+However, if the cut edges are being replicated, then each replicated cut edge
+is assigned a master partition to build the set <span class="math notranslate nohighlight">\(E_i^M\)</span>.
+Finally, by letting <span class="math notranslate nohighlight">\(V_i\)</span> equal the union of <span class="math notranslate nohighlight">\(V(E_i)\)</span> and <span class="math notranslate nohighlight">\(V_i^M\)</span>,
+we obtain the final partition.</p>
+<p>The cut edge placement strategies for directed graphs are <code class="docutils literal notranslate"><span class="pre">following</span> <span class="pre">source</span></code> and <code class="docutils literal notranslate"><span class="pre">following</span> <span class="pre">destination</span></code>,
+which means the cut edge can be placed in the partition of its source vertex and destination vertex respectively.
+An edgecut partition strategy can use either of these strategies, or both of them, meaning that
+the cut edges are replicated.
+On the other hand, the cut edge placement strategies for undirected graphs are <code class="docutils literal notranslate"><span class="pre">following</span> <span class="pre">lower</span></code> and <code class="docutils literal notranslate"><span class="pre">following</span> <span class="pre">higher</span></code>,
+which means the cut edge can be placed in the partition of its endpoints with the lower and higher partition ID respectively.</p>
+</section>
+<section id="vertexcut">
+<h3>Vertexcut<a class="headerlink" href="#vertexcut" title="Link to this heading">#</a></h3>
+<p>The vertex cut partition strategy starts by assigning each edge <span class="math notranslate nohighlight">\(e\in E`\)</span>
+to a single partition, resulting in <span class="math notranslate nohighlight">\(E_i^M\)</span>.
+We then have <span class="math notranslate nohighlight">\(E_i = E_i^M\)</span> and <span class="math notranslate nohighlight">\(V_i = V(E_i)\)</span>.
+Next, for each zero-degree vertex <span class="math notranslate nohighlight">\(z\)</span>, we assign a master partition to that vertex.
+Finally, for each vertex <span class="math notranslate nohighlight">\(v\)</span> that appears in multiple <span class="math notranslate nohighlight">\(V_i\)</span>, we assign a master
+partition to that vertex to create <span class="math notranslate nohighlight">\(V_i^M\)</span>, completing the final partition.</p>
+</section>
+<section id="universal-vertices-and-edges">
+<h3>Universal Vertices and Edges<a class="headerlink" href="#universal-vertices-and-edges" title="Link to this heading">#</a></h3>
+<p>Both edgecut and vertexcut have limitations in handling “super” vertices with extremely large degrees,
+especially in graphs with power-law degree distribution.
+The edgecut suffers from workload imbalance, as the partition with “super” vertices will have significantly more edges.
+On the other hand, the vertexcut loses locality, as different “super” vertices are replicated across different partitions,
+leading to incomplete neighborhoods of normal vertices.</p>
+<p>To address these challenges, GRIN introduces <code class="docutils literal notranslate"><span class="pre">universal</span> <span class="pre">vertices</span></code> and <code class="docutils literal notranslate"><span class="pre">universal</span> <span class="pre">edges</span></code>,
+as a complementary to edgecut and vertexcut strategies.
+Universal vertices, denoted as <span class="math notranslate nohighlight">\(U\)</span>, are vertices replicated to all partitions.
+Additionally, the edges between them, denoted as <span class="math notranslate nohighlight">\(E(U)\)</span>,
+are also replicated to all partitions, and we call them universal edges.</p>
+<p>The partition strategy with universal vertice and edges involved begins by selecting <span class="math notranslate nohighlight">\(U`\)</span> out of <span class="math notranslate nohighlight">\(V\)</span>.
+This includes removing <span class="math notranslate nohighlight">\(U`\)</span> from <span class="math notranslate nohighlight">\(V`\)</span> and removing <span class="math notranslate nohighlight">\(E(U)\)</span> and <span class="math notranslate nohighlight">\(CE(U, V)\)</span> from <span class="math notranslate nohighlight">\(E\)</span>,
+where <span class="math notranslate nohighlight">\(CE(U, V)\)</span> represents the cross edges between <span class="math notranslate nohighlight">\(U\)</span> and <span class="math notranslate nohighlight">\(V\)</span>.
+Next, the remaining vertices <span class="math notranslate nohighlight">\(V'\)</span> and edges <span class="math notranslate nohighlight">\(E'\)</span> are partitioned based on the partition strategy.
+Following this, each cross edge <span class="math notranslate nohighlight">\(e\)</span> in <span class="math notranslate nohighlight">\(CE(U, V)\)</span> is placed based on the
+<code class="docutils literal notranslate"><span class="pre">cross</span> <span class="pre">edge</span> <span class="pre">placement</span></code> strategy, and <span class="math notranslate nohighlight">\(E'_i`\)</span> is updated accordingly.
+If replication is involved during the placement process, a master partition
+is assigned to each cross edge, and <span class="math notranslate nohighlight">\(E'_i^M\)</span> is updated.
+This results a valid partition on <span class="math notranslate nohighlight">\(V - U\)</span> and <span class="math notranslate nohighlight">\(E - E(U)\)</span>.
+Finally, the partition is augmented by adding <span class="math notranslate nohighlight">\(U\)</span> and <span class="math notranslate nohighlight">\(E(U)\)</span>
+to each <span class="math notranslate nohighlight">\(V'_i\)</span> and <span class="math notranslate nohighlight">\(E'_i\)</span> respectively.
+It is important to note that universal vertices and edges are replicated to all partitions,
+and thus do not have their master partitions.</p>
+<p>The cross edge placement strategies includes:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">follow</span> <span class="pre">master</span></code>: This means the cross edge is placed to the master partition of its non-universal endpoint</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">follow</span> <span class="pre">mirror</span></code>: This means the cross edge is placed to the mirror partition of its non-universal endpoint</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">follow</span> <span class="pre">universal</span></code>: This means the cross edge is replicated to all partitions</p></li>
+</ul>
+<p>The most commonly used cross edge placement strategy is <code class="docutils literal notranslate"><span class="pre">follow</span> <span class="pre">master</span></code>,
+but a partition strategy may use more than one strategy simultaneously.
+For example, using <code class="docutils literal notranslate"><span class="pre">follow</span> <span class="pre">master</span></code> and <code class="docutils literal notranslate"><span class="pre">follow</span> <span class="pre">mirror</span></code> together means that
+the cross edge is replicated to all the partitions of its non-universal endpoint.</p>
+</section>
+<section id="sparse-indexing">
+<h3>Sparse Indexing<a class="headerlink" href="#sparse-indexing" title="Link to this heading">#</a></h3>
+<p>After the partitioning, storages may impose different sparse-indexing strategies
+on different kinds of vertices and edges (universal, master, mirror),
+to fulfill varying computing requirements on different kinds of vertices and edges.
+The sparse indexing strategies include:</p>
+<ul class="simple">
+<li><p>CSR: Compressed Sparse Row</p></li>
+<li><p>CSC: Compressed Sparse Column</p></li>
+<li><p>COO: Coordindation</p></li>
+</ul>
+</section>
+<section id="property-placement">
+<h3>Property Placement<a class="headerlink" href="#property-placement" title="Link to this heading">#</a></h3>
+<p>Property placement is the process of assigning properties to vertices and edges that
+have been replicated to multiple partitions. The propety placement strategies are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">on</span> <span class="pre">master</span></code>: This means the property is only placed on the master partition of non-universal vertices or edges</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">on</span> <span class="pre">mirror</span></code>: This means the property is only placed on the mirror partition of non-universal vertices or edges</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">on</span> <span class="pre">universal</span></code>: This means the property is replicated to all partitions</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">split</span> <span class="pre">master</span> <span class="pre">mirror</span></code>: This means the property is split among master and mirror partitions of non-universal vertices or edges</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">split</span> <span class="pre">universal</span></code>: This means the property is split among all partitions</p></li>
+</ul>
+</section>
+</section>
+<section id="apis">
+<h2>APIs<a class="headerlink" href="#apis" title="Link to this heading">#</a></h2>
+<p>With the understanding of concepts like <code class="docutils literal notranslate"><span class="pre">universal</span></code>, <code class="docutils literal notranslate"><span class="pre">master</span></code> and <code class="docutils literal notranslate"><span class="pre">mirror</span></code> in mind,
+we now introduce the <code class="docutils literal notranslate"><span class="pre">partition</span></code>-related APIs.</p>
+<section id="partitioned-graph-and-partition-list">
+<h3>Partitioned Graph and Partition List<a class="headerlink" href="#partitioned-graph-and-partition-list" title="Link to this heading">#</a></h3>
+<p>The API to get a partitioned graph in GRIN is similar to that of a non-partitioned graph:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_PARTITIONED_GRAPH</span><span class="w"> </span><span class="nf">grin_get_partitioned_graph_from_storage</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">uri</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>From the returned partitioned graph handle, users can get the total partition number and the local partition list.
+Here “local” means the partitions can be retrieved locally in the current process using the following APIs:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">size_t</span><span class="w"> </span><span class="nf">grin_get_total_partitions_number</span><span class="p">(</span><span class="n">GRIN_PARTITIONED_GRAPH</span><span class="p">);</span>
+
+<span class="n">GRIN_PARTITION_LIST</span><span class="w"> </span><span class="nf">grin_get_local_partition_list</span><span class="p">(</span><span class="n">GRIN_PARTITIONED_GRAPH</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>And the partition list can be accessed in an array-like way:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">size_t</span><span class="w"> </span><span class="nf">grin_get_partition_list_size</span><span class="p">(</span><span class="n">GRIN_PARTITIONED_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_PARTITION_LIST</span><span class="p">);</span>
+
+<span class="n">GRIN_PARTITION</span><span class="w"> </span><span class="nf">grin_get_partition_from_list</span><span class="p">(</span><span class="n">GRIN_PARTITIONED_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_PARTITION_LIST</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>After we get a partition handle from the list, we can get the local subgraph (fragment) indicated by the partition handle:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_GRAPH</span><span class="w"> </span><span class="nf">grin_get_local_graph_by_partition</span><span class="p">(</span><span class="n">GRIN_PARTITIONED_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_PARTITION</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Till now, we finally got the familiar graph handle that can be used to access the graph data.</p>
+<p>In addition, the partitions are numbered from 0 to <code class="docutils literal notranslate"><span class="pre">total_partition_number</span> <span class="pre">-</span> <span class="pre">1</span></code>, denoted as the <code class="docutils literal notranslate"><span class="pre">partition</span> <span class="pre">ID</span></code>.
+The related APIs are:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_PARTITION</span><span class="w"> </span><span class="nf">grin_get_partition_by_id</span><span class="p">(</span><span class="n">GRIN_PARTITIONED_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_PARTITION_ID</span><span class="p">);</span>
+
+<span class="n">GRIN_PARTITION_ID</span><span class="w"> </span><span class="nf">grin_get_partition_id</span><span class="p">(</span><span class="n">GRIN_PARTITIONED_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_PARTITION</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="vertex-and-edge-references">
+<h3>Vertex and Edge References<a class="headerlink" href="#vertex-and-edge-references" title="Link to this heading">#</a></h3>
+<p>As we mentioned before, handles are “local” values that point to the entities, such as graph, vertex and edge, within the process.
+To communicate with other processes, a protocol is needed to transfer local handles to globally recognizable messages.
+These messages can be sent to remote processes while preserving semantics.</p>
+<p>GRIN provides <code class="docutils literal notranslate"><span class="pre">vertex</span> <span class="pre">reference</span></code> and <code class="docutils literal notranslate"><span class="pre">edge</span> <span class="pre">reference</span></code> to achieve this goal.
+Taking vertex reference as an example, the communication process is as follows:</p>
+<ul class="simple">
+<li><p>The sender process has a (local) vertex handle</p></li>
+<li><p>The sender process converts the vertex handle into a vertex reference</p></li>
+<li><p>The sender serialize the vertex reference into a message</p></li>
+<li><p>The reciever got the serialized message</p></li>
+<li><p>The reciever deserialize the message into a vertex reference</p></li>
+<li><p>The reciever converts the vertex reference to a (local) vertex handle</p></li>
+</ul>
+<p>The related APIs are:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_VERTEX_REF</span><span class="w"> </span><span class="nf">grin_get_vertex_ref_by_vertex</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX</span><span class="p">);</span>
+
+<span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="nf">grin_serialize_vertex_ref</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_REF</span><span class="p">);</span>
+
+<span class="n">GRIN_VERTEX_REF</span><span class="w"> </span><span class="nf">grin_deserialize_to_vertex_ref</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">msg</span><span class="p">);</span>
+
+<span class="n">GRIN_VERTEX</span><span class="w"> </span><span class="nf">grin_get_vertex_from_vertex_ref</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_REF</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>It is important to note that when <code class="docutils literal notranslate"><span class="pre">GRIN_TRAIT_FAST_VERTEX_REF</span></code> is enabled,
+the vertex reference can be serialized into a <code class="docutils literal notranslate"><span class="pre">int64</span></code> instead of the normal <code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char*</span></code>,
+which improves the communication efficiency. The APIs are:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">grin_serialize_vertex_ref_as_int64</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_REF</span><span class="p">);</span>
+
+<span class="n">GRIN_VERTEX_REF</span><span class="w"> </span><span class="nf">grin_deserialize_int64_to_vertex_ref</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">msg</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Moreover, the master partition of a vertex can also be inferred from the vertex reference.
+The API is:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_PARTITION</span><span class="w"> </span><span class="nf">grin_get_master_partition_from_vertex_ref</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_REF</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>On the contrary, users may want to know where are the mirror vertices of a given vertex are located.
+This specific requirement is not always fulfilled by storages, but for those who can support, the APIs are:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#ifdef GRIN_TRAIT_MASTER_VERTEX_MIRROR_PARTITION_LIST</span>
+<span class="n">GRIN_PARTITION_LIST</span><span class="w"> </span><span class="nf">grin_get_master_vertex_mirror_partition_list</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX</span><span class="p">);</span>
+<span class="cp">#endif</span>
+
+<span class="cp">#ifdef GRIN_TRAIT_MIRROR_VERTEX_MIRROR_PARTITION_LIST</span>
+<span class="n">GRIN_PARTITION_LIST</span><span class="w"> </span><span class="nf">grin_get_mirror_vertex_mirror_partition_list</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX</span><span class="p">);</span>
+<span class="cp">#endif</span>
+</pre></div>
+</div>
+<p>The APIs for edge reference is quite similar to the above ones for vertex reference,
+so we will not repeat here.</p>
+</section>
+<section id="topology">
+<h3>Topology<a class="headerlink" href="#topology" title="Link to this heading">#</a></h3>
+<p>The partitioned graph’s topology APIs are closely related to the partition strategies.
+Storages may impose different placement and sparse-indexing strategies
+on different kinds of vertices and edges (universal, master, mirror),
+to fulfill varying computing requirements.
+To address this, GRIN provides APIs to select specific kinds of vertices
+or edges that meet the requirements.</p>
+<p>Next, we will discuss the APIs for <code class="docutils literal notranslate"><span class="pre">universal</span></code> vertices and edges.
+Then, we will cover the APIs related to <code class="docutils literal notranslate"><span class="pre">master</span></code> and <code class="docutils literal notranslate"><span class="pre">mirror</span></code> vertices and edges.</p>
+<p>For simple graphs, the universal and non-universal vertices can be selected using:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_VERTEX_LIST</span><span class="w"> </span><span class="nf">grin_get_vertex_list_select_universal</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">);</span>
+
+<span class="n">GRIN_VERTEX_LIST</span><span class="w"> </span><span class="nf">grin_get_vertex_list_select_non_universal</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Similarly, universal and non-universal edges can be selected both in edge list and adjacent list:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_EDGE_LIST</span><span class="w"> </span><span class="nf">grin_get_edge_list_select_universal</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">);</span>
+
+<span class="n">GRIN_EDGE_LIST</span><span class="w"> </span><span class="nf">grin_get_edge_list_select_non_universal</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">);</span>
+
+<span class="n">GRIN_ADJACENT_LIST</span><span class="w"> </span><span class="nf">grin_get_adjacent_list_select_universal_neighbor</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_DIRECTION</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX</span><span class="p">);</span>
+
+<span class="n">GRIN_ADJACENT_LIST</span><span class="w"> </span><span class="nf">grin_get_adjacent_list_select_non_universal_neighbor</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_DIRECTION</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>On the other hand, for LPGs, universal vertices are determined by their types.
+This means that vertices of certain types are either all universal or non-universal.
+Thus the APIs become:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_VERTEX_TYPE_LIST</span><span class="w"> </span><span class="nf">grin_get_vertex_type_list_select_universal</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">);</span>
+
+<span class="n">GRIN_VERTEX_TYPE_LIST</span><span class="w"> </span><span class="nf">grin_get_vertex_type_list_select_non_universal</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">);</span>
+
+<span class="kt">bool</span><span class="w"> </span><span class="nf">grin_is_vertex_type_unisversal</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_TYPE</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>We don’t have APIs for universal edges, because universal edges in LPGs are edges whose both endpoints are universal vertices.</p>
+<p>Next, we introduce the APIs for master and mirror selection.</p>
+<p>Similarly for simple graphs, the vertices can be selected using:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_VERTEX_LIST</span><span class="w"> </span><span class="nf">grin_get_vertex_list_select_master</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">);</span>
+
+<span class="n">GRIN_VERTEX_LIST</span><span class="w"> </span><span class="nf">grin_get_vertex_list_select_mirror</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Some storage may provide finer selection on vertices based on their master partitions.
+GRIN offers such an API as:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_VERTEX_LIST</span><span class="w"> </span><span class="nf">grin_get_vertex_list_select_partition</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_PARTITION</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Then for edge selection in edge list and adjacent list, the APIs are:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_EDGE_LIST</span><span class="w"> </span><span class="nf">grin_get_edge_list_select_master</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">);</span>
+
+<span class="n">GRIN_EDGE_LIST</span><span class="w"> </span><span class="nf">grin_get_edge_list_select_mirror</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">);</span>
+
+<span class="n">GRIN_EDGE_LIST</span><span class="w"> </span><span class="nf">grin_get_edge_list_select_partition</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_PARTITION</span><span class="p">);</span>
+
+<span class="n">GRIN_ADJACENT_LIST</span><span class="w"> </span><span class="nf">grin_get_adjacent_list_select_master_neighbor</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_DIRECTION</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX</span><span class="p">);</span>
+
+<span class="n">GRIN_ADJACENT_LIST</span><span class="w"> </span><span class="nf">grin_get_adjacent_list_select_mirror_neighbor</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_DIRECTION</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX</span><span class="p">);</span>
+
+<span class="n">GRIN_ADJACENT_LIST</span><span class="w"> </span><span class="nf">grin_get_adjacent_list_select_partition_neighbor</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_DIRECTION</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_PARTITION</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>On the other hand, for LPGs, the selection APIs must be narrowed to specific types, due the type-centric data organization of LPGs.
+The APIs become:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_VERTEX_LIST</span><span class="w"> </span><span class="nf">grin_get_vertex_list_by_type_select_master</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_TYPE</span><span class="p">);</span>
+
+<span class="n">GRIN_VERTEX_LIST</span><span class="w"> </span><span class="nf">grin_get_vertex_list_by_type_select_mirror</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_TYPE</span><span class="p">);</span>
+
+<span class="n">GRIN_VERTEX_LIST</span><span class="w"> </span><span class="nf">grin_get_vertex_list_by_type_select_partition</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_TYPE</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_PARTITION</span><span class="p">);</span>
+
+<span class="n">GRIN_EDGE_LIST</span><span class="w"> </span><span class="nf">grin_get_edge_list_by_type_select_master</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_EDGE_TYPE</span><span class="p">);</span>
+
+<span class="n">GRIN_EDGE_LIST</span><span class="w"> </span><span class="nf">grin_get_edge_list_by_type_select_mirror</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_EDGE_TYPE</span><span class="p">);</span>
+
+<span class="n">GRIN_EDGE_LIST</span><span class="w"> </span><span class="nf">grin_get_edge_list_by_type_select_partition</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_EDGE_TYPE</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_PARTITION</span><span class="p">);</span>
+
+<span class="n">GRIN_ADJACENT_LIST</span><span class="w"> </span><span class="nf">grin_get_adjacent_list_by_edge_type_select_master_neighbor</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_DIRECTION</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_EDGE_TYPE</span><span class="p">);</span>
+
+<span class="n">GRIN_ADJACENT_LIST</span><span class="w"> </span><span class="nf">grin_get_adjacent_list_by_edge_type_select_mirror_neighbor</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_DIRECTION</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_EDGE_TYPE</span><span class="p">);</span>
+
+<span class="n">GRIN_ADJACENT_LIST</span><span class="w"> </span><span class="nf">grin_get_adjacent_list_by_edge_type_select_partition_neighbor</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_DIRECTION</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_EDGE_TYPE</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_PARTITION</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2023, grin workers
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Partitioned Graph and APIs</a><ul>
+<li><a class="reference internal" href="#partition-strategy">Partition Strategy</a><ul>
+<li><a class="reference internal" href="#edgecut">Edgecut</a></li>
+<li><a class="reference internal" href="#vertexcut">Vertexcut</a></li>
+<li><a class="reference internal" href="#universal-vertices-and-edges">Universal Vertices and Edges</a></li>
+<li><a class="reference internal" href="#sparse-indexing">Sparse Indexing</a></li>
+<li><a class="reference internal" href="#property-placement">Property Placement</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#apis">APIs</a><ul>
+<li><a class="reference internal" href="#partitioned-graph-and-partition-list">Partitioned Graph and Partition List</a></li>
+<li><a class="reference internal" href="#vertex-and-edge-references">Vertex and Edge References</a></li>
+<li><a class="reference internal" href="#topology">Topology</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../_static/documentation_options.js?v=a58bc63e"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    </body>
+</html>

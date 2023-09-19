@@ -1,15 +1,15 @@
 <!doctype html>
-<html class="no-js" lang="en">
+<html class="no-js" lang="en" data-content_root="./">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Getting Started" href="0.get_started.html" />
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Getting Started" href="get_started.html" />
 
-    <!-- Generated with Sphinx 6.2.1 and Furo 2023.03.27 -->
-        <title>GRIN 0.1.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=fad236701ea90a88636c2a8c73b44ae642ed2a53" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    <!-- Generated with Sphinx 7.2.5 and Furo 2023.09.10 -->
+        <title>GRIN 0.1.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=362ab14a" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
     
     
 
@@ -123,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="#"><div class="brand">GRIN 0.1.1 documentation</div></a>
+      <a href="#"><div class="brand">GRIN 0.1.4 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -146,7 +146,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="#">
   
   
-  <span class="sidebar-brand-text">GRIN 0.1.1 documentation</span>
+  <span class="sidebar-brand-text">GRIN 0.1.4 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -156,14 +156,15 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="0.get_started.html">Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="1.return_value.html">Return Values</a></li>
-<li class="toctree-l1"><a class="reference internal" href="2.api_naming.html">API Naming Rules</a></li>
-<li class="toctree-l1"><a class="reference internal" href="3.topology_api.html">Topology APIs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="4.partition_api.html">Partition APIs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="5.property_api.html">Property APIs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="6.index_api.html">Index APIs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="7.extension.html">Extension</a></li>
+<li class="toctree-l1"><a class="reference internal" href="get_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/1.topology_api.html">Graph Topology and APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/2.property_api.html">Property Graph and APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/3.partition_api.html">Partitioned Graph and APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/4.index_api.html">Graph Index and APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/5.common_api.html">Common Functional APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/6.extension_api.html">Extension APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer_guide.html">Developer Guide For Storage Implementors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer_guide.html#developer-guide-for-users">Developer Guide For Users</a></li>
 </ul>
 
 </div>
@@ -199,74 +200,87 @@
         </div>
         <article role="main">
           <section id="welcome-to-grin-s-documentation">
-<h1>Welcome to GRIN’s documentation!<a class="headerlink" href="#welcome-to-grin-s-documentation" title="Permalink to this heading">#</a></h1>
-<p><strong>GRIN</strong> is a proposed standard graph retrieval interface in GraphScope.
-The goal of GRIN is to provide a common way for the graph computing engines to
-retrieve graph data stored in different storage engines in GraphScope,
-and to simplify the integration of these engines with each other.</p>
-<p>GRIN is defined in C, which makes it portable to systems written in different
-programming languages, such as C++, Rust and Java.
-It provides a set of common operations and data structure handles that can
-be used to access graph data, regardless of the underlying storage engine.</p>
-<p>These operations include:</p>
-<ul class="simple">
-<li><p><em>Traversal</em>: navigating the graph structure to explore relationships between vertices</p></li>
-<li><p><em>Retrieval</em>: retrieving the data and properties of vertices and edges</p></li>
-<li><p><em>Filter</em>: filtering data structures with partitioning or property conditions</p></li>
-</ul>
-<p>GRIN is designed to be read-only, meaning that it does not provide operations for
-modifying the graph data. This decision was made to simplify the implementation
-of GRIN and ensure that it can be used safely with any storage engine.</p>
+<h1>Welcome to GRIN’s documentation!<a class="headerlink" href="#welcome-to-grin-s-documentation" title="Link to this heading">#</a></h1>
+<p>GRIN, which stands for Graph Retrieval INterface, is an interface designed to simplify the retrieval of graph data
+from various storage systems within GraphScope.
+It organizes <strong>common</strong> graph retrieval needs into
+categories such as topology, property, partition, and index,
+as well as <strong>compute-specific</strong> graph
+retrieval requirements as traits including traversal, filter, partition strategy,
+external/internal ids, etc.</p>
+<p>GRIN offers APIs to fulfill these abstracted requirements.
+These APIs are defined in C and can be utilized in systems developed in various programming languages such as C++, Rust, and Java.
+GRIN organizes its APIs using categorized header files.
+Additionally, C macros are utilized by GRIN to allow storage systems that support GRIN
+to filter out APIs that they are unable to handle.
+This ensures compatibility while maximizing efficiency.
+The supported APIs are then implemented in the storage systems to prioritize efficient retrieval with minimal hidden overhead.
+By using GRIN, computing systems can utilize the supported APIs without worrying about performance concerns.</p>
+<p>The documentation is organized as follows:</p>
+<p>First, we introduce the basic concepts of GRIN, including the handle, API, and macros.</p>
+<p>Next, we dive into the details of each API category, starting with the <code class="docutils literal notranslate"><span class="pre">topology</span></code> APIs.
+We then introduce the Labeled Property Graph (LPG) data model along with the <code class="docutils literal notranslate"><span class="pre">property</span></code> APIs.
+Within the LPG data model, we also address the additional <code class="docutils literal notranslate"><span class="pre">topology</span></code>-related APIs that handle the transition from a simple graph to a LPG.
+After that, we introduce the <code class="docutils literal notranslate"><span class="pre">partition</span></code> APIs, which are designed for partitioned graphs.
+Since graph partitioning is another layer on top of simple graphs and LPGs, we also provide additional <code class="docutils literal notranslate"><span class="pre">topology</span></code> and <code class="docutils literal notranslate"><span class="pre">property</span></code>-related APIs for this purpose.
+This three-level “stacking” of <code class="docutils literal notranslate"><span class="pre">topology</span></code>, <code class="docutils literal notranslate"><span class="pre">property</span></code>, and <code class="docutils literal notranslate"><span class="pre">partition</span></code> forms the fundamental organization of GRIN APIs.</p>
+<p>Next, we introduce the <code class="docutils literal notranslate"><span class="pre">index</span></code> APIs, which are designed for graph indexing.
+Following that, we present the <code class="docutils literal notranslate"><span class="pre">common</span></code> APIs, which include the common functions of GRIN, such as <em>schema</em> message and <em>error code</em>.
+Finally, we end the API category section by presenting the <code class="docutils literal notranslate"><span class="pre">extension</span></code> APIs, which are a series of advanced APIs with default implementations that utilize the basic APIs of GRIN.</p>
+<p>Lastly, we provide the developer guide of GRIN for developers to follow.</p>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="0.get_started.html">Getting Started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="0.get_started.html#get-graph-from-storage">Get Graph from Storage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="0.get_started.html#partitioned-graph">Partitioned Graph</a></li>
+<li class="toctree-l1"><a class="reference internal" href="get_started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="get_started.html#get-graph-from-storage">Get Graph from Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="get_started.html#handle">Handle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="get_started.html#return-values">Return Values</a></li>
+<li class="toctree-l2"><a class="reference internal" href="get_started.html#error-handling">Error Handling</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="1.return_value.html">Return Values</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="1.return_value.html#handle">Handle</a></li>
-<li class="toctree-l2"><a class="reference internal" href="1.return_value.html#others">Others</a></li>
-<li class="toctree-l2"><a class="reference internal" href="1.return_value.html#validation">Validation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="1.return_value.html#error-code">Error Code</a></li>
-<li class="toctree-l2"><a class="reference internal" href="1.return_value.html#summary">Summary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/1.topology_api.html">Graph Topology and APIs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/1.topology_api.html#vertex-list">Vertex List</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/1.topology_api.html#adjacent-list">Adjacent List</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/1.topology_api.html#edge-list">Edge List</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="2.api_naming.html">API Naming Rules</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="2.api_naming.html#common-get">Common Get</a></li>
-<li class="toctree-l2"><a class="reference internal" href="2.api_naming.html#list">List</a></li>
-<li class="toctree-l2"><a class="reference internal" href="2.api_naming.html#ref-serialization">Ref &amp; Serialization</a></li>
-<li class="toctree-l2"><a class="reference internal" href="2.api_naming.html#value">Value</a></li>
-<li class="toctree-l2"><a class="reference internal" href="2.api_naming.html#others">Others</a></li>
-<li class="toctree-l2"><a class="reference internal" href="2.api_naming.html#parameter-order">Parameter Order</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/2.property_api.html">Property Graph and APIs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/2.property_api.html#labeled-property-graph">Labeled Property Graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/2.property_api.html#schema-enabled-property-graph-apis">Schema-enabled Property Graph APIs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/2.property_api.html#schema-free-property-graph-apis">Schema-free Property Graph APIs</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="3.topology_api.html">Topology APIs</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="3.topology_api.html#topology-lists">Topology lists</a></li>
-<li class="toctree-l2"><a class="reference internal" href="3.topology_api.html#vertex-list">Vertex List</a></li>
-<li class="toctree-l2"><a class="reference internal" href="3.topology_api.html#edge-list">Edge List</a></li>
-<li class="toctree-l2"><a class="reference internal" href="3.topology_api.html#adjacent-list">Adjacent List</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/3.partition_api.html">Partitioned Graph and APIs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/3.partition_api.html#partition-strategy">Partition Strategy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/3.partition_api.html#partition-apis">Partition APIs</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="4.partition_api.html">Partition APIs</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="4.partition_api.html#vertex-reference">Vertex Reference</a></li>
-<li class="toctree-l2"><a class="reference internal" href="4.partition_api.html#select-master">Select Master</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/4.index_api.html">Graph Index and APIs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/4.index_api.html#external-id">External ID</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/4.index_api.html#internal-id">Internal ID</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/4.index_api.html#pk-indexing">PK Indexing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/4.index_api.html#label-indexing">Label Indexing</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="5.property_api.html">Property APIs</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="5.property_api.html#get-vertex-property-value">Get Vertex Property Value</a></li>
-<li class="toctree-l2"><a class="reference internal" href="5.property_api.html#primary-key">Primary Key</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/5.common_api.html">Common Functional APIs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/5.common_api.html#error-code">Error Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/5.common_api.html#schema-message">Schema Message</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="6.index_api.html">Index APIs</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="6.index_api.html#sorted-list-and-order">Sorted List and Order</a></li>
-<li class="toctree-l2"><a class="reference internal" href="6.index_api.html#internal-id">Internal ID</a></li>
-<li class="toctree-l2"><a class="reference internal" href="6.index_api.html#pk-indexing">PK Indexing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/6.extension_api.html">Extension APIs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/6.extension_api.html#list-chain">List Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/6.extension_api.html#indexed-adjacent-list">Indexed Adjacent List</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/6.extension_api.html#static-storage-feature-message">Static Storage Feature Message</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="7.extension.html">Extension</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="7.extension.html#list-chain">List Chain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer_guide.html">Developer Guide For Storage Implementors</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="developer_guide.html#implementation-principles">Implementation Principles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developer_guide.html#how-to-implement-grin">How to Implement GRIN</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="developer_guide.html#developer-guide-for-users">Developer Guide For Users</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="developer_guide.html#how-to-use-grin">How to Use GRIN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developer_guide.html#api-naming-rules">API Naming Rules</a></li>
 </ul>
 </li>
 </ul>
@@ -278,7 +292,7 @@ of GRIN and ensure that it can be used safely with any storage engine.</p>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="0.get_started.html">
+          <a class="next-page" href="get_started.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
@@ -312,9 +326,9 @@ of GRIN and ensure that it can be used safely with any storage engine.</p>
       
     </aside>
   </div>
-</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
-    <script src="_static/scripts/furo.js"></script>
+</div><script src="_static/documentation_options.js?v=fd825880"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>

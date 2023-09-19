@@ -1,15 +1,15 @@
 <!doctype html>
-<html class="no-js" lang="en">
+<html class="no-js" lang="en" data-content_root="./">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Partition APIs" href="4.partition_api.html" /><link rel="prev" title="API Naming Rules" href="2.api_naming.html" />
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Property Graph and APIs" href="5.property_api.html" /><link rel="prev" title="Welcome to GRIN’s documentation!" href="index.html" />
 
-    <!-- Generated with Sphinx 6.2.1 and Furo 2023.03.27 -->
-        <title>Topology APIs - GRIN 0.1.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=fad236701ea90a88636c2a8c73b44ae642ed2a53" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    <!-- Generated with Sphinx 7.2.5 and Furo 2023.09.10 -->
+        <title>Graph Topology and APIs - GRIN 0.1.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=362ab14a" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
     
     
 
@@ -156,14 +156,8 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="0.get_started.html">Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="1.return_value.html">Return Values</a></li>
-<li class="toctree-l1"><a class="reference internal" href="2.api_naming.html">API Naming Rules</a></li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Topology APIs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="4.partition_api.html">Partition APIs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="5.property_api.html">Property APIs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="6.index_api.html">Index APIs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="7.extension.html">Extension</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Graph Topology and APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="5.property_api.html">Property Graph and APIs</a></li>
 </ul>
 
 </div>
@@ -198,43 +192,77 @@
           </label>
         </div>
         <article role="main">
-          <section id="topology-apis">
-<h1>Topology APIs<a class="headerlink" href="#topology-apis" title="Permalink to this heading">#</a></h1>
-<section id="topology-lists">
-<h2>Topology lists<a class="headerlink" href="#topology-lists" title="Permalink to this heading">#</a></h2>
-<p>GRIN considers vertex list, edge list, and adjacent list as <code class="docutils literal notranslate"><span class="pre">Topology</span> <span class="pre">Lists</span></code>
-and designs related APIs using the same principle.
-GRIN provides low-level abstractions for topology lists.
-Thus, in property graphs with various vertex types and edge types,
-GRIN only provides APIs to get the vertex list and edge list of a single type
-because a vertex list containing vertices of different types can be easily
-constructed by merging vertex lists of different types.
-GRIN will support such high-level abstractions in the future under <code class="docutils literal notranslate"><span class="pre">GRIN</span> <span class="pre">extension</span></code>.</p>
-</section>
+          <section id="graph-topology-and-apis">
+<h1>Graph Topology and APIs<a class="headerlink" href="#graph-topology-and-apis" title="Link to this heading">#</a></h1>
+<p>To retrieve graph data, accessing the topology of the graph is essential.
+This involves accessing the vertices and edges of the graph.
+In GRIN, the vertices are arranged in a vertex list,
+and there are several vertex list APIs available for accessing them.
+As for the representation of graph edges, commonly used sparse matrix representations include CSR, CSC, and COO.
+In GRIN, the adjacent list abstraction is used for CSR and CSC representations,
+while the edge list abstraction is used for COO.</p>
 <section id="vertex-list">
-<h2>Vertex List<a class="headerlink" href="#vertex-list" title="Permalink to this heading">#</a></h2>
-<p>In a simple graph, GRIN provides the <code class="docutils literal notranslate"><span class="pre">grin_get_vertex_list</span></code> API to get the
-vertex list of the graph. In a property graph, GRIN provides the
-<code class="docutils literal notranslate"><span class="pre">grin_get_vertex_list_by_type</span></code> API to get the vertex list. Also, in a
-partitioned graph, when <code class="docutils literal notranslate"><span class="pre">GRIN_TRAIT_SELECT_MASTER_FOR_VERTEX_LIST</span></code> features
-are enabled, GRIN provides two groups of additional APIs:
-<code class="docutils literal notranslate"><span class="pre">grin_get_vertex_list_select_master,</span> <span class="pre">grin_get_vertex_list_select_mirror</span></code> and
-<code class="docutils literal notranslate"><span class="pre">grin_get_vertex_list_by_type_select_master,</span> <span class="pre">grin_get_vertex_list_by_type_select_mirror</span></code>
-for simple graph and property graph, respectively.</p>
-</section>
-<section id="edge-list">
-<h2>Edge List<a class="headerlink" href="#edge-list" title="Permalink to this heading">#</a></h2>
-<p>Similar to the vertex list, GRIN provides the <code class="docutils literal notranslate"><span class="pre">grin_get_edge_list</span></code> API to get
-the edge list for a simple graph and <code class="docutils literal notranslate"><span class="pre">grin_get_edge_list_by_type</span></code> for a property graph.</p>
+<h2>Vertex List<a class="headerlink" href="#vertex-list" title="Link to this heading">#</a></h2>
+<p>The API to get the vertex list of a graph is as follows:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_VERTEX_LIST</span><span class="w"> </span><span class="nf">grin_get_vertex_list</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Here the input parameter is the graph handle, and the return value is the vertex list handle.
+From the vertex list handle, GRIN provides two ways to access the vertices,
+namely the iterator and array-like access.</p>
+<p>To the iterate the vertices in the vertex list, GRIN provides the following APIs:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_VERTEX_LIST_ITERATOR</span><span class="w"> </span><span class="nf">grin_get_vertex_list_begin</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_LIST</span><span class="p">);</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">grin_get_next_vertex_list_iter</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_LIST_ITERATOR</span><span class="p">);</span>
+
+<span class="kt">bool</span><span class="w"> </span><span class="nf">grin_is_vertex_list_end</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_LIST_ITERATOR</span><span class="p">);</span>
+
+<span class="n">GRIN_VERTEX</span><span class="w"> </span><span class="nf">grin_get_vertex_from_iter</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_LIST_ITERATOR</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The first API returns the iterator pointing to the first vertex in the vertex list,
+and the second API “moves” the iterator to the next vertex in the vertex list.
+The third API checks whether the iterator has reached the end of the vertex list.
+The last API returns the vertex pointed by the iterator.</p>
+<p>The array-like access to the vertex list is provided by the following APIs:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">size_t</span><span class="w"> </span><span class="nf">grin_get_vertex_list_size</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_LIST</span><span class="p">);</span>
+
+<span class="n">GRIN_VERTEX</span><span class="w"> </span><span class="nf">grin_get_vertex_from_list</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_LIST</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The first API returns the number of vertices in the vertex list,
+and the second API returns the vertex at the given position of the list.</p>
+<p>Storages may implement either ways or both for the vertex list, based on their own characteristics.
+In general, a storage that supports random access to the vertex list
+is recommended to implement both ways, while a storage that does not support
+random access may only implement the iterator way.</p>
 </section>
 <section id="adjacent-list">
-<h2>Adjacent List<a class="headerlink" href="#adjacent-list" title="Permalink to this heading">#</a></h2>
-<p>GRIN considers the adjacent list as a special case of the edge list and thus
-also provides the <code class="docutils literal notranslate"><span class="pre">grin_get_adjacent_list_by_edge_type</span></code> API for a property graph,
-as well as <code class="docutils literal notranslate"><span class="pre">grin_get_adjacent_list</span></code> for a simple graph.
-Additional selections can also be attached to adjacent lists of both simple graph
-and property graph, such as <code class="docutils literal notranslate"><span class="pre">grin_get_adjacent_list_select_neighbor_partition</span></code>,
-<code class="docutils literal notranslate"><span class="pre">grin_get_adjacent_list_by_edge_type_select_master_neighbor</span></code>, etc.</p>
+<h2>Adjacent List<a class="headerlink" href="#adjacent-list" title="Link to this heading">#</a></h2>
+<p>The API to get the adjacent list of a vertex is as follows:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_ADJACENT_LIST</span><span class="w"> </span><span class="nf">grin_get_adjacent_list</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_DIRECTION</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The second input parameter in the function refers to the direction of the adjacent list.
+The value of <code class="docutils literal notranslate"><span class="pre">GRIN_DIRECTION</span></code> can be either <code class="docutils literal notranslate"><span class="pre">OUT</span></code> or <code class="docutils literal notranslate"><span class="pre">IN</span></code>.
+When set to <code class="docutils literal notranslate"><span class="pre">OUT</span></code>, it represents the outgoing adjacent list,
+while <code class="docutils literal notranslate"><span class="pre">IN</span></code> represents the incoming adjacent list.
+These directions are related to the CSR and CSC representations, respectively.</p>
+<p>Similar to the vertex list, GRIN provides two ways to access the adjacent list,
+namely the iterator and array-like access.
+Thus, the APIs for the adjacent list are very similar to those for the vertex list.</p>
+</section>
+<section id="edge-list">
+<h2>Edge List<a class="headerlink" href="#edge-list" title="Link to this heading">#</a></h2>
+<p>The API to get the edge list of a graph is as follows:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_EDGE_LIST</span><span class="w"> </span><span class="nf">grin_get_edge_list</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The input parameter is the graph handle, and the return value is the edge list handle.
+The edge list feature is related to the COO representation.
+Most storages does not support the edge list feature, because COO is considered
+as a less efficient representation for graph traversal.</p>
+<p>The APIs for the edge list are similar to those for the vertex list and adjacent list.</p>
 </section>
 </section>
 
@@ -243,23 +271,23 @@ and property graph, such as <code class="docutils literal notranslate"><span cla
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="4.partition_api.html">
+          <a class="next-page" href="5.property_api.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Partition APIs</div>
+                <div class="title">Property Graph and APIs</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="2.api_naming.html">
+          <a class="prev-page" href="index.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">API Naming Rules</div>
+                <div class="title">Home</div>
                 
               </div>
             </a>
@@ -293,11 +321,10 @@ and property graph, such as <code class="docutils literal notranslate"><span cla
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Topology APIs</a><ul>
-<li><a class="reference internal" href="#topology-lists">Topology lists</a></li>
+<li><a class="reference internal" href="#">Graph Topology and APIs</a><ul>
 <li><a class="reference internal" href="#vertex-list">Vertex List</a></li>
-<li><a class="reference internal" href="#edge-list">Edge List</a></li>
 <li><a class="reference internal" href="#adjacent-list">Adjacent List</a></li>
+<li><a class="reference internal" href="#edge-list">Edge List</a></li>
 </ul>
 </li>
 </ul>
@@ -309,9 +336,9 @@ and property graph, such as <code class="docutils literal notranslate"><span cla
       
     </aside>
   </div>
-</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
-    <script src="_static/scripts/furo.js"></script>
+</div><script src="_static/documentation_options.js?v=a58bc63e"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>

@@ -1,15 +1,15 @@
 <!doctype html>
-<html class="no-js" lang="en">
+<html class="no-js" lang="en" data-content_root="./">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Topology APIs" href="3.topology_api.html" /><link rel="prev" title="Return Values" href="1.return_value.html" />
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" />
 
-    <!-- Generated with Sphinx 6.2.1 and Furo 2023.03.27 -->
+    <!-- Generated with Sphinx 7.2.5 and Furo 2023.09.10 -->
         <title>API Naming Rules - GRIN 0.1.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=fad236701ea90a88636c2a8c73b44ae642ed2a53" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=362ab14a" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
     
     
 
@@ -155,15 +155,9 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="0.get_started.html">Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="1.return_value.html">Return Values</a></li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">API Naming Rules</a></li>
-<li class="toctree-l1"><a class="reference internal" href="3.topology_api.html">Topology APIs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="4.partition_api.html">Partition APIs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="5.property_api.html">Property APIs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="6.index_api.html">Index APIs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="7.extension.html">Extension</a></li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="3.topology_api.html">Graph Topology and APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="5.property_api.html">Property Graph and APIs</a></li>
 </ul>
 
 </div>
@@ -199,9 +193,9 @@
         </div>
         <article role="main">
           <section id="api-naming-rules">
-<h1>API Naming Rules<a class="headerlink" href="#api-naming-rules" title="Permalink to this heading">#</a></h1>
+<h1>API Naming Rules<a class="headerlink" href="#api-naming-rules" title="Link to this heading">#</a></h1>
 <section id="common-get">
-<h2>Common Get<a class="headerlink" href="#common-get" title="Permalink to this heading">#</a></h2>
+<h2>Common Get<a class="headerlink" href="#common-get" title="Link to this heading">#</a></h2>
 <div class="table-wrapper docutils container">
 <table class="docutils align-default">
 <thead>
@@ -233,7 +227,7 @@
 </div>
 </section>
 <section id="list">
-<h2>List<a class="headerlink" href="#list" title="Permalink to this heading">#</a></h2>
+<h2>List<a class="headerlink" href="#list" title="Link to this heading">#</a></h2>
 <div class="table-wrapper docutils container">
 <table class="docutils align-default">
 <thead>
@@ -265,7 +259,7 @@
 </div>
 </section>
 <section id="ref-serialization">
-<h2>Ref &amp; Serialization<a class="headerlink" href="#ref-serialization" title="Permalink to this heading">#</a></h2>
+<h2>Ref &amp; Serialization<a class="headerlink" href="#ref-serialization" title="Link to this heading">#</a></h2>
 <div class="table-wrapper docutils container">
 <table class="docutils align-default">
 <thead>
@@ -285,7 +279,7 @@
 </div>
 </section>
 <section id="value">
-<h2>Value<a class="headerlink" href="#value" title="Permalink to this heading">#</a></h2>
+<h2>Value<a class="headerlink" href="#value" title="Link to this heading">#</a></h2>
 <div class="table-wrapper docutils container">
 <table class="docutils align-default">
 <thead>
@@ -314,7 +308,7 @@
 </div>
 </section>
 <section id="others">
-<h2>Others<a class="headerlink" href="#others" title="Permalink to this heading">#</a></h2>
+<h2>Others<a class="headerlink" href="#others" title="Link to this heading">#</a></h2>
 <div class="table-wrapper docutils container">
 <table class="docutils align-default">
 <thead>
@@ -340,7 +334,7 @@
 </div>
 </section>
 <section id="parameter-order">
-<h2>Parameter Order<a class="headerlink" href="#parameter-order" title="Permalink to this heading">#</a></h2>
+<h2>Parameter Order<a class="headerlink" href="#parameter-order" title="Link to this heading">#</a></h2>
 <p>Rules to order parameters of APIs:</p>
 <ul class="simple">
 <li><p>From larger-range handle to smaller-range handle</p></li>
@@ -353,26 +347,8 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="3.topology_api.html">
-              <div class="page-info">
-                <div class="context">
-                  <span>Next</span>
-                </div>
-                <div class="title">Topology APIs</div>
-              </div>
-              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
-            </a>
-          <a class="prev-page" href="1.return_value.html">
-              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
-              <div class="page-info">
-                <div class="context">
-                  <span>Previous</span>
-                </div>
-                
-                <div class="title">Return Values</div>
-                
-              </div>
-            </a>
+          
+          
         </div>
         <div class="bottom-of-page">
           <div class="left-details">
@@ -421,9 +397,9 @@
       
     </aside>
   </div>
-</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
-    <script src="_static/scripts/furo.js"></script>
+</div><script src="_static/documentation_options.js?v=a58bc63e"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>
