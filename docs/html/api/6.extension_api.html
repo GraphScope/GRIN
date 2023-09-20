@@ -249,7 +249,7 @@ not maintain a continuous memory layout for the adjacent list.</p>
 array-like access, especially during the sampling phase of a GNN (Graph Neural
 Network) algorithm.</p>
 <p>To address this issue, the GRIN extension offers a high-level handle called
-“GRIN_INDEXED_ADJACENT_LIST”. This handle allows for array-like access to the
+<code class="docutils literal notranslate"><span class="pre">GRIN_INDEXED_ADJACENT_LIST</span></code>. This handle allows for array-like access to the
 adjacent list of a vertex by temporarily caching the adjacent list in memory.</p>
 <p>The APIs are as follows:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_INDEXED_ADJACENT_LIST</span><span class="w"> </span><span class="nf">grin_get_indexed_adjacent_list</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_ADJACENT_LIST</span><span class="p">);</span>
@@ -269,14 +269,14 @@ adjacent list of a vertex by temporarily caching the adjacent list in memory.</p
 <p>C macros are used by GRIN to filter out APIs that storage systems cannot
 handle. In the above example, some storage system may not support array-like access
 to the adjacent list of a vertex. In such a case, the storage system can
-disable the <cite>GRIN_ENABLE_ADJACENT_LIST_ARRAY</cite> macro to exclude the APIs
+disable the <code class="docutils literal notranslate"><span class="pre">GRIN_ENABLE_ADJACENT_LIST_ARRAY</span></code> macro to exclude the APIs
 related to array-like access of adjacent lists.
 The selections on macros are referred to
-as the <em>static storage features</em> of a storage system.</p>
+as the <code class="docutils literal notranslate"><span class="pre">static</span> <span class="pre">storage</span> <span class="pre">features</span></code> of a storage system.</p>
 <p>When users access a storage system through GRIN, they may need to know the
 static storage features of the storage system to adjust their execution plans
-accordingly. GRIN defines the <em>static storage features</em> as a proto
-(Protocol Buffer) in <cite>proto/storage.proto</cite> and provides a common API in GRIN
+accordingly. GRIN defines the <code class="docutils literal notranslate"><span class="pre">static</span> <span class="pre">storage</span> <span class="pre">features</span></code> as a proto
+(Protocol Buffer) in <code class="docutils literal notranslate"><span class="pre">proto/storage.proto</span></code> and provides a common API in GRIN
 extension to automatically generate the proto message for the storage
 system.</p>
 <p>The API is:</p>

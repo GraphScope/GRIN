@@ -203,8 +203,8 @@
 <h1>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading">#</a></h1>
 <section id="get-graph-from-storage">
 <h2>Get Graph from Storage<a class="headerlink" href="#get-graph-from-storage" title="Link to this heading">#</a></h2>
-<p>GRIN offers a set of APIs to retrieve graph from storage.
-The first API we need is to get a graph handle for a graph in storage.
+<p>GRIN offers a set of APIs to retrieve graph data in storage.
+The first API we need is to get a graph handle for a graph from storage.
 The API is:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_GRAPH</span><span class="w"> </span><span class="nf">grin_get_graph_from_storage</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">uri</span><span class="p">);</span>
 </pre></div>
@@ -262,14 +262,14 @@ For example, when calling the <code class="docutils literal notranslate"><span c
 can be freed using the <code class="docutils literal notranslate"><span class="pre">grin_destroy_graph</span></code> API. It’s important to note that GRIN APIs are stateless,
 meaning that the responsibility of memory management lies with the users, rather than the storages.</p>
 <p>Some APIs may return values other than handles, such as primitive types like <code class="docutils literal notranslate"><span class="pre">int</span></code> and <code class="docutils literal notranslate"><span class="pre">double</span></code>.
-These values are returned by APIs to get vertex property values and are stored on the <code class="docutils literal notranslate"><span class="pre">stack</span></code>,
+For example, primitive values returned by APIs to get vertex property values are stored on the <code class="docutils literal notranslate"><span class="pre">stack</span></code>,
 meaning they do not need to be freed. We will provide more
 detailed information about these return values and whether or not there are corresponding
 <code class="docutils literal notranslate"><span class="pre">destroy</span></code> APIs, when discussing related APIs.</p>
 </section>
 <section id="error-handling">
 <h2>Error Handling<a class="headerlink" href="#error-handling" title="Link to this heading">#</a></h2>
-<p>Each handle type also has a <code class="docutils literal notranslate"><span class="pre">invalid</span></code> value that represents an invalid handle.
+<p>Each handle type also has a <code class="docutils literal notranslate"><span class="pre">invalid</span></code> value.
 For example, the <code class="docutils literal notranslate"><span class="pre">GRIN_GRAPH</span></code> handle type has a <code class="docutils literal notranslate"><span class="pre">invalid</span></code> value denoted as <code class="docutils literal notranslate"><span class="pre">GRIN_NULL_GRAPH</span></code>.
 When the <code class="docutils literal notranslate"><span class="pre">grin_get_graph_from_storage</span></code> API cannot find the graph with the given uri from the storage,
 it returns the <code class="docutils literal notranslate"><span class="pre">GRIN_NULL_GRAPH</span></code> value. This value can be used to check whether the API call is

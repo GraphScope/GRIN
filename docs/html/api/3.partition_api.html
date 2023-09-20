@@ -209,8 +209,8 @@ each with the goal of achieving similar-sized subgraphs and reducing cross-parti
 <p>However, different partition strategies can lead to different topology placement features,
 which makes it difficult for users to write portable graph algorithms.
 To address this issue, GRIN provides a unified partitioned graph paradigm.
-This paradigm allows users to represent partitioned graphs with different partition strategies.
-By using this paradigm, users can easily determine the topology placement for graphs and property placement for LPGs.</p>
+This paradigm allows users to represent partitioned graphs with different partition strategies,
+and users can easily determine the topology placement for graphs and property placement for LPGs from the paradigm.</p>
 <p>To better understand this concept, let’s start by defining some key concepts related to partitions.
 We will then introduce the corresponding APIs that can be used to work with partitioned graphs.</p>
 <section id="partition-strategy">
@@ -238,12 +238,11 @@ partition strategies with the goal of achieving better performance.
 Finally, we define the <code class="docutils literal notranslate"><span class="pre">property</span> <span class="pre">placement</span></code> strategies for LPGs.</p>
 <section id="edgecut">
 <h3>Edgecut<a class="headerlink" href="#edgecut" title="Link to this heading">#</a></h3>
-<p>The edge cut partition strategy begins by assigning each vertex,
-denoted as <span class="math notranslate nohighlight">\(v\)</span>, in the set <span class="math notranslate nohighlight">\(V\)</span> to a single partition.
-This initial assignment results in the set <span class="math notranslate nohighlight">\(V_i^M\)</span>.
+<p>The edge cut partition strategy begins by mapping each vertex <span class="math notranslate nohighlight">\(v\in V\)</span> to one partition.
+This initial assignment results in the sets of <span class="math notranslate nohighlight">\(V_i^M\)</span>.
 Next, for each partition <span class="math notranslate nohighlight">\(i\)</span>, we place the edges of <span class="math notranslate nohighlight">\(E(V_i^M)\)</span> into partition <span class="math notranslate nohighlight">\(i\)</span>.
-Afterwards, we apply the <code class="docutils literal notranslate"><span class="pre">cut</span> <span class="pre">edge</span> <span class="pre">placement</span></code> strategies to place the cut edges,
-which are edges with endpoints in different partitions, into their respective partitions.
+Afterwards, we apply the <code class="docutils literal notranslate"><span class="pre">cut</span> <span class="pre">edge</span> <span class="pre">placement</span></code> strategies (which will be described later) to place the cut edges
+into their respective partitions, where the cut edges are edges with endpoints in different partitions.
 This step generates the set <span class="math notranslate nohighlight">\(E_i\)</span>.
 It is important to note that if the strategy does not involve replicating the cut edges,
 then <span class="math notranslate nohighlight">\(E_i^M\)</span> will be equal to <span class="math notranslate nohighlight">\(E_i\)</span>.
@@ -253,15 +252,15 @@ Finally, by letting <span class="math notranslate nohighlight">\(V_i\)</span> eq
 we obtain the final partition.</p>
 <p>The cut edge placement strategies for directed graphs are <code class="docutils literal notranslate"><span class="pre">following</span> <span class="pre">source</span></code> and <code class="docutils literal notranslate"><span class="pre">following</span> <span class="pre">destination</span></code>,
 which means the cut edge can be placed in the partition of its source vertex and destination vertex respectively.
-An edgecut partition strategy can use either of these strategies, or both of them, meaning that
-the cut edges are replicated.
+An edgecut partition strategy may use either of these strategies, or both of them by replicating the cut edges.
 On the other hand, the cut edge placement strategies for undirected graphs are <code class="docutils literal notranslate"><span class="pre">following</span> <span class="pre">lower</span></code> and <code class="docutils literal notranslate"><span class="pre">following</span> <span class="pre">higher</span></code>,
-which means the cut edge can be placed in the partition of its endpoints with the lower and higher partition ID respectively.</p>
+which means the cut edge can be placed in the partition of its endpoints with the lower and higher partition ID respectively.
+Similarly, both strategies for undirected graphs can be used in conjunction by replicating the cut edges.</p>
 </section>
 <section id="vertexcut">
 <h3>Vertexcut<a class="headerlink" href="#vertexcut" title="Link to this heading">#</a></h3>
-<p>The vertex cut partition strategy starts by assigning each edge <span class="math notranslate nohighlight">\(e\in E\)</span>
-to a single partition, resulting in <span class="math notranslate nohighlight">\(E_i^M\)</span>.
+<p>The vertex cut partition strategy starts by mapping each edge <span class="math notranslate nohighlight">\(e\in E\)</span>
+to one partition, resulting in <span class="math notranslate nohighlight">\(E_i^M\)</span>.
 We then have <span class="math notranslate nohighlight">\(E_i = E_i^M\)</span> and <span class="math notranslate nohighlight">\(V_i = V(E_i)\)</span>.
 Next, for each zero-degree vertex <span class="math notranslate nohighlight">\(z\)</span>, we assign a master partition to that vertex.
 Finally, for each vertex <span class="math notranslate nohighlight">\(v\)</span> that appears in multiple <span class="math notranslate nohighlight">\(V_i\)</span>, we assign a master
@@ -280,11 +279,12 @@ Universal vertices, denoted as <span class="math notranslate nohighlight">\(U\)<
 Additionally, the edges between them, denoted as <span class="math notranslate nohighlight">\(E(U)\)</span>,
 are also replicated to all partitions, and we call them universal edges.</p>
 <p>The partition strategy with universal vertice and edges involved begins by selecting <span class="math notranslate nohighlight">\(U\)</span> out of <span class="math notranslate nohighlight">\(V\)</span>.
-This includes removing <span class="math notranslate nohighlight">\(U\)</span> from <span class="math notranslate nohighlight">\(V\)</span> and removing <span class="math notranslate nohighlight">\(E(U)\)</span> and <span class="math notranslate nohighlight">\(CE(U, V)\)</span> from <span class="math notranslate nohighlight">\(E\)</span>,
-where <span class="math notranslate nohighlight">\(CE(U, V)\)</span> represents the cross edges between <span class="math notranslate nohighlight">\(U\)</span> and <span class="math notranslate nohighlight">\(V\)</span>.
+This includes removing <span class="math notranslate nohighlight">\(U\)</span> from <span class="math notranslate nohighlight">\(V\)</span> (let’s denote the remaining vertices as <span class="math notranslate nohighlight">\(V'\)</span>)
+and removing <span class="math notranslate nohighlight">\(E(U)\)</span> and <span class="math notranslate nohighlight">\(CE(U, V')\)</span> from <span class="math notranslate nohighlight">\(E\)</span>,
+where <span class="math notranslate nohighlight">\(CE(U, V')\)</span> represents the cross edges between <span class="math notranslate nohighlight">\(U\)</span> and <span class="math notranslate nohighlight">\(V'\)</span>.
 Next, the remaining vertices <span class="math notranslate nohighlight">\(V'\)</span> and edges <span class="math notranslate nohighlight">\(E'\)</span> are partitioned based on the partition strategy.
-Following this, each cross edge <span class="math notranslate nohighlight">\(e\)</span> in <span class="math notranslate nohighlight">\(CE(U, V)\)</span> is placed based on the
-<code class="docutils literal notranslate"><span class="pre">cross</span> <span class="pre">edge</span> <span class="pre">placement</span></code> strategy, and <span class="math notranslate nohighlight">\(E'_i\)</span> is updated accordingly.
+Following this, each cross edge <span class="math notranslate nohighlight">\(e\)</span> in <span class="math notranslate nohighlight">\(CE(U, V')\)</span> is placed based on the
+<code class="docutils literal notranslate"><span class="pre">cross</span> <span class="pre">edge</span> <span class="pre">placement</span></code> strategy (which will be described later), and <span class="math notranslate nohighlight">\(E'_i\)</span> is updated accordingly.
 If replication is involved during the placement process, a master partition
 is assigned to each cross edge, and <span class="math notranslate nohighlight">\({E'}_i^M\)</span> is updated.
 This results a valid partition on <span class="math notranslate nohighlight">\(V - U\)</span> and <span class="math notranslate nohighlight">\(E - E(U)\)</span>.
@@ -306,8 +306,7 @@ the cross edge is replicated to all the partitions of its non-universal endpoint
 <section id="sparse-indexing">
 <h3>Sparse Indexing<a class="headerlink" href="#sparse-indexing" title="Link to this heading">#</a></h3>
 <p>After the partitioning, storages may impose different sparse-indexing strategies
-on different kinds of vertices and edges (universal, master, mirror),
-to fulfill varying computing requirements on different kinds of vertices and edges.
+to fulfill varying computing requirements on different kinds (universal, master, mirror) of vertices and edges.
 The sparse indexing strategies include:</p>
 <ul class="simple">
 <li><p>CSR: Compressed Sparse Row</p></li>
@@ -424,7 +423,7 @@ on different kinds of vertices and edges (universal, master, mirror),
 to fulfill varying computing requirements.
 To address this, GRIN provides APIs to select specific kinds of vertices
 or edges that meet the requirements.</p>
-<p>Next, we will discuss the APIs for <code class="docutils literal notranslate"><span class="pre">universal</span></code> vertices and edges.
+<p>We will first discuss the APIs for <code class="docutils literal notranslate"><span class="pre">universal</span></code> vertices and edges.
 Then, we will cover the APIs related to <code class="docutils literal notranslate"><span class="pre">master</span></code> and <code class="docutils literal notranslate"><span class="pre">mirror</span></code> vertices and edges.</p>
 <p>For simple graphs, the universal and non-universal vertices can be selected using:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_VERTEX_LIST</span><span class="w"> </span><span class="nf">grin_get_vertex_list_select_universal</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">);</span>
@@ -460,7 +459,7 @@ Thus the APIs become:</p>
 <span class="n">GRIN_VERTEX_LIST</span><span class="w"> </span><span class="nf">grin_get_vertex_list_select_mirror</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>Some storage may provide finer selection on vertices based on their master partitions.
+<p>Sometime users require finer selection on vertices based on their master partitions.
 GRIN offers such an API as:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_VERTEX_LIST</span><span class="w"> </span><span class="nf">grin_get_vertex_list_select_partition</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_PARTITION</span><span class="p">);</span>
 </pre></div>

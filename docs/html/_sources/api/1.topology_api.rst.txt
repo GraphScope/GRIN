@@ -21,7 +21,7 @@ Here the input parameter is the graph handle, and the return value is the vertex
 From the vertex list handle, GRIN provides two ways to access the vertices, 
 namely the iterator and array-like access.
 
-To the iterate the vertices in the vertex list, GRIN provides the following APIs:
+To iterate the vertices in the vertex list, the following APIs are provided:
 
 .. code-block:: c
 
@@ -64,9 +64,8 @@ The API to get the adjacent list of a vertex is as follows:
 
     GRIN_ADJACENT_LIST grin_get_adjacent_list(GRIN_GRAPH, GRIN_DIRECTION, GRIN_VERTEX);
 
-The second input parameter in the function refers to the direction of the adjacent list. 
-The value of ``GRIN_DIRECTION`` can be either ``OUT`` or ``IN``. 
-When set to ``OUT``, it represents the outgoing adjacent list, 
+The second input parameter of ``GRIN_DIRECTION`` in the function refers to the direction of the adjacent list. 
+When the value is set to ``OUT``, it represents the outgoing adjacent list, 
 while ``IN`` represents the incoming adjacent list. 
 These directions are related to the CSR and CSC representations, respectively.
 
@@ -89,3 +88,4 @@ Most storages does not support the edge list feature, because COO is considered
 as a less efficient representation for graph traversal.
 
 The APIs for the edge list are similar to those for the vertex list and adjacent list.
+We don't repeat them here.

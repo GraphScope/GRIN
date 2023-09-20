@@ -226,10 +226,10 @@ by graph computing systems, such as graph databases and graph analytical systems
 on graph data lakes.</p>
 <p>In this model, a labeled property graph is represented as <span class="math notranslate nohighlight">\(G = (V, E, T_V, T_E, P, L)\)</span>.
 Here, <span class="math notranslate nohighlight">\(V\)</span> is the set of vertices, <span class="math notranslate nohighlight">\(E\)</span> is the set of edges,
-<cite>T_V</cite> is the set of vertex types, <span class="math notranslate nohighlight">\(T_E\)</span> is the set of edge types,
-<cite>P</cite> is the set of properties, and <span class="math notranslate nohighlight">\(L\)</span> is the set of labels.</p>
-<p>Each vertex <span class="math notranslate nohighlight">\(v\)</span> in <span class="math notranslate nohighlight">\(V\)</span> is associated with a vertex type <span class="math notranslate nohighlight">\(t_v\)</span> from <span class="math notranslate nohighlight">\(T_V\)</span>.
-Similarly, each edge <span class="math notranslate nohighlight">\(e\)</span> is associated with an edge type <span class="math notranslate nohighlight">\(t_e\)</span> from <span class="math notranslate nohighlight">\(T_E\)</span>,
+<span class="math notranslate nohighlight">\(T_V\)</span> is the set of vertex types, <span class="math notranslate nohighlight">\(T_E\)</span> is the set of edge types,
+<span class="math notranslate nohighlight">\(P\)</span> is the set of properties, and <span class="math notranslate nohighlight">\(L\)</span> is the set of labels.</p>
+<p>Each vertex <span class="math notranslate nohighlight">\(v\in V\)</span> is associated with a vertex type <span class="math notranslate nohighlight">\(t_v\)</span> from <span class="math notranslate nohighlight">\(T_V\)</span>.
+Similarly, each edge <span class="math notranslate nohighlight">\(e\in E\)</span> is associated with an edge type <span class="math notranslate nohighlight">\(t_e\)</span> from <span class="math notranslate nohighlight">\(T_E\)</span>,
 and the graph <span class="math notranslate nohighlight">\(G\)</span> is directed so that each edge has a source and destination vertex.
 A property <span class="math notranslate nohighlight">\(p\)</span> in <span class="math notranslate nohighlight">\(P\)</span> can be either a vertex property specific to a vertex type
 or an edge property specific to an edge type.
@@ -266,13 +266,13 @@ The relevant APIs for this functionality are as follows:</p>
 <span class="n">GRIN_VERTEX_TYPE</span><span class="w"> </span><span class="nf">grin_get_vertex_type_from_list</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_TYPE_LIST</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>Each vertex type has a unique name, the related APIs are:</p>
+<p>Each vertex type has a unique name, and the related APIs are:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="nf">grin_get_vertex_type_name</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_TYPE</span><span class="p">);</span>
 
 <span class="n">GRIN_VERTEX_TYPE</span><span class="w"> </span><span class="nf">grin_get_vertex_type_by_name</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">name</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>Also, the vertex types are numbered from 0, denoted as the vertex type ids:</p>
+<p>Also, the vertex types are numbered from 0, denoted as the vertex type ids. The related APIs are:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_VERTEX_TYPE_ID</span><span class="w"> </span><span class="nf">grin_get_vertex_type_id</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_TYPE</span><span class="p">);</span>
 
 <span class="n">GRIN_VERTEX_TYPE</span><span class="w"> </span><span class="nf">grin_get_vertex_type_by_id</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_TYPE_ID</span><span class="p">);</span>
@@ -307,7 +307,7 @@ We can get the properties of a vertex type using:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_VERTEX_PROPERTY_LIST</span><span class="w"> </span><span class="nf">grin_get_vertex_properties_by_name</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">name</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>Properties belonging to the same vertex type are numbered from 0, denoted as the property ids:</p>
+<p>Properties belonging to the same vertex type are numbered from 0, denoted as the property ids. The related APIs are:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_VERTEX_PROPERTY_ID</span><span class="w"> </span><span class="nf">grin_get_vertex_property_id</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_TYPE</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_PROPERTY</span><span class="p">);</span>
 
 <span class="n">GRIN_VERTEX_PROPERTY</span><span class="w"> </span><span class="nf">grin_get_vertex_property_by_id</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_TYPE</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_PROPERTY_ID</span><span class="p">);</span>
@@ -503,6 +503,8 @@ Thus, the APIs for properties are different from the schema-enabled case.</p>
 </div>
 <p>However, IDs are not supported as vertex properties in schema-free property graphs
 since vertex properties are considered to be distinct from one another.</p>
+<p>It is important to note that the APIs to get datatype and values of a vertex property are the same as the schema-enabled case,
+because those APIs only require the vertex handle and the property handle as input parameter.</p>
 <p>The APIs for edge properties are similar to the vertex property APIs, so we will not repeat them here.</p>
 </section>
 <section id="id1">

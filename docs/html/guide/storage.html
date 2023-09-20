@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Property Graph and APIs" href="2.property_api.html" /><link rel="prev" title="Getting Started" href="../get_started.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Developer Guide For Users" href="user.html" /><link rel="prev" title="Extension APIs" href="../api/6.extension_api.html" />
 
     <!-- Generated with Sphinx 7.2.5 and Furo 2023.09.10 -->
-        <title>Graph Topology and APIs - GRIN 0.1.4 documentation</title>
+        <title>Developer Guide For Storage Implementors - GRIN 0.1.4 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=362ab14a" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
@@ -157,14 +157,14 @@
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../get_started.html">Getting Started</a></li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Graph Topology and APIs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="2.property_api.html">Property Graph and APIs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="3.partition_api.html">Partitioned Graph and APIs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="4.index_api.html">Graph Index and APIs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="5.common_api.html">Common Functional APIs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="6.extension_api.html">Extension APIs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../developer_guide.html">Developer Guide For Storage Implementors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../developer_guide.html#developer-guide-for-users">Developer Guide For Users</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/1.topology_api.html">Graph Topology and APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/2.property_api.html">Property Graph and APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/3.partition_api.html">Partitioned Graph and APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/4.index_api.html">Graph Index and APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/5.common_api.html">Common Functional APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/6.extension_api.html">Extension APIs</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Developer Guide For Storage Implementors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user.html">Developer Guide For Users</a></li>
 </ul>
 
 </div>
@@ -199,77 +199,58 @@
           </label>
         </div>
         <article role="main">
-          <section id="graph-topology-and-apis">
-<h1>Graph Topology and APIs<a class="headerlink" href="#graph-topology-and-apis" title="Link to this heading">#</a></h1>
-<p>To retrieve graph data, accessing the topology of the graph is essential.
-This involves accessing the vertices and edges of the graph.
-In GRIN, the vertices are arranged in a vertex list,
-and there are several vertex list APIs available for accessing them.
-As for the representation of graph edges, commonly used sparse matrix representations include CSR, CSC, and COO.
-In GRIN, the adjacent list is used for CSR and CSC representations,
-while the edge list is used for COO.</p>
-<section id="vertex-list">
-<h2>Vertex List<a class="headerlink" href="#vertex-list" title="Link to this heading">#</a></h2>
-<p>The API to get the vertex list of a graph is as follows:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_VERTEX_LIST</span><span class="w"> </span><span class="nf">grin_get_vertex_list</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">);</span>
-</pre></div>
-</div>
-<p>Here the input parameter is the graph handle, and the return value is the vertex list handle.
-From the vertex list handle, GRIN provides two ways to access the vertices,
-namely the iterator and array-like access.</p>
-<p>To iterate the vertices in the vertex list, the following APIs are provided:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_VERTEX_LIST_ITERATOR</span><span class="w"> </span><span class="nf">grin_get_vertex_list_begin</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_LIST</span><span class="p">);</span>
-
-<span class="kt">void</span><span class="w"> </span><span class="nf">grin_get_next_vertex_list_iter</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_LIST_ITERATOR</span><span class="p">);</span>
-
-<span class="kt">bool</span><span class="w"> </span><span class="nf">grin_is_vertex_list_end</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_LIST_ITERATOR</span><span class="p">);</span>
-
-<span class="n">GRIN_VERTEX</span><span class="w"> </span><span class="nf">grin_get_vertex_from_iter</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_LIST_ITERATOR</span><span class="p">);</span>
-</pre></div>
-</div>
-<p>The first API returns the iterator pointing to the first vertex in the vertex list,
-and the second API “moves” the iterator to the next vertex in the vertex list.
-The third API checks whether the iterator has reached the end of the vertex list.
-The last API returns the vertex pointed by the iterator.</p>
-<p>The array-like access to the vertex list is provided by the following APIs:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">size_t</span><span class="w"> </span><span class="nf">grin_get_vertex_list_size</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_LIST</span><span class="p">);</span>
-
-<span class="n">GRIN_VERTEX</span><span class="w"> </span><span class="nf">grin_get_vertex_from_list</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX_LIST</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="p">);</span>
-</pre></div>
-</div>
-<p>The first API returns the number of vertices in the vertex list,
-and the second API returns the vertex at the given position of the list.</p>
-<p>Storages may implement either ways or both for the vertex list, based on their own characteristics.
-In general, a storage that supports random access to the vertex list
-is recommended to implement both ways, while a storage that does not support
-random access may only implement the iterator way.</p>
+          <section id="developer-guide-for-storage-implementors">
+<h1>Developer Guide For Storage Implementors<a class="headerlink" href="#developer-guide-for-storage-implementors" title="Link to this heading">#</a></h1>
+<p>To support GRIN, storage system implementors should implement the APIs that
+they <strong>choose</strong> to support.
+The first step is to create a <code class="docutils literal notranslate"><span class="pre">predefine.h</span></code> header file from the template.
+Within this header file, the implementors will define the macros for the
+categories and traits they have decided to support. Additionally, they will
+type-define the corresponding handle types.
+Finally, the implementors will proceed to implement the APIs of the categories
+and traits that they have chosen to support.</p>
+<section id="implementation-principles">
+<h2>Implementation Principles<a class="headerlink" href="#implementation-principles" title="Link to this heading">#</a></h2>
+<section id="efficiency-first">
+<h3>Efficiency First<a class="headerlink" href="#efficiency-first" title="Link to this heading">#</a></h3>
+<p>To effectively implement GRIN APIs, implementors should prioritize efficiency as
+their main consideration. It is crucial to aim for the best possible time
+complexity, while still maintaining a reasonable level of space complexity.
+Ideally, the recommended upper bound for time complexity should be O(log n),
+where n represents the size of the graph.</p>
+<p>In cases where achieving O(log n) time complexity is not feasible for certain
+APIs, implementors should explore the option of caching the results the first
+time the API is called. Subsequently, when the API is called again, the cached
+results can be returned, thereby improving overall performance.</p>
 </section>
-<section id="adjacent-list">
-<h2>Adjacent List<a class="headerlink" href="#adjacent-list" title="Link to this heading">#</a></h2>
-<p>The API to get the adjacent list of a vertex is as follows:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_ADJACENT_LIST</span><span class="w"> </span><span class="nf">grin_get_adjacent_list</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_DIRECTION</span><span class="p">,</span><span class="w"> </span><span class="n">GRIN_VERTEX</span><span class="p">);</span>
-</pre></div>
-</div>
-<p>The second input parameter of <code class="docutils literal notranslate"><span class="pre">GRIN_DIRECTION</span></code> in the function refers to the direction of the adjacent list.
-When the value is set to <code class="docutils literal notranslate"><span class="pre">OUT</span></code>, it represents the outgoing adjacent list,
-while <code class="docutils literal notranslate"><span class="pre">IN</span></code> represents the incoming adjacent list.
-These directions are related to the CSR and CSC representations, respectively.</p>
-<p>Similar to the vertex list, GRIN provides two ways to access the adjacent list,
-namely the iterator and array-like access.
-Thus, the APIs for the adjacent list are very similar to those for the vertex list.</p>
+<section id="more-traits-more-users">
+<h3>More Traits More Users<a class="headerlink" href="#more-traits-more-users" title="Link to this heading">#</a></h3>
+<p>The implementation of a storage system should aim to support a wide range of
+categories and traits. This is important because certain users may depend on
+specific traits to effectively implement their algorithms. For instance,
+graph analytical systems often rely on the <code class="docutils literal notranslate"><span class="pre">internal</span> <span class="pre">ID</span></code> indexing trait in
+order to efficiently implement a Single-Source Shortest Path (SSSP)
+algorithm. By incorporating a greater number of traits, a storage system can
+cater to a larger user base seeking to implement their algorithms using GRIN.</p>
 </section>
-<section id="edge-list">
-<h2>Edge List<a class="headerlink" href="#edge-list" title="Link to this heading">#</a></h2>
-<p>The API to get the edge list of a graph is as follows:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRIN_EDGE_LIST</span><span class="w"> </span><span class="nf">grin_get_edge_list</span><span class="p">(</span><span class="n">GRIN_GRAPH</span><span class="p">);</span>
-</pre></div>
-</div>
-<p>The input parameter is the graph handle, and the return value is the edge list handle.
-The edge list feature is related to the COO representation.
-Most storages does not support the edge list feature, because COO is considered
-as a less efficient representation for graph traversal.</p>
-<p>The APIs for the edge list are similar to those for the vertex list and adjacent list.
-We don’t repeat them here.</p>
+</section>
+<section id="how-to-implement-grin">
+<h2>How to Implement GRIN<a class="headerlink" href="#how-to-implement-grin" title="Link to this heading">#</a></h2>
+<p>To implement GRIN within a storage system, follow these steps:</p>
+<ol class="arabic simple">
+<li><p>Add GRIN as a submodule to the storage system’s repository.</p></li>
+<li><p>Create a <code class="docutils literal notranslate"><span class="pre">grin</span></code> folder.</p></li>
+<li><p>Inside the <code class="docutils literal notranslate"><span class="pre">grin</span></code> folder, create a <code class="docutils literal notranslate"><span class="pre">predefine.h</span></code> header file using the
+provided template from GRIN.</p></li>
+<li><p>Define the macros for the categories and traits that the storage system has
+decided to support in the <code class="docutils literal notranslate"><span class="pre">predefine.h</span></code> header file.</p></li>
+<li><p>Type-define the corresponding handle types in the <code class="docutils literal notranslate"><span class="pre">predefine.h</span></code> header file.</p></li>
+<li><p>Create a <code class="docutils literal notranslate"><span class="pre">src</span></code> folder inside the <code class="docutils literal notranslate"><span class="pre">grin</span></code> folder and create sub-folders for
+each category.</p></li>
+<li><p>Implement the APIs of each category in their corresponding sub-folders.</p></li>
+<li><p>Add scripts to build and install the GRIN library into the storage system’s
+build system (e.g., CMakeLists.txt).</p></li>
+</ol>
 </section>
 </section>
 
@@ -278,23 +259,23 @@ We don’t repeat them here.</p>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="2.property_api.html">
+          <a class="next-page" href="user.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Property Graph and APIs</div>
+                <div class="title">Developer Guide For Users</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="../get_started.html">
+          <a class="prev-page" href="../api/6.extension_api.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Getting Started</div>
+                <div class="title">Extension APIs</div>
                 
               </div>
             </a>
@@ -328,10 +309,13 @@ We don’t repeat them here.</p>
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Graph Topology and APIs</a><ul>
-<li><a class="reference internal" href="#vertex-list">Vertex List</a></li>
-<li><a class="reference internal" href="#adjacent-list">Adjacent List</a></li>
-<li><a class="reference internal" href="#edge-list">Edge List</a></li>
+<li><a class="reference internal" href="#">Developer Guide For Storage Implementors</a><ul>
+<li><a class="reference internal" href="#implementation-principles">Implementation Principles</a><ul>
+<li><a class="reference internal" href="#efficiency-first">Efficiency First</a></li>
+<li><a class="reference internal" href="#more-traits-more-users">More Traits More Users</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#how-to-implement-grin">How to Implement GRIN</a></li>
 </ul>
 </li>
 </ul>

@@ -1,7 +1,7 @@
 Graph Index and APIs
 =====================
 The main purpose of a graph index is to enhance data retrieval efficiency. Users can efficiently
-identify a vertex or an edge using primary keys, labels, or internal/external IDs, on which indices are built.
+identify a vertex or an edge using primary keys, labels, or internal/external IDs, where indices are built.
 
 
 External ID
@@ -9,8 +9,8 @@ External ID
 The concept of external ID in graph storage is derived from the
 Internationalized Resource Identifier (IRI) used in the Resource
 Description Framework (RDF). In a graph, the external ID of a vertex is a
-unique identifier that is predefined in the raw data of the graph,
-neither assigned by the storage nor the users. 
+unique identifier that is neither assigned by the storage nor the users,
+but existing in the raw data of the graph.
 GRIN allows storages to expose two types of external IDs: string and integer. 
 The string external ID is a sequence of characters, while the integer
 external ID is a 64-bit integer.

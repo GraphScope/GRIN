@@ -1,15 +1,15 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="./">
+<html class="no-js" lang="en" data-content_root="../">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="prev" title="Extension APIs" href="api/6.extension_api.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="prev" title="Developer Guide For Storage Implementors" href="storage.html" />
 
     <!-- Generated with Sphinx 7.2.5 and Furo 2023.09.10 -->
-        <title>Developer Guide For Storage Implementors - GRIN 0.1.4 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=362ab14a" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
+        <title>Developer Guide For Users - GRIN 0.1.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=362ab14a" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
     
     
 
@@ -123,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">GRIN 0.1.4 documentation</div></a>
+      <a href="../index.html"><div class="brand">GRIN 0.1.4 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -143,12 +143,12 @@
   <aside class="sidebar-drawer">
     <div class="sidebar-container">
       
-      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
   
   <span class="sidebar-brand-text">GRIN 0.1.4 documentation</span>
   
-</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
@@ -156,15 +156,15 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="get_started.html">Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api/1.topology_api.html">Graph Topology and APIs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api/2.property_api.html">Property Graph and APIs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api/3.partition_api.html">Partitioned Graph and APIs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api/4.index_api.html">Graph Index and APIs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api/5.common_api.html">Common Functional APIs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api/6.extension_api.html">Extension APIs</a></li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Developer Guide For Storage Implementors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#developer-guide-for-users">Developer Guide For Users</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../get_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/1.topology_api.html">Graph Topology and APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/2.property_api.html">Property Graph and APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/3.partition_api.html">Partitioned Graph and APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/4.index_api.html">Graph Index and APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/5.common_api.html">Common Functional APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/6.extension_api.html">Extension APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="storage.html">Developer Guide For Storage Implementors</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Developer Guide For Users</a></li>
 </ul>
 
 </div>
@@ -199,61 +199,7 @@
           </label>
         </div>
         <article role="main">
-          <section id="developer-guide-for-storage-implementors">
-<h1>Developer Guide For Storage Implementors<a class="headerlink" href="#developer-guide-for-storage-implementors" title="Link to this heading">#</a></h1>
-<p>To support GRIN, storage system implementors should implement the APIs that
-they <strong>choose</strong> to support.
-The first step is to create a <code class="docutils literal notranslate"><span class="pre">predefine.h</span></code> header file from the template.
-Within this header file, the implementors will define the macros for the
-categories and traits they have decided to support. Additionally, they will
-type-define the corresponding handle types.
-Finally, the implementors will proceed to implement the APIs of the categories
-and traits that they have chosen to support.</p>
-<section id="implementation-principles">
-<h2>Implementation Principles<a class="headerlink" href="#implementation-principles" title="Link to this heading">#</a></h2>
-<section id="efficiency-first">
-<h3>Efficiency First<a class="headerlink" href="#efficiency-first" title="Link to this heading">#</a></h3>
-<p>To effectively implement GRIN APIs, implementors should prioritize efficiency as
-their main consideration. It is crucial to aim for the best possible time
-complexity, while still maintaining a reasonable level of space complexity.
-Ideally, the recommended upper bound for time complexity should be O(log n),
-where n represents the size of the graph.</p>
-<p>In cases where achieving O(log n) time complexity is not feasible for certain
-APIs, implementors should explore the option of caching the results the first
-time the API is called. Subsequently, when the API is called again, the cached
-results can be returned, thereby improving overall performance.</p>
-</section>
-<section id="more-traits-more-users">
-<h3>More Traits More Users<a class="headerlink" href="#more-traits-more-users" title="Link to this heading">#</a></h3>
-<p>The implementation of a storage system should aim to support a wide range of
-categories and traits. This is important because certain users may depend on
-specific traits to effectively implement their algorithms. For instance,
-graph analytical systems often rely on the <code class="docutils literal notranslate"><span class="pre">internal</span> <span class="pre">ID</span></code> indexing trait in
-order to efficiently implement a Single-Source Shortest Path (SSSP)
-algorithm. By incorporating a greater number of traits, a storage system can
-cater to a larger user base seeking to implement their algorithms using GRIN.</p>
-</section>
-</section>
-<section id="how-to-implement-grin">
-<h2>How to Implement GRIN<a class="headerlink" href="#how-to-implement-grin" title="Link to this heading">#</a></h2>
-<p>To implement GRIN within a storage system, follow these steps:</p>
-<ol class="arabic simple">
-<li><p>Add GRIN as a submodule to the storage system’s repository.</p></li>
-<li><p>Create a <code class="docutils literal notranslate"><span class="pre">grin</span></code> folder.</p></li>
-<li><p>Inside the <code class="docutils literal notranslate"><span class="pre">grin</span></code> folder, create a <code class="docutils literal notranslate"><span class="pre">predefine.h</span></code> header file using the
-provided template from GRIN.</p></li>
-<li><p>Define the macros for the categories and traits that the storage system has
-decided to support in the <code class="docutils literal notranslate"><span class="pre">predefine.h</span></code> header file.</p></li>
-<li><p>Type-define the corresponding handle types in the <code class="docutils literal notranslate"><span class="pre">predefine.h</span></code> header file.</p></li>
-<li><p>Create a <code class="docutils literal notranslate"><span class="pre">src</span></code> folder inside the <code class="docutils literal notranslate"><span class="pre">grin</span></code> folder and create sub-folders for
-each category.</p></li>
-<li><p>Implement the APIs of each category in their corresponding sub-folders.</p></li>
-<li><p>Add scripts to build and install the GRIN library into the storage system’s
-build system (e.g., CMakeLists.txt).</p></li>
-</ol>
-</section>
-</section>
-<section id="developer-guide-for-users">
+          <section id="developer-guide-for-users">
 <h1>Developer Guide For Users<a class="headerlink" href="#developer-guide-for-users" title="Link to this heading">#</a></h1>
 <section id="how-to-use-grin">
 <h2>How to Use GRIN<a class="headerlink" href="#how-to-use-grin" title="Link to this heading">#</a></h2>
@@ -348,14 +294,14 @@ For example, <code class="docutils literal notranslate"><span class="pre">grin_e
         
         <div class="related-pages">
           
-          <a class="prev-page" href="api/6.extension_api.html">
+          <a class="prev-page" href="storage.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Extension APIs</div>
+                <div class="title">Developer Guide For Storage Implementors</div>
                 
               </div>
             </a>
@@ -389,16 +335,7 @@ For example, <code class="docutils literal notranslate"><span class="pre">grin_e
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Developer Guide For Storage Implementors</a><ul>
-<li><a class="reference internal" href="#implementation-principles">Implementation Principles</a><ul>
-<li><a class="reference internal" href="#efficiency-first">Efficiency First</a></li>
-<li><a class="reference internal" href="#more-traits-more-users">More Traits More Users</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#how-to-implement-grin">How to Implement GRIN</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#developer-guide-for-users">Developer Guide For Users</a><ul>
+<li><a class="reference internal" href="#">Developer Guide For Users</a><ul>
 <li><a class="reference internal" href="#how-to-use-grin">How to Use GRIN</a></li>
 <li><a class="reference internal" href="#api-naming-rules">API Naming Rules</a><ul>
 <li><a class="reference internal" href="#get-a-from-b">Get A From B</a></li>
@@ -422,9 +359,9 @@ For example, <code class="docutils literal notranslate"><span class="pre">grin_e
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=fd825880"></script>
-    <script src="_static/doctools.js?v=888ff710"></script>
-    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="_static/scripts/furo.js?v=32e29ea5"></script>
+</div><script src="../_static/documentation_options.js?v=fd825880"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>
