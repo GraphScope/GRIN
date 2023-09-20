@@ -43,7 +43,7 @@ def get_apis_with_expr(fn):
         lines = f.readlines()
 
     expr = '*'
-    for line in lines[27:]:
+    for line in lines[26:]:
         if line.startswith('#ifdef'):
             assert expr == '*', 'nested macros'
             expr = line.split(' ')[1].strip()

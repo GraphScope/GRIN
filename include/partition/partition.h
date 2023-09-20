@@ -1,5 +1,4 @@
 /** Copyright 2020 Alibaba Group Holding Limited.
-
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
@@ -24,7 +23,6 @@ extern "C" {
 
 #ifndef GRIN_INCLUDE_PARTITION_PARTITION_H_
 #define GRIN_INCLUDE_PARTITION_PARTITION_H_
-
 
 #ifdef GRIN_ENABLE_GRAPH_PARTITION
 /**
