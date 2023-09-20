@@ -210,14 +210,12 @@ The API is:</p>
 </pre></div>
 </div>
 <p>This API takes a URI as its parameter, which is a string that identifies the graph in storage.</p>
-<dl class="simple">
-<dt>Different storage systems may define different required parameters in the URI:</dt><dd><ul class="simple">
+<p>Different storage systems may define different required parameters in the URI:</p>
+<ul class="simple">
 <li><p>gart://{etcd_endpoint}?prefix={etcd_prefix}&amp;version={version}</p></li>
 <li><p>graphar://{yaml_path}?partition_num={partition_num}&amp;strategy={strategy}</p></li>
 <li><p>v6d://{object_id}?ipc_socket={ipc_socket} where ipc_socket is optional.</p></li>
 </ul>
-</dd>
-</dl>
 <p>The return value of this API is a GRIN graph handle.</p>
 </section>
 <section id="handle">
