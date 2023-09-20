@@ -59,18 +59,33 @@ def get_apis_with_expr(fn):
             if line.strip():
                 yield line.strip(), expr
 
+def get_impl_apis(fn):
+    with open(fn) as f:
+        lines = f.readlines()
+
+    apis = []
+    for line in lines[13:]:
+        if not line.startswith(('#', ' ', '}', '/')):
+            if line.strip():
+                apis.append(line.strip()[:line.find('(')])
+    return apis
 
 def get_enabled_apis(prefix, macros, target):
     for item in Path(prefix).rglob('*'):
         if item.is_file():
-            print(item)
             apis = []
             for api, expr in get_apis_with_expr(item):
                 if valid(expr, macros):
                     apis.append(api[:api.find('(')])
-            print(apis)
-            print()
-                
+            if apis:
+                fn = str(item)
+                fn = target + fn[len(prefix):-2] + '.cc'
+                impls = get_impl_apis(fn)
+                if set(apis) != set(impls):
+                    print(item)
+                    print('unimplemented apis:', set(apis) - set(impls))
+                    print('unnecessary apis:', set(impls) - set(apis))
+                    print()
 
 
 if __name__ == '__main__':
