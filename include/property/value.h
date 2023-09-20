@@ -22,10 +22,22 @@ extern "C" {
 #ifndef GRIN_INCLUDE_PROPERTY_VALUE_H_
 #define GRIN_INCLUDE_PROPERTY_VALUE_H_
 
+#if defined(GRIN_WITH_VERTEX_PROPERTY) && defined(GRIN_TRAIT_PROPERTY_VALUE_OF_FLOAT_ARRAY)
+void grin_destroy_vertex_property_value_of_float_array(GRIN_GRAPH, const float*, size_t);
+
+/**
+ * @brief Get the vertex value of a float array as a float pointer.
+ * The user should make sure the vertex property is of datatype float array.
+ * The return is NULL if the value is invalid.
+ * Note that the returned float pointer should be explicitly freed by the user,
+ * by calling API ``grin_destroy_float_array_value``, and last parameter a size_t pointer 
+ * to recieve the size of float array.
+*/
+const float* grin_get_vertex_property_value_of_float_array(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTEX_PROPERTY, size_t*);
+#endif
+
 #ifdef GRIN_WITH_VERTEX_PROPERTY
 void grin_destroy_vertex_property_value_of_string(GRIN_GRAPH, const char*);
-
-void grin_destroy_vertex_property_value_of_float_array(GRIN_GRAPH, const float*, size_t);
 
 /**
  * @brief Get the value of int32, given a vertex and a vertex property.
@@ -158,26 +170,21 @@ int grin_get_vertex_property_value_of_time32(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTE
  * @return The value of the property
 */
 long long int grin_get_vertex_property_value_of_timestamp64(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
-
-/**
- * @brief Get the vertex value of a float array as a float pointer.
- * The user should make sure the vertex property is of datatype float array.
- * The return is NULL if the value is invalid.
- * Note that the returned float pointer should be explicitly freed by the user,
- * by calling API ``grin_destroy_float_array_value``.
-*/
-const float* grin_get_vertex_property_value_of_float_array(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTEX_PROPERTY, size_t*);
 #endif
 
 #if defined(GRIN_WITH_VERTEX_PROPERTY) && defined(GRIN_TRAIT_CONST_VALUE_PTR)
 const void* grin_get_vertex_property_value(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
 #endif
 
+#if defined(GRIN_WITH_EDGE_PROPERTY) && defined(GRIN_TRAIT_PROPERTY_VALUE_OF_FLOAT_ARRAY)
+void grin_destroy_edge_property_value_of_float_array(GRIN_GRAPH, const float*, size_t);
+
+const float* grin_get_edge_property_value_of_float_array(GRIN_GRAPH, GRIN_EDGE, GRIN_EDGE_PROPERTY, size_t*);
+#endif
+
 
 #ifdef GRIN_WITH_EDGE_PROPERTY
 void grin_destroy_edge_property_value_of_string(GRIN_GRAPH, const char*);
-
-void grin_destroy_edge_property_value_of_float_array(GRIN_GRAPH, const float*, size_t);
 
 int grin_get_edge_property_value_of_int32(GRIN_GRAPH, GRIN_EDGE, GRIN_EDGE_PROPERTY);
 
@@ -198,8 +205,6 @@ int grin_get_edge_property_value_of_date32(GRIN_GRAPH, GRIN_EDGE, GRIN_EDGE_PROP
 int grin_get_edge_property_value_of_time32(GRIN_GRAPH, GRIN_EDGE, GRIN_EDGE_PROPERTY);
 
 long long int grin_get_edge_property_value_of_timestamp64(GRIN_GRAPH, GRIN_EDGE, GRIN_EDGE_PROPERTY);
-
-const float* grin_get_edge_property_value_of_float_array(GRIN_GRAPH, GRIN_EDGE, GRIN_EDGE_PROPERTY, size_t*);
 #endif
 
 #if defined(GRIN_WITH_EDGE_PROPERTY) && defined(GRIN_TRAIT_CONST_VALUE_PTR)
