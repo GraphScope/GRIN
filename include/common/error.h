@@ -22,6 +22,7 @@ extern "C" {
 #ifndef GRIN_INCLUDE_COMMON_ERROR_H_
 #define GRIN_INCLUDE_COMMON_ERROR_H_
 
+#include "common/enum_types.h"
 
 extern __thread GRIN_ERROR_CODE grin_error_code;
 

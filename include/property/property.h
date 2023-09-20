@@ -22,6 +22,7 @@ extern "C" {
 #ifndef GRIN_INCLUDE_PROPERTY_PROPERTY_H_
 #define GRIN_INCLUDE_PROPERTY_PROPERTY_H_
 
+#include "common/enum_types.h"
 
 #if defined(GRIN_ENABLE_SCHEMA) && defined(GRIN_WITH_VERTEX_PROPERTY)
 /**

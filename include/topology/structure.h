@@ -20,6 +20,8 @@ extern "C" {
 #ifndef GRIN_INCLUDE_TOPOLOGY_STRUCTURE_H_
 #define GRIN_INCLUDE_TOPOLOGY_STRUCTURE_H_
 
+#include "common/enum_types.h"
+
 /**
  * @brief Get a (non-partitioned) graph from storage
  * @param uri The URI of the graph.

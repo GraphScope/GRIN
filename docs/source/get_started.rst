@@ -14,9 +14,10 @@ The API is:
 This API takes a URI as its parameter, which is a string that identifies the graph in storage.
 
 Different storage systems may define different required parameters in the URI:
-    - gart://{etcd_endpoint}?prefix={etcd_prefix}&version={version}
-    - graphar://{yaml_path}?partition_num={partition_num}&strategy={strategy}
-    - v6d://{object_id}?ipc_socket={ipc_socket} where ipc_socket is optional.
+
+- gart://{etcd_endpoint}?prefix={etcd_prefix}&version={version}
+- graphar://{yaml_path}?partition_num={partition_num}&strategy={strategy}
+- v6d://{object_id}?ipc_socket={ipc_socket} where ipc_socket is optional.
 
 The return value of this API is a GRIN graph handle.
 

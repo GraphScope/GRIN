@@ -20,6 +20,7 @@ extern "C" {
 #ifndef GRIN_INCLUDE_TOPOLOGY_ADJACENTLIST_H_
 #define GRIN_INCLUDE_TOPOLOGY_ADJACENTLIST_H_
 
+#include "common/enum_types.h"
 
 #if defined(GRIN_ENABLE_ADJACENT_LIST) && !defined(GRIN_ENABLE_SCHEMA)
 /**

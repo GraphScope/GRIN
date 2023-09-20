@@ -31,40 +31,7 @@ extern "C" {
 #include <stdbool.h>
 #include <stddef.h>
 
-/* 1. Predefined enumerate types of GRIN */
-/// Enumerates the directions of edges with respect to a certain vertex
-typedef enum {
-  IN = 0,     ///< incoming
-  OUT = 1,    ///< outgoing
-  BOTH = 2,   ///< incoming & outgoing
-} GRIN_DIRECTION;
-
-/// Enumerates the datatype supported in the storage
-typedef enum {
-  Undefined = 0,      ///< other unknown types
-  Int32 = 1,          ///< int
-  UInt32 = 2,         ///< unsigned int
-  Int64 = 3,          ///< long int
-  UInt64 = 4,         ///< unsigned long int
-  Float = 5,          ///< float
-  Double = 6,         ///< double
-  String = 7,         ///< string
-  Date32 = 8,         ///< date
-  Time32 = 9,         ///< Time32
-  Timestamp64 = 10,   ///< Timestamp
-  FloatArray = 11,    ///< float array
-} GRIN_DATATYPE;
-
-/// Enumerates the error codes of grin
-typedef enum {
-  NO_ERROR = 0,              ///< success
-  UNKNOWN_ERROR = 1,         ///< unknown error
-  INVALID_VALUE = 2,         ///< invalid value
-  UNKNOWN_DATATYPE = 3,      ///< unknown datatype
-  NULL_VALUE = 4,            ///< null value
-} GRIN_ERROR_CODE;
-
-/* 2. Define supported macros based on storage features */
+/* 1. Define supported macros based on storage features */
 // Topology
 #define GRIN_ASSUME_HAS_DIRECTED_GRAPH
 #define GRIN_ASSUME_HAS_UNDIRECTED_GRAPH
@@ -84,7 +51,7 @@ typedef enum {
 #define GRIN_ENABLE_GRAPH_PARTITION
 #define GRIN_ASSUME_EDGE_CUT_PARTITION
 #define GRIN_ASSUME_VERTEX_CUT_PARTITION
-#define GRIN_WITH_UNIVERSAL_VERTICES
+#define GRIN_ASSUME_WITH_UNIVERSAL_VERTICES
 #define GRIN_TRAIT_NATURAL_ID_FOR_PARTITION
 #define GRIN_ENABLE_VERTEX_REF
 #define GRIN_TRAIT_FAST_VERTEX_REF
@@ -103,6 +70,7 @@ typedef enum {
 #define GRIN_ENABLE_ROW
 #define GRIN_TRAIT_CONST_VALUE_PTR
 #define GRIN_ENABLE_SCHEMA
+#define GRIN_TRAIT_PROPERTY_VALUE_OF_FLOAT_ARRAY
 #define GRIN_WITH_VERTEX_PROPERTY
 #define GRIN_ENABLE_VERTEX_PRIMARY_KEYS
 #define GRIN_WITH_EDGE_PROPERTY
@@ -118,7 +86,7 @@ typedef enum {
 #define GRIN_ENABLE_EDGE_PK_INDEX
 
 
-/* 3. Define the handles using typedef */
+/* 2. Define the handles using typedef */
 typedef void* GRIN_GRAPH;
 typedef void* GRIN_VERTEX;
 typedef void* GRIN_EDGE;
@@ -203,7 +171,7 @@ typedef void* GRIN_LABEL;
 typedef void* GRIN_LABEL_LIST;
 #endif
 
-/* 4. Define invalid values for returns of handles */
+/* 3. Define invalid values for returns of handles */
 #define GRIN_NULL_GRAPH NULL
 #define GRIN_NULL_VERTEX NULL
 #define GRIN_NULL_EDGE NULL

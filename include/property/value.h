@@ -22,7 +22,6 @@ extern "C" {
 #ifndef GRIN_INCLUDE_PROPERTY_VALUE_H_
 #define GRIN_INCLUDE_PROPERTY_VALUE_H_
 
-
 #ifdef GRIN_WITH_VERTEX_PROPERTY
 void grin_destroy_vertex_property_value_of_string(GRIN_GRAPH, const char*);
 
@@ -179,8 +178,6 @@ const void* grin_get_vertex_property_value(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTEX_
 void grin_destroy_edge_property_value_of_string(GRIN_GRAPH, const char*);
 
 void grin_destroy_edge_property_value_of_float_array(GRIN_GRAPH, const float*, size_t);
-
-GRIN_DATATYPE grin_get_edge_property_datatype(GRIN_GRAPH, GRIN_EDGE_PROPERTY);
 
 int grin_get_edge_property_value_of_int32(GRIN_GRAPH, GRIN_EDGE, GRIN_EDGE_PROPERTY);
 

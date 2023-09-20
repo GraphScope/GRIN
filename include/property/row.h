@@ -22,6 +22,7 @@ extern "C" {
 #ifndef GRIN_INCLUDE_PROPERTY_ROW_H_
 #define GRIN_INCLUDE_PROPERTY_ROW_H_
 
+#include "common/enum_types.h"
 
 #ifdef GRIN_ENABLE_ROW
 void grin_destroy_row(GRIN_GRAPH, GRIN_ROW);

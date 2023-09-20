@@ -92,7 +92,7 @@ Additionally, the edges between them, denoted as :math:`E(U)`,
 are also replicated to all partitions, and we call them universal edges.
 
 The partition strategy with universal vertice and edges involved begins by selecting :math:`U` out of :math:`V`. 
-This includes removing :math:`U`` from :math:`V`` and removing :math:`E(U)` and :math:`CE(U, V)` from :math:`E`, 
+This includes removing :math:`U` from :math:`V` and removing :math:`E(U)` and :math:`CE(U, V)` from :math:`E`, 
 where :math:`CE(U, V)` represents the cross edges between :math:`U` and :math:`V`.
 Next, the remaining vertices :math:`V'` and edges :math:`E'` are partitioned based on the partition strategy.
 Following this, each cross edge :math:`e` in :math:`CE(U, V)` is placed based on the 

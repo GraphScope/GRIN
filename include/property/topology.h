@@ -22,6 +22,7 @@ extern "C" {
 #ifndef GRIN_INCLUDE_PROPERTY_TOPOLOGY_H_
 #define GRIN_INCLUDE_PROPERTY_TOPOLOGY_H_
 
+#include "common/enum_types.h"
 
 #ifdef GRIN_ENABLE_SCHEMA
 /**

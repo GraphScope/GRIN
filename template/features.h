@@ -264,6 +264,11 @@ limitations under the License.
 #define GRIN_ENABLE_SCHEMA
 
 /** @ingroup PropertyMacros
+ * @brief Trait to support property value of float array.
+*/
+#define GRIN_TRAIT_PROPERTY_VALUE_OF_FLOAT_ARRAY
+
+/** @ingroup PropertyMacros
  * @brief The graph has vertex properties, meaning it is a property graph.
 */
 #define GRIN_WITH_VERTEX_PROPERTY
