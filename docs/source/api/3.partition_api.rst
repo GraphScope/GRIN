@@ -9,8 +9,8 @@ each with the goal of achieving similar-sized subgraphs and reducing cross-parti
 However, different partition strategies can lead to different topology placement features, 
 which makes it difficult for users to write portable graph algorithms. 
 To address this issue, GRIN provides a unified partitioned graph paradigm. 
-This paradigm allows users to represent partitioned graphs with different partition strategies. 
-By using this paradigm, users can easily determine the topology placement for graphs and property placement for LPGs. 
+This paradigm allows users to represent partitioned graphs with different partition strategies,
+and users can easily determine the topology placement for graphs and property placement for LPGs from the paradigm.
 
 To better understand this concept, let's start by defining some key concepts related to partitions. 
 We will then introduce the corresponding APIs that can be used to work with partitioned graphs.
@@ -45,12 +45,11 @@ Finally, we define the ``property placement`` strategies for LPGs.
 
 Edgecut
 ^^^^^^^
-The edge cut partition strategy begins by assigning each vertex, 
-denoted as :math:`v`, in the set :math:`V` to a single partition. 
-This initial assignment results in the set :math:`V_i^M`.
+The edge cut partition strategy begins by mapping each vertex :math:`v\in V` to one partition.
+This initial assignment results in the sets of :math:`V_i^M`.
 Next, for each partition :math:`i`, we place the edges of :math:`E(V_i^M)` into partition :math:`i`.
-Afterwards, we apply the ``cut edge placement`` strategies to place the cut edges, 
-which are edges with endpoints in different partitions, into their respective partitions. 
+Afterwards, we apply the ``cut edge placement`` strategies (which will be described later) to place the cut edges 
+into their respective partitions, where the cut edges are edges with endpoints in different partitions.
 This step generates the set :math:`E_i`. 
 It is important to note that if the strategy does not involve replicating the cut edges, 
 then :math:`E_i^M` will be equal to :math:`E_i`.
@@ -61,16 +60,15 @@ we obtain the final partition.
 
 The cut edge placement strategies for directed graphs are ``following source`` and ``following destination``,
 which means the cut edge can be placed in the partition of its source vertex and destination vertex respectively.
-An edgecut partition strategy can use either of these strategies, or both of them, meaning that
-the cut edges are replicated.
+An edgecut partition strategy may use either of these strategies, or both of them by replicating the cut edges.
 On the other hand, the cut edge placement strategies for undirected graphs are ``following lower`` and ``following higher``,
 which means the cut edge can be placed in the partition of its endpoints with the lower and higher partition ID respectively.
-
+Similarly, both strategies for undirected graphs can be used in conjunction by replicating the cut edges.
 
 Vertexcut
 ^^^^^^^^^^
-The vertex cut partition strategy starts by assigning each edge :math:`e\in E` 
-to a single partition, resulting in :math:`E_i^M`. 
+The vertex cut partition strategy starts by mapping each edge :math:`e\in E` 
+to one partition, resulting in :math:`E_i^M`. 
 We then have :math:`E_i = E_i^M` and :math:`V_i = V(E_i)`. 
 Next, for each zero-degree vertex :math:`z`, we assign a master partition to that vertex.
 Finally, for each vertex :math:`v` that appears in multiple :math:`V_i`, we assign a master 
@@ -92,11 +90,12 @@ Additionally, the edges between them, denoted as :math:`E(U)`,
 are also replicated to all partitions, and we call them universal edges.
 
 The partition strategy with universal vertice and edges involved begins by selecting :math:`U` out of :math:`V`. 
-This includes removing :math:`U` from :math:`V` and removing :math:`E(U)` and :math:`CE(U, V)` from :math:`E`, 
-where :math:`CE(U, V)` represents the cross edges between :math:`U` and :math:`V`.
+This includes removing :math:`U` from :math:`V` (let's denote the remaining vertices as :math:`V'`) 
+and removing :math:`E(U)` and :math:`CE(U, V')` from :math:`E`, 
+where :math:`CE(U, V')` represents the cross edges between :math:`U` and :math:`V'`.
 Next, the remaining vertices :math:`V'` and edges :math:`E'` are partitioned based on the partition strategy.
-Following this, each cross edge :math:`e` in :math:`CE(U, V)` is placed based on the 
-``cross edge placement`` strategy, and :math:`E'_i` is updated accordingly. 
+Following this, each cross edge :math:`e` in :math:`CE(U, V')` is placed based on the 
+``cross edge placement`` strategy (which will be described later), and :math:`E'_i` is updated accordingly. 
 If replication is involved during the placement process, a master partition 
 is assigned to each cross edge, and :math:`{E'}_i^M` is updated. 
 This results a valid partition on :math:`V - U` and :math:`E - E(U)`.
@@ -119,8 +118,7 @@ the cross edge is replicated to all the partitions of its non-universal endpoint
 Sparse Indexing
 ^^^^^^^^^^^^^^^^
 After the partitioning, storages may impose different sparse-indexing strategies
-on different kinds of vertices and edges (universal, master, mirror), 
-to fulfill varying computing requirements on different kinds of vertices and edges.
+to fulfill varying computing requirements on different kinds (universal, master, mirror) of vertices and edges.
 The sparse indexing strategies include:
 
 - CSR: Compressed Sparse Row
@@ -265,7 +263,7 @@ to fulfill varying computing requirements.
 To address this, GRIN provides APIs to select specific kinds of vertices 
 or edges that meet the requirements.
 
-Next, we will discuss the APIs for ``universal`` vertices and edges. 
+We will first discuss the APIs for ``universal`` vertices and edges. 
 Then, we will cover the APIs related to ``master`` and ``mirror`` vertices and edges.
 
 For simple graphs, the universal and non-universal vertices can be selected using:
@@ -313,7 +311,7 @@ Similarly for simple graphs, the vertices can be selected using:
 
     GRIN_VERTEX_LIST grin_get_vertex_list_select_mirror(GRIN_GRAPH);
 
-Some storage may provide finer selection on vertices based on their master partitions.
+Sometime users require finer selection on vertices based on their master partitions.
 GRIN offers such an API as:
 
 .. code-block:: c 
