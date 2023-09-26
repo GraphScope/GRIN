@@ -230,7 +230,7 @@ cfg_if::cfg_if! {
         pub const GRIN_NULL_EDGE_PROPERTY_ID: GrinEdgePropertyId = u32::MAX;
         pub const GRIN_NULL_ROW: GrinRow = std::ptr::null_mut();
         pub const GRIN_NULL_SIZE: u32 = u32::MAX;
-    } elif #[cfg(feature = "grin_features_enable_demo_storage")]{
+    } else if #[cfg(feature = "grin_features_enable_demo_storage")]{
         pub type GrinGraph = *mut ::std::os::raw::c_void;
         pub type GrinVertex = i64;
         pub type GrinEdge = i64;
@@ -287,12 +287,12 @@ cfg_if::cfg_if! {
         pub const GRIN_NULL_VERTEX_PROPERTY_ID: GrinVertexPropertyId = u32::MAX;
         pub const GRIN_NULL_EDGE_TYPE: GrinEdgeType = u32::MAX;
         pub const GRIN_NULL_EDGE_TYPE_LIST: GrinEdgeTypeList = std::ptr::null_mut();
-        pub const GRIN_NULL_VEV_TYPE: GrinVevType = u32::MAX;
-        pub const GRIN_NULL_VEV_TYPE_LIST: GrinVevTypeList = std::ptr::null_mut();
         pub const GRIN_NULL_EDGE_PROPERTY: GrinEdgeProperty = u32::MAX;
         pub const GRIN_NULL_EDGE_PROPERTY_LIST: GrinEdgePropertyList = std::ptr::null_mut();
         pub const GRIN_NULL_EDGE_TYPE_ID: GrinEdgeTypeId = u32::MAX;
         pub const GRIN_NULL_EDGE_PROPERTY_ID: GrinEdgePropertyId = u32::MAX;
+        pub const GRIN_NULL_EDGE_LABEL: GrinLabel = u32::MAX;
+        pub const GRIN_NULL_EDGE_LABEL_LIST: GrinLabelList = std::ptr::null_mut();
         pub const GRIN_NULL_ROW: GrinRow = std::ptr::null_mut();
         pub const GRIN_NULL_SIZE: u32 = u32::MAX;
     } else {

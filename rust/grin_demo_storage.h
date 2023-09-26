@@ -31,12 +31,12 @@
 /// RUST_KEEP pub const GRIN_NULL_VERTEX_PROPERTY_ID: GrinVertexPropertyId = u32::MAX;
 /// RUST_KEEP pub const GRIN_NULL_EDGE_TYPE: GrinEdgeType = u32::MAX;
 /// RUST_KEEP pub const GRIN_NULL_EDGE_TYPE_LIST: GrinEdgeTypeList = std::ptr::null_mut();
-/// RUST_KEEP pub const GRIN_NULL_VEV_TYPE: GrinVevType = u32::MAX;
-/// RUST_KEEP pub const GRIN_NULL_VEV_TYPE_LIST: GrinVevTypeList = std::ptr::null_mut();
 /// RUST_KEEP pub const GRIN_NULL_EDGE_PROPERTY: GrinEdgeProperty = u32::MAX;
 /// RUST_KEEP pub const GRIN_NULL_EDGE_PROPERTY_LIST: GrinEdgePropertyList = std::ptr::null_mut();
 /// RUST_KEEP pub const GRIN_NULL_EDGE_TYPE_ID: GrinEdgeTypeId = u32::MAX;
 /// RUST_KEEP pub const GRIN_NULL_EDGE_PROPERTY_ID: GrinEdgePropertyId = u32::MAX;
+/// RUST_KEEP pub const GRIN_NULL_EDGE_LABEL: GrinLabel = u32::MAX;
+/// RUST_KEEP pub const GRIN_NULL_EDGE_LABEL_LIST: GrinLabelList = std::ptr::null_mut();
 /// RUST_KEEP pub const GRIN_NULL_ROW: GrinRow = std::ptr::null_mut();
 /// RUST_KEEP pub const GRIN_NULL_SIZE: u32 = u32::MAX;
 int __rust_keep_grin_null;
