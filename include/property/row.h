@@ -2,7 +2,9 @@
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
+
     http://www.apache.org/licenses/LICENSE-2.0
+
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,9 +24,20 @@ extern "C" {
 #ifndef GRIN_INCLUDE_PROPERTY_ROW_H_
 #define GRIN_INCLUDE_PROPERTY_ROW_H_
 
+#include "common/enum_types.h"
+
+#if defined(GRIN_ENABLE_ROW) && defined(GRIN_TRAIT_PROPERTY_VALUE_OF_FLOAT_ARRAY)
+void grin_destroy_row_value_of_float_array(GRIN_GRAPH, const float*, size_t);
+
+const float* grin_get_float_array_from_row(GRIN_GRAPH, GRIN_ROW, size_t, size_t*);
+
+bool grin_insert_float_array_to_row(GRIN_GRAPH, GRIN_ROW, const float*, size_t);
+#endif
 
 #ifdef GRIN_ENABLE_ROW
 void grin_destroy_row(GRIN_GRAPH, GRIN_ROW);
+
+void grin_destroy_row_value_of_string(GRIN_GRAPH, const char*);
 
 int grin_get_int32_from_row(GRIN_GRAPH, GRIN_ROW, size_t);
 
@@ -45,8 +58,6 @@ int grin_get_date32_from_row(GRIN_GRAPH, GRIN_ROW, size_t);
 int grin_get_time32_from_row(GRIN_GRAPH, GRIN_ROW, size_t);
 
 long long int grin_get_timestamp64_from_row(GRIN_GRAPH, GRIN_ROW, size_t);
-
-const float* grin_get_float_array_from_row(GRIN_GRAPH, GRIN_ROW, size_t);
 
 /**
  * @brief Create a row.
@@ -84,8 +95,6 @@ bool grin_insert_date32_to_row(GRIN_GRAPH, GRIN_ROW, int);
 bool grin_insert_time32_to_row(GRIN_GRAPH, GRIN_ROW, int);
 
 bool grin_insert_timestamp64_to_row(GRIN_GRAPH, GRIN_ROW, long long int);
-
-bool grin_insert_float_array_to_row(GRIN_GRAPH, GRIN_ROW, const float*, size_t);
 #endif
 
 #if defined(GRIN_ENABLE_ROW) && defined(GRIN_TRAIT_CONST_VALUE_PTR)

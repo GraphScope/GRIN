@@ -121,6 +121,21 @@ limitations under the License.
 #define GRIN_ENABLE_GRAPH_PARTITION
 
 /** @ingroup PartitionMacros
+ * @brief The storage uses edge-cut partition strategy.
+*/
+#define GRIN_ASSUME_EDGE_CUT_PARTITION
+
+/** @ingroup PartitionMacros
+ * @brief The storage uses vertex-cut partition strategy.
+*/
+#define GRIN_ASSUME_VERTEX_CUT_PARTITION
+
+/** @ingroup PartitionMacros
+ * @brief The storage uses edge-cut partition with static vertices.
+*/
+#define GRIN_ASSUME_WITH_UNIVERSAL_VERTICES
+
+/** @ingroup PartitionMacros
  * @brief The storage provides natural number IDs for partitions.
  * It follows the design of natural number ID trait in GRIN.
 */
@@ -244,28 +259,20 @@ limitations under the License.
 #define GRIN_TRAIT_CONST_VALUE_PTR
 
 /** @ingroup PropertyMacros
+ * @brief The storage supports schema for property graph.
+*/
+#define GRIN_ENABLE_SCHEMA
+
+/** @ingroup PropertyMacros
+ * @brief Trait to support property value of float array.
+*/
+#define GRIN_TRAIT_PROPERTY_VALUE_OF_FLOAT_ARRAY
+
+/** @ingroup PropertyMacros
  * @brief The graph has vertex properties, meaning it is a property graph.
 */
 #define GRIN_WITH_VERTEX_PROPERTY
 
-/** @ingroup PropertyMacros
- * @brief There are property names for vertex properties. 
- * The relationship between property name and properties is one-to-many, 
- * because properties bound to different vertex types are distinguished 
- * even they may share the same property name.
-*/
-#define GRIN_WITH_VERTEX_PROPERTY_NAME
-
-/** @ingroup PropertyMacros
- * @brief There are unique names for each vertex type.
-*/
-#define GRIN_WITH_VERTEX_TYPE_NAME
-
-/** @ingroup PropertyMacros
- * @brief The storage provides natural number IDs for vertex types.
- * It follows the design of natural ID trait in GRIN.
-*/
-#define GRIN_TRAIT_NATURAL_ID_FOR_VERTEX_TYPE
 
 /** @ingroup PropertyMacros
  * @brief There are primary keys for vertices. 
@@ -277,36 +284,12 @@ limitations under the License.
 */
 #define GRIN_ENABLE_VERTEX_PRIMARY_KEYS
 
-/** @ingroup PropertyMacros
- * @brief The storage provides natural number IDs for properties bound to
- * a certain vertex type.
- * It follows the design of natural ID trait in GRIN.
-*/
-#define GRIN_TRAIT_NATURAL_ID_FOR_VERTEX_PROPERTY
 
 /** @ingroup PropertyMacros
  * @brief The graph has edge properties, meaning it is a property graph.
 */
 #define GRIN_WITH_EDGE_PROPERTY
 
-/** @ingroup PropertyMacros
- * @brief There are property names for edge properties. 
- * The relationship between property name and properties is one-to-many, 
- * because properties bound to different edge types are distinguished 
- * even they may share the same property name.
-*/
-#define GRIN_WITH_EDGE_PROPERTY_NAME
-
-/** @ingroup PropertyMacros
- * @brief There are unique names for each edge type.
-*/
-#define GRIN_WITH_EDGE_TYPE_NAME
-
-/** @ingroup PropertyMacros
- * @brief The storage provides natural number IDs for edge types.
- * It follows the design of natural ID trait in GRIN.
-*/
-#define GRIN_TRAIT_NATURAL_ID_FOR_EDGE_TYPE
 
 /** @ingroup PropertyMacros
  * @brief There are primary keys for edges. 
@@ -318,12 +301,6 @@ limitations under the License.
 */
 #define GRIN_ENABLE_EDGE_PRIMARY_KEYS
 
-/** @ingroup PropertyMacros
- * @brief The storage provides natural number IDs for properties bound to
- * a certain edge type.
- * It follows the design of natural ID trait in GRIN.
-*/
-#define GRIN_TRAIT_NATURAL_ID_FOR_EDGE_PROPERTY
 ///@}
 
 /* End of Section 3 */
@@ -350,8 +327,7 @@ limitations under the License.
 ///@{
 /** @ingroup IndexOrderMacros
  * @brief assume all vertex list are sorted.
- * We will expend the assumption to support master/mirror or
- * by type in the future if needed.
+ * This macro will be deprecated in the future.
 */
 #define GRIN_ASSUME_ALL_VERTEX_LIST_SORTED
 ///@}
@@ -403,18 +379,3 @@ limitations under the License.
 
 /* End of Section 4 */
 
-/* Section 5. Common */
-
-/** @name CommonMacros
- * @brief Macros for common features
- */
-///@{
-/** @ingroup CommonMacros
- * @brief The storage supports loose schema, meaning that
- * some vertices or edges may belong to none of the vertex types or edge types
- * in the schema respectively.
-*/
-#define GRIN_TRAIT_LOOSE_SCHEMA
-///@}
-
-/* End of Section 4 */

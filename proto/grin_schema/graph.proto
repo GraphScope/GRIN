@@ -6,8 +6,15 @@ option java_package = "com.alibaba.graphscope.proto.grin_schema";
 import "schema.proto";
 import "partition.proto";
 
+enum ExternalIDType {
+    UNSUPPORTED = 0;
+    INT64 = 1;
+    STRING = 2;
+}
+
 message Graph {
     string uri = 1;
     Schema schema = 2;
     Partition partition = 3;
+    ExternalIDType external_id_type = 4;
 }

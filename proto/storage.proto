@@ -41,6 +41,10 @@ message PartitionFeature {
     bool grin_trait_select_neighbor_partition_for_adjacent_list = 10;
 
     bool grin_trait_fast_vertex_ref = 11;
+
+    bool grin_assume_edge_cut_partition = 12;
+    bool grin_assume_vertex_cut_partition = 13;
+    bool grin_with_universal_vertices = 14;
 }
 
 message VertexPropertyFeature {
@@ -107,8 +111,7 @@ message StorageFeature {
     }
 }
 
-message Graph {
-    string uri = 1;
-    string grin_version = 2;
-    repeated StorageFeature features = 3;
+message StorageFeatures {
+    string grin_version = 1;
+    repeated StorageFeature features = 2;
 }

@@ -1,5 +1,4 @@
 /** Copyright 2020 Alibaba Group Holding Limited.
-
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
@@ -24,7 +23,6 @@ extern "C" {
 
 #ifndef GRIN_INCLUDE_PARTITION_PARTITION_H_
 #define GRIN_INCLUDE_PARTITION_PARTITION_H_
-
 
 #ifdef GRIN_ENABLE_GRAPH_PARTITION
 /**
@@ -65,6 +63,13 @@ bool grin_equal_partition(GRIN_PARTITIONED_GRAPH, GRIN_PARTITION, GRIN_PARTITION
 
 void grin_destroy_partition(GRIN_PARTITIONED_GRAPH, GRIN_PARTITION);
 
+/**
+ * @brief Get the partition info of a partition.
+ * This api will be deprecated in the future.
+ * @param GRIN_PARTITIONED_GRAPH The partitioned graph.
+ * @param GRIN_PARTITION The partition of the graph.
+ * @return The partition info.
+*/
 const void* grin_get_partition_info(GRIN_PARTITIONED_GRAPH, GRIN_PARTITION);
 
 /**

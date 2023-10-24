@@ -9,10 +9,8 @@ import "data_type.proto";
 message Property {
     uint32 property_id = 1;
     string property_name = 2;
-    PrimitiveType property_type = 3;
+    StorageDataType property_type = 3;
     string comment = 4; // description of the property
-
-    // PG-Schema compatible
     bool mandatory = 5; // whether this property is mandatory or optional
 }
 
@@ -21,12 +19,9 @@ message VertexType {
     string type_name = 2;
     repeated Property properties = 3;
 
-    // PK is the case of ``Keys on Vertex using properties`` in PG-Keys
     repeated uint32 primary_key_ids = 4; // PK properties must be mandatory 
     string comment = 5; // description of the vertex type
-
-    // PG-Schema compatible
-    string label_expression = 6; // labels of the vertex type
+    repeated string labels = 6; // labels of the vertex type
 }
 
 message EdgeType {
@@ -40,8 +35,6 @@ message EdgeType {
         uint32 src_type_id = 1;
         uint32 dst_type_id = 2;
         Relation relation = 3;
-
-        // PG-Schema compatible
         bool src_mandatory = 4; // whether this edge is mandatory or optional to the src vertex
         bool dst_mandatory = 5; // whether this edge is mandatory or optional to the dst vertex
     }
@@ -49,14 +42,12 @@ message EdgeType {
     string type_name = 2;
     repeated Property properties = 3;
 
-    // PK is the case of ``Keys on Edge using properties`` in PG-Keys
     repeated uint32 primary_key_ids = 4; // PK properties must be mandatory
 
     repeated VertexTypePairRelation vertex_type_pair_relations = 5;
     string comment = 6; // description of the edge type
 
-    // PG-Schema compatible
-    string label_expression = 7; // labels of the edge type
+    repeated string labels = 7; // labels of the edge type
 }
 
 message Schema {

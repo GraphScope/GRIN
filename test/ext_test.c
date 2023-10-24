@@ -36,13 +36,14 @@ GRIN_GRAPH get_graph(const char* uri, int p) {
   return g;
 }
 
+#if defined(GRIN_ENABLE_VERTEX_LIST) && defined(GRIN_ENABLE_SCHEMA)
 void test_vertex_list_chain(const char* uri) {
   GRIN_GRAPH g = get_graph(uri, 0);
   GRIN_VERTEX_LIST_CHAIN vlc = grin_get_vertex_list_chain_of_all_types(g);
   GRIN_VERTEX_LIST_CHAIN_ITERATOR iter = grin_get_vertex_list_chain_begin(g, vlc);
   while (!grin_is_vertex_list_chain_end(g, iter)) {
     GRIN_VERTEX v = grin_get_vertex_from_vertex_list_chain_iter(g, iter);
-#if defined(GRIN_ENABLE_VERTEX_INTERNAL_ID_INDEX) && defined(GRIN_WITH_VERTEX_PROPERTY)
+#ifdef GRIN_ENABLE_VERTEX_INTERNAL_ID_INDEX
     GRIN_VERTEX_TYPE vt = grin_get_vertex_type(g, v);
     long long int id = grin_get_vertex_internal_id_by_type(g, vt, v);
     printf("vertex id: %lld\n", id);
@@ -54,7 +55,9 @@ void test_vertex_list_chain(const char* uri) {
   grin_destroy_vertex_list_chain(g, vlc);
   grin_destroy_graph(g);
 }
+#endif
 
+#if defined(GRIN_ENABLE_ADJACENT_LIST) && defined(GRIN_ENABLE_SCHEMA)
 void test_adjacent_list_chain(const char* uri, GRIN_DIRECTION d) {
   GRIN_GRAPH g = get_graph(uri, 0);
   GRIN_VERTEX_LIST_CHAIN vlc = grin_get_vertex_list_chain_of_all_types_select_master(g);
@@ -100,6 +103,7 @@ void test_adjacent_list_chain(const char* uri, GRIN_DIRECTION d) {
   grin_destroy_vertex_list_chain(g, vlc);
   grin_destroy_graph(g);
 }
+#endif
 
 #if defined (GRIN_ENABLE_ADJACENT_LIST_ITERATOR) && !defined(GRIN_ENABLE_ADJACENT_LIST_ARRAY)
 void test_indexed_adjacent_list(const char* uri, GRIN_DIRECTION d) {
@@ -145,12 +149,15 @@ void test_indexed_adjacent_list(const char* uri, GRIN_DIRECTION d) {
 #endif
 
 int main(int argc, char** argv) {
-#if defined(GRIN_WITH_VERTEX_PROPERTY) && defined(GRIN_WITH_EDGE_PROPERTY) && \
-    defined(GRIN_WITH_VERTEX_PROPERTY_NAME) && defined(GRIN_WITH_EDGE_PROPERTY_NAME)
+#if defined(GRIN_ENABLE_VERTEX_LIST) && defined(GRIN_ENABLE_SCHEMA)
   test_vertex_list_chain(argv[1]);
+#endif
+
+#if defined(GRIN_ENABLE_ADJACENT_LIST) && defined(GRIN_ENABLE_SCHEMA)
   test_adjacent_list_chain(argv[1], OUT);
   test_adjacent_list_chain(argv[1], IN);
 #endif
+
 #if defined (GRIN_ENABLE_ADJACENT_LIST_ITERATOR) && !defined(GRIN_ENABLE_ADJACENT_LIST_ARRAY)
   test_indexed_adjacent_list(argv[1], OUT);
   test_indexed_adjacent_list(argv[1], IN);

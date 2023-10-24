@@ -20,9 +20,10 @@ extern "C" {
 #ifndef GRIN_EXTENSION_INCLUDE_LIST_CHAIN_H_
 #define GRIN_EXTENSION_INCLUDE_LIST_CHAIN_H_
 
+#include "common/enum_types.h"
 #include "../handle.h"
 
-#if defined(GRIN_ENABLE_VERTEX_LIST) && defined(GRIN_WITH_VERTEX_PROPERTY)
+#if defined(GRIN_ENABLE_VERTEX_LIST) && defined(GRIN_ENABLE_SCHEMA)
 GRIN_VERTEX_LIST_CHAIN grin_get_vertex_list_chain_of_all_types(GRIN_GRAPH);
 
 void grin_destroy_vertex_list_chain(GRIN_GRAPH, GRIN_VERTEX_LIST_CHAIN);
@@ -38,13 +39,13 @@ bool grin_is_vertex_list_chain_end(GRIN_GRAPH, GRIN_VERTEX_LIST_CHAIN_ITERATOR);
 GRIN_VERTEX grin_get_vertex_from_vertex_list_chain_iter(GRIN_GRAPH, GRIN_VERTEX_LIST_CHAIN_ITERATOR);
 #endif
 
-#if defined(GRIN_ENABLE_VERTEX_LIST) && defined(GRIN_WITH_VERTEX_PROPERTY) && defined(GRIN_TRAIT_SELECT_MASTER_FOR_VERTEX_LIST)
+#if defined(GRIN_ENABLE_VERTEX_LIST) && defined(GRIN_ENABLE_SCHEMA) && defined(GRIN_TRAIT_SELECT_MASTER_FOR_VERTEX_LIST)
 GRIN_VERTEX_LIST_CHAIN grin_get_vertex_list_chain_of_all_types_select_master(GRIN_GRAPH);
 
 GRIN_VERTEX_LIST_CHAIN grin_get_vertex_list_chain_of_all_types_select_mirror(GRIN_GRAPH);
 #endif
 
-#if defined(GRIN_ENABLE_EDGE_LIST) && defined(GRIN_WITH_EDGE_PROPERTY)
+#if defined(GRIN_ENABLE_EDGE_LIST) && defined(GRIN_ENABLE_SCHEMA)
 GRIN_EDGE_LIST_CHAIN grin_get_edge_list_chain_of_all_types(GRIN_GRAPH);
 
 void grin_destroy_edge_list_chain(GRIN_GRAPH, GRIN_EDGE_LIST_CHAIN);
@@ -60,13 +61,13 @@ bool grin_is_edge_list_chain_end(GRIN_GRAPH, GRIN_EDGE_LIST_CHAIN_ITERATOR);
 GRIN_EDGE grin_get_edge_from_edge_list_chain_iter(GRIN_GRAPH, GRIN_EDGE_LIST_CHAIN_ITERATOR);
 #endif
 
-#if defined(GRIN_ENABLE_EDGE_LIST) && defined(GRIN_WITH_EDGE_PROPERTY) && defined(GRIN_TRAIT_SELECT_MASTER_FOR_EDGE_LIST)
+#if defined(GRIN_ENABLE_EDGE_LIST) && defined(GRIN_ENABLE_SCHEMA) && defined(GRIN_TRAIT_SELECT_MASTER_FOR_EDGE_LIST)
 GRIN_EDGE_LIST_CHAIN grin_get_edge_list_chain_of_all_types_select_master(GRIN_GRAPH);
 
 GRIN_EDGE_LIST_CHAIN grin_get_edge_list_chain_of_all_types_select_mirror(GRIN_GRAPH);
 #endif
 
-#if defined(GRIN_ENABLE_ADJACENT_LIST) && defined(GRIN_WITH_EDGE_PROPERTY)
+#if defined(GRIN_ENABLE_ADJACENT_LIST) && defined(GRIN_ENABLE_SCHEMA)
 GRIN_ADJACENT_LIST_CHAIN grin_get_adjacent_list_chain_of_all_edge_types(GRIN_GRAPH, GRIN_DIRECTION, GRIN_VERTEX);
 
 void grin_destroy_adjacent_list_chain(GRIN_GRAPH, GRIN_ADJACENT_LIST_CHAIN);
@@ -84,7 +85,7 @@ GRIN_EDGE grin_get_edge_from_adjacent_list_chain_iter(GRIN_GRAPH, GRIN_ADJACENT_
 GRIN_VERTEX grin_get_neighbor_from_adjacent_list_chain_iter(GRIN_GRAPH, GRIN_ADJACENT_LIST_CHAIN_ITERATOR);
 #endif
 
-#endif // GRIN_EXTENSION_INCLUDE_VERTEX_LIST_CHAIN_H_
+#endif // GRIN_EXTENSION_INCLUDE_LIST_CHAIN_H_
 
 #ifdef __cplusplus
 }

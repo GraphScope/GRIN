@@ -1,5 +1,4 @@
 /** Copyright 2020 Alibaba Group Holding Limited.
-
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
@@ -13,12 +12,19 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+/**
+ @file structure.h
+ @brief Define the basic topology structure related APIs
+*/
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 #ifndef GRIN_INCLUDE_TOPOLOGY_STRUCTURE_H_
 #define GRIN_INCLUDE_TOPOLOGY_STRUCTURE_H_
+
+#include "common/enum_types.h"
 
 /**
  * @brief Get a (non-partitioned) graph from storage
@@ -56,7 +62,7 @@ bool grin_is_directed(GRIN_GRAPH);
 bool grin_is_multigraph(GRIN_GRAPH);
 #endif
 
-#ifndef GRIN_WITH_VERTEX_PROPERTY
+#ifndef GRIN_ENABLE_SCHEMA
 /**
  * @brief Get the number of vertices in the graph.
  * This API is only available for simple graph.
@@ -64,9 +70,7 @@ bool grin_is_multigraph(GRIN_GRAPH);
  * @return The number of vertices in the graph.
 */
 size_t grin_get_vertex_num(GRIN_GRAPH);
-#endif
 
-#ifndef GRIN_WITH_EDGE_PROPERTY
 /**
  * @brief Get the number of edges in the graph.
  * This API is only available for simple graph.

@@ -2,7 +2,9 @@
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
+
     http://www.apache.org/licenses/LICENSE-2.0
+
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,8 +24,7 @@ extern "C" {
 #ifndef GRIN_INCLUDE_INDEX_INTERNAL_ID_H_
 #define GRIN_INCLUDE_INDEX_INTERNAL_ID_H_
 
-
-#if defined(GRIN_ENABLE_VERTEX_INTERNAL_ID_INDEX) && !defined(GRIN_WITH_VERTEX_PROPERTY)
+#if defined(GRIN_ENABLE_VERTEX_INTERNAL_ID_INDEX) && !defined(GRIN_ENABLE_SCHEMA)
 /**
  * @brief Get the int64 internal id of a vertex
  * @param GRIN_GRAPH The graph
@@ -56,10 +57,11 @@ long long int grin_get_vertex_internal_id_upper_bound(GRIN_GRAPH);
 long long int grin_get_vertex_internal_id_lower_bound(GRIN_GRAPH);
 #endif
 
-#if defined(GRIN_ENABLE_VERTEX_INTERNAL_ID_INDEX) && defined(GRIN_WITH_VERTEX_PROPERTY)
+#if defined(GRIN_ENABLE_VERTEX_INTERNAL_ID_INDEX) && defined(GRIN_ENABLE_SCHEMA)
 /**
- * @brief Get the int64 internal id of a vertex
+ * @brief Get the int64 internal id of a vertex of a type
  * @param GRIN_GRAPH The graph
+ * @param GRIN_VERTEX_TYPE The vertex type
  * @param GRIN_VERTEX The vertex
  * @return The int64 internal id of the vertex
 */

@@ -1,0 +1,91 @@
+Graph Topology and APIs
+-----------------------
+To retrieve graph data, accessing the topology of the graph is essential. 
+This involves accessing the vertices and edges of the graph. 
+In GRIN, the vertices are arranged in a vertex list, 
+and there are several vertex list APIs available for accessing them. 
+As for the representation of graph edges, commonly used sparse matrix representations include CSR, CSC, and COO. 
+In GRIN, the adjacent list is used for CSR and CSC representations, 
+while the edge list is used for COO.
+
+
+Vertex List
+^^^^^^^^^^^
+The API to get the vertex list of a graph is as follows:
+
+.. code-block:: c
+
+   GRIN_VERTEX_LIST grin_get_vertex_list(GRIN_GRAPH);
+
+Here the input parameter is the graph handle, and the return value is the vertex list handle.
+From the vertex list handle, GRIN provides two ways to access the vertices, 
+namely the iterator and array-like access.
+
+To iterate the vertices in the vertex list, the following APIs are provided:
+
+.. code-block:: c
+
+    GRIN_VERTEX_LIST_ITERATOR grin_get_vertex_list_begin(GRIN_GRAPH, GRIN_VERTEX_LIST);
+
+    void grin_get_next_vertex_list_iter(GRIN_GRAPH, GRIN_VERTEX_LIST_ITERATOR);
+
+    bool grin_is_vertex_list_end(GRIN_GRAPH, GRIN_VERTEX_LIST_ITERATOR);
+
+    GRIN_VERTEX grin_get_vertex_from_iter(GRIN_GRAPH, GRIN_VERTEX_LIST_ITERATOR);
+
+
+The first API returns the iterator pointing to the first vertex in the vertex list,
+and the second API "moves" the iterator to the next vertex in the vertex list.
+The third API checks whether the iterator has reached the end of the vertex list.
+The last API returns the vertex pointed by the iterator.
+
+The array-like access to the vertex list is provided by the following APIs:
+
+.. code-block:: c
+
+    size_t grin_get_vertex_list_size(GRIN_GRAPH, GRIN_VERTEX_LIST);
+
+    GRIN_VERTEX grin_get_vertex_from_list(GRIN_GRAPH, GRIN_VERTEX_LIST, size_t);
+
+The first API returns the number of vertices in the vertex list,
+and the second API returns the vertex at the given position of the list.
+
+Storages may implement either ways or both for the vertex list, based on their own characteristics. 
+In general, a storage that supports random access to the vertex list 
+is recommended to implement both ways, while a storage that does not support
+random access may only implement the iterator way.
+
+
+Adjacent List
+^^^^^^^^^^^^^^
+The API to get the adjacent list of a vertex is as follows:
+
+.. code-block:: c
+
+    GRIN_ADJACENT_LIST grin_get_adjacent_list(GRIN_GRAPH, GRIN_DIRECTION, GRIN_VERTEX);
+
+The second input parameter of ``GRIN_DIRECTION`` in the function refers to the direction of the adjacent list. 
+When the value is set to ``OUT``, it represents the outgoing adjacent list, 
+while ``IN`` represents the incoming adjacent list. 
+These directions are related to the CSR and CSC representations, respectively.
+
+Similar to the vertex list, GRIN provides two ways to access the adjacent list,
+namely the iterator and array-like access. 
+Thus, the APIs for the adjacent list are very similar to those for the vertex list.
+
+
+Edge List
+^^^^^^^^^^
+The API to get the edge list of a graph is as follows:
+
+.. code-block:: c
+
+    GRIN_EDGE_LIST grin_get_edge_list(GRIN_GRAPH);
+
+The input parameter is the graph handle, and the return value is the edge list handle.
+The edge list feature is related to the COO representation.
+Most storages does not support the edge list feature, because COO is considered
+as a less efficient representation for graph traversal.
+
+The APIs for the edge list are similar to those for the vertex list and adjacent list.
+We don't repeat them here.

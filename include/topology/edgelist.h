@@ -1,5 +1,4 @@
 /** Copyright 2020 Alibaba Group Holding Limited.
-
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
@@ -13,6 +12,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+/**
+ @file edgelist.h
+ @brief Define the edge list related APIs
+*/
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -20,8 +24,7 @@ extern "C" {
 #ifndef GRIN_INCLUDE_TOPOLOGY_EDGELIST_H_
 #define GRIN_INCLUDE_TOPOLOGY_EDGELIST_H_
 
-
-#if defined(GRIN_ENABLE_EDGE_LIST) && !defined(GRIN_WITH_EDGE_PROPERTY)
+#if defined(GRIN_ENABLE_EDGE_LIST) && !defined(GRIN_ENABLE_SCHEMA)
 GRIN_EDGE_LIST grin_get_edge_list(GRIN_GRAPH);
 #endif
 

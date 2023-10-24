@@ -40,6 +40,8 @@ pub const GRIN_ERROR_CODE_UNKNOWN_ERROR: GrinErrorCode = 1;
 pub const GRIN_ERROR_CODE_INVALID_VALUE: GrinErrorCode = 2;
 #[doc = "< unknown datatype"]
 pub const GRIN_ERROR_CODE_UNKNOWN_DATATYPE: GrinErrorCode = 3;
+#[doc = "< null value"]
+pub const GRIN_ERROR_CODE_NULL_VALUE: GrinErrorCode = 4;
 #[doc = " Enumerates the error codes of grin"]
 pub type GrinErrorCode = u32;
 cfg_if::cfg_if! {
@@ -855,12 +857,6 @@ extern "C" {
     #[allow(unused)]
     pub fn grin_get_edge_primary_keys_row(arg1: GrinGraph, arg2: GrinEdge) -> GrinRow;
 
-    #[allow(unused)]
-    pub fn grin_destroy_string_value(arg1: GrinGraph, arg2: *const ::std::os::raw::c_char);
-
-    #[allow(unused)]
-    pub fn grin_destroy_float_array_value(arg1: GrinGraph, arg2: *const f32);
-
     #[doc = " @brief Get the vertex property name\n @param GrinGraph The graph\n @param GrinVertexType The vertex type that the property belongs to\n @param GrinVertexProperty The vertex property\n @return The property's name as string"]
     #[cfg(feature = "grin_with_vertex_property_name")]
     #[allow(unused)]
@@ -909,6 +905,21 @@ extern "C" {
         arg1: GrinGraph,
         name: *const ::std::os::raw::c_char,
     ) -> GrinEdgePropertyList;
+
+    #[cfg(feature = "grin_with_vertex_property")]
+    #[allow(unused)]
+    pub fn grin_destroy_vertex_property_value_of_string(
+        arg1: GrinGraph,
+        arg2: *const ::std::os::raw::c_char,
+    );
+
+    #[cfg(feature = "grin_with_vertex_property")]
+    #[allow(unused)]
+    pub fn grin_destroy_vertex_property_value_of_float_array(
+        arg1: GrinGraph,
+        arg2: *const f32,
+        arg3: usize,
+    );
 
     #[cfg(feature = "grin_with_vertex_property")]
     #[allow(unused)]
@@ -984,7 +995,7 @@ extern "C" {
         arg3: GrinVertexProperty,
     ) -> f64;
 
-    #[doc = " @brief Get the value of string, given a vertex and a vertex property.\n The user should make sure the vertex property is of datatype string.\n The return int has no predefined invalid value.\n User should use ``grin_get_last_error_code()`` to check if the API call\n is successful.\n Note that the returned string should be explicitly freed by the user,\n by calling API ``grin_destroy_string_value``.\n @param GrinGraph The graph\n @param GrinVertex The vertex\n @param GrinVertexProperty The vertex property\n @return The value of the property"]
+    #[doc = " @brief Get the value of string, given a vertex and a vertex property.\n The user should make sure the vertex property is of datatype string.\n The return int has no predefined invalid value.\n User should use ``grin_get_last_error_code()`` to check if the API call\n is successful.\n Note that the returned string should be explicitly freed by the user,\n by calling API ``grin_destroy_vertex_property_value_of_string``.\n @param GrinGraph The graph\n @param GrinVertex The vertex\n @param GrinVertexProperty The vertex property\n @return The value of the property"]
     #[cfg(feature = "grin_with_vertex_property")]
     #[allow(unused)]
     pub fn grin_get_vertex_property_value_of_string(
@@ -1027,6 +1038,7 @@ extern "C" {
         arg1: GrinGraph,
         arg2: GrinVertex,
         arg3: GrinVertexProperty,
+        arg4: *mut usize,
     ) -> *const f32;
 
     #[doc = " @brief Get the vertex type that a given vertex property belongs to.\n @param GrinGraph The graph\n @param GrinVertexProperty The vertex property\n @return The vertex type"]
@@ -1044,6 +1056,21 @@ extern "C" {
         arg2: GrinVertex,
         arg3: GrinVertexProperty,
     ) -> *const ::std::os::raw::c_void;
+
+    #[cfg(feature = "grin_with_edge_property")]
+    #[allow(unused)]
+    pub fn grin_destroy_edge_property_value_of_string(
+        arg1: GrinGraph,
+        arg2: *const ::std::os::raw::c_char,
+    );
+
+    #[cfg(feature = "grin_with_edge_property")]
+    #[allow(unused)]
+    pub fn grin_destroy_edge_property_value_of_float_array(
+        arg1: GrinGraph,
+        arg2: *const f32,
+        arg3: usize,
+    );
 
     #[cfg(feature = "grin_with_edge_property")]
     #[allow(unused)]
@@ -1150,6 +1177,7 @@ extern "C" {
         arg1: GrinGraph,
         arg2: GrinEdge,
         arg3: GrinEdgeProperty,
+        arg4: *mut usize,
     ) -> *const f32;
 
     #[cfg(feature = "grin_with_edge_property")]
@@ -1285,6 +1313,14 @@ extern "C" {
 
     #[cfg(feature = "grin_enable_row")]
     #[allow(unused)]
+    pub fn grin_destroy_row_value_of_string(arg1: GrinGraph, arg2: *const ::std::os::raw::c_char);
+
+    #[cfg(feature = "grin_enable_row")]
+    #[allow(unused)]
+    pub fn grin_destroy_row_value_of_float_array(arg1: GrinGraph, arg2: *const f32, arg3: usize);
+
+    #[cfg(feature = "grin_enable_row")]
+    #[allow(unused)]
     pub fn grin_get_int32_from_row(
         arg1: GrinGraph,
         arg2: GrinRow,
@@ -1361,6 +1397,7 @@ extern "C" {
         arg1: GrinGraph,
         arg2: GrinRow,
         arg3: usize,
+        arg4: *mut usize,
     ) -> *const f32;
 
     #[doc = " @brief Create a row.\n Row works as carrier of property values in GRIN.\n It is a pure value array, and users can only get the value by the array index.\n That means users should understand the property that each value is\n representing when using the row.\n Currently rows are used in two scenarios:\n 1. Users can create a row of values for primary keys properties,\n and then query the vertex/edge using the row if pk indexing is enabled.\n 2. Users can get the row of values for the entire property list of\n a vertex/edge in one API ``grin_get_vertex_row`` or ``grin_get_edge_row``.\n However this API is not recommended if the user only wants to get the\n properties values, in which case, the user can get property values\n one-by-one using the APIs like ``grin_get_vertex_property_value_of_int32``."]
@@ -1832,7 +1869,11 @@ extern "C" {
     #[allow(unused)]
     pub fn grin_get_last_error_code() -> GrinErrorCode;
 
-    #[doc = " @brief Get the static feature prototype message of the storage.\n This proto describes the features of the storage, such as whether\n it supports property graph or partitioned graph.\n @return The serialized proto message."]
     #[allow(unused)]
-    pub fn grin_get_static_storage_feature_msg() -> *const ::std::os::raw::c_char;
+    pub fn grin_destroy_msg(msg: *const ::std::os::raw::c_char);
+
+    #[allow(unused)]
+    pub fn grin_get_graph_schema_msg(
+        uri: *const ::std::os::raw::c_char,
+    ) -> *const ::std::os::raw::c_char;
 }

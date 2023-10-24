@@ -1,0 +1,59 @@
+Common Functional APIs
+=======================
+
+Error Code
+--------------
+GRIN uses the ``error code`` mechanism to indicate errors for return value types
+that are hard to define ``invalid`` values, such as ``int`` and ``double``.
+
+The following code snippet shows how to check the returned value is valid 
+when calling the API to get a vertex property value of ``int32``.
+
+.. code-block:: c 
+    :linenos:
+
+    GRIN_GRAPH g = ...
+    GRIN_VERTEX v = ...
+    GRIN_VERTEX_PROPERTY vp = ...
+
+    int value = grin_get_vertex_property_value_of_int32(g, v, vp);
+    if (grin_get_last_error_code() != GRIN_ERROR_CODE::NO_ERROR) {
+        // handle error
+    }
+
+Suppose we have obtained three handles in GRIN: the graph handle, the vertex handle, and
+the vertex property handle.
+In the fifth line, we aim to retrieve the vertex property value of the vertex ``v``.
+To verify the validity of the returned ``value``, we can use the API ``grin_get_last_error_code``
+in the sixth line. This API allows us to retrieve the last error code. We can then compare this
+error code with the ``GRIN_ERROR_CODE::NO_ERROR``.
+
+In GRIN, the ``GRIN_ERROR_CODE`` is an enumeration that defines all the error codes used in GRIN.
+Currently GRIN has defined the following error codes:
+
+- ``NO_ERROR``: Success.
+- ``UNKNOWN_ERROR``: Unknown error.
+- ``UNKNOWN_DATATYPE``: The data type is unknown.
+- ``INVALID_VALUE``: The return value is invalid (some error happens when retrieving the value).
+- ``NULL_VALUE``: The return value is null (missing).
+
+
+Schema Message 
+--------------
+Usually, before users start using GRIN to retrieve graph data, they would like
+to know the schema of the graph data in order to optimize their execution plans.
+GRIN provides a protobuf definition for the graph schema, along with an API for
+retrieving the schema message.
+
+.. code-block:: c 
+
+    const char* grin_get_graph_schema_msg(const char* uri);
+
+The API requires the user to provide the URI of the
+graph as input. In return, it provides the schema message in JSON format.
+
+The schema protobuf primarily contains two main definitions: the *LPG schema*
+and the *partition strategy*. If the graph uses the LPG data model, the storage
+should fill in the *LPG schema* part. Similarly, if the graph is partitioned,
+the storage should fill in the *partition strategy* part. The details of the
+schema protobuf can be found in the ``proto`` directory.

@@ -1,4 +1,5 @@
 /** Copyright 2020 Alibaba Group Holding Limited.
+
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
@@ -12,31 +13,20 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-/**
- @file error.h
- @brief Define the error code related APIs
-*/
-
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#ifndef GRIN_INCLUDE_COMMON_ERROR_H_
-#define GRIN_INCLUDE_COMMON_ERROR_H_
+#ifndef GRIN_EXTENSION_INCLUDE_STATIC_MESSAGE_H_
+#define GRIN_EXTENSION_INCLUDE_STATIC_MESSAGE_H_
 
-#include "common/enum_types.h"
+#include "../handle.h"
 
-extern __thread GRIN_ERROR_CODE grin_error_code;
+void grin_destroy_static_storage_feature_msg(const char* msg);
 
-/**
- * @brief Get the last error code.
- * The error code is thread local. 
- * Currently users only need to check the error code when using
- * getting-value APIs whose return has no predefined invalid value.
-*/
-GRIN_ERROR_CODE grin_get_last_error_code();
+const char* grin_get_static_storage_feature_msg();
 
-#endif // GRIN_INCLUDE_COMMON_ERROR_H_
+#endif // GRIN_EXTENSION_INCLUDE_STATIC_MESSAGE_H_
 
 #ifdef __cplusplus
 }

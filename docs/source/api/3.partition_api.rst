@@ -1,0 +1,359 @@
+Partitioned Graph and APIs
+============================
+When processing large-scale graphs that cannot fit into a single machine, 
+it is common to partition the graph into multiple subgraphs and process them in parallel. 
+This helps balance the workload and minimize communication costs. 
+There are various partition strategies available, such as edgecut and vertexcut, 
+each with the goal of achieving similar-sized subgraphs and reducing cross-partition vertices and edges.
+
+However, different partition strategies can lead to different topology placement features, 
+which makes it difficult for users to write portable graph algorithms. 
+To address this issue, GRIN provides a unified partitioned graph paradigm. 
+This paradigm allows users to represent partitioned graphs with different partition strategies,
+and users can easily determine the topology placement for graphs and property placement for LPGs from the paradigm.
+
+To better understand this concept, let's start by defining some key concepts related to partitions. 
+We will then introduce the corresponding APIs that can be used to work with partitioned graphs.
+
+Partition Strategy 
+-------------------
+
+A partition :math:`P` divides the graph :math:`G` into :math:`p` partitions. 
+Let :math:`V_i` and :math:`E_i` represent the sets of vertices and edges in partition :math:`i`, 
+and let :math:`V_i^M` and :math:`E_i^M` represent the master sets of vertices and edges in partition :math:`i`. 
+The partition is valid if it satisfies these conditions:
+
+- :math:`V_i^M` is a subset of :math:`V_i`.
+- :math:`E_i^M` is a subset of :math:`E_i`.
+- The sets :math:`V_i^M` are disjoint and their union is :math:`V`.
+- The sets :math:`E_i^M` are disjoint and their union is :math:`E`.
+
+Then vertices in :math:`V_i - V_i^M` is denoted as the mirror vertices in partition :math:`i`.
+Similarly, edges in :math:`E_i - E_i^M` are the mirror edges in partition :math:`i`.
+
+A partition strategy is the process of computing :math:`V_i^M`, :math:`E_i^M`, :math:`V_i`, and :math:`E_i`. 
+We say a partition :math:`P` follows a partition strategy if it can be computed using that process. 
+This means a graph partition :math:`P` may follow multiple partition strategies.
+
+Next, we demonstrate the edgecut and vertexcut partition strategies in GRIN.
+We will use :math:`E(V)` to denote the set of edges with both endpoints in :math:`V`,
+and :math:`V(E)` to denote the set of all the endpoints of :math:`E`.
+After that, we introduce the ``universal vertices and edges`` which complements the
+partition strategies with the goal of achieving better performance.
+Finally, we define the ``property placement`` strategies for LPGs.
+
+
+Edgecut
+^^^^^^^
+The edge cut partition strategy begins by mapping each vertex :math:`v\in V` to one partition.
+This initial assignment results in the sets of :math:`V_i^M`.
+Next, for each partition :math:`i`, we place the edges of :math:`E(V_i^M)` into partition :math:`i`.
+Afterwards, we apply the ``cut edge placement`` strategies (which will be described later) to place the cut edges 
+into their respective partitions, where the cut edges are edges with endpoints in different partitions.
+This step generates the set :math:`E_i`. 
+It is important to note that if the strategy does not involve replicating the cut edges, 
+then :math:`E_i^M` will be equal to :math:`E_i`.
+However, if the cut edges are being replicated, then each replicated cut edge 
+is assigned a master partition to build the set :math:`E_i^M`.
+Finally, by letting :math:`V_i` equal the union of :math:`V(E_i)` and :math:`V_i^M`,
+we obtain the final partition.
+
+The cut edge placement strategies for directed graphs are ``following source`` and ``following destination``,
+which means the cut edge can be placed in the partition of its source vertex and destination vertex respectively.
+An edgecut partition strategy may use either of these strategies, or both of them by replicating the cut edges.
+On the other hand, the cut edge placement strategies for undirected graphs are ``following lower`` and ``following higher``,
+which means the cut edge can be placed in the partition of its endpoints with the lower and higher partition ID respectively.
+Similarly, both strategies for undirected graphs can be used in conjunction by replicating the cut edges.
+
+Vertexcut
+^^^^^^^^^^
+The vertex cut partition strategy starts by mapping each edge :math:`e\in E` 
+to one partition, resulting in :math:`E_i^M`. 
+We then have :math:`E_i = E_i^M` and :math:`V_i = V(E_i)`. 
+Next, for each zero-degree vertex :math:`z`, we assign a master partition to that vertex.
+Finally, for each vertex :math:`v` that appears in multiple :math:`V_i`, we assign a master 
+partition to that vertex to create :math:`V_i^M`, completing the final partition.
+
+
+Universal Vertices and Edges
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Both edgecut and vertexcut have limitations in handling "super" vertices with extremely large degrees, 
+especially in graphs with power-law degree distribution. 
+The edgecut suffers from workload imbalance, as the partition with "super" vertices will have significantly more edges. 
+On the other hand, the vertexcut loses locality, as different "super" vertices are replicated across different partitions, 
+leading to incomplete neighborhoods of normal vertices.
+
+To address these challenges, GRIN introduces ``universal vertices`` and ``universal edges``, 
+as a complementary to edgecut and vertexcut strategies.
+Universal vertices, denoted as :math:`U`, are vertices replicated to all partitions. 
+Additionally, the edges between them, denoted as :math:`E(U)`, 
+are also replicated to all partitions, and we call them universal edges.
+
+The partition strategy with universal vertice and edges involved begins by selecting :math:`U` out of :math:`V`. 
+This includes removing :math:`U` from :math:`V` (let's denote the remaining vertices as :math:`V'`) 
+and removing :math:`E(U)` and :math:`CE(U, V')` from :math:`E`, 
+where :math:`CE(U, V')` represents the cross edges between :math:`U` and :math:`V'`.
+Next, the remaining vertices :math:`V'` and edges :math:`E'` are partitioned based on the partition strategy.
+Following this, each cross edge :math:`e` in :math:`CE(U, V')` is placed based on the 
+``cross edge placement`` strategy (which will be described later), and :math:`E'_i` is updated accordingly. 
+If replication is involved during the placement process, a master partition 
+is assigned to each cross edge, and :math:`{E'}_i^M` is updated. 
+This results a valid partition on :math:`V - U` and :math:`E - E(U)`.
+Finally, the partition is augmented by adding :math:`U` and :math:`E(U)` 
+to each :math:`V'_i` and :math:`E'_i` respectively.
+It is important to note that universal vertices and edges are replicated to all partitions, 
+and thus do not have their master partitions.
+
+The cross edge placement strategies includes:
+
+- ``follow master``: This means the cross edge is placed to the master partition of its non-universal endpoint
+- ``follow mirror``: This means the cross edge is placed to the mirror partition of its non-universal endpoint
+- ``follow universal``: This means the cross edge is replicated to all partitions
+
+The most commonly used cross edge placement strategy is ``follow master``,
+but a partition strategy may use more than one strategy simultaneously.
+For example, using ``follow master`` and ``follow mirror`` together means that 
+the cross edge is replicated to all the partitions of its non-universal endpoint.
+
+Sparse Indexing
+^^^^^^^^^^^^^^^^
+After the partitioning, storages may impose different sparse-indexing strategies
+to fulfill varying computing requirements on different kinds (universal, master, mirror) of vertices and edges.
+The sparse indexing strategies include:
+
+- CSR: Compressed Sparse Row
+- CSC: Compressed Sparse Column
+- COO: Coordindation
+
+
+Property Placement
+^^^^^^^^^^^^^^^^^^^^
+Property placement is the process of assigning properties to vertices and edges that
+have been replicated to multiple partitions. The propety placement strategies are:
+
+- ``on master``: This means the property is only placed on the master partition of non-universal vertices or edges
+- ``on mirror``: This means the property is only placed on the mirror partition of non-universal vertices or edges
+- ``on universal``: This means the property is replicated to all partitions
+- ``split master mirror``: This means the property is split among master and mirror partitions of non-universal vertices or edges
+- ``split universal``: This means the property is split among all partitions
+
+
+
+
+Partition APIs
+---------------
+
+With the understanding of concepts like ``universal``, ``master`` and ``mirror`` in mind,
+we now introduce the ``partition``-related APIs.
+
+Partitioned Graph and Partition List
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The API to get a partitioned graph in GRIN is similar to that of a non-partitioned graph:
+
+.. code-block:: c 
+
+    GRIN_PARTITIONED_GRAPH grin_get_partitioned_graph_from_storage(const char* uri);
+
+From the returned partitioned graph handle, users can get the total partition number and the local partition list. 
+Here "local" means the partitions can be retrieved locally in the current process using the following APIs:
+
+.. code-block:: c 
+
+    size_t grin_get_total_partitions_number(GRIN_PARTITIONED_GRAPH);
+
+    GRIN_PARTITION_LIST grin_get_local_partition_list(GRIN_PARTITIONED_GRAPH);
+
+And the partition list can be accessed in an array-like way:
+
+.. code-block:: c 
+
+    size_t grin_get_partition_list_size(GRIN_PARTITIONED_GRAPH, GRIN_PARTITION_LIST);
+
+    GRIN_PARTITION grin_get_partition_from_list(GRIN_PARTITIONED_GRAPH, GRIN_PARTITION_LIST, size_t);
+
+After we get a partition handle from the list, we can get the local subgraph (fragment) indicated by the partition handle:
+
+.. code-block:: c 
+
+    GRIN_GRAPH grin_get_local_graph_by_partition(GRIN_PARTITIONED_GRAPH, GRIN_PARTITION);
+
+Till now, we finally got the familiar graph handle that can be used to access the graph data.
+
+In addition, the partitions are numbered from 0 to ``total_partition_number - 1``, denoted as the ``partition ID``. 
+The related APIs are:
+
+.. code-block:: c 
+
+    GRIN_PARTITION grin_get_partition_by_id(GRIN_PARTITIONED_GRAPH, GRIN_PARTITION_ID);
+
+    GRIN_PARTITION_ID grin_get_partition_id(GRIN_PARTITIONED_GRAPH, GRIN_PARTITION);
+
+
+
+Vertex and Edge References
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+As we mentioned before, handles are "local" values that point to the entities, such as graph, vertex and edge, within the process.
+To communicate with other processes, a protocol is needed to transfer local handles to globally recognizable messages. 
+These messages can be sent to remote processes while preserving semantics.
+
+GRIN provides ``vertex reference`` and ``edge reference`` to achieve this goal.
+Taking vertex reference as an example, the communication process is as follows:
+
+- The sender process has a (local) vertex handle
+- The sender process converts the vertex handle into a vertex reference
+- The sender serialize the vertex reference into a message
+- The reciever got the serialized message
+- The reciever deserialize the message into a vertex reference
+- The reciever converts the vertex reference to a (local) vertex handle
+
+The related APIs are:
+
+.. code-block:: c 
+
+    GRIN_VERTEX_REF grin_get_vertex_ref_by_vertex(GRIN_GRAPH, GRIN_VERTEX);
+
+    const char* grin_serialize_vertex_ref(GRIN_GRAPH, GRIN_VERTEX_REF);
+
+    GRIN_VERTEX_REF grin_deserialize_to_vertex_ref(GRIN_GRAPH, const char* msg);
+
+    GRIN_VERTEX grin_get_vertex_from_vertex_ref(GRIN_GRAPH, GRIN_VERTEX_REF);
+
+
+It is important to note that when ``GRIN_TRAIT_FAST_VERTEX_REF`` is enabled,
+the vertex reference can be serialized into a ``int64`` instead of the normal ``const char*``,
+which improves the communication efficiency. The APIs are:
+
+.. code-block:: c 
+
+    long long int grin_serialize_vertex_ref_as_int64(GRIN_GRAPH, GRIN_VERTEX_REF);
+
+    GRIN_VERTEX_REF grin_deserialize_int64_to_vertex_ref(GRIN_GRAPH, long long int msg);
+
+
+Moreover, the master partition of a vertex can also be inferred from the vertex reference.
+The API is:
+
+.. code-block:: c 
+
+    GRIN_PARTITION grin_get_master_partition_from_vertex_ref(GRIN_GRAPH, GRIN_VERTEX_REF);
+
+On the contrary, users may want to know where are the mirror vertices of a given vertex are located.
+This specific requirement is not always fulfilled by storages, but for those who can support, the APIs are:
+
+.. code-block:: c 
+
+    #ifdef GRIN_TRAIT_MASTER_VERTEX_MIRROR_PARTITION_LIST
+    GRIN_PARTITION_LIST grin_get_master_vertex_mirror_partition_list(GRIN_GRAPH, GRIN_VERTEX);
+    #endif
+
+    #ifdef GRIN_TRAIT_MIRROR_VERTEX_MIRROR_PARTITION_LIST
+    GRIN_PARTITION_LIST grin_get_mirror_vertex_mirror_partition_list(GRIN_GRAPH, GRIN_VERTEX);
+    #endif
+
+The APIs for edge reference is quite similar to the above ones for vertex reference,
+so we will not repeat here.
+
+Topology
+^^^^^^^^
+The partitioned graph's topology APIs are closely related to the partition strategies. 
+Storages may impose different placement and sparse-indexing strategies 
+on different kinds of vertices and edges (universal, master, mirror), 
+to fulfill varying computing requirements. 
+To address this, GRIN provides APIs to select specific kinds of vertices 
+or edges that meet the requirements.
+
+We will first discuss the APIs for ``universal`` vertices and edges. 
+Then, we will cover the APIs related to ``master`` and ``mirror`` vertices and edges.
+
+For simple graphs, the universal and non-universal vertices can be selected using:
+
+.. code-block:: c 
+
+    GRIN_VERTEX_LIST grin_get_vertex_list_select_universal(GRIN_GRAPH);
+
+    GRIN_VERTEX_LIST grin_get_vertex_list_select_non_universal(GRIN_GRAPH);
+
+Similarly, universal and non-universal edges can be selected both in edge list and adjacent list:
+
+.. code-block:: c 
+
+    GRIN_EDGE_LIST grin_get_edge_list_select_universal(GRIN_GRAPH);
+
+    GRIN_EDGE_LIST grin_get_edge_list_select_non_universal(GRIN_GRAPH);
+
+    GRIN_ADJACENT_LIST grin_get_adjacent_list_select_universal_neighbor(GRIN_GRAPH, GRIN_DIRECTION, GRIN_VERTEX);
+
+    GRIN_ADJACENT_LIST grin_get_adjacent_list_select_non_universal_neighbor(GRIN_GRAPH, GRIN_DIRECTION, GRIN_VERTEX);
+
+On the other hand, for LPGs, universal vertices are determined by their types. 
+This means that vertices of certain types are either all universal or non-universal.
+Thus the APIs become:
+
+.. code-block:: c 
+
+    GRIN_VERTEX_TYPE_LIST grin_get_vertex_type_list_select_universal(GRIN_GRAPH);
+
+    GRIN_VERTEX_TYPE_LIST grin_get_vertex_type_list_select_non_universal(GRIN_GRAPH);
+
+    bool grin_is_vertex_type_unisversal(GRIN_GRAPH, GRIN_VERTEX_TYPE);
+
+We don't have APIs for universal edges, because universal edges in LPGs are edges whose both endpoints are universal vertices.
+
+
+Next, we introduce the APIs for master and mirror selection.
+
+Similarly for simple graphs, the vertices can be selected using:
+
+.. code-block:: c 
+
+    GRIN_VERTEX_LIST grin_get_vertex_list_select_master(GRIN_GRAPH);
+
+    GRIN_VERTEX_LIST grin_get_vertex_list_select_mirror(GRIN_GRAPH);
+
+Sometime users require finer selection on vertices based on their master partitions.
+GRIN offers such an API as:
+
+.. code-block:: c 
+
+    GRIN_VERTEX_LIST grin_get_vertex_list_select_partition(GRIN_GRAPH, GRIN_PARTITION);
+
+Then for edge selection in edge list and adjacent list, the APIs are:
+
+.. code-block:: c 
+
+    GRIN_EDGE_LIST grin_get_edge_list_select_master(GRIN_GRAPH);
+
+    GRIN_EDGE_LIST grin_get_edge_list_select_mirror(GRIN_GRAPH);
+
+    GRIN_EDGE_LIST grin_get_edge_list_select_partition(GRIN_GRAPH, GRIN_PARTITION);
+
+    GRIN_ADJACENT_LIST grin_get_adjacent_list_select_master_neighbor(GRIN_GRAPH, GRIN_DIRECTION, GRIN_VERTEX);
+
+    GRIN_ADJACENT_LIST grin_get_adjacent_list_select_mirror_neighbor(GRIN_GRAPH, GRIN_DIRECTION, GRIN_VERTEX);
+
+    GRIN_ADJACENT_LIST grin_get_adjacent_list_select_partition_neighbor(GRIN_GRAPH, GRIN_DIRECTION, GRIN_VERTEX, GRIN_PARTITION);
+
+On the other hand, for LPGs, the selection APIs must be narrowed to specific types, due the type-centric data organization of LPGs.
+The APIs become:
+
+.. code-block:: c 
+
+    GRIN_VERTEX_LIST grin_get_vertex_list_by_type_select_master(GRIN_GRAPH, GRIN_VERTEX_TYPE);
+
+    GRIN_VERTEX_LIST grin_get_vertex_list_by_type_select_mirror(GRIN_GRAPH, GRIN_VERTEX_TYPE);
+
+    GRIN_VERTEX_LIST grin_get_vertex_list_by_type_select_partition(GRIN_GRAPH, GRIN_VERTEX_TYPE, GRIN_PARTITION);
+
+    GRIN_EDGE_LIST grin_get_edge_list_by_type_select_master(GRIN_GRAPH, GRIN_EDGE_TYPE);
+
+    GRIN_EDGE_LIST grin_get_edge_list_by_type_select_mirror(GRIN_GRAPH, GRIN_EDGE_TYPE);
+
+    GRIN_EDGE_LIST grin_get_edge_list_by_type_select_partition(GRIN_GRAPH, GRIN_EDGE_TYPE, GRIN_PARTITION);
+
+    GRIN_ADJACENT_LIST grin_get_adjacent_list_by_edge_type_select_master_neighbor(GRIN_GRAPH, GRIN_DIRECTION, GRIN_VERTEX, GRIN_EDGE_TYPE);
+
+    GRIN_ADJACENT_LIST grin_get_adjacent_list_by_edge_type_select_mirror_neighbor(GRIN_GRAPH, GRIN_DIRECTION, GRIN_VERTEX, GRIN_EDGE_TYPE);
+
+    GRIN_ADJACENT_LIST grin_get_adjacent_list_by_edge_type_select_partition_neighbor(GRIN_GRAPH, GRIN_DIRECTION, GRIN_VERTEX, GRIN_EDGE_TYPE, GRIN_PARTITION);
+

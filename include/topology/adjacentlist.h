@@ -1,5 +1,4 @@
 /** Copyright 2020 Alibaba Group Holding Limited.
-
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
@@ -13,6 +12,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+/**
+ @file adjacentlist.h
+ @brief Define the adjacent list related APIs
+*/
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -20,12 +24,14 @@ extern "C" {
 #ifndef GRIN_INCLUDE_TOPOLOGY_ADJACENTLIST_H_
 #define GRIN_INCLUDE_TOPOLOGY_ADJACENTLIST_H_
 
+#include "common/enum_types.h"
 
-#if defined(GRIN_ENABLE_ADJACENT_LIST) && !defined(GRIN_WITH_EDGE_PROPERTY)
+#if defined(GRIN_ENABLE_ADJACENT_LIST) && !defined(GRIN_ENABLE_SCHEMA)
 /**
  * @brief Get the adjacent list of a vertex.
- * This API is only available when the graph has no edge property.
- * Otherwise, use ``grin_get_adjacent_list_by_edge_type`` instead.
+ * This API is only available when schema is not enabled.
+ * Otherwise, use ``grin_get_adjacent_list_by_edge_type`` instead,
+ * or consider ``adjacent_list_chain`` in GRIN extension.
  * @param GRIN_GRAPH The graph.
  * @param GRIN_DIRECTION The direction of the adjacent list.
  * @param GRIN_VERTEX The vertex.
