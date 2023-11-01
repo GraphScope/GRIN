@@ -45,7 +45,7 @@ This three-level "stacking" of ``topology``, ``property``, and ``partition`` for
 
 Next, we introduce the ``index`` APIs, which are designed for graph indexing.
 Following that, we present the ``common`` APIs, which include the common functions of GRIN, such as *schema* message and *error code*.
-Finally, we end the API category section by presenting the ``extension`` APIs, which are a series of advanced APIs with default implementations that utilize the basic APIs of GRIN.
+Finally, we end the per-category API introduction by presenting the ``extension`` APIs, which are a series of advanced APIs with default implementations that utilize the basic APIs of GRIN.
 
 Lastly, we provide the developer guide of GRIN for developers to follow.
 
@@ -61,7 +61,8 @@ Lastly, we provide the developer guide of GRIN for developers to follow.
    api/4.index_api
    api/5.common_api
    api/6.extension_api
-   developer_guide
+   guide/storage
+   guide/user
 
 .. getting_started
 

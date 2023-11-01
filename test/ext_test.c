@@ -105,7 +105,6 @@ void test_adjacent_list_chain(const char* uri, GRIN_DIRECTION d) {
 }
 #endif
 
-#if defined (GRIN_ENABLE_ADJACENT_LIST_ITERATOR) && !defined(GRIN_ENABLE_ADJACENT_LIST_ARRAY)
 void test_indexed_adjacent_list(const char* uri, GRIN_DIRECTION d) {
   GRIN_GRAPH g = get_graph(uri, 0);
   GRIN_VERTEX_LIST vertex_list = grin_get_vertex_list_by_type_select_master(g, 0);
@@ -146,7 +145,6 @@ void test_indexed_adjacent_list(const char* uri, GRIN_DIRECTION d) {
   }
   grin_destroy_graph(g);
 }
-#endif
 
 int main(int argc, char** argv) {
 #if defined(GRIN_ENABLE_VERTEX_LIST) && defined(GRIN_ENABLE_SCHEMA)
@@ -158,9 +156,7 @@ int main(int argc, char** argv) {
   test_adjacent_list_chain(argv[1], IN);
 #endif
 
-#if defined (GRIN_ENABLE_ADJACENT_LIST_ITERATOR) && !defined(GRIN_ENABLE_ADJACENT_LIST_ARRAY)
   test_indexed_adjacent_list(argv[1], OUT);
   test_indexed_adjacent_list(argv[1], IN);
-#endif
   return 0;
 }

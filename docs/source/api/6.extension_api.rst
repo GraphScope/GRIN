@@ -62,7 +62,7 @@ array-like access, especially during the sampling phase of a GNN (Graph Neural
 Network) algorithm.
 
 To address this issue, the GRIN extension offers a high-level handle called
-"GRIN_INDEXED_ADJACENT_LIST". This handle allows for array-like access to the
+``GRIN_INDEXED_ADJACENT_LIST``. This handle allows for array-like access to the
 adjacent list of a vertex by temporarily caching the adjacent list in memory.
 
 The APIs are as follows:
@@ -86,15 +86,15 @@ Static Storage Feature Message
 C macros are used by GRIN to filter out APIs that storage systems cannot
 handle. In the above example, some storage system may not support array-like access
 to the adjacent list of a vertex. In such a case, the storage system can
-disable the `GRIN_ENABLE_ADJACENT_LIST_ARRAY` macro to exclude the APIs
+disable the ``GRIN_ENABLE_ADJACENT_LIST_ARRAY`` macro to exclude the APIs
 related to array-like access of adjacent lists. 
 The selections on macros are referred to
-as the *static storage features* of a storage system.
+as the ``static storage features`` of a storage system.
 
 When users access a storage system through GRIN, they may need to know the
 static storage features of the storage system to adjust their execution plans
-accordingly. GRIN defines the *static storage features* as a proto
-(Protocol Buffer) in `proto/storage.proto` and provides a common API in GRIN
+accordingly. GRIN defines the ``static storage features`` as a proto
+(Protocol Buffer) in ``proto/storage.proto`` and provides a common API in GRIN
 extension to automatically generate the proto message for the storage
 system.
 

@@ -32,11 +32,11 @@ on graph data lakes.
 
 In this model, a labeled property graph is represented as :math:`G = (V, E, T_V, T_E, P, L)`. 
 Here, :math:`V` is the set of vertices, :math:`E` is the set of edges, 
-`T_V` is the set of vertex types, :math:`T_E` is the set of edge types, 
-`P` is the set of properties, and :math:`L` is the set of labels.
+:math:`T_V` is the set of vertex types, :math:`T_E` is the set of edge types, 
+:math:`P` is the set of properties, and :math:`L` is the set of labels.
 
-Each vertex :math:`v` in :math:`V` is associated with a vertex type :math:`t_v` from :math:`T_V`. 
-Similarly, each edge :math:`e` is associated with an edge type :math:`t_e` from :math:`T_E`, 
+Each vertex :math:`v\in V` is associated with a vertex type :math:`t_v` from :math:`T_V`. 
+Similarly, each edge :math:`e\in E` is associated with an edge type :math:`t_e` from :math:`T_E`, 
 and the graph :math:`G` is directed so that each edge has a source and destination vertex. 
 A property :math:`p` in :math:`P` can be either a vertex property specific to a vertex type 
 or an edge property specific to an edge type. 
@@ -79,7 +79,7 @@ The relevant APIs for this functionality are as follows:
     GRIN_VERTEX_TYPE grin_get_vertex_type_from_list(GRIN_GRAPH, GRIN_VERTEX_TYPE_LIST, size_t);
 
 
-Each vertex type has a unique name, the related APIs are:
+Each vertex type has a unique name, and the related APIs are:
 
 .. code-block:: c 
 
@@ -87,7 +87,7 @@ Each vertex type has a unique name, the related APIs are:
 
     GRIN_VERTEX_TYPE grin_get_vertex_type_by_name(GRIN_GRAPH, const char* name);
 
-Also, the vertex types are numbered from 0, denoted as the vertex type ids:
+Also, the vertex types are numbered from 0, denoted as the vertex type ids. The related APIs are:
 
 .. code-block:: c 
 
@@ -136,7 +136,7 @@ In case to get all the properties with the same name across all the vertex types
     
     GRIN_VERTEX_PROPERTY_LIST grin_get_vertex_properties_by_name(GRIN_GRAPH, const char* name);
 
-Properties belonging to the same vertex type are numbered from 0, denoted as the property ids:
+Properties belonging to the same vertex type are numbered from 0, denoted as the property ids. The related APIs are:
 
 .. code-block:: c 
 
@@ -384,6 +384,9 @@ And to get a specific property of a vertex using its name, use:
 
 However, IDs are not supported as vertex properties in schema-free property graphs 
 since vertex properties are considered to be distinct from one another.
+
+It is important to note that the APIs to get datatype and values of a vertex property are the same as the schema-enabled case,
+because those APIs only require the vertex handle and the property handle as input parameter.
 
 The APIs for edge properties are similar to the vertex property APIs, so we will not repeat them here.
 

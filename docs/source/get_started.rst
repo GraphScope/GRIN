@@ -3,8 +3,8 @@ Getting Started
 
 Get Graph from Storage
 ^^^^^^^^^^^^^^^^^^^^^^
-GRIN offers a set of APIs to retrieve graph from storage.
-The first API we need is to get a graph handle for a graph in storage.
+GRIN offers a set of APIs to retrieve graph data in storage.
+The first API we need is to get a graph handle for a graph from storage.
 The API is:
 
 .. code-block:: c 
@@ -72,14 +72,14 @@ can be freed using the ``grin_destroy_graph`` API. It's important to note that G
 meaning that the responsibility of memory management lies with the users, rather than the storages.
 
 Some APIs may return values other than handles, such as primitive types like ``int`` and ``double``.
-These values are returned by APIs to get vertex property values and are stored on the ``stack``,
+For example, primitive values returned by APIs to get vertex property values are stored on the ``stack``,
 meaning they do not need to be freed. We will provide more
 detailed information about these return values and whether or not there are corresponding
 ``destroy`` APIs, when discussing related APIs.
 
 Error Handling
 ^^^^^^^^^^^^^^^
-Each handle type also has a ``invalid`` value that represents an invalid handle. 
+Each handle type also has a ``invalid`` value. 
 For example, the ``GRIN_GRAPH`` handle type has a ``invalid`` value denoted as ``GRIN_NULL_GRAPH``. 
 When the ``grin_get_graph_from_storage`` API cannot find the graph with the given uri from the storage,
 it returns the ``GRIN_NULL_GRAPH`` value. This value can be used to check whether the API call is
