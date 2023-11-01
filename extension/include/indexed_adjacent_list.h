@@ -22,7 +22,6 @@ extern "C" {
 
 #include "../handle.h"
 
-#if defined (GRIN_ENABLE_ADJACENT_LIST_ITERATOR) && !defined(GRIN_ENABLE_ADJACENT_LIST_ARRAY)
 GRIN_INDEXED_ADJACENT_LIST grin_get_indexed_adjacent_list(GRIN_GRAPH, GRIN_ADJACENT_LIST);
 
 void grin_destroy_indexed_adjacent_list(GRIN_GRAPH, GRIN_INDEXED_ADJACENT_LIST);
@@ -32,7 +31,6 @@ size_t grin_get_indexed_adjacent_list_size(GRIN_GRAPH, GRIN_INDEXED_ADJACENT_LIS
 GRIN_VERTEX grin_get_neighbor_from_indexed_adjacent_list(GRIN_GRAPH, GRIN_INDEXED_ADJACENT_LIST, size_t);
 
 GRIN_EDGE grin_get_edge_from_indexed_adjacent_list(GRIN_GRAPH, GRIN_INDEXED_ADJACENT_LIST, size_t);
-#endif
 
 
 #endif // GRIN_EXTENSION_INCLUDE_INDEXED_ADJACENT_LIST_H_

@@ -105,3 +105,26 @@ GRIN_EDGE grin_get_edge_from_indexed_adjacent_list(GRIN_GRAPH g, GRIN_INDEXED_AD
 }
 
 #endif
+
+
+#ifdef GRIN_ENABLE_ADJACENT_LIST_ARRAY
+GRIN_INDEXED_ADJACENT_LIST grin_get_indexed_adjacent_list(GRIN_GRAPH g, GRIN_ADJACENT_LIST adj_list) {
+    return adj_list;
+}
+
+void grin_destroy_indexed_adjacent_list(GRIN_GRAPH g, GRIN_INDEXED_ADJACENT_LIST indexed_adj_list) {
+    grin_destroy_adjacent_list(g, indexed_adj_list);
+}
+
+size_t grin_get_indexed_adjacent_list_size(GRIN_GRAPH g, GRIN_INDEXED_ADJACENT_LIST indexed_adj_list) {
+    return grin_get_adjacent_list_size(g, indexed_adj_list);
+}
+
+GRIN_VERTEX grin_get_neighbor_from_indexed_adjacent_list(GRIN_GRAPH g, GRIN_INDEXED_ADJACENT_LIST indexed_adj_list, size_t index) {
+    return grin_get_neighbor_from_adjacent_list(g, indexed_adj_list, index);
+}
+
+GRIN_EDGE grin_get_edge_from_indexed_adjacent_list(GRIN_GRAPH g, GRIN_INDEXED_ADJACENT_LIST indexed_adj_list, size_t index) {
+    return grin_get_edge_from_adjacent_list(g, indexed_adj_list, index);
+}
+#endif
