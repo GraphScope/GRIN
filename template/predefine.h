@@ -24,6 +24,9 @@ limitations under the License.
  * specified by storage.
  */
 
+#ifndef GRIN_PREDEFINE_H_
+#define GRIN_PREDEFINE_H_
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -210,3 +213,5 @@ typedef void* GRIN_LABEL_LIST;
 #ifdef __cplusplus
 }
 #endif
+
+#endif  // GRIN_PREDEFINE_H_
