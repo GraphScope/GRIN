@@ -22,7 +22,10 @@ limitations under the License.
  * 3. The typedefs of the enabled handles. This should be specified by storage.
  * 4. The corresponding null values of the enabled handles. This should be
  * specified by storage.
- */
+ */ 
+
+#ifndef GRIN_PREDEFINE_H_
+#define GRIN_PREDEFINE_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -67,7 +70,7 @@ typedef unsigned long long int GRIN_VERTEX;
 typedef struct GRIN_EDGE {
   GRIN_VERTEX src;
   GRIN_VERTEX dst;
-  GRIN_DIRECTION dir;
+  int dir;
   unsigned etype;
   unsigned long long int eid;
 } GRIN_EDGE;                 
@@ -89,7 +92,7 @@ typedef struct GRIN_ADJACENT_LIST {
   const void* begin;
   const void* end;
   GRIN_VERTEX vid;
-  GRIN_DIRECTION dir;
+  int dir;
   unsigned etype;
 } GRIN_ADJACENT_LIST;           
 #endif
@@ -190,3 +193,5 @@ typedef void* GRIN_LABEL_LIST;
 #ifdef __cplusplus
 }
 #endif
+
+#endif  // GRIN_PREDEFINE_H_
