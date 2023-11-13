@@ -26,6 +26,32 @@
 #include "topology/structure.h"
 #include "topology/vertexlist.h"
 
+
+
+GRIN_GRAPH get_graph(int argc, char** argv, int p) {
+#ifdef GRIN_ENABLE_GRAPH_PARTITION
+  GRIN_PARTITIONED_GRAPH pg =
+      grin_get_partitioned_graph_from_storage(argv[1]);
+  GRIN_PARTITION_LIST local_partitions = grin_get_local_partition_list(pg);
+  assert(p < grin_get_partition_list_size(pg, local_partitions));
+  GRIN_PARTITION partition =
+      grin_get_partition_from_list(pg, local_partitions, p);
+  GRIN_PARTITION_ID partition_id = grin_get_partition_id(pg, partition);
+  GRIN_PARTITION p1 = grin_get_partition_by_id(pg, partition_id);
+  if (!grin_equal_partition(pg, partition, p1)) {
+    printf("partition not match\n");
+  }
+  grin_destroy_partition(pg, p1);
+  GRIN_GRAPH g = grin_get_local_graph_by_partition(pg, partition);
+  grin_destroy_partition(pg, partition);
+  grin_destroy_partition_list(pg, local_partitions);
+  grin_destroy_partitioned_graph(pg);
+#else
+  GRIN_GRAPH g = grin_get_graph_from_storage(argv[1]);
+#endif
+  return g;
+}
+
 int main(int argc, char** argv) {
   GRIN_GRAPH g = get_graph(argc, argv, 0);
 
