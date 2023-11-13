@@ -52,14 +52,13 @@ GRIN_GRAPH get_graph(int argc, char** argv, int p) {
   return g;
 }
 
-int main(int argc, char** argv) {
-  GRIN_GRAPH g = get_graph(argc, argv, 0);
 
+void wcc(GRIN_GRAPH g, const char* vertex_type_name, const char* edge_type_name) {
   struct timeval t1, t2;
   double elapsedTime;
   gettimeofday(&t1, NULL);
 
-  GRIN_VERTEX_TYPE vt = grin_get_vertex_type_by_name(g, "person");
+  GRIN_VERTEX_TYPE vt = grin_get_vertex_type_by_name(g, vertex_type_name);
 
   long long int lb = grin_get_vertex_internal_id_lower_bound_by_type(g, vt);
   long long int ub = grin_get_vertex_internal_id_upper_bound_by_type(g, vt);
@@ -111,7 +110,7 @@ int main(int argc, char** argv) {
   elapsedTime += (t2.tv_usec - t1.tv_usec) / 1000.0 / 1000.0; 
   printf("------------- 2 -------------: %lf s.\n", elapsedTime);
 
-  GRIN_EDGE_TYPE et = grin_get_edge_type_by_name(g, "knows");
+  GRIN_EDGE_TYPE et = grin_get_edge_type_by_name(g, edge_type_name);
   for (size_t i = 0; i < iv_size; ++i) {
     GRIN_VERTEX v = grin_get_vertex_from_list(g, iv, i);
     long long int iid = grin_get_vertex_internal_id_by_type(g, vt, v) - lb;
@@ -151,6 +150,109 @@ int main(int argc, char** argv) {
   grin_destroy_vertex_list(g, iv);
   grin_destroy_vertex_list(g, ov);
   grin_destroy_vertex_type(g, vt);
+}
+
+
+void wcc_iter(GRIN_GRAPH g, const char* vertex_type_name, const char* edge_type_name) {
+  struct timeval t1, t2;
+  double elapsedTime;
+  gettimeofday(&t1, NULL);
+
+  GRIN_VERTEX_TYPE vt = grin_get_vertex_type_by_name(g, vertex_type_name);
+
+  long long int lb = grin_get_vertex_internal_id_lower_bound_by_type(g, vt);
+  long long int ub = grin_get_vertex_internal_id_upper_bound_by_type(g, vt);
+
+  printf("lb: %lld, ub: %lld\n", lb, ub);
+
+  long long* comp = (long long*)malloc(sizeof(long long) * (ub - lb));
+  bool* next_modified = (bool*)malloc(sizeof(bool) * (ub - lb));
+
+  GRIN_VERTEX_LIST iv = grin_get_vertex_list_by_type_select_master(g, vt);
+  GRIN_VERTEX_LIST_ITERATOR iv_iter = grin_get_vertex_list_begin(g, iv);
+
+  while (grin_is_vertex_list_end(g, iv_iter)) {
+    GRIN_VERTEX v = grin_get_vertex_from_iter(g, iv_iter);
+    GRIN_VERTEX_REF vf = grin_get_vertex_ref_by_vertex(g, v);
+    long long int ivf = grin_serialize_vertex_ref_as_int64(g, vf);
+    comp[v] = ivf;
+
+    grin_destroy_vertex(g, v);
+    grin_destroy_vertex_ref(g, vf);
+    grin_get_next_vertex_list_iter(g, iv_iter);
+  }
+
+  grin_destroy_vertex_list_iter(g, iv_iter);
+
+  gettimeofday(&t2, NULL);
+  elapsedTime = (t2.tv_sec - t1.tv_sec);
+  elapsedTime += (t2.tv_usec - t1.tv_usec) / 1000.0 / 1000.0; 
+  printf("------------- 2 -------------: %lf s.\n", elapsedTime);
+
+  GRIN_EDGE_TYPE et = grin_get_edge_type_by_name(g, edge_type_name);
+
+  iv_iter = grin_get_vertex_list_begin(g, iv);
+
+  while (grin_is_vertex_list_end(g, iv_iter)) {
+    GRIN_VERTEX v = grin_get_vertex_from_iter(g, iv_iter);
+    long long cid = comp[v];
+
+    GRIN_ADJACENT_LIST al = grin_get_adjacent_list_by_edge_type(g, OUT, v, et);
+    GRIN_ADJACENT_LIST_ITERATOR al_iter = grin_get_adjacent_list_begin(g, al);
+
+    while (grin_is_adjacent_list_end(g, al_iter)) {
+      GRIN_VERTEX u = grin_get_neighbor_from_adjacent_list_iter(g, al_iter);
+      if (comp[u] > cid) {
+        comp[u] = cid;
+        next_modified[u] = true;
+      }
+      grin_destroy_vertex(g, u);
+      grin_get_next_adjacent_list_iter(g, al_iter);
+    }
+
+    grin_destroy_adjacent_list_iter(g, al_iter);
+    grin_destroy_adjacent_list(g, al);
+
+    al = grin_get_adjacent_list_by_edge_type(g, IN, v, et);
+    al_iter = grin_get_adjacent_list_begin(g, al);
+
+    while (grin_is_adjacent_list_end(g, al_iter)) {
+      GRIN_VERTEX u = grin_get_neighbor_from_adjacent_list_iter(g, al_iter);
+      if (comp[u] > cid) {
+        comp[u] = cid;
+        next_modified[u] = true;
+      }
+      grin_destroy_vertex(g, u);
+      grin_get_next_adjacent_list_iter(g, al_iter);
+    }
+
+    grin_destroy_adjacent_list_iter(g, al_iter);
+    grin_destroy_adjacent_list(g, al);
+
+    grin_destroy_vertex(g, v);
+    grin_get_next_vertex_list_iter(g, iv_iter);
+  }
+
+  grin_destroy_vertex_list_iter(g, iv_iter);
+
+  gettimeofday(&t2, NULL);
+  elapsedTime = (t2.tv_sec - t1.tv_sec);
+  elapsedTime += (t2.tv_usec - t1.tv_usec) / 1000.0 / 1000.0; 
+  printf("------------- 3 -------------: %lf s.\n", elapsedTime);
+
+  grin_destroy_vertex_list(g, iv);
+  grin_destroy_vertex_type(g, vt);
+}
+
+
+
+int main(int argc, char** argv) {
+  GRIN_GRAPH g = get_graph(argc, argv, 0);
+
+  //wcc(g, "person", "knows");
+
+  wcc_iter(g, "person", "knows");
+
   grin_destroy_graph(g);
   return 0;
 }
