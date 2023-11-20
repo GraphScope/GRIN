@@ -26,6 +26,35 @@ extern "C" {
 
 #include "common/enum_types.h"
 
+#if !defined(GRIN_ENABLE_SCHEMA) && defined(GRIN_WITH_VERTEX_PROPERTY)
+/**
+ * @brief Get the vertex property list of the vertex.
+ * When schema is not enabled, each vertex has its own property list.
+ * @param GRIN_GRAPH The graph.
+ * @param GRIN_VERTEX The vertex.
+ * @return The vertex property list.
+*/
+GRIN_VERTEX_PROPERTY_LIST grin_get_vertex_property_list(GRIN_GRAPH, GRIN_VERTEX);
+
+/**
+ * @brief Get the vertex property name
+ * @param GRIN_GRAPH The graph
+ * @param GRIN_VERTEX The vertex
+ * @param GRIN_VERTEX_PROPERTY The vertex property
+ * @return The property's name as string
+ */
+const char* grin_get_vertex_property_name(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
+
+/**
+ * @brief Get the vertex property with a given name under a specific vertex
+ * @param GRIN_GRAPH The graph
+ * @param GRIN_VERTEX The specific vertex
+ * @param name The name
+ * @return The vertex property
+ */
+GRIN_VERTEX_PROPERTY grin_get_vertex_property_by_name(GRIN_GRAPH, GRIN_VERTEX, const char* name);
+#endif
+
 #if defined(GRIN_ENABLE_SCHEMA) && defined(GRIN_WITH_VERTEX_PROPERTY)
 /**
  * @brief Get the vertex property list of the graph.
@@ -95,33 +124,12 @@ GRIN_VERTEX_PROPERTY grin_get_vertex_property_by_id(GRIN_GRAPH, GRIN_VERTEX_TYPE
 GRIN_VERTEX_PROPERTY_ID grin_get_vertex_property_id(GRIN_GRAPH, GRIN_VERTEX_TYPE, GRIN_VERTEX_PROPERTY);
 #endif
 
-#if !defined(GRIN_ENABLE_SCHEMA) && defined(GRIN_WITH_VERTEX_PROPERTY)
-/**
- * @brief Get the vertex property list of the vertex.
- * When schema is not enabled, each vertex has its own property list.
- * @param GRIN_GRAPH The graph.
- * @param GRIN_VERTEX The vertex.
- * @return The vertex property list.
-*/
-GRIN_VERTEX_PROPERTY_LIST grin_get_vertex_property_list(GRIN_GRAPH, GRIN_VERTEX);
+#if !defined(GRIN_ENABLE_SCHEMA) && defined(GRIN_WITH_EDGE_PROPERTY)
+GRIN_EDGE_PROPERTY_LIST grin_get_edge_property_list(GRIN_GRAPH, GRIN_EDGE);
 
-/**
- * @brief Get the vertex property name
- * @param GRIN_GRAPH The graph
- * @param GRIN_VERTEX The vertex
- * @param GRIN_VERTEX_PROPERTY The vertex property
- * @return The property's name as string
- */
-const char* grin_get_vertex_property_name(GRIN_GRAPH, GRIN_VERTEX, GRIN_VERTEX_PROPERTY);
+const char* grin_get_edge_property_name(GRIN_GRAPH, GRIN_EDGE, GRIN_EDGE_PROPERTY);
 
-/**
- * @brief Get the vertex property with a given name under a specific vertex
- * @param GRIN_GRAPH The graph
- * @param GRIN_VERTEX The specific vertex
- * @param name The name
- * @return The vertex property
- */
-GRIN_VERTEX_PROPERTY grin_get_vertex_property_by_name(GRIN_GRAPH, GRIN_VERTEX, const char* name);
+GRIN_EDGE_PROPERTY grin_get_edge_property_by_name(GRIN_GRAPH, GRIN_EDGE, const char* name);
 #endif
 
 #if defined(GRIN_ENABLE_SCHEMA) && defined(GRIN_WITH_EDGE_PROPERTY)
@@ -139,16 +147,6 @@ GRIN_EDGE_PROPERTY grin_get_edge_property_by_id(GRIN_GRAPH, GRIN_EDGE_TYPE, GRIN
 
 GRIN_EDGE_PROPERTY_ID grin_get_edge_property_id(GRIN_GRAPH, GRIN_EDGE_TYPE, GRIN_EDGE_PROPERTY);
 #endif
-
-
-#if !defined(GRIN_ENABLE_SCHEMA) && defined(GRIN_WITH_EDGE_PROPERTY)
-GRIN_EDGE_PROPERTY_LIST grin_get_edge_property_list(GRIN_GRAPH, GRIN_EDGE);
-
-const char* grin_get_edge_property_name(GRIN_GRAPH, GRIN_EDGE, GRIN_EDGE_PROPERTY);
-
-GRIN_EDGE_PROPERTY grin_get_edge_property_by_name(GRIN_GRAPH, GRIN_EDGE, const char* name);
-#endif
-
 
 #ifdef GRIN_WITH_VERTEX_PROPERTY
 bool grin_equal_vertex_property(GRIN_GRAPH, GRIN_VERTEX_PROPERTY, GRIN_VERTEX_PROPERTY);

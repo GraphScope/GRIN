@@ -959,7 +959,7 @@ extern "C" {
     ) -> GrinVertexType;
 
     #[doc = " @brief Get the vertex property name\n @param GrinGraph The graph\n @param GrinVertexType The vertex type that the property belongs to\n @param GrinVertexProperty The vertex property\n @return The property's name as string"]
-    #[cfg(all(not(feature = "grin_enable_schema"), feature = "grin_with_vertex_property"))]
+    #[cfg(all(feature = "grin_enable_schema", feature = "grin_with_vertex_property"))]
     #[allow(unused)]
     pub fn grin_get_vertex_property_name(
         arg1: GrinGraph,
@@ -968,7 +968,7 @@ extern "C" {
     ) -> *const ::std::os::raw::c_char;
 
     #[doc = " @brief Get the vertex property with a given name under a specific vertex type\n @param GrinGraph The graph\n @param GrinVertexType The specific vertex type\n @param name The name\n @return The vertex property"]
-    #[cfg(all(not(feature = "grin_enable_schema"), feature = "grin_with_vertex_property"))]
+    #[cfg(all(feature = "grin_enable_schema", feature = "grin_with_vertex_property"))]
     #[allow(unused)]
     pub fn grin_get_vertex_property_by_name(
         arg1: GrinGraph,
@@ -1009,7 +1009,7 @@ extern "C" {
         arg2: GrinEdgeType,
     ) -> GrinEdgePropertyList;
 
-    #[cfg(all(not(feature = "grin_enable_schema"), feature = "grin_with_edge_property"))]
+    #[cfg(all(feature = "grin_enable_schema", feature = "grin_with_edge_property"))]
     #[allow(unused)]
     pub fn grin_get_edge_property_name(
         arg1: GrinGraph,
@@ -1017,7 +1017,7 @@ extern "C" {
         arg3: GrinEdgeProperty,
     ) -> *const ::std::os::raw::c_char;
 
-    #[cfg(all(not(feature = "grin_enable_schema"), feature = "grin_with_edge_property"))]
+    #[cfg(all(feature = "grin_enable_schema", feature = "grin_with_edge_property"))]
     #[allow(unused)]
     pub fn grin_get_edge_property_by_name(
         arg1: GrinGraph,
