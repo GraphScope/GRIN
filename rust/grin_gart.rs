@@ -31,7 +31,7 @@ pub type GRIN_EDGE_PROPERTY_LIST = *mut ::std::os::raw::c_void;
 pub struct GRIN_EDGE {
     pub src: GRIN_VERTEX,
     pub dst: GRIN_VERTEX,
-    pub dir: ::std::os::raw::c_int,
+    pub dir: ::std::os::raw::c_uint,
     pub etype: GRIN_EDGE_TYPE,
     pub edata: *mut ::std::os::raw::c_char,
 }

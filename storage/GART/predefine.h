@@ -141,7 +141,7 @@ typedef void* GRIN_EDGE_PROPERTY_LIST;
 typedef struct GRIN_EDGE {
   GRIN_VERTEX src;
   GRIN_VERTEX dst;
-  int dir;
+  unsigned dir;
   GRIN_EDGE_TYPE etype;
   char* edata;
 } GRIN_EDGE;
@@ -149,7 +149,7 @@ typedef struct GRIN_EDGE {
 #ifdef GRIN_ENABLE_ADJACENT_LIST
 typedef struct GRIN_ADJACENT_LIST {
   GRIN_VERTEX v;
-  int dir;
+  unsigned dir;
   GRIN_EDGE_TYPE etype;
 } GRIN_ADJACENT_LIST;
 #endif
