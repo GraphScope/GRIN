@@ -5,6 +5,38 @@ pub const false_: u32 = 0;
 pub const __bool_true_false_are_defined: u32 = 1;
 pub type wchar_t = ::std::os::raw::c_int;
 pub type max_align_t = u128;
+pub type GRIN_GRAPH = *mut ::std::os::raw::c_void;
+pub type GRIN_VERTEX = *mut ::std::os::raw::c_void;
+pub type GRIN_EDGE = *mut ::std::os::raw::c_void;
+pub type GRIN_VERTEX_DATA = *mut ::std::os::raw::c_void;
+pub type GRIN_VERTEX_LIST = *mut ::std::os::raw::c_void;
+pub type GRIN_VERTEX_LIST_ITERATOR = *mut ::std::os::raw::c_void;
+pub type GRIN_ADJACENT_LIST = *mut ::std::os::raw::c_void;
+pub type GRIN_ADJACENT_LIST_ITERATOR = *mut ::std::os::raw::c_void;
+pub type GRIN_EDGE_DATA = *mut ::std::os::raw::c_void;
+pub type GRIN_EDGE_LIST = *mut ::std::os::raw::c_void;
+pub type GRIN_EDGE_LIST_ITERATOR = *mut ::std::os::raw::c_void;
+pub type GRIN_PARTITIONED_GRAPH = *mut ::std::os::raw::c_void;
+pub type GRIN_PARTITION = *mut ::std::os::raw::c_void;
+pub type GRIN_PARTITION_LIST = *mut ::std::os::raw::c_void;
+pub type GRIN_PARTITION_ID = ::std::os::raw::c_uint;
+pub type GRIN_VERTEX_REF = *mut ::std::os::raw::c_void;
+pub type GRIN_EDGE_REF = *mut ::std::os::raw::c_void;
+pub type GRIN_VERTEX_PROPERTY = *mut ::std::os::raw::c_void;
+pub type GRIN_VERTEX_PROPERTY_LIST = *mut ::std::os::raw::c_void;
+pub type GRIN_EDGE_PROPERTY = *mut ::std::os::raw::c_void;
+pub type GRIN_EDGE_PROPERTY_LIST = *mut ::std::os::raw::c_void;
+pub type GRIN_VERTEX_TYPE = *mut ::std::os::raw::c_void;
+pub type GRIN_VERTEX_TYPE_LIST = *mut ::std::os::raw::c_void;
+pub type GRIN_VERTEX_TYPE_ID = ::std::os::raw::c_uint;
+pub type GRIN_VERTEX_PROPERTY_ID = ::std::os::raw::c_uint;
+pub type GRIN_EDGE_TYPE = *mut ::std::os::raw::c_void;
+pub type GRIN_EDGE_TYPE_LIST = *mut ::std::os::raw::c_void;
+pub type GRIN_EDGE_TYPE_ID = ::std::os::raw::c_uint;
+pub type GRIN_EDGE_PROPERTY_ID = ::std::os::raw::c_uint;
+pub type GRIN_ROW = *mut ::std::os::raw::c_void;
+pub type GRIN_LABEL = *mut ::std::os::raw::c_void;
+pub type GRIN_LABEL_LIST = *mut ::std::os::raw::c_void;
 #[doc = "< incoming"]
 pub const GRIN_DIRECTION_IN: GRIN_DIRECTION = 0;
 #[doc = "< outgoing"]
@@ -51,38 +83,6 @@ pub const GRIN_ERROR_CODE_UNKNOWN_DATATYPE: GRIN_ERROR_CODE = 3;
 pub const GRIN_ERROR_CODE_NULL_VALUE: GRIN_ERROR_CODE = 4;
 #[doc = " Enumerates the error codes of grin"]
 pub type GRIN_ERROR_CODE = ::std::os::raw::c_uint;
-pub type GRIN_GRAPH = *mut ::std::os::raw::c_void;
-pub type GRIN_VERTEX = *mut ::std::os::raw::c_void;
-pub type GRIN_EDGE = *mut ::std::os::raw::c_void;
-pub type GRIN_VERTEX_DATA = *mut ::std::os::raw::c_void;
-pub type GRIN_VERTEX_LIST = *mut ::std::os::raw::c_void;
-pub type GRIN_VERTEX_LIST_ITERATOR = *mut ::std::os::raw::c_void;
-pub type GRIN_ADJACENT_LIST = *mut ::std::os::raw::c_void;
-pub type GRIN_ADJACENT_LIST_ITERATOR = *mut ::std::os::raw::c_void;
-pub type GRIN_EDGE_DATA = *mut ::std::os::raw::c_void;
-pub type GRIN_EDGE_LIST = *mut ::std::os::raw::c_void;
-pub type GRIN_EDGE_LIST_ITERATOR = *mut ::std::os::raw::c_void;
-pub type GRIN_PARTITIONED_GRAPH = *mut ::std::os::raw::c_void;
-pub type GRIN_PARTITION = *mut ::std::os::raw::c_void;
-pub type GRIN_PARTITION_LIST = *mut ::std::os::raw::c_void;
-pub type GRIN_PARTITION_ID = ::std::os::raw::c_uint;
-pub type GRIN_VERTEX_REF = *mut ::std::os::raw::c_void;
-pub type GRIN_EDGE_REF = *mut ::std::os::raw::c_void;
-pub type GRIN_VERTEX_TYPE = *mut ::std::os::raw::c_void;
-pub type GRIN_VERTEX_TYPE_LIST = *mut ::std::os::raw::c_void;
-pub type GRIN_VERTEX_PROPERTY = *mut ::std::os::raw::c_void;
-pub type GRIN_VERTEX_PROPERTY_LIST = *mut ::std::os::raw::c_void;
-pub type GRIN_VERTEX_TYPE_ID = ::std::os::raw::c_uint;
-pub type GRIN_VERTEX_PROPERTY_ID = ::std::os::raw::c_uint;
-pub type GRIN_EDGE_TYPE = *mut ::std::os::raw::c_void;
-pub type GRIN_EDGE_TYPE_LIST = *mut ::std::os::raw::c_void;
-pub type GRIN_EDGE_PROPERTY = *mut ::std::os::raw::c_void;
-pub type GRIN_EDGE_PROPERTY_LIST = *mut ::std::os::raw::c_void;
-pub type GRIN_EDGE_TYPE_ID = ::std::os::raw::c_uint;
-pub type GRIN_EDGE_PROPERTY_ID = ::std::os::raw::c_uint;
-pub type GRIN_ROW = *mut ::std::os::raw::c_void;
-pub type GRIN_LABEL = *mut ::std::os::raw::c_void;
-pub type GRIN_LABEL_LIST = *mut ::std::os::raw::c_void;
 extern "C" {
     pub fn grin_destroy_adjacent_list(arg1: GRIN_GRAPH, arg2: GRIN_ADJACENT_LIST);
 }
@@ -310,6 +310,7 @@ extern "C" {
     pub fn grin_destroy_partition(arg1: GRIN_PARTITIONED_GRAPH, arg2: GRIN_PARTITION);
 }
 extern "C" {
+    #[doc = " @brief Get the partition info of a partition.\n This api will be deprecated in the future.\n @param GRIN_PARTITIONED_GRAPH The partitioned graph.\n @param GRIN_PARTITION The partition of the graph.\n @return The partition info."]
     pub fn grin_get_partition_info(
         arg1: GRIN_PARTITIONED_GRAPH,
         arg2: GRIN_PARTITION,
@@ -455,14 +456,14 @@ extern "C" {
     ) -> GRIN_PARTITION_LIST;
 }
 extern "C" {
-    #[doc = " @brief Get the vertex list of a given type with master vertices only.\n This API is only available for property graph.\n @param GRIN_GRAPH The graph.\n @param GRIN_VERTEX_TYPE The vertex type.\n @return The vertex list of master vertices only."]
+    #[doc = " @brief Get the vertex list of a given type with master vertices only.\n This API is only available when schema is enabled.\n @param GRIN_GRAPH The graph.\n @param GRIN_VERTEX_TYPE The vertex type.\n @return The vertex list of master vertices only."]
     pub fn grin_get_vertex_list_by_type_select_master(
         arg1: GRIN_GRAPH,
         arg2: GRIN_VERTEX_TYPE,
     ) -> GRIN_VERTEX_LIST;
 }
 extern "C" {
-    #[doc = " @brief Get the vertex list of a given type with mirror vertices only.\n This API is only available for property graph.\n @param GRIN_GRAPH The graph.\n @param GRIN_VERTEX_TYPE The vertex type.\n @return The vertex list of mirror vertices only."]
+    #[doc = " @brief Get the vertex list of a given type with mirror vertices only.\n This API is only available when schema is enabled.\n @param GRIN_GRAPH The graph.\n @param GRIN_VERTEX_TYPE The vertex type.\n @return The vertex list of mirror vertices only."]
     pub fn grin_get_vertex_list_by_type_select_mirror(
         arg1: GRIN_GRAPH,
         arg2: GRIN_VERTEX_TYPE,
@@ -520,6 +521,17 @@ extern "C" {
     ) -> GRIN_ADJACENT_LIST;
 }
 extern "C" {
+    pub fn grin_get_vertex_type_list_select_universal(arg1: GRIN_GRAPH) -> GRIN_VERTEX_TYPE_LIST;
+}
+extern "C" {
+    pub fn grin_get_vertex_type_list_select_non_universal(
+        arg1: GRIN_GRAPH,
+    ) -> GRIN_VERTEX_TYPE_LIST;
+}
+extern "C" {
+    pub fn grin_is_vertex_type_unisversal(arg1: GRIN_GRAPH, arg2: GRIN_VERTEX_TYPE) -> bool;
+}
+extern "C" {
     #[doc = " @brief Get the vertex types that have primary keys\n In some graph, not every vertex type has primary keys.\n @param GRIN_GRAPH The graph\n @return The vertex type list of types that have primary keys"]
     pub fn grin_get_vertex_types_with_primary_keys(arg1: GRIN_GRAPH) -> GRIN_VERTEX_TYPE_LIST;
 }
@@ -547,6 +559,20 @@ extern "C" {
     pub fn grin_get_edge_primary_keys_row(arg1: GRIN_GRAPH, arg2: GRIN_EDGE) -> GRIN_ROW;
 }
 extern "C" {
+    #[doc = " @brief Get the vertex property list of the graph.\n This API is only available for property graph.\n @param GRIN_GRAPH The graph.\n @return The vertex property list."]
+    pub fn grin_get_vertex_property_list_by_type(
+        arg1: GRIN_GRAPH,
+        arg2: GRIN_VERTEX_TYPE,
+    ) -> GRIN_VERTEX_PROPERTY_LIST;
+}
+extern "C" {
+    #[doc = " @brief Get the vertex type that a given vertex property belongs to.\n @param GRIN_GRAPH The graph\n @param GRIN_VERTEX_PROPERTY The vertex property\n @return The vertex type"]
+    pub fn grin_get_vertex_type_from_property(
+        arg1: GRIN_GRAPH,
+        arg2: GRIN_VERTEX_PROPERTY,
+    ) -> GRIN_VERTEX_TYPE;
+}
+extern "C" {
     #[doc = " @brief Get the vertex property name\n @param GRIN_GRAPH The graph\n @param GRIN_VERTEX_TYPE The vertex type that the property belongs to\n @param GRIN_VERTEX_PROPERTY The vertex property\n @return The property's name as string"]
     pub fn grin_get_vertex_property_name(
         arg1: GRIN_GRAPH,
@@ -570,6 +596,28 @@ extern "C" {
     ) -> GRIN_VERTEX_PROPERTY_LIST;
 }
 extern "C" {
+    #[doc = " @brief Get the vertex property handle by id.\n In strict schema, storage has naturally increasing ids for vertex properties\n under a certain vertex type.\n @param GRIN_GRAPH The graph.\n @param GRIN_VERTEX_TYPE The vertex type.\n @param GRIN_VERTEX_PROPERTY_ID The vertex property id.\n @return The vertex property handle."]
+    pub fn grin_get_vertex_property_by_id(
+        arg1: GRIN_GRAPH,
+        arg2: GRIN_VERTEX_TYPE,
+        arg3: GRIN_VERTEX_PROPERTY_ID,
+    ) -> GRIN_VERTEX_PROPERTY;
+}
+extern "C" {
+    #[doc = " @brief Get the vertex property's natural id.\n In strict schema, the storage has naturally increasing ids for vertex properties\n under a certain vertex type.\n @param GRIN_GRAPH The graph.\n @param GRIN_VERTEX_TYPE The vertex type.\n @param GRIN_VERTEX_PROPERTY The vertex property handle.\n @return The vertex property id."]
+    pub fn grin_get_vertex_property_id(
+        arg1: GRIN_GRAPH,
+        arg2: GRIN_VERTEX_TYPE,
+        arg3: GRIN_VERTEX_PROPERTY,
+    ) -> GRIN_VERTEX_PROPERTY_ID;
+}
+extern "C" {
+    pub fn grin_get_edge_property_list_by_type(
+        arg1: GRIN_GRAPH,
+        arg2: GRIN_EDGE_TYPE,
+    ) -> GRIN_EDGE_PROPERTY_LIST;
+}
+extern "C" {
     pub fn grin_get_edge_property_name(
         arg1: GRIN_GRAPH,
         arg2: GRIN_EDGE_TYPE,
@@ -590,17 +638,24 @@ extern "C" {
     ) -> GRIN_EDGE_PROPERTY_LIST;
 }
 extern "C" {
-    pub fn grin_destroy_vertex_property_value_of_string(
+    pub fn grin_get_edge_type_from_property(
         arg1: GRIN_GRAPH,
-        arg2: *const ::std::os::raw::c_char,
-    );
+        arg2: GRIN_EDGE_PROPERTY,
+    ) -> GRIN_EDGE_TYPE;
 }
 extern "C" {
-    pub fn grin_destroy_vertex_property_value_of_float_array(
+    pub fn grin_get_edge_property_by_id(
         arg1: GRIN_GRAPH,
-        arg2: *const f32,
-        arg3: usize,
-    );
+        arg2: GRIN_EDGE_TYPE,
+        arg3: GRIN_EDGE_PROPERTY_ID,
+    ) -> GRIN_EDGE_PROPERTY;
+}
+extern "C" {
+    pub fn grin_get_edge_property_id(
+        arg1: GRIN_GRAPH,
+        arg2: GRIN_EDGE_TYPE,
+        arg3: GRIN_EDGE_PROPERTY,
+    ) -> GRIN_EDGE_PROPERTY_ID;
 }
 extern "C" {
     pub fn grin_equal_vertex_property(
@@ -620,122 +675,6 @@ extern "C" {
     ) -> GRIN_DATATYPE;
 }
 extern "C" {
-    #[doc = " @brief Get the value of int32, given a vertex and a vertex property.\n The user should make sure the vertex property is of datatype int32.\n The return int has no predefined invalid value.\n User should use ``grin_get_last_error_code()`` to check if the API call\n is successful.\n @param GRIN_GRAPH The graph\n @param GRIN_VERTEX The vertex\n @param GRIN_VERTEX_PROPERTY The vertex property\n @return The value of the property"]
-    pub fn grin_get_vertex_property_value_of_int32(
-        arg1: GRIN_GRAPH,
-        arg2: GRIN_VERTEX,
-        arg3: GRIN_VERTEX_PROPERTY,
-    ) -> ::std::os::raw::c_int;
-}
-extern "C" {
-    #[doc = " @brief Get the value of uint32, given a vertex and a vertex property.\n The user should make sure the vertex property is of datatype uint32.\n The return int has no predefined invalid value.\n User should use ``grin_get_last_error_code()`` to check if the API call\n is successful.\n @param GRIN_GRAPH The graph\n @param GRIN_VERTEX The vertex\n @param GRIN_VERTEX_PROPERTY The vertex property\n @return The value of the property"]
-    pub fn grin_get_vertex_property_value_of_uint32(
-        arg1: GRIN_GRAPH,
-        arg2: GRIN_VERTEX,
-        arg3: GRIN_VERTEX_PROPERTY,
-    ) -> ::std::os::raw::c_uint;
-}
-extern "C" {
-    #[doc = " @brief Get the value of int64, given a vertex and a vertex property.\n The user should make sure the vertex property is of datatype int64.\n The return int has no predefined invalid value.\n User should use ``grin_get_last_error_code()`` to check if the API call\n is successful.\n @param GRIN_GRAPH The graph\n @param GRIN_VERTEX The vertex\n @param GRIN_VERTEX_PROPERTY The vertex property\n @return The value of the property"]
-    pub fn grin_get_vertex_property_value_of_int64(
-        arg1: GRIN_GRAPH,
-        arg2: GRIN_VERTEX,
-        arg3: GRIN_VERTEX_PROPERTY,
-    ) -> ::std::os::raw::c_longlong;
-}
-extern "C" {
-    #[doc = " @brief Get the value of uint64, given a vertex and a vertex property.\n The user should make sure the vertex property is of datatype uint64.\n The return int has no predefined invalid value.\n User should use ``grin_get_last_error_code()`` to check if the API call\n is successful.\n @param GRIN_GRAPH The graph\n @param GRIN_VERTEX The vertex\n @param GRIN_VERTEX_PROPERTY The vertex property\n @return The value of the property"]
-    pub fn grin_get_vertex_property_value_of_uint64(
-        arg1: GRIN_GRAPH,
-        arg2: GRIN_VERTEX,
-        arg3: GRIN_VERTEX_PROPERTY,
-    ) -> ::std::os::raw::c_ulonglong;
-}
-extern "C" {
-    #[doc = " @brief Get the value of float, given a vertex and a vertex property.\n The user should make sure the vertex property is of datatype float.\n The return int has no predefined invalid value.\n User should use ``grin_get_last_error_code()`` to check if the API call\n is successful.\n @param GRIN_GRAPH The graph\n @param GRIN_VERTEX The vertex\n @param GRIN_VERTEX_PROPERTY The vertex property\n @return The value of the property"]
-    pub fn grin_get_vertex_property_value_of_float(
-        arg1: GRIN_GRAPH,
-        arg2: GRIN_VERTEX,
-        arg3: GRIN_VERTEX_PROPERTY,
-    ) -> f32;
-}
-extern "C" {
-    #[doc = " @brief Get the value of double, given a vertex and a vertex property.\n The user should make sure the vertex property is of datatype double.\n The return int has no predefined invalid value.\n User should use ``grin_get_last_error_code()`` to check if the API call\n is successful.\n @param GRIN_GRAPH The graph\n @param GRIN_VERTEX The vertex\n @param GRIN_VERTEX_PROPERTY The vertex property\n @return The value of the property"]
-    pub fn grin_get_vertex_property_value_of_double(
-        arg1: GRIN_GRAPH,
-        arg2: GRIN_VERTEX,
-        arg3: GRIN_VERTEX_PROPERTY,
-    ) -> f64;
-}
-extern "C" {
-    #[doc = " @brief Get the value of string, given a vertex and a vertex property.\n The user should make sure the vertex property is of datatype string.\n The return int has no predefined invalid value.\n User should use ``grin_get_last_error_code()`` to check if the API call\n is successful.\n Note that the returned string should be explicitly freed by the user,\n by calling API ``grin_destroy_vertex_property_value_of_string``.\n @param GRIN_GRAPH The graph\n @param GRIN_VERTEX The vertex\n @param GRIN_VERTEX_PROPERTY The vertex property\n @return The value of the property"]
-    pub fn grin_get_vertex_property_value_of_string(
-        arg1: GRIN_GRAPH,
-        arg2: GRIN_VERTEX,
-        arg3: GRIN_VERTEX_PROPERTY,
-    ) -> *const ::std::os::raw::c_char;
-}
-extern "C" {
-    #[doc = " @brief Get the value of int32, given a vertex and a vertex property.\n The user should make sure the vertex property is of datatype date32.\n The return int has no predefined invalid value.\n User should use ``grin_get_last_error_code()`` to check if the API call\n is successful.\n @param GRIN_GRAPH The graph\n @param GRIN_VERTEX The vertex\n @param GRIN_VERTEX_PROPERTY The vertex property\n @return The value of the property"]
-    pub fn grin_get_vertex_property_value_of_date32(
-        arg1: GRIN_GRAPH,
-        arg2: GRIN_VERTEX,
-        arg3: GRIN_VERTEX_PROPERTY,
-    ) -> ::std::os::raw::c_int;
-}
-extern "C" {
-    #[doc = " @brief Get the value of int32, given a vertex and a vertex property.\n The user should make sure the vertex property is of datatype time32.\n The return int has no predefined invalid value.\n User should use ``grin_get_last_error_code()`` to check if the API call\n is successful.\n @param GRIN_GRAPH The graph\n @param GRIN_VERTEX The vertex\n @param GRIN_VERTEX_PROPERTY The vertex property\n @return The value of the property"]
-    pub fn grin_get_vertex_property_value_of_time32(
-        arg1: GRIN_GRAPH,
-        arg2: GRIN_VERTEX,
-        arg3: GRIN_VERTEX_PROPERTY,
-    ) -> ::std::os::raw::c_int;
-}
-extern "C" {
-    #[doc = " @brief Get the value of int64, given a vertex and a vertex property.\n The user should make sure the vertex property is of datatype timestamp64.\n The return int has no predefined invalid value.\n User should use ``grin_get_last_error_code()`` to check if the API call\n is successful.\n @param GRIN_GRAPH The graph\n @param GRIN_VERTEX The vertex\n @param GRIN_VERTEX_PROPERTY The vertex property\n @return The value of the property"]
-    pub fn grin_get_vertex_property_value_of_timestamp64(
-        arg1: GRIN_GRAPH,
-        arg2: GRIN_VERTEX,
-        arg3: GRIN_VERTEX_PROPERTY,
-    ) -> ::std::os::raw::c_longlong;
-}
-extern "C" {
-    #[doc = " @brief Get the vertex value of a float array as a float pointer.\n The user should make sure the vertex property is of datatype float array.\n The return is NULL if the value is invalid.\n Note that the returned float pointer should be explicitly freed by the user,\n by calling API ``grin_destroy_float_array_value``."]
-    pub fn grin_get_vertex_property_value_of_float_array(
-        arg1: GRIN_GRAPH,
-        arg2: GRIN_VERTEX,
-        arg3: GRIN_VERTEX_PROPERTY,
-        arg4: *mut usize,
-    ) -> *const f32;
-}
-extern "C" {
-    #[doc = " @brief Get the vertex type that a given vertex property belongs to.\n @param GRIN_GRAPH The graph\n @param GRIN_VERTEX_PROPERTY The vertex property\n @return The vertex type"]
-    pub fn grin_get_vertex_type_from_property(
-        arg1: GRIN_GRAPH,
-        arg2: GRIN_VERTEX_PROPERTY,
-    ) -> GRIN_VERTEX_TYPE;
-}
-extern "C" {
-    pub fn grin_get_vertex_property_value(
-        arg1: GRIN_GRAPH,
-        arg2: GRIN_VERTEX,
-        arg3: GRIN_VERTEX_PROPERTY,
-    ) -> *const ::std::os::raw::c_void;
-}
-extern "C" {
-    pub fn grin_destroy_edge_property_value_of_string(
-        arg1: GRIN_GRAPH,
-        arg2: *const ::std::os::raw::c_char,
-    );
-}
-extern "C" {
-    pub fn grin_destroy_edge_property_value_of_float_array(
-        arg1: GRIN_GRAPH,
-        arg2: *const f32,
-        arg3: usize,
-    );
-}
-extern "C" {
     pub fn grin_equal_edge_property(
         arg1: GRIN_GRAPH,
         arg2: GRIN_EDGE_PROPERTY,
@@ -750,104 +689,6 @@ extern "C" {
         arg1: GRIN_GRAPH,
         arg2: GRIN_EDGE_PROPERTY,
     ) -> GRIN_DATATYPE;
-}
-extern "C" {
-    pub fn grin_get_edge_property_value_of_int32(
-        arg1: GRIN_GRAPH,
-        arg2: GRIN_EDGE,
-        arg3: GRIN_EDGE_PROPERTY,
-    ) -> ::std::os::raw::c_int;
-}
-extern "C" {
-    pub fn grin_get_edge_property_value_of_uint32(
-        arg1: GRIN_GRAPH,
-        arg2: GRIN_EDGE,
-        arg3: GRIN_EDGE_PROPERTY,
-    ) -> ::std::os::raw::c_uint;
-}
-extern "C" {
-    pub fn grin_get_edge_property_value_of_int64(
-        arg1: GRIN_GRAPH,
-        arg2: GRIN_EDGE,
-        arg3: GRIN_EDGE_PROPERTY,
-    ) -> ::std::os::raw::c_longlong;
-}
-extern "C" {
-    pub fn grin_get_edge_property_value_of_uint64(
-        arg1: GRIN_GRAPH,
-        arg2: GRIN_EDGE,
-        arg3: GRIN_EDGE_PROPERTY,
-    ) -> ::std::os::raw::c_ulonglong;
-}
-extern "C" {
-    pub fn grin_get_edge_property_value_of_float(
-        arg1: GRIN_GRAPH,
-        arg2: GRIN_EDGE,
-        arg3: GRIN_EDGE_PROPERTY,
-    ) -> f32;
-}
-extern "C" {
-    pub fn grin_get_edge_property_value_of_double(
-        arg1: GRIN_GRAPH,
-        arg2: GRIN_EDGE,
-        arg3: GRIN_EDGE_PROPERTY,
-    ) -> f64;
-}
-extern "C" {
-    pub fn grin_get_edge_property_value_of_string(
-        arg1: GRIN_GRAPH,
-        arg2: GRIN_EDGE,
-        arg3: GRIN_EDGE_PROPERTY,
-    ) -> *const ::std::os::raw::c_char;
-}
-extern "C" {
-    pub fn grin_get_edge_property_value_of_date32(
-        arg1: GRIN_GRAPH,
-        arg2: GRIN_EDGE,
-        arg3: GRIN_EDGE_PROPERTY,
-    ) -> ::std::os::raw::c_int;
-}
-extern "C" {
-    pub fn grin_get_edge_property_value_of_time32(
-        arg1: GRIN_GRAPH,
-        arg2: GRIN_EDGE,
-        arg3: GRIN_EDGE_PROPERTY,
-    ) -> ::std::os::raw::c_int;
-}
-extern "C" {
-    pub fn grin_get_edge_property_value_of_timestamp64(
-        arg1: GRIN_GRAPH,
-        arg2: GRIN_EDGE,
-        arg3: GRIN_EDGE_PROPERTY,
-    ) -> ::std::os::raw::c_longlong;
-}
-extern "C" {
-    pub fn grin_get_edge_property_value_of_float_array(
-        arg1: GRIN_GRAPH,
-        arg2: GRIN_EDGE,
-        arg3: GRIN_EDGE_PROPERTY,
-        arg4: *mut usize,
-    ) -> *const f32;
-}
-extern "C" {
-    pub fn grin_get_edge_type_from_property(
-        arg1: GRIN_GRAPH,
-        arg2: GRIN_EDGE_PROPERTY,
-    ) -> GRIN_EDGE_TYPE;
-}
-extern "C" {
-    pub fn grin_get_edge_property_value(
-        arg1: GRIN_GRAPH,
-        arg2: GRIN_EDGE,
-        arg3: GRIN_EDGE_PROPERTY,
-    ) -> *const ::std::os::raw::c_void;
-}
-extern "C" {
-    #[doc = " @brief Get the vertex property list of the graph.\n This API is only available for property graph.\n @param GRIN_GRAPH The graph.\n @return The vertex property list."]
-    pub fn grin_get_vertex_property_list_by_type(
-        arg1: GRIN_GRAPH,
-        arg2: GRIN_VERTEX_TYPE,
-    ) -> GRIN_VERTEX_PROPERTY_LIST;
 }
 extern "C" {
     pub fn grin_get_vertex_property_list_size(
@@ -876,28 +717,6 @@ extern "C" {
     ) -> bool;
 }
 extern "C" {
-    #[doc = " @brief Get the vertex property handle by id.\n This API is enabled by ``GRIN_TRAIT_NATURAL_ID_FOR_VERTEX_PROPERTY``,\n meaning that the storage has naturally increasing ids for vertex properties\n under a certain vertex type.\n @param GRIN_GRAPH The graph.\n @param GRIN_VERTEX_TYPE The vertex type.\n @param GRIN_VERTEX_PROPERTY_ID The vertex property id.\n @return The vertex property handle."]
-    pub fn grin_get_vertex_property_by_id(
-        arg1: GRIN_GRAPH,
-        arg2: GRIN_VERTEX_TYPE,
-        arg3: GRIN_VERTEX_PROPERTY_ID,
-    ) -> GRIN_VERTEX_PROPERTY;
-}
-extern "C" {
-    #[doc = " @brief Get the vertex property's natural id.\n This API is enabled by ``GRIN_TRAIT_NATURAL_ID_FOR_VERTEX_PROPERTY``,\n meaning that the storage has naturally increasing ids for vertex properties\n under a certain vertex type.\n @param GRIN_GRAPH The graph.\n @param GRIN_VERTEX_TYPE The vertex type.\n @param GRIN_VERTEX_PROPERTY The vertex property handle.\n @return The vertex property id."]
-    pub fn grin_get_vertex_property_id(
-        arg1: GRIN_GRAPH,
-        arg2: GRIN_VERTEX_TYPE,
-        arg3: GRIN_VERTEX_PROPERTY,
-    ) -> GRIN_VERTEX_PROPERTY_ID;
-}
-extern "C" {
-    pub fn grin_get_edge_property_list_by_type(
-        arg1: GRIN_GRAPH,
-        arg2: GRIN_EDGE_TYPE,
-    ) -> GRIN_EDGE_PROPERTY_LIST;
-}
-extern "C" {
     pub fn grin_get_edge_property_list_size(
         arg1: GRIN_GRAPH,
         arg2: GRIN_EDGE_PROPERTY_LIST,
@@ -924,28 +743,29 @@ extern "C" {
     ) -> bool;
 }
 extern "C" {
-    pub fn grin_get_edge_property_by_id(
-        arg1: GRIN_GRAPH,
-        arg2: GRIN_EDGE_TYPE,
-        arg3: GRIN_EDGE_PROPERTY_ID,
-    ) -> GRIN_EDGE_PROPERTY;
+    pub fn grin_destroy_row_value_of_float_array(arg1: GRIN_GRAPH, arg2: *const f32, arg3: usize);
 }
 extern "C" {
-    #[doc = " We must specify the edge type here, because the edge property id is unique only under a specific edge type"]
-    pub fn grin_get_edge_property_id(
+    pub fn grin_get_float_array_from_row(
         arg1: GRIN_GRAPH,
-        arg2: GRIN_EDGE_TYPE,
-        arg3: GRIN_EDGE_PROPERTY,
-    ) -> GRIN_EDGE_PROPERTY_ID;
+        arg2: GRIN_ROW,
+        arg3: usize,
+        arg4: *mut usize,
+    ) -> *const f32;
+}
+extern "C" {
+    pub fn grin_insert_float_array_to_row(
+        arg1: GRIN_GRAPH,
+        arg2: GRIN_ROW,
+        arg3: *const f32,
+        arg4: usize,
+    ) -> bool;
 }
 extern "C" {
     pub fn grin_destroy_row(arg1: GRIN_GRAPH, arg2: GRIN_ROW);
 }
 extern "C" {
     pub fn grin_destroy_row_value_of_string(arg1: GRIN_GRAPH, arg2: *const ::std::os::raw::c_char);
-}
-extern "C" {
-    pub fn grin_destroy_row_value_of_float_array(arg1: GRIN_GRAPH, arg2: *const f32, arg3: usize);
 }
 extern "C" {
     pub fn grin_get_int32_from_row(
@@ -1008,14 +828,6 @@ extern "C" {
         arg2: GRIN_ROW,
         arg3: usize,
     ) -> ::std::os::raw::c_longlong;
-}
-extern "C" {
-    pub fn grin_get_float_array_from_row(
-        arg1: GRIN_GRAPH,
-        arg2: GRIN_ROW,
-        arg3: usize,
-        arg4: *mut usize,
-    ) -> *const f32;
 }
 extern "C" {
     #[doc = " @brief Create a row.\n Row works as carrier of property values in GRIN.\n It is a pure value array, and users can only get the value by the array index.\n That means users should understand the property that each value is\n representing when using the row.\n Currently rows are used in two scenarios:\n 1. Users can create a row of values for primary keys properties,\n and then query the vertex/edge using the row if pk indexing is enabled.\n 2. Users can get the row of values for the entire property list of\n a vertex/edge in one API ``grin_get_vertex_row`` or ``grin_get_edge_row``.\n However this API is not recommended if the user only wants to get the\n properties values, in which case, the user can get property values\n one-by-one using the APIs like ``grin_get_vertex_property_value_of_int32``."]
@@ -1084,14 +896,6 @@ extern "C" {
     ) -> bool;
 }
 extern "C" {
-    pub fn grin_insert_float_array_to_row(
-        arg1: GRIN_GRAPH,
-        arg2: GRIN_ROW,
-        arg3: *const f32,
-        arg4: usize,
-    ) -> bool;
-}
-extern "C" {
     pub fn grin_get_value_from_row(
         arg1: GRIN_GRAPH,
         arg2: GRIN_ROW,
@@ -1133,6 +937,7 @@ extern "C" {
     ) -> GRIN_ADJACENT_LIST;
 }
 extern "C" {
+    #[doc = " vertex type"]
     pub fn grin_equal_vertex_type(
         arg1: GRIN_GRAPH,
         arg2: GRIN_VERTEX_TYPE,
@@ -1144,33 +949,6 @@ extern "C" {
 }
 extern "C" {
     pub fn grin_destroy_vertex_type(arg1: GRIN_GRAPH, arg2: GRIN_VERTEX_TYPE);
-}
-extern "C" {
-    #[doc = " @brief Get the vertex type list of the graph\n This API is only available for property graph.\n It lists all the vertex types in the graph.\n @param GRIN_GRAPH The graph.\n @return The vertex type list."]
-    pub fn grin_get_vertex_type_list(arg1: GRIN_GRAPH) -> GRIN_VERTEX_TYPE_LIST;
-}
-extern "C" {
-    pub fn grin_destroy_vertex_type_list(arg1: GRIN_GRAPH, arg2: GRIN_VERTEX_TYPE_LIST);
-}
-extern "C" {
-    pub fn grin_create_vertex_type_list(arg1: GRIN_GRAPH) -> GRIN_VERTEX_TYPE_LIST;
-}
-extern "C" {
-    pub fn grin_insert_vertex_type_to_list(
-        arg1: GRIN_GRAPH,
-        arg2: GRIN_VERTEX_TYPE_LIST,
-        arg3: GRIN_VERTEX_TYPE,
-    ) -> bool;
-}
-extern "C" {
-    pub fn grin_get_vertex_type_list_size(arg1: GRIN_GRAPH, arg2: GRIN_VERTEX_TYPE_LIST) -> usize;
-}
-extern "C" {
-    pub fn grin_get_vertex_type_from_list(
-        arg1: GRIN_GRAPH,
-        arg2: GRIN_VERTEX_TYPE_LIST,
-        arg3: usize,
-    ) -> GRIN_VERTEX_TYPE;
 }
 extern "C" {
     #[doc = " @brief Get the vertex type name.\n This API is enabled by ``GRIN_WITH_VERTEX_TYPE_NAME``,\n meaning that the graph has a unique name for each vertex type.\n @param GRIN_GRAPH The graph.\n @param GRIN_VERTEX_TYPE The vertex type.\n @return The vertex type name of string."]
@@ -1199,6 +977,34 @@ extern "C" {
     ) -> GRIN_VERTEX_TYPE;
 }
 extern "C" {
+    #[doc = " vertex type list ****************/\n/**\n @brief Get the vertex type list of the graph\n This API is only available for property graph.\n It lists all the vertex types in the graph.\n @param GRIN_GRAPH The graph.\n @return The vertex type list."]
+    pub fn grin_get_vertex_type_list(arg1: GRIN_GRAPH) -> GRIN_VERTEX_TYPE_LIST;
+}
+extern "C" {
+    pub fn grin_destroy_vertex_type_list(arg1: GRIN_GRAPH, arg2: GRIN_VERTEX_TYPE_LIST);
+}
+extern "C" {
+    pub fn grin_create_vertex_type_list(arg1: GRIN_GRAPH) -> GRIN_VERTEX_TYPE_LIST;
+}
+extern "C" {
+    pub fn grin_insert_vertex_type_to_list(
+        arg1: GRIN_GRAPH,
+        arg2: GRIN_VERTEX_TYPE_LIST,
+        arg3: GRIN_VERTEX_TYPE,
+    ) -> bool;
+}
+extern "C" {
+    pub fn grin_get_vertex_type_list_size(arg1: GRIN_GRAPH, arg2: GRIN_VERTEX_TYPE_LIST) -> usize;
+}
+extern "C" {
+    pub fn grin_get_vertex_type_from_list(
+        arg1: GRIN_GRAPH,
+        arg2: GRIN_VERTEX_TYPE_LIST,
+        arg3: usize,
+    ) -> GRIN_VERTEX_TYPE;
+}
+extern "C" {
+    #[doc = " edge type"]
     pub fn grin_equal_edge_type(
         arg1: GRIN_GRAPH,
         arg2: GRIN_EDGE_TYPE,
@@ -1212,6 +1018,25 @@ extern "C" {
     pub fn grin_destroy_edge_type(arg1: GRIN_GRAPH, arg2: GRIN_EDGE_TYPE);
 }
 extern "C" {
+    pub fn grin_get_edge_type_name(
+        arg1: GRIN_GRAPH,
+        arg2: GRIN_EDGE_TYPE,
+    ) -> *const ::std::os::raw::c_char;
+}
+extern "C" {
+    pub fn grin_get_edge_type_by_name(
+        arg1: GRIN_GRAPH,
+        arg2: *const ::std::os::raw::c_char,
+    ) -> GRIN_EDGE_TYPE;
+}
+extern "C" {
+    pub fn grin_get_edge_type_id(arg1: GRIN_GRAPH, arg2: GRIN_EDGE_TYPE) -> GRIN_EDGE_TYPE_ID;
+}
+extern "C" {
+    pub fn grin_get_edge_type_by_id(arg1: GRIN_GRAPH, arg2: GRIN_EDGE_TYPE_ID) -> GRIN_EDGE_TYPE;
+}
+extern "C" {
+    #[doc = " edge type list"]
     pub fn grin_get_edge_type_list(arg1: GRIN_GRAPH) -> GRIN_EDGE_TYPE_LIST;
 }
 extern "C" {
@@ -1238,25 +1063,7 @@ extern "C" {
     ) -> GRIN_EDGE_TYPE;
 }
 extern "C" {
-    pub fn grin_get_edge_type_name(
-        arg1: GRIN_GRAPH,
-        arg2: GRIN_EDGE_TYPE,
-    ) -> *const ::std::os::raw::c_char;
-}
-extern "C" {
-    pub fn grin_get_edge_type_by_name(
-        arg1: GRIN_GRAPH,
-        arg2: *const ::std::os::raw::c_char,
-    ) -> GRIN_EDGE_TYPE;
-}
-extern "C" {
-    pub fn grin_get_edge_type_id(arg1: GRIN_GRAPH, arg2: GRIN_EDGE_TYPE) -> GRIN_EDGE_TYPE_ID;
-}
-extern "C" {
-    pub fn grin_get_edge_type_by_id(arg1: GRIN_GRAPH, arg2: GRIN_EDGE_TYPE_ID) -> GRIN_EDGE_TYPE;
-}
-extern "C" {
-    #[doc = " @brief Get source vertex types related to an edge type.\n GRIN assumes the relation between edge type and pairs of vertex types is\n many-to-many.\n To return the related pairs of vertex types, GRIN provides two APIs to get\n the src and dst vertex types respectively.\n The returned vertex type lists are of the same size,\n and the src/dst vertex types are aligned with their positions in the lists.\n @param GRIN_GRAPH The graph.\n @param GRIN_EDGE_TYPE The edge type.\n @return The vertex type list of source."]
+    #[doc = " relations between vertex type pair and edge type ****************/\n/**\n @brief Get source vertex types related to an edge type.\n GRIN assumes the relation between edge type and pairs of vertex types is\n many-to-many.\n To return the related pairs of vertex types, GRIN provides two APIs to get\n the src and dst vertex types respectively.\n The returned vertex type lists are of the same size,\n and the src/dst vertex types are aligned with their positions in the lists.\n @param GRIN_GRAPH The graph.\n @param GRIN_EDGE_TYPE The edge type.\n @return The vertex type list of source."]
     pub fn grin_get_src_types_by_edge_type(
         arg1: GRIN_GRAPH,
         arg2: GRIN_EDGE_TYPE,
@@ -1278,45 +1085,11 @@ extern "C" {
     ) -> GRIN_EDGE_TYPE_LIST;
 }
 extern "C" {
-    #[doc = " @brief get label list size\n @param GRIN_GRAPH the graph\n @param GRIN_LABEL_LIST the label list\n @return the label list size"]
-    pub fn grin_get_label_list_size(arg1: GRIN_GRAPH, arg2: GRIN_LABEL_LIST) -> usize;
-}
-extern "C" {
-    #[doc = " @brief get the label from the label list by index\n @param GRIN_GRAPH the graph\n @param GRIN_LABEL_LIST the label list\n @param index the index"]
-    pub fn grin_get_label_from_list(
-        arg1: GRIN_GRAPH,
-        arg2: GRIN_LABEL_LIST,
-        arg3: usize,
-    ) -> GRIN_LABEL;
-}
-extern "C" {
-    #[doc = " @brief get the label by name\n @param GRIN_GRAPH the graph\n @param label_name the label name\n @return the label"]
-    pub fn grin_get_label_by_name(
-        arg1: GRIN_GRAPH,
-        arg2: *const ::std::os::raw::c_char,
-    ) -> GRIN_LABEL;
-}
-extern "C" {
-    #[doc = " @brief get the label name\n @param GRIN_GRAPH the graph\n @param GRIN_LABEL the label\n @return the label name"]
-    pub fn grin_get_label_name(arg1: GRIN_GRAPH, arg2: GRIN_LABEL)
-        -> *const ::std::os::raw::c_char;
-}
-extern "C" {
-    pub fn grin_destroy_label(arg1: GRIN_GRAPH, arg2: GRIN_LABEL);
-}
-extern "C" {
-    pub fn grin_destroy_label_list(arg1: GRIN_GRAPH, arg2: GRIN_LABEL_LIST);
-}
-extern "C" {
     #[doc = " @brief get the label list for vertices in the graph\n @param GRIN_GRAPH the graph\n @return the label list for vertices"]
     pub fn grin_get_vertex_label_list(arg1: GRIN_GRAPH) -> GRIN_LABEL_LIST;
 }
 extern "C" {
-    #[doc = " @brief get all the labels of a vertex as a label list\n @param GRIN_GRAPH the graph\n @param GRIN_VERTEX the vertex\n @return the label list"]
-    pub fn grin_get_label_list_by_vertex(arg1: GRIN_GRAPH, arg2: GRIN_VERTEX) -> GRIN_LABEL_LIST;
-}
-extern "C" {
-    #[doc = " @brief get the vertex list by label\n @param GRIN_GRAPH the graph\n @param GRIN_VERTEX_TYPE the vertex type\n @param GRIN_LABEL the label\n @return the vertex list"]
+    #[doc = " @brief get the vertex list by type and label\n @param GRIN_GRAPH the graph\n @param GRIN_VERTEX_TYPE the vertex type\n @param GRIN_LABEL the label\n @return the vertex list"]
     pub fn grin_get_vertex_list_by_type_by_label(
         arg1: GRIN_GRAPH,
         arg2: GRIN_VERTEX_TYPE,
@@ -1324,34 +1097,16 @@ extern "C" {
     ) -> GRIN_VERTEX_LIST;
 }
 extern "C" {
-    #[doc = " @brief get all the vertex types that might have the label\n @param GRIN_GRAPH the graph\n @param GRIN_LABEL the label\n @return the vertex type list"]
-    pub fn grin_get_vertex_type_list_by_label(
-        arg1: GRIN_GRAPH,
-        arg2: GRIN_LABEL,
-    ) -> GRIN_VERTEX_TYPE_LIST;
-}
-extern "C" {
     #[doc = " @brief get the label list for edges in the graph\n @param GRIN_GRAPH the graph\n @return the label list for edges"]
     pub fn grin_get_edge_label_list(arg1: GRIN_GRAPH) -> GRIN_LABEL_LIST;
 }
 extern "C" {
-    #[doc = " @brief get all the labels of an edge as a label list\n @param GRIN_GRAPH the graph\n @param GRIN_EDGE the edge\n @return the label list"]
-    pub fn grin_get_label_list_by_edge(arg1: GRIN_GRAPH, arg2: GRIN_EDGE) -> GRIN_LABEL_LIST;
-}
-extern "C" {
-    #[doc = " @brief get the edge list by label\n @param GRIN_GRAPH the graph\n @param GRIN_EDGE_TYPE the edge type\n @param GRIN_LABEL the label\n @return the edge list"]
+    #[doc = " @brief get the edge list by type and label\n @param GRIN_GRAPH the graph\n @param GRIN_EDGE_TYPE the edge type\n @param GRIN_LABEL the label\n @return the edge list"]
     pub fn grin_get_edge_list_by_type_by_label(
         arg1: GRIN_GRAPH,
         arg2: GRIN_EDGE_TYPE,
         arg3: GRIN_LABEL,
     ) -> GRIN_EDGE_LIST;
-}
-extern "C" {
-    #[doc = " @brief get all the edge types that might have the label\n @param GRIN_GRAPH the graph\n @param GRIN_LABEL the label\n @return the edge type list"]
-    pub fn grin_get_edge_type_list_by_label(
-        arg1: GRIN_GRAPH,
-        arg2: GRIN_LABEL,
-    ) -> GRIN_EDGE_TYPE_LIST;
 }
 extern "C" {
     pub fn grin_smaller_vertex(arg1: GRIN_GRAPH, arg2: GRIN_VERTEX, arg3: GRIN_VERTEX) -> bool;
@@ -1365,7 +1120,7 @@ extern "C" {
     ) -> usize;
 }
 extern "C" {
-    #[doc = " @brief Get the int64 internal id of a vertex\n @param GRIN_GRAPH The graph\n @param GRIN_VERTEX The vertex\n @return The int64 internal id of the vertex"]
+    #[doc = " @brief Get the int64 internal id of a vertex of a type\n @param GRIN_GRAPH The graph\n @param GRIN_VERTEX_TYPE The vertex type\n @param GRIN_VERTEX The vertex\n @return The int64 internal id of the vertex"]
     pub fn grin_get_vertex_internal_id_by_type(
         arg1: GRIN_GRAPH,
         arg2: GRIN_VERTEX_TYPE,
@@ -1417,7 +1172,7 @@ extern "C" {
     pub fn grin_get_last_error_code() -> GRIN_ERROR_CODE;
 }
 extern "C" {
-    pub fn grin_destroy_msg(msg: *const ::std::os::raw::c_char);
+    pub fn grin_destroy_graph_schema_msg(msg: *const ::std::os::raw::c_char);
 }
 extern "C" {
     pub fn grin_get_graph_schema_msg(

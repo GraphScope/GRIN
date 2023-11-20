@@ -2,3 +2,4 @@
 docs/html/
 docs/build/
 docs/.*
+.DS_Store
