@@ -70,7 +70,7 @@ typedef unsigned long long int GRIN_VERTEX;
 typedef struct GRIN_EDGE {
   GRIN_VERTEX src;
   GRIN_VERTEX dst;
-  int dir;
+  unsigned dir;
   unsigned etype;
   unsigned long long int eid;
 } GRIN_EDGE;                 

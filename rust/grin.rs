@@ -53,7 +53,7 @@ cfg_if::cfg_if! {
         pub struct GrinEdge {
             pub src: GrinVertex,
             pub dst: GrinVertex,
-            pub dir: i32,
+            pub dir: u32,
             pub etype: u32,
             pub eid: u64,
         }
