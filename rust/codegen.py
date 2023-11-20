@@ -214,7 +214,7 @@ def gen_rs(path, storage):
     dst = f'grin_{storage}'
     if storage == 'all':
         predefine = 'template/predefine.h'
-        strip = 7
+        strip = 5
     else:
         predefine = f'storage/{storage}/predefine.h'
         strip = 8

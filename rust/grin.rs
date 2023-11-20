@@ -1,3 +1,5 @@
+#[doc = "< incoming"]
+pub const GRIN_DIRECTION_IN: GrinDirection = 0;
 #[doc = "< outgoing"]
 pub const GRIN_DIRECTION_OUT: GrinDirection = 1;
 #[doc = "< incoming & outgoing"]
