@@ -1,6 +1,7 @@
 #define GRIN_FEATURES_ENABLE_ALL
 #define GRIN_RUST_CODEGEN
 
+#include "common/enum_types.h"
 #include "template/predefine.h"
 #include "topology/adjacentlist.h"
 #include "topology/edgelist.h"

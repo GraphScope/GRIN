@@ -217,8 +217,9 @@ def gen_rs(path, storage):
         strip = 7
     else:
         predefine = f'storage/{storage}/predefine.h'
-        strip = 50
+        strip = 8
     bindgen(src, dst)
+    #return
     return parse_to_rs(path, dst, predefine, strip=strip)
 
 def merge(storages, rs):

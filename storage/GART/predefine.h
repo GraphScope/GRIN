@@ -34,37 +34,6 @@ extern "C" {
 #include <stdbool.h>
 #include <stddef.h>
 
-/* 1. Predefined enumerate types of GRIN */
-/// Enumerates the directions of edges with respect to a certain vertex
-typedef enum {
-  IN = 0,    ///< incoming
-  OUT = 1,   ///< outgoing
-  BOTH = 2,  ///< incoming & outgoing
-} GRIN_DIRECTION;
-
-/// Enumerates the datatype supported in the storage
-typedef enum {
-  Undefined = 0,     ///< other unknown types
-  Int32 = 1,         ///< int
-  UInt32 = 2,        ///< unsigned int
-  Int64 = 3,         ///< long int
-  UInt64 = 4,        ///< unsigned long int
-  Float = 5,         ///< float
-  Double = 6,        ///< double
-  String = 7,        ///< string
-  Date32 = 8,        ///< date
-  Time32 = 9,        ///< Time32
-  Timestamp64 = 10,  ///< Timestamp
-} GRIN_DATATYPE;
-
-/// Enumerates the error codes of grin
-typedef enum {
-  NO_ERROR = 0,          ///< success
-  UNKNOWN_ERROR = 1,     ///< unknown error
-  INVALID_VALUE = 2,     ///< invalid value
-  UNKNOWN_DATATYPE = 3,  ///< unknown datatype
-} GRIN_ERROR_CODE;
-
 /* Define supported macros based on storage features */
 // Topology
 #define GRIN_ASSUME_HAS_DIRECTED_GRAPH
@@ -172,7 +141,7 @@ typedef void* GRIN_EDGE_PROPERTY_LIST;
 typedef struct GRIN_EDGE {
   GRIN_VERTEX src;
   GRIN_VERTEX dst;
-  GRIN_DIRECTION dir;
+  int dir;
   GRIN_EDGE_TYPE etype;
   char* edata;
 } GRIN_EDGE;
@@ -180,7 +149,7 @@ typedef struct GRIN_EDGE {
 #ifdef GRIN_ENABLE_ADJACENT_LIST
 typedef struct GRIN_ADJACENT_LIST {
   GRIN_VERTEX v;
-  GRIN_DIRECTION dir;
+  int dir;
   GRIN_EDGE_TYPE etype;
 } GRIN_ADJACENT_LIST;
 #endif

@@ -1,4 +1,47 @@
-
+#[doc = "< outgoing"]
+pub const GRIN_DIRECTION_OUT: GrinDirection = 1;
+#[doc = "< incoming & outgoing"]
+pub const GRIN_DIRECTION_BOTH: GrinDirection = 2;
+#[doc = " Enumerates the directions of edges with respect to a certain vertex"]
+pub type GrinDirection = u32;
+#[doc = "< other unknown types"]
+pub const GRIN_DATATYPE_UNDEFINED: GrinDatatype = 0;
+#[doc = "< int"]
+pub const GRIN_DATATYPE_INT32: GrinDatatype = 1;
+#[doc = "< unsigned int"]
+pub const GRIN_DATATYPE_UINT32: GrinDatatype = 2;
+#[doc = "< long int"]
+pub const GRIN_DATATYPE_INT64: GrinDatatype = 3;
+#[doc = "< unsigned long int"]
+pub const GRIN_DATATYPE_UINT64: GrinDatatype = 4;
+#[doc = "< float"]
+pub const GRIN_DATATYPE_FLOAT: GrinDatatype = 5;
+#[doc = "< double"]
+pub const GRIN_DATATYPE_DOUBLE: GrinDatatype = 6;
+#[doc = "< string"]
+pub const GRIN_DATATYPE_STRING: GrinDatatype = 7;
+#[doc = "< date"]
+pub const GRIN_DATATYPE_DATE32: GrinDatatype = 8;
+#[doc = "< Time32"]
+pub const GRIN_DATATYPE_TIME32: GrinDatatype = 9;
+#[doc = "< Timestamp"]
+pub const GRIN_DATATYPE_TIMESTAMP64: GrinDatatype = 10;
+#[doc = " Enumerates the datatype supported in the storage"]
+pub type GrinDatatype = u32;
+#[doc = "< success"]
+pub const GRIN_ERROR_CODE_NO_ERROR: GrinErrorCode = 0;
+#[doc = "< unknown error"]
+pub const GRIN_ERROR_CODE_UNKNOWN_ERROR: GrinErrorCode = 1;
+#[doc = "< invalid value"]
+pub const GRIN_ERROR_CODE_INVALID_VALUE: GrinErrorCode = 2;
+#[doc = "< unknown datatype"]
+pub const GRIN_ERROR_CODE_UNKNOWN_DATATYPE: GrinErrorCode = 3;
+#[doc = "< null value"]
+pub const GRIN_ERROR_CODE_NULL_VALUE: GrinErrorCode = 4;
+#[doc = " Enumerates the error codes of grin"]
+pub type GrinErrorCode = u32;
+pub type wchar_t = i32;
+pub type max_align_t = u128;
 cfg_if::cfg_if! {
     if #[cfg(feature = "grin_features_enable_v6d")]{
         pub type GrinGraph = *mut ::std::os::raw::c_void;
@@ -87,7 +130,7 @@ cfg_if::cfg_if! {
         pub struct GrinEdge {
             pub src: GrinVertex,
             pub dst: GrinVertex,
-            pub dir: GrinDirection,
+            pub dir: i32,
             pub etype: GrinEdgeType,
             pub edata: *mut ::std::os::raw::c_char,
         }
@@ -95,7 +138,7 @@ cfg_if::cfg_if! {
         #[derive(Debug, Copy, Clone, PartialEq)]
         pub struct GrinAdjacentList {
             pub v: GrinVertex,
-            pub dir: GrinDirection,
+            pub dir: i32,
             pub etype: GrinEdgeType,
         }
         pub type GrinEdgeTypeId = u32;
@@ -218,52 +261,6 @@ cfg_if::cfg_if! {
         pub type GrinRow = *mut ::std::os::raw::c_void;
         pub type GrinLabel = *mut ::std::os::raw::c_void;
         pub type GrinLabelList = *mut ::std::os::raw::c_void;
-        #[doc = "< incoming"]
-        pub const GRIN_DIRECTION_IN: GrinDirection = 0;
-        #[doc = "< outgoing"]
-        pub const GRIN_DIRECTION_OUT: GrinDirection = 1;
-        #[doc = "< incoming & outgoing"]
-        pub const GRIN_DIRECTION_BOTH: GrinDirection = 2;
-        #[doc = " Enumerates the directions of edges with respect to a certain vertex"]
-        pub type GrinDirection = u32;
-        #[doc = "< other unknown types"]
-        pub const GRIN_DATATYPE_UNDEFINED: GrinDatatype = 0;
-        #[doc = "< int"]
-        pub const GRIN_DATATYPE_INT32: GrinDatatype = 1;
-        #[doc = "< unsigned int"]
-        pub const GRIN_DATATYPE_UINT32: GrinDatatype = 2;
-        #[doc = "< long int"]
-        pub const GRIN_DATATYPE_INT64: GrinDatatype = 3;
-        #[doc = "< unsigned long int"]
-        pub const GRIN_DATATYPE_UINT64: GrinDatatype = 4;
-        #[doc = "< float"]
-        pub const GRIN_DATATYPE_FLOAT: GrinDatatype = 5;
-        #[doc = "< double"]
-        pub const GRIN_DATATYPE_DOUBLE: GrinDatatype = 6;
-        #[doc = "< string"]
-        pub const GRIN_DATATYPE_STRING: GrinDatatype = 7;
-        #[doc = "< date"]
-        pub const GRIN_DATATYPE_DATE32: GrinDatatype = 8;
-        #[doc = "< Time32"]
-        pub const GRIN_DATATYPE_TIME32: GrinDatatype = 9;
-        #[doc = "< Timestamp"]
-        pub const GRIN_DATATYPE_TIMESTAMP64: GrinDatatype = 10;
-        #[doc = "< float array"]
-        pub const GRIN_DATATYPE_FLOATARRAY: GrinDatatype = 11;
-        #[doc = " Enumerates the datatype supported in the storage"]
-        pub type GrinDatatype = u32;
-        #[doc = "< success"]
-        pub const GRIN_ERROR_CODE_NO_ERROR: GrinErrorCode = 0;
-        #[doc = "< unknown error"]
-        pub const GRIN_ERROR_CODE_UNKNOWN_ERROR: GrinErrorCode = 1;
-        #[doc = "< invalid value"]
-        pub const GRIN_ERROR_CODE_INVALID_VALUE: GrinErrorCode = 2;
-        #[doc = "< unknown datatype"]
-        pub const GRIN_ERROR_CODE_UNKNOWN_DATATYPE: GrinErrorCode = 3;
-        #[doc = "< null value"]
-        pub const GRIN_ERROR_CODE_NULL_VALUE: GrinErrorCode = 4;
-        #[doc = " Enumerates the error codes of grin"]
-        pub type GrinErrorCode = u32;
         pub const GRIN_NULL_DATATYPE: GrinDatatype = GRIN_DATATYPE_UNDEFINED;
         pub const GRIN_NULL_GRAPH: GrinGraph = std::ptr::null_mut();
         pub const GRIN_NULL_VERTEX: GrinVertex = std::ptr::null_mut();

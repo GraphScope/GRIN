@@ -1,7 +1,6 @@
 #define GRIN_FEATURES_ENABLE_V6D
 #define GRIN_RUST_CODEGEN
 
-#include "include/common/enum_types.h"
 #include "storage/v6d/predefine.h"
 
 #ifdef GRIN_RUST_CODEGEN
