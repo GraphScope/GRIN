@@ -51,7 +51,7 @@ cfg_if::cfg_if! {
         pub struct GrinEdge {
             pub src: GrinVertex,
             pub dst: GrinVertex,
-            pub dir: i32,
+            pub dir: u32,
             pub etype: u32,
             pub eid: u64,
         }
@@ -138,7 +138,7 @@ cfg_if::cfg_if! {
         #[derive(Debug, Copy, Clone, PartialEq)]
         pub struct GrinAdjacentList {
             pub v: GrinVertex,
-            pub dir: i32,
+            pub dir: u32,
             pub etype: GrinEdgeType,
         }
         pub type GrinEdgeTypeId = u32;

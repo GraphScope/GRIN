@@ -39,7 +39,7 @@ pub struct GRIN_EDGE {
 #[derive(Debug, Copy, Clone)]
 pub struct GRIN_ADJACENT_LIST {
     pub v: GRIN_VERTEX,
-    pub dir: ::std::os::raw::c_int,
+    pub dir: ::std::os::raw::c_uint,
     pub etype: GRIN_EDGE_TYPE,
 }
 pub type GRIN_EDGE_TYPE_ID = ::std::os::raw::c_uint;

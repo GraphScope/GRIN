@@ -13,7 +13,7 @@ pub type GRIN_VERTEX = ::std::os::raw::c_ulonglong;
 pub struct GRIN_EDGE {
     pub src: GRIN_VERTEX,
     pub dst: GRIN_VERTEX,
-    pub dir: ::std::os::raw::c_int,
+    pub dir: ::std::os::raw::c_uint,
     pub etype: ::std::os::raw::c_uint,
     pub eid: ::std::os::raw::c_ulonglong,
 }
