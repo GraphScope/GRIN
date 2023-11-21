@@ -20,12 +20,14 @@ pub type GRIN_VERTEX_TYPE = ::std::os::raw::c_uint;
 pub type GRIN_VERTEX_TYPE_LIST = *mut ::std::os::raw::c_void;
 pub type GRIN_VERTEX_PROPERTY = ::std::os::raw::c_ulonglong;
 pub type GRIN_VERTEX_PROPERTY_LIST = *mut ::std::os::raw::c_void;
-pub type GRIN_VERTEX_TYPE_ID = ::std::os::raw::c_uint;
-pub type GRIN_VERTEX_PROPERTY_ID = ::std::os::raw::c_uint;
 pub type GRIN_EDGE_TYPE = ::std::os::raw::c_uint;
 pub type GRIN_EDGE_TYPE_LIST = *mut ::std::os::raw::c_void;
 pub type GRIN_EDGE_PROPERTY = ::std::os::raw::c_ulonglong;
 pub type GRIN_EDGE_PROPERTY_LIST = *mut ::std::os::raw::c_void;
+pub type GRIN_VERTEX_TYPE_ID = ::std::os::raw::c_uint;
+pub type GRIN_VERTEX_PROPERTY_ID = ::std::os::raw::c_uint;
+pub type GRIN_EDGE_TYPE_ID = ::std::os::raw::c_uint;
+pub type GRIN_EDGE_PROPERTY_ID = ::std::os::raw::c_uint;
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct GRIN_EDGE {
@@ -42,8 +44,6 @@ pub struct GRIN_ADJACENT_LIST {
     pub dir: ::std::os::raw::c_uint,
     pub etype: GRIN_EDGE_TYPE,
 }
-pub type GRIN_EDGE_TYPE_ID = ::std::os::raw::c_uint;
-pub type GRIN_EDGE_PROPERTY_ID = ::std::os::raw::c_uint;
 pub type GRIN_ROW = *mut ::std::os::raw::c_void;
 extern "C" {
     #[doc = " GRIN_FEATURES_ENABLE_GART\n RUST_KEEP pub const GRIN_NULL_DATATYPE: GrinDatatype = GRIN_DATATYPE_UNDEFINED;\n RUST_KEEP pub const GRIN_NULL_GRAPH: GrinGraph = std::ptr::null_mut();\n RUST_KEEP pub const GRIN_NULL_VERTEX: GrinVertex = u64::MAX;\n RUST_KEEP pub const GRIN_NULL_EDGE: GrinEdge = GrinEdge{src: u64::MAX, dst: u64::MAX, dir: GRIN_DIRECTION_BOTH, etype: u32::MAX, edata: std::ptr::null_mut()};\n RUST_KEEP pub const GRIN_NULL_VERTEX_LIST: GrinVertexList = std::ptr::null_mut();\n RUST_KEEP pub const GRIN_NULL_VERTEX_LIST_ITERATOR: GrinVertexListIterator = std::ptr::null_mut();\n RUST_KEEP pub const GRIN_NULL_ADJACENT_LIST: GrinAdjacentList = GrinAdjacentList{v: u64::MAX, dir: GRIN_DIRECTION_BOTH, etype: u32::MAX};\n RUST_KEEP pub const GRIN_NULL_ADJACENT_LIST_ITERATOR: GrinAdjacentListIterator = std::ptr::null_mut();\n RUST_KEEP pub const GRIN_NULL_PARTITIONED_GRAPH: GrinPartitionedGraph = std::ptr::null_mut();\n RUST_KEEP pub const GRIN_NULL_PARTITION: GrinPartition = u32::MAX;\n RUST_KEEP pub const GRIN_NULL_PARTITION_LIST: GrinPartitionList = std::ptr::null_mut();\n RUST_KEEP pub const GRIN_NULL_PARTITION_ID: GrinPartitionId = u32::MAX;\n RUST_KEEP pub const GRIN_NULL_VERTEX_REF: GrinVertexRef = -1;\n RUST_KEEP pub const GRIN_NULL_VERTEX_TYPE: GrinVertexType = u32::MAX;\n RUST_KEEP pub const GRIN_NULL_VERTEX_TYPE_LIST: GrinVertexTypeList = std::ptr::null_mut();\n RUST_KEEP pub const GRIN_NULL_VERTEX_PROPERTY: GrinVertexProperty = u64::MAX;\n RUST_KEEP pub const GRIN_NULL_VERTEX_PROPERTY_LIST: GrinVertexPropertyList = std::ptr::null_mut();\n RUST_KEEP pub const GRIN_NULL_VERTEX_TYPE_ID: GrinVertexTypeId = u32::MAX;\n RUST_KEEP pub const GRIN_NULL_VERTEX_PROPERTY_ID: GrinVertexPropertyId = u32::MAX;\n RUST_KEEP pub const GRIN_NULL_EDGE_TYPE: GrinEdgeType = u32::MAX;\n RUST_KEEP pub const GRIN_NULL_EDGE_TYPE_LIST: GrinEdgeTypeList = std::ptr::null_mut();\n RUST_KEEP pub const GRIN_NULL_EDGE_PROPERTY: GrinEdgeProperty = u64::MAX;\n RUST_KEEP pub const GRIN_NULL_EDGE_PROPERTY_LIST: GrinEdgePropertyList = std::ptr::null_mut();\n RUST_KEEP pub const GRIN_NULL_EDGE_TYPE_ID: GrinEdgeTypeId = u32::MAX;\n RUST_KEEP pub const GRIN_NULL_EDGE_PROPERTY_ID: GrinEdgePropertyId = u32::MAX;\n RUST_KEEP pub const GRIN_NULL_ROW: GrinRow = std::ptr::null_mut();\n RUST_KEEP pub const GRIN_NULL_SIZE: u32 = u32::MAX;"]

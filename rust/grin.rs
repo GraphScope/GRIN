@@ -121,12 +121,14 @@ cfg_if::cfg_if! {
         pub type GrinVertexTypeList = *mut ::std::os::raw::c_void;
         pub type GrinVertexProperty = u64;
         pub type GrinVertexPropertyList = *mut ::std::os::raw::c_void;
-        pub type GrinVertexTypeId = u32;
-        pub type GrinVertexPropertyId = u32;
         pub type GrinEdgeType = u32;
         pub type GrinEdgeTypeList = *mut ::std::os::raw::c_void;
         pub type GrinEdgeProperty = u64;
         pub type GrinEdgePropertyList = *mut ::std::os::raw::c_void;
+        pub type GrinVertexTypeId = u32;
+        pub type GrinVertexPropertyId = u32;
+        pub type GrinEdgeTypeId = u32;
+        pub type GrinEdgePropertyId = u32;
         #[repr(C)]
         #[derive(Debug, Copy, Clone, PartialEq)]
         pub struct GrinEdge {
@@ -143,8 +145,6 @@ cfg_if::cfg_if! {
             pub dir: u32,
             pub etype: GrinEdgeType,
         }
-        pub type GrinEdgeTypeId = u32;
-        pub type GrinEdgePropertyId = u32;
         pub type GrinRow = *mut ::std::os::raw::c_void;
         pub const GRIN_NULL_DATATYPE: GrinDatatype = GRIN_DATATYPE_UNDEFINED;
         pub const GRIN_NULL_GRAPH: GrinGraph = std::ptr::null_mut();
