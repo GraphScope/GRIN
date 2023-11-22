@@ -125,13 +125,9 @@ typedef unsigned GRIN_VERTEX_PROPERTY;
 typedef void* GRIN_VERTEX_PROPERTY_LIST;
 #endif
 
-#ifdef GRIN_TRAIT_NATURAL_ID_FOR_VERTEX_TYPE
 typedef unsigned GRIN_VERTEX_TYPE_ID;
-#endif
 
-#ifdef GRIN_TRAIT_NATURAL_ID_FOR_VERTEX_PROPERTY
 typedef unsigned GRIN_VERTEX_PROPERTY_ID;
-#endif
 
 #ifdef GRIN_WITH_EDGE_PROPERTY
 typedef unsigned GRIN_EDGE_TYPE;
@@ -140,13 +136,10 @@ typedef unsigned GRIN_EDGE_PROPERTY;
 typedef void* GRIN_EDGE_PROPERTY_LIST;
 #endif
 
-#ifdef GRIN_TRAIT_NATURAL_ID_FOR_EDGE_TYPE
 typedef unsigned GRIN_EDGE_TYPE_ID;
-#endif
 
-#ifdef GRIN_TRAIT_NATURAL_ID_FOR_EDGE_PROPERTY
 typedef unsigned GRIN_EDGE_PROPERTY_ID;
-#endif
+
 
 #ifdef GRIN_ENABLE_ROW
 typedef void* GRIN_ROW;
@@ -183,8 +176,6 @@ typedef void* GRIN_LABEL_LIST;
 #define GRIN_NULL_VERTEX_PROPERTY_ID (unsigned) ~0
 #define GRIN_NULL_EDGE_TYPE (unsigned) ~0
 #define GRIN_NULL_EDGE_TYPE_LIST NULL
-#define GRIN_NULL_VEV_TYPE NULL
-#define GRIN_NULL_VEV_TYPE_LIST NULL
 #define GRIN_NULL_EDGE_PROPERTY (unsigned) ~0
 #define GRIN_NULL_EDGE_PROPERTY_LIST NULL
 #define GRIN_NULL_EDGE_TYPE_ID (unsigned) ~0
