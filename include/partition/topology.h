@@ -145,6 +145,28 @@ GRIN_ADJACENT_LIST grin_get_adjacent_list_select_universal_neighbor(GRIN_GRAPH, 
 GRIN_ADJACENT_LIST grin_get_adjacent_list_select_non_universal_neighbor(GRIN_GRAPH, GRIN_DIRECTION, GRIN_VERTEX);
 #endif
 
+#if defined(GRIN_ENABLE_GRAPH_PARTITION) && !defined(GRIN_ENABLE_SCHEMA)
+size_t grin_get_vertex_num_select_master(GRIN_GRAPH);
+
+size_t grin_get_vertex_num_select_mirror(GRIN_GRAPH);
+
+size_t grin_get_edge_num_select_master(GRIN_GRAPH);
+
+size_t grin_get_edge_num_select_mirror(GRIN_GRAPH);
+
+size_t grin_get_vertex_degree(GRIN_GRAPH, GRIN_DIRECTION);
+#endif
+
+#if defined(GRIN_ENABLE_GRAPH_PARTITION) && defined(GRIN_ENABLE_SCHEMA)
+size_t grin_get_vertex_num_by_type_select_master(GRIN_GRAPH, GRIN_VERTEX_TYPE);
+
+size_t grin_get_vertex_num_by_type_select_mirror(GRIN_GRAPH, GRIN_VERTEX_TYPE);
+
+size_t grin_get_edge_num_by_type_select_master(GRIN_GRAPH, GRIN_EDGE_TYPE);
+
+size_t grin_get_edge_num_by_type_select_mirror(GRIN_GRAPH, GRIN_EDGE_TYPE);
+#endif
+
 
 #endif // GRIN_INCLUDE_PARTITION_TOPOLOGY_H_
 
