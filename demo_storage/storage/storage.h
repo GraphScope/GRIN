@@ -16,6 +16,8 @@ limitations under the License.
 #ifndef STORAGE_STORAGE_H_
 #define STORAGE_STORAGE_H_
 
+#include "common/enum_types.h"
+
 #include <any>
 #include <map>
 #include <set>

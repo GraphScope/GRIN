@@ -14,7 +14,7 @@ endif()
 
 set(GRIN_MAJOR_VERSION 0)
 set(GRIN_MINOR_VERSION 1)
-set(GRIN_PATCH_VERSION 0)
+set(GRIN_PATCH_VERSION 4)
 set(GRIN_VERSION ${GRIN_MAJOR_VERSION}.${GRIN_MINOR_VERSION}.${GRIN_PATCH_VERSION})
 project(grin-demo-storage LANGUAGES C CXX VERSION ${GRIN_VERSION})
 
@@ -107,6 +107,29 @@ set(DST_DIR "${PROJECT_SOURCE_DIR}/src/common/")
 list(APPEND PROTO_FLAGS -I${PROJECT_SOURCE_DIR}/../proto/)
 
 file(GLOB PROTO_FILES RELATIVE "${PROJECT_SOURCE_DIR}/../proto" "${PROJECT_SOURCE_DIR}/../proto/*.proto")
+
+set(PROTO_SRCS "")
+set(PROTO_HDRS "")
+
+foreach(f ${PROTO_FILES})
+    message(STATUS "Found proto - " ${f})
+    get_filename_component(FIL_WE ${f} NAME_WE)
+    list(APPEND PROTO_SRCS "${DST_DIR}/${FIL_WE}.pb.cc")
+    list(APPEND PROTO_HDRS "${DST_DIR}/${FIL_WE}.pb.h")
+
+    execute_process(COMMAND ${Protobuf_PROTOC_EXECUTABLE} ${PROTO_FLAGS} --cpp_out=${DST_DIR} ${f})
+endforeach()
+
+set_source_files_properties(${PROTO_SRCS} ${PROTO_HDRS} PROPERTIES GENERATED TRUE)
+
+# ------------------------------------------------------------------------------
+# complile protobuf to generate cpp files
+# ------------------------------------------------------------------------------
+set(DST_DIR "${PROJECT_SOURCE_DIR}/src/common/")
+
+list(APPEND PROTO_FLAGS -I${PROJECT_SOURCE_DIR}/../proto/grin_schema)
+
+file(GLOB PROTO_FILES RELATIVE "${PROJECT_SOURCE_DIR}/../proto/grin_schema" "${PROJECT_SOURCE_DIR}/../proto/grin_schema/*.proto")
 
 set(PROTO_SRCS "")
 set(PROTO_HDRS "")
