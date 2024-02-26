@@ -58,6 +58,7 @@ void Graph::AddVertex(Vertex& vertex) noexcept {  // NOLINT
     AddVertexLabel(label);
     auto label_id = vertex_label_2_id_[label];
     vertex_label_2_type_id_[label_id].insert(type_id);
+    vertex_type_has_label_.insert(std::make_pair(type_id, label_id));
     vertex_pos_in_type_and_label_[std::make_tuple(type_id, label_id, gid)] =
         label_vertex_ids_[std::make_pair(type_id, label_id)].size();
     label_vertex_ids_[std::make_pair(type_id, label_id)].push_back(gid);
@@ -105,6 +106,7 @@ void Graph::AddEdge(Edge& edge) noexcept {  // NOLINT
   for (auto& label : labels) {
     AddEdgeLabel(label);
     edge_label_2_type_id_[edge_label_2_id_[label]].insert(type_id);
+    edge_type_has_label_.insert(std::make_pair(type_id, edge_label_2_id_[label]));
     label_edge_ids_[std::make_pair(type_id, edge_label_2_id_[label])].push_back(
         edge.GetGid());
   }

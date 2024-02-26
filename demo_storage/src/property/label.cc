@@ -88,8 +88,7 @@ GRIN_LABEL_LIST grin_get_label_list_by_vertex_type(GRIN_GRAPH g,
   auto ll = new GRIN_LABEL_LIST_T();
   auto n = _g->GetVertexLabelNum();
   for (auto i = 0; i < n; ++i) {
-    auto& vtypes = _g->GetVertexTypesByLabel(i);
-    if (vtypes.find(vtype) != vtypes.end()) {
+    if (_g->VertexTypeHasLabel(vtype, i)) {
       ll->push_back(i);
     }
   }
@@ -128,8 +127,7 @@ GRIN_LABEL_LIST grin_get_label_list_by_edge_type(GRIN_GRAPH g,
   auto ll = new GRIN_LABEL_LIST_T();
   auto n = _g->GetEdgeLabelNum();
   for (auto i = 0; i < n; ++i) {
-    auto& etypes = _g->GetEdgeTypesByLabel(i);
-    if (etypes.find(etype) != etypes.end()) {
+    if (_g->EdgeTypeHasLabel(etype, i)) {
       ll->push_back(i + _g->GetVertexLabelNum());
     }
   }

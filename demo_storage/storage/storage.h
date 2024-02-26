@@ -351,6 +351,14 @@ class Graph {
       noexcept {
     return edge_label_2_type_id_[label_id];
   }
+  bool VertexTypeHasLabel(uint32_t type_id, uint32_t label_id) const noexcept {
+    return vertex_type_has_label_.find(std::make_pair(type_id, label_id)) !=
+           vertex_type_has_label_.end();
+  }
+  bool EdgeTypeHasLabel(uint32_t type_id, uint32_t label_id) const noexcept {
+    return edge_type_has_label_.find(std::make_pair(type_id, label_id)) !=
+           edge_type_has_label_.end();
+  }
 
   // get vertex & edge number
   size_t GetVertexNum(uint32_t type_id) const noexcept {
@@ -622,6 +630,8 @@ class Graph {
   std::map<std::string, uint32_t> vertex_label_2_id_, edge_label_2_id_;
   std::vector<std::set<uint32_t>> vertex_label_2_type_id_,
       edge_label_2_type_id_;
+  std::set<std::pair<uint32_t, uint32_t>> vertex_type_has_label_,
+      edge_type_has_label_;
   // label indices:
   // label_vertex_ids_[label][partition_id] = vector of global vid
   std::map<std::pair<uint32_t, uint32_t>, std::vector<std::int64_t>>
