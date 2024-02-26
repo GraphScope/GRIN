@@ -138,6 +138,10 @@ void test_external_id(GRIN_GRAPH graph) {
   ASSERT(grin_equal_vertex(graph, v0, v0_from_id_str) == true);
   ASSERT(grin_equal_vertex(graph, v1, v1_from_id_str) == true);
 
+  // destroy string id
+  grin_destroy_vertex_external_id_of_string(graph, id0_str);
+  grin_destroy_vertex_external_id_of_string(graph, id1_str);
+
   // destroy
   grin_destroy_vertex(graph, v0);
   grin_destroy_vertex(graph, v1);

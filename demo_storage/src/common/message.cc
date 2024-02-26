@@ -15,21 +15,19 @@ limitations under the License.
 
 #include "../predefine.h"
 #include "common/message.h"
-#include "partition/partition.h"
-#include "property/type.h"
-#include "property/propertylist.h"
-#include "property/property.h"
-#include "property/primarykey.h"
 #include "graph.pb.h"
+#include "partition/partition.h"
+#include "property/primarykey.h"
+#include "property/property.h"
+#include "property/propertylist.h"
+#include "property/type.h"
 
-void grin_destroy_graph_schema_msg(const char* s) {
-  delete[] s;
-}
+void grin_destroy_graph_schema_msg(const char* s) { delete[] s; }
 
 const char* grin_get_graph_schema_msg(const char* uri) {
   // TODO: implement the function
   std::string msg = "demo storage: " + std::string(uri);
-  
+
   int len = msg.length() + 1;
   char* out = new char[len];
   snprintf(out, len, "%s", msg.c_str());
