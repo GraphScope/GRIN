@@ -106,7 +106,8 @@ void Graph::AddEdge(Edge& edge) noexcept {  // NOLINT
   for (auto& label : labels) {
     AddEdgeLabel(label);
     edge_label_2_type_id_[edge_label_2_id_[label]].insert(type_id);
-    edge_type_has_label_.insert(std::make_pair(type_id, edge_label_2_id_[label]));
+    edge_type_has_label_.insert(
+        std::make_pair(type_id, edge_label_2_id_[label]));
     label_edge_ids_[std::make_pair(type_id, edge_label_2_id_[label])].push_back(
         edge.GetGid());
   }

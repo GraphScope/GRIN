@@ -22,8 +22,20 @@ limitations under the License.
 // test config headers
 #include "test/config.h"
 // GRIN headers
+#include "common/message.h"
 #include "partition/partition.h"
 #include "topology/structure.h"
+
+void test_protobuf(const char* uri) {
+  std::cout << "\n++++ test protobuf ++++" << std::endl;
+
+  auto msg = grin_get_graph_schema_msg(uri);
+  std::cout << msg << std::endl;
+
+  grin_destroy_graph_schema_msg(msg);
+
+  std::cout << "---- test protobuf ----" << std::endl;
+}
 
 void test_partition_partition(GRIN_PARTITIONED_GRAPH pg, unsigned n) {
   std::cout << "\n++++ test partition: partition ++++" << std::endl;
@@ -108,6 +120,9 @@ int main() {
   char* uri_str = new char[uri.size() + 1];
   snprintf(uri_str, uri.size() + 1, "%s", uri.c_str());
   GRIN_PARTITIONED_GRAPH pg = grin_get_partitioned_graph_from_storage(uri_str);
+
+  // test protobuf
+  test_protobuf(uri_str);
   delete[] uri_str;
 
   // test partitioned graph

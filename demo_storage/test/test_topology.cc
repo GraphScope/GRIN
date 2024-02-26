@@ -23,24 +23,12 @@ limitations under the License.
 // test config headers
 #include "test/config.h"
 // GRIN headers
-#include "common/message.h"
 #include "property/topology.h"
 #include "property/type.h"
 #include "topology/adjacentlist.h"
 #include "topology/edgelist.h"
 #include "topology/structure.h"
 #include "topology/vertexlist.h"
-
-void test_protobuf(const char* uri) {
-  std::cout << "\n++++ test protobuf ++++" << std::endl;
-
-  auto msg = grin_get_graph_schema_msg(uri);
-  std::cout << msg << std::endl;
-
-  grin_destroy_graph_schema_msg(msg);
-
-  std::cout << "---- test protobuf ----" << std::endl;
-}
 
 void test_topology_structure(GRIN_GRAPH graph) {
   std::cout << "\n++++ test topology: structure ++++" << std::endl;
@@ -236,9 +224,6 @@ int main() {
   char* uri_str = new char[uri.size() + 1];
   snprintf(uri_str, uri.size() + 1, "%s", uri.c_str());
   GRIN_GRAPH graph = grin_get_graph_from_storage(uri_str);
-
-  // test protobuf
-  test_protobuf(uri_str);
   delete[] uri_str;
 
   // test topology structure
