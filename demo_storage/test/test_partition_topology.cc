@@ -288,6 +288,28 @@ void test_adjacency_list(GRIN_PARTITIONED_GRAPH pg, GRIN_GRAPH graph,
   grin_destroy_edge_type(graph, edge_type);
 }
 
+void test_universal_vertex(GRIN_PARTITIONED_GRAPH pg, GRIN_GRAPH graph) {
+  std::cout << "\n== test universal vertex ==" << std::endl;
+  auto vtl = grin_get_vertex_type_list_select_universal(graph);
+  auto vtl_size = grin_get_vertex_type_list_size(graph, vtl);
+  std::cout << "universal vertex type list size = " << vtl_size << std::endl;
+  for (auto i = 0; i < vtl_size; ++i) {
+    auto vtype = grin_get_vertex_type_from_list(graph, vtl, i);
+    ASSERT(grin_is_vertex_type_unisversal(graph, vtype) == true);
+    grin_destroy_vertex_type(graph, vtype);
+  }
+
+  auto vtl_2 = grin_get_vertex_type_list_select_non_universal(graph);
+  auto vtl_size_2 = grin_get_vertex_type_list_size(graph, vtl_2);
+  std::cout << "non-universal vertex type list size = " << vtl_size_2
+            << std::endl;
+  ASSERT(vtl_size_2 == 0);
+
+  // destroy
+  grin_destroy_vertex_type_list(graph, vtl);
+  grin_destroy_vertex_type_list(graph, vtl_2);
+}
+
 void test_partition_topology(GRIN_PARTITIONED_GRAPH pg, unsigned n) {
   std::cout << "\n++++ test partition: topology ++++" << std::endl;
 
@@ -320,6 +342,7 @@ void test_partition_topology(GRIN_PARTITIONED_GRAPH pg, unsigned n) {
     test_adjacency_list(pg, graph, vertex, GRIN_DIRECTION::IN);
     test_adjacency_list(pg, graph, vertex, GRIN_DIRECTION::OUT);
     test_adjacency_list(pg, graph, vertex, GRIN_DIRECTION::BOTH);
+    test_universal_vertex(pg, graph);
 
     // destroy
     grin_destroy_vertex_type(graph, vtype);

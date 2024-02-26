@@ -154,12 +154,24 @@ grin_get_adjacent_list_by_edge_type_select_partition_neighbor(
 #endif
 
 #if defined(GRIN_ASSUME_WITH_UNIVERSAL_VERTICES) && defined(GRIN_ENABLE_SCHEMA)
-GRIN_VERTEX_TYPE_LIST grin_get_vertex_type_list_select_universal(GRIN_GRAPH);
+GRIN_VERTEX_TYPE_LIST grin_get_vertex_type_list_select_universal(GRIN_GRAPH g) {
+  auto _g = static_cast<GRIN_GRAPH_T*>(g);
+  auto vtl = new GRIN_VERTEX_TYPE_LIST_T();
+  auto num = _g->GetVertexTypeNum();
+  for (auto i = 0; i < num; i++)
+    vtl->push_back(i);
+  return vtl;
+}
 
 GRIN_VERTEX_TYPE_LIST grin_get_vertex_type_list_select_non_universal(
-    GRIN_GRAPH);
+    GRIN_GRAPH g) {
+  auto vtl = new GRIN_VERTEX_TYPE_LIST_T();
+  return vtl;
+}
 
-bool grin_is_vertex_type_unisversal(GRIN_GRAPH, GRIN_VERTEX_TYPE);
+bool grin_is_vertex_type_unisversal(GRIN_GRAPH g, GRIN_VERTEX_TYPE vt) {
+  return true;
+}
 #endif
 
 #if defined(GRIN_ASSUME_WITH_UNIVERSAL_VERTICES) && \
