@@ -236,10 +236,10 @@ int main() {
   char* uri_str = new char[uri.size() + 1];
   snprintf(uri_str, uri.size() + 1, "%s", uri.c_str());
   GRIN_GRAPH graph = grin_get_graph_from_storage(uri_str);
-  delete[] uri_str;
 
   // test protobuf
   test_protobuf(uri_str);
+  delete[] uri_str;
 
   // test topology structure
   test_topology_structure(graph);
