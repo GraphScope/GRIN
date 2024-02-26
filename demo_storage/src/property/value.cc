@@ -35,13 +35,21 @@ limitations under the License.
 
 #if defined(GRIN_WITH_VERTEX_PROPERTY) && \
     defined(GRIN_TRAIT_PROPERTY_VALUE_OF_FLOAT_ARRAY)
-void grin_destroy_vertex_property_value_of_float_array(GRIN_GRAPH, const float*,
-                                                       size_t);
+void grin_destroy_vertex_property_value_of_float_array(GRIN_GRAPH g,
+                                                       const float* value,
+                                                       size_t length) {
+  return;
+}
 
-const float* grin_get_vertex_property_value_of_float_array(GRIN_GRAPH,
-                                                           GRIN_VERTEX,
-                                                           GRIN_VERTEX_PROPERTY,
-                                                           size_t*);
+const float* grin_get_vertex_property_value_of_float_array(
+    GRIN_GRAPH g, GRIN_VERTEX v, GRIN_VERTEX_PROPERTY vp, size_t* length) {
+  __grin_check_vertex_property(v, vp, NULL);
+  auto _g = static_cast<GRIN_GRAPH_T*>(g);
+  auto& property = _g->GetVertexProperty(vp);
+  auto& _v = _g->GetVertex(v);
+  *length = _v.GetProperty<const std::vector<float>&>(property.name_).size();
+  return _v.GetProperty<const std::vector<float>&>(property.name_).data();
+}
 #endif
 
 #ifdef GRIN_WITH_VERTEX_PROPERTY
@@ -183,12 +191,23 @@ const void* grin_get_vertex_property_value(GRIN_GRAPH g, GRIN_VERTEX v,
 
 #if defined(GRIN_WITH_EDGE_PROPERTY) && \
     defined(GRIN_TRAIT_PROPERTY_VALUE_OF_FLOAT_ARRAY)
-void grin_destroy_edge_property_value_of_float_array(GRIN_GRAPH, const float*,
-                                                     size_t);
+void grin_destroy_edge_property_value_of_float_array(GRIN_GRAPH g,
+                                                     const float* value,
+                                                     size_t length) {
+  return;
+}
 
-const float* grin_get_edge_property_value_of_float_array(GRIN_GRAPH, GRIN_EDGE,
-                                                         GRIN_EDGE_PROPERTY,
-                                                         size_t*);
+const float* grin_get_edge_property_value_of_float_array(GRIN_GRAPH g,
+                                                         GRIN_EDGE e,
+                                                         GRIN_EDGE_PROPERTY ep,
+                                                         size_t* length) {
+  __grin_check_edge_property(e, ep, NULL);
+  auto _g = static_cast<GRIN_GRAPH_T*>(g);
+  auto& property = _g->GetEdgeProperty(ep);
+  auto& _e = _g->GetEdge(e);
+  *length = _e.GetProperty<const std::vector<float>&>(property.name_).size();
+  return _e.GetProperty<const std::vector<float>&>(property.name_).data();
+}
 #endif
 
 #ifdef GRIN_WITH_EDGE_PROPERTY

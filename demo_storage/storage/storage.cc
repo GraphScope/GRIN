@@ -132,9 +132,11 @@ Graph* DemoStorage::load_modern_graph(const std::string& name,
   Property vp_0_0("id", GRIN_DATATYPE::Int64, true);
   Property vp_0_1("name", GRIN_DATATYPE::String, false);
   Property vp_0_2("age", GRIN_DATATYPE::Int64, false);
+  Property vp_0_3("float_data", GRIN_DATATYPE::FloatArray, false);
   graph->AddVertexProperty("person", vp_0_0);
   graph->AddVertexProperty("person", vp_0_1);
   graph->AddVertexProperty("person", vp_0_2);
+  graph->AddVertexProperty("person", vp_0_3);
   Property vp_1_0("id", GRIN_DATATYPE::Int64, true);
   Property vp_1_1("name", GRIN_DATATYPE::String, false);
   Property vp_1_2("lang", GRIN_DATATYPE::String, false);
@@ -154,12 +156,14 @@ Graph* DemoStorage::load_modern_graph(const std::string& name,
   std::vector<int64_t> v_1_id = {3, 5};
   std::vector<std::string> v_1_name = {"lop", "ripple"};
   std::vector<std::string> v_1_lang = {"java", "java"};
+  std::vector<float> float_array_data = {3.3, 4.4, 5.5};
   for (int64_t i = 0; i < 4; i++) {
     Vertex v(0, GRIN_DATATYPE::Int64, v_0_id[i], i);
     v.SetVData(GRIN_DATATYPE::Int64, v_0_id[i]);
     v.AddProperty("id", v_0_id[i]);
     v.AddProperty("name", v_0_name[i]);
     v.AddProperty("age", v_0_age[i]);
+    v.AddProperty("float_data", float_array_data);
     v.AddLabel("person_label");
     if (i % 2 == 0)
       v.AddLabel("v_label_0");

@@ -191,6 +191,32 @@ void test_property_vertex(GRIN_GRAPH graph) {
         grin_destroy_vertex_property_value_of_string(graph, value2);
       }
 
+      // check value from row and from property (float array)
+      if (data_type == GRIN_DATATYPE::FloatArray) {
+        size_t length1, length2;
+        auto value1 =
+            grin_get_float_array_from_row(graph, r, property_id, &length1);
+        auto value2 = grin_get_vertex_property_value_of_float_array(
+            graph, vertex, property, &length2);
+        ASSERT(grin_get_last_error_code() == NO_ERROR);
+        ASSERT(length1 == length2);
+        ASSERT(length1 == 3);
+
+        // check values
+        for (size_t i = 0; i < length1; i++) {
+          ASSERT(value1[i] == value2[i]);
+          std::cout << "value of property \"" << name
+                    << "\" for vertex 0 of vertex type " << i << ": "
+                    << value1[i] << std::endl;
+        }
+
+        // destroy
+        grin_destroy_vertex_property_value_of_float_array(graph, value2,
+                                                          length2);
+        grin_destroy_vertex_property_value_of_float_array(graph, value1,
+                                                          length1);
+      }
+
       // check getting value of invalid property
       auto invalid_value = grin_get_vertex_property_value(
           graph, vertex, GRIN_NULL_VERTEX_PROPERTY);
@@ -263,7 +289,7 @@ void test_property_edge(GRIN_GRAPH graph) {
       auto value = grin_get_edge_property_value(graph, edge, property);
       ASSERT(grin_get_last_error_code() == NO_ERROR);
 
-      // check value from row and from property (int64)
+      // check value from row and from property (double)
       if (data_type == GRIN_DATATYPE::Double) {
         auto value1 = grin_get_double_from_row(graph, r, property_id);
         auto value2 =
