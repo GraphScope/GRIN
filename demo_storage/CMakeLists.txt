@@ -178,12 +178,32 @@ endif()
 file(GLOB_RECURSE FILES_NEED_FORMAT "storage/*.h" "storage/*.cc"
                                     "src/*.h" "src/*.cc"
                                     "test/*.h" "test/*.cc")
-list(REMOVE_ITEM FILES_NEED_FORMAT "${PROJECT_SOURCE_DIR}/src/common/graph.pb.h" "${PROJECT_SOURCE_DIR}/src/common/graph.pb.cc")
-
+list(REMOVE_ITEM FILES_NEED_FORMAT 
+    "${PROJECT_SOURCE_DIR}/src/common/graph.pb.h" 
+    "${PROJECT_SOURCE_DIR}/src/common/graph.pb.cc" 
+    "${PROJECT_SOURCE_DIR}/src/common/data_type.pb.h"
+    "${PROJECT_SOURCE_DIR}/src/common/data_type.pb.cc"
+    "${PROJECT_SOURCE_DIR}/src/common/schema.pb.h"
+    "${PROJECT_SOURCE_DIR}/src/common/schema.pb.cc"
+    "${PROJECT_SOURCE_DIR}/src/common/partition.pb.h"
+    "${PROJECT_SOURCE_DIR}/src/common/partition.pb.cc"
+    "${PROJECT_SOURCE_DIR}/src/common/storage.pb.h"
+    "${PROJECT_SOURCE_DIR}/src/common/storage.pb.cc")
+    
 file(GLOB_RECURSE FILES_NEED_LINT "storage/*.h" "storage/*.cc"
                                   "src/*.h" "src/*.cc"
                                   "test/*.h" "test/*.cc")
-list(REMOVE_ITEM FILES_NEED_LINT "${PROJECT_SOURCE_DIR}/src/common/graph.pb.h" "${PROJECT_SOURCE_DIR}/src/common/graph.pb.cc")
+list(REMOVE_ITEM FILES_NEED_LINT 
+    "${PROJECT_SOURCE_DIR}/src/common/graph.pb.h" 
+    "${PROJECT_SOURCE_DIR}/src/common/graph.pb.cc" 
+    "${PROJECT_SOURCE_DIR}/src/common/data_type.pb.h"
+    "${PROJECT_SOURCE_DIR}/src/common/data_type.pb.cc"
+    "${PROJECT_SOURCE_DIR}/src/common/schema.pb.h"
+    "${PROJECT_SOURCE_DIR}/src/common/schema.pb.cc"
+    "${PROJECT_SOURCE_DIR}/src/common/partition.pb.h"
+    "${PROJECT_SOURCE_DIR}/src/common/partition.pb.cc"
+    "${PROJECT_SOURCE_DIR}/src/common/storage.pb.h"
+    "${PROJECT_SOURCE_DIR}/src/common/storage.pb.cc")
 
 add_custom_target(grin-clformat
                   COMMAND clang-format-8 --style=file -i ${FILES_NEED_FORMAT}

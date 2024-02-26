@@ -16,8 +16,6 @@ limitations under the License.
 #ifndef STORAGE_STORAGE_H_
 #define STORAGE_STORAGE_H_
 
-#include "common/enum_types.h"
-
 #include <any>
 #include <map>
 #include <set>
@@ -25,6 +23,8 @@ limitations under the License.
 #include <tuple>
 #include <utility>
 #include <vector>
+
+#include "common/enum_types.h"
 
 #define DEMO_STORAGE_NAMESPACE demo_storage_namespace
 

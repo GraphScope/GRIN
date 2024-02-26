@@ -14,8 +14,9 @@ limitations under the License.
 #include <google/protobuf/util/json_util.h>
 
 #include "../predefine.h"
+#include "./graph.pb.h"
+// GRIN headers
 #include "common/message.h"
-#include "graph.pb.h"
 #include "partition/partition.h"
 #include "property/primarykey.h"
 #include "property/property.h"
@@ -25,7 +26,7 @@ limitations under the License.
 void grin_destroy_graph_schema_msg(const char* s) { delete[] s; }
 
 const char* grin_get_graph_schema_msg(const char* uri) {
-  // TODO: implement the function
+  // to implement the function
   std::string msg = "demo storage: " + std::string(uri);
 
   int len = msg.length() + 1;

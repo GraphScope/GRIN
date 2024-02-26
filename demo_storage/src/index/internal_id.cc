@@ -26,8 +26,7 @@ long long int grin_get_vertex_internal_id_upper_bound(GRIN_GRAPH);  // NOLINT
 long long int grin_get_vertex_internal_id_lower_bound(GRIN_GRAPH);  // NOLINT
 #endif
 
-#if defined(GRIN_ENABLE_VERTEX_INTERNAL_ID_INDEX) && \
-    defined(GRIN_ENABLE_SCHEMA)
+#if defined(GRIN_ENABLE_VERTEX_INTERNAL_ID_INDEX) && defined(GRIN_ENABLE_SCHEMA)
 
 long long int grin_get_vertex_internal_id_by_type(GRIN_GRAPH g,  // NOLINT
                                                   GRIN_VERTEX_TYPE vtype,
