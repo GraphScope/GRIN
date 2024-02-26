@@ -45,6 +45,7 @@ void test_property_row(GRIN_GRAPH graph) {
   const char* value1 = "Test String";
   uint64_t value2 = 2;
   double value3 = 3.3;
+  float* value4 = new float[3]{4.4, 5.5, 6.6};
 
   std::cout << "put value0: " << value0 << std::endl;
   std::cout << "put value1: " << value1 << std::endl;
@@ -58,6 +59,8 @@ void test_property_row(GRIN_GRAPH graph) {
   ASSERT(status == true);
   status = grin_insert_double_to_row(graph, row, value3);
   ASSERT(status == true);
+  status = grin_insert_float_array_to_row(graph, row, value4, 3);
+  ASSERT(status == true);
 
   // get value from row
   auto value0_ = grin_get_int32_from_row(graph, row, 0);
@@ -69,6 +72,11 @@ void test_property_row(GRIN_GRAPH graph) {
   auto value3_ = grin_get_double_from_row(graph, row, 3);
   ASSERT(grin_get_last_error_code() == NO_ERROR);
 
+  size_t length = 0;
+  auto value4_ = grin_get_float_array_from_row(graph, row, 4, &length);
+  ASSERT(grin_get_last_error_code() == NO_ERROR);
+  ASSERT(length == 3);
+
   // check value
   std::cout << "get value0: " << value0_ << std::endl;
   std::cout << "get value1: " << value1_ << std::endl;
@@ -78,6 +86,11 @@ void test_property_row(GRIN_GRAPH graph) {
   ASSERT(strcmp(value1_, value1) == 0);
   ASSERT(value2_ == value2);
   ASSERT(value3_ == value3);
+
+  for (size_t i = 0; i < length; i++) {
+    std::cout << "get value4[" << i << "]: " << value4_[i] << std::endl;
+    ASSERT(value4_[i] == value4[i]);
+  }
 
   // get const value ptr from row
   auto value0_ptr =
@@ -97,6 +110,7 @@ void test_property_row(GRIN_GRAPH graph) {
   // destroy
   grin_destroy_row_value_of_string(graph, value1_);
   grin_destroy_row(graph, row);
+  grin_destroy_row_value_of_float_array(graph, value4_, 3);
 
   std::cout << "---- test property: row completed ----" << std::endl;
 }

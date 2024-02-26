@@ -10,6 +10,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+#include <vector>
+
 #include "src/predefine.h"
 // GRIN headers
 #include "common/error.h"
@@ -24,12 +26,26 @@ limitations under the License.
 
 #if defined(GRIN_ENABLE_ROW) && \
     defined(GRIN_TRAIT_PROPERTY_VALUE_OF_FLOAT_ARRAY)
-void grin_destroy_row_value_of_float_array(GRIN_GRAPH, const float*, size_t);
+void grin_destroy_row_value_of_float_array(GRIN_GRAPH g, const float* value,
+                                           size_t length) {
+  return;
+}
 
-const float* grin_get_float_array_from_row(GRIN_GRAPH, GRIN_ROW, size_t,
-                                           size_t*);
+const float* grin_get_float_array_from_row(GRIN_GRAPH g, GRIN_ROW r, size_t idx,
+                                           size_t* length) {
+  auto _r = static_cast<GRIN_ROW_T*>(r);
+  __grin_check_row(_r, NULL);
+  *length = any_cast<const std::vector<float>&>(_r->at(idx)).size();
+  return any_cast<const std::vector<float>&>(_r->at(idx)).data();
+}
 
-bool grin_insert_float_array_to_row(GRIN_GRAPH, GRIN_ROW, const float*, size_t);
+bool grin_insert_float_array_to_row(GRIN_GRAPH g, GRIN_ROW r,
+                                    const float* value, size_t length) {
+  auto _r = static_cast<GRIN_ROW_T*>(r);
+  std::vector<float> v(value, value + length);
+  _r->push_back(v);
+  return true;
+}
 #endif
 
 #ifdef GRIN_ENABLE_ROW
