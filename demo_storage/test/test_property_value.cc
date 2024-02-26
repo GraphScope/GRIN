@@ -61,6 +61,7 @@ void test_property_row(GRIN_GRAPH graph) {
   // get value from row
   auto value0_ = grin_get_int32_from_row(graph, row, 0);
   auto value1_ = grin_get_string_from_row(graph, row, 1);
+
   auto invalid_value = grin_get_float_from_row(graph, row, 100);
   ASSERT(grin_get_last_error_code() == INVALID_VALUE && invalid_value == 0.0);
   auto value2_ = grin_get_uint64_from_row(graph, row, 2);
@@ -93,7 +94,7 @@ void test_property_row(GRIN_GRAPH graph) {
   std::cout << "check getting const value ptr from row completed" << std::endl;
 
   // destroy
-  grin_destroy_string_value(graph, value1_);
+  grin_destroy_row_value_of_string(graph, value1_);
   grin_destroy_row(graph, row);
 
   std::cout << "---- test property: row completed ----" << std::endl;
