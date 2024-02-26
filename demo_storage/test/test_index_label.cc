@@ -25,6 +25,7 @@ limitations under the License.
 #include "index/internal_id.h"
 #include "index/label.h"
 #include "index/order.h"
+#include "property/label.h"
 #include "property/topology.h"
 #include "property/type.h"
 #include "topology/edgelist.h"
@@ -78,6 +79,12 @@ void test_vertex_label(GRIN_GRAPH graph) {
     grin_destroy_label(graph, label);
   }
 
+  // get vertex label list by type
+  auto label_list_2 = grin_get_label_list_by_vertex_type(graph, vertex_type);
+  auto label_list_size_2 = grin_get_label_list_size(graph, label_list_2);
+  std::cout << "label list size for vertex type #0: " << label_list_size_2
+            << std::endl;
+
   // get vertex list by label
   auto label = grin_get_label_by_name(graph, "v_label_0");
   auto vertex_list_2 =
@@ -111,6 +118,7 @@ void test_vertex_label(GRIN_GRAPH graph) {
   // destroy
   grin_destroy_label(graph, label);
   grin_destroy_label_list(graph, label_list);
+  grin_destroy_label_list(graph, label_list_2);
   grin_destroy_vertex(graph, vertex);
   grin_destroy_vertex_list(graph, vertex_list);
   grin_destroy_vertex_type(graph, vertex_type);
@@ -160,6 +168,12 @@ void test_edge_label(GRIN_GRAPH graph) {
     grin_destroy_label(graph, label);
   }
 
+  // get edge label list by type
+  auto label_list_2 = grin_get_label_list_by_edge_type(graph, edge_type);
+  auto label_list_size_2 = grin_get_label_list_size(graph, label_list_2);
+  std::cout << "label list size for edge type #0: " << label_list_size_2
+            << std::endl;
+
   // get edge list by label
   auto label = grin_get_label_by_name(graph, "e_label_0");
   auto edge_list_2 =
@@ -188,6 +202,7 @@ void test_edge_label(GRIN_GRAPH graph) {
   // destroy
   grin_destroy_label(graph, label);
   grin_destroy_label_list(graph, label_list);
+  grin_destroy_label_list(graph, label_list_2);
   grin_destroy_edge(graph, edge);
   grin_destroy_edge_list(graph, edge_list);
   grin_destroy_edge_type(graph, edge_type);
