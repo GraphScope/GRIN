@@ -28,6 +28,7 @@ limitations under the License.
 #include "property/row.h"
 #include "property/topology.h"
 #include "property/type.h"
+#include "property/value.h"
 #include "topology/adjacentlist.h"
 #include "topology/edgelist.h"
 #include "topology/structure.h"
@@ -172,8 +173,8 @@ void test_property_vertex(GRIN_GRAPH graph) {
             << std::endl;
 
         // destroy
-        grin_destroy_string_value(graph, value1);
-        grin_destroy_string_value(graph, value2);
+        grin_destroy_vertex_property_value_of_string(graph, value1);
+        grin_destroy_vertex_property_value_of_string(graph, value2);
       }
 
       // check getting value of invalid property

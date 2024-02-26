@@ -31,10 +31,13 @@ limitations under the License.
 #include "topology/structure.h"
 #include "topology/vertexlist.h"
 
-void test_protobuf() {
+void test_protobuf(const char* uri) {
   std::cout << "\n++++ test protobuf ++++" << std::endl;
 
-  std::cout << grin_get_static_storage_feature_msg() << std::endl;
+  auto msg = grin_get_graph_schema_msg(uri);
+  std::cout << msg << std::endl;
+
+  grin_destroy_graph_schema_msg(msg);
 
   std::cout << "---- test protobuf ----" << std::endl;
 }
@@ -236,7 +239,7 @@ int main() {
   delete[] uri_str;
 
   // test protobuf
-  test_protobuf();
+  test_protobuf(uri_str);
 
   // test topology structure
   test_topology_structure(graph);
