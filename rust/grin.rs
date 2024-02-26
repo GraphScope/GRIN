@@ -248,19 +248,21 @@ cfg_if::cfg_if! {
         pub type GrinPartitionId = u32;
         pub type GrinVertexRef = i64;
         pub type GrinEdgeRef = i64;
-        pub type GrinVertexType = u32;
-        pub type GrinVertexTypeList = *mut ::std::os::raw::c_void;
         pub type GrinVertexProperty = u32;
         pub type GrinVertexPropertyList = *mut ::std::os::raw::c_void;
-        pub type GrinVertexTypeId = u32;
-        pub type GrinVertexPropertyId = u32;
-        pub type GrinEdgeType = u32;
-        pub type GrinEdgeTypeList = *mut ::std::os::raw::c_void;
         pub type GrinEdgeProperty = u32;
         pub type GrinEdgePropertyList = *mut ::std::os::raw::c_void;
+        pub type GrinVertexType = u32;
+        pub type GrinVertexTypeList = *mut ::std::os::raw::c_void;
+        pub type GrinVertexTypeId = u32;
+        pub type GrinVertexPropertyId = u32;
         pub type GrinEdgeTypeId = u32;
         pub type GrinEdgePropertyId = u32;
+        pub type GrinEdgeType = u32;
+        pub type GrinEdgeTypeList = *mut ::std::os::raw::c_void;
         pub type GrinRow = *mut ::std::os::raw::c_void;
+        pub type GrinLabel = u32;
+        pub type GrinLabelList = *mut ::std::os::raw::c_void;
         pub const GRIN_NULL_DATATYPE: GrinDatatype = GRIN_DATATYPE_UNDEFINED;
         pub const GRIN_NULL_GRAPH: GrinGraph = std::ptr::null_mut();
         pub const GRIN_NULL_VERTEX: GrinVertex = -1;
@@ -1888,11 +1890,6 @@ extern "C" {
         arg2: GrinEdgeType,
         arg3: GrinLabel,
     ) -> GrinEdgeList;
-
-    #[doc = " @brief get all the edge types that might have the label\n @param GrinGraph the graph\n @param GrinLabel the label\n @return the edge type list"]
-    #[cfg(all(feature = "grin_with_edge_label", feature = "grin_with_edge_property"))]
-    #[allow(unused)]
-    pub fn grin_get_edge_types_by_label(arg1: GrinGraph, arg2: GrinLabel) -> GrinEdgeTypeList;
 
     #[cfg(feature = "grin_assume_all_vertex_list_sorted")]
     #[allow(unused)]
