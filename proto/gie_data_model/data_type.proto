@@ -119,6 +119,4 @@ message StorageDataType {
         Array array = 5;
         Map map = 6;
     }
-
-    bool nullable = 7;
 }
