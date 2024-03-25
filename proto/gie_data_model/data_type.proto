@@ -75,20 +75,17 @@ message Temporal {
         TimeZoneFormat time_zone_format = 2;
     }
 
+    // int32 days since 1970-01-01
     message Date32 {
-        // int32 days since 1970-01-01
-        int32 item = 1;
-      }
-      
-      message Time32 {
-        // int32 milliseconds past midnight
-        int32 item = 1;
-      }
-      
-      message Timestamp {
-        // int64 milliseconds since 1970-01-01 00:00:00.000000
-        int64 item = 1;
-      }
+    }
+
+    // int32 milliseconds past midnight
+    message Time32 {
+    }
+
+    // int64 milliseconds since 1970-01-01 00:00:00.000000
+    message Timestamp {
+    }
 
     oneof item {
         Date date = 1;
